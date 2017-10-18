@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+        <af:panelHeader text="#{app['menu.estruturaJuridica.gerenciarUnidade']}" id="ph2">
+            <f:facet name="context"/>
+            <af:panelBox id="panelBoxFiltroForoUnidade" titleHalign="center" partialTriggers="botaoLimpar">
+                <f:facet name="toolbar"/>
+                <af:panelGridLayout id="panelGridFiltrosForoUnidade">
+                    <af:gridRow marginTop="5px" height="auto" marginBottom="0px" id="gridRowRegiao">
+                        <af:gridCell marginStart="0px" width="25%" id="gridCellRegiao" columnSpan="1">
+                            <af:panelFormLayout id="panelFormFiltroRegiao" labelAlignment="top">
+                                <af:inputText id="inputTextFiltroRegiao"
+                                              label="#{app['label.unidade.regiaoAdministrativa']}"
+                                              value="#{pageFlowScope.unidadeBean.entidadeFiltro.foro.comarca.circunscricao.regiao.nomeRegiao}"
+                                              columns="40">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc10" width="25%">
+                            <af:panelFormLayout id="panelFormFiltroCircunscricao" labelAlignment="top">
+                                <af:inputText id="inputTextCircunscricao" label="#{app['label.unidade.circunscricao']}"
+                                              columns="40"
+                                              value="#{pageFlowScope.unidadeBean.entidadeFiltro.foro.comarca.circunscricao.nomeCircunscricao}">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc9" width="25%">
+                            <af:panelFormLayout id="panelFormFiltroComarca" labelAlignment="top">
+                                <af:inputText id="inputTextComarca" label="#{app['label.unidade.comarca']}" columns="20"
+                                              value="#{pageFlowScope.unidadeBean.entidadeFiltro.foro.comarca.nomeComarca}">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                    </af:gridRow>
+                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gridRowForoUnidade">
+                        <af:gridCell marginStart="0px" width="25%" id="gridCellForo" valign="bottom">
+                            <af:panelFormLayout id="panelFormFiltroForo" labelAlignment="top">
+                                <af:inputText id="inputTextForo" label="#{app['label.foro.nome']}" columns="40"
+                                              value="#{pageFlowScope.unidadeBean.entidadeFiltro.foro.nomeForo}">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="25%" id="gridCellUnidade" valign="bottom">
+                            <af:panelFormLayout id="panelFormFiltroUnidade" labelAlignment="top">
+                                <af:inputText id="inputTextUnidade" label="#{app['label.unidade.unidade']}" columns="40"
+                                              value="#{pageFlowScope.unidadeBean.entidadeFiltro.nomeUnidade}">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc6" width="25%"
+                                     marginStart="15px" valign="bottom" halign="start">
+                            <af:panelGroupLayout id="panelFormFiltroSituacao" layout="vertical" halign="start"
+                                                 valign="top">
+                                <af:outputLabel value="#{app['label.unidade.situacao']}" id="ol7"
+                                                for="inputFiltroSituacao"/>
+                                <af:selectOneChoice id="inputFiltroSituacao"
+                                                    value="#{pageFlowScope.unidadeBean.entidadeFiltro.flagTipoSituacao}"
+                                                    contentStyle="width:160.0px;"
+                                                    unselectedLabel="#{app['label.combo.selecione']}">
+                                    <af:selectItem label="#{app['label.combo.ativo']}" id="si4"
+                                                   value="#{app['flag.situacaoAtiva']}"/>
+                                    <af:selectItem label="#{app['label.combo.inativo']}" id="si6"
+                                                   value="#{app['flag.situacaoInativa']}"/>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="15%" id="gridCellLimpar" valign="bottom" halign="end">
+                            <af:button text="#{app['botao.buscar']}" id="botaoBuscar" icon="#{res['img.buscarOn']}"
+                                       action="#{pageFlowScope.unidadeBean.filtrarEntidade}"/>
+                            <af:spacer width="10" height="10" id="s1"/>
+                            <af:button text="#{app['botao.limpar']}" id="botaoLimpar" icon="#{res['img.limparOn']}"
+                                       action="#{pageFlowScope.unidadeBean.limparPesquisa}"/>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:panelBox>
+            <af:spacer width="5" height="5" id="s3"/>
+            <af:table var="unidade" rowBandingInterval="0" id="tabelaResultados" styleClass="AFStretchWidth tabelaResultados"
+                      fetchSize="25" columnStretching="column:colunaRegiao" rowSelection="single"
+                      partialTriggers="::botaoBuscar ::botaoLimpar alterarUnidadeDialog dialogInfoAlterado excluir dialogExcluir ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina b2"
+                      value="#{pageFlowScope.unidadeBean.listaEntidade}"
+                      selectionListener="#{pageFlowScope.unidadeBean.selecionarEntidadeEmTabela}">
+                <af:column sortable="false" headerText="#{app['label.unidade.regiaoAdministrativa']}" id="colunaRegiao"
+                           width="136">
+                    <af:outputText value="#{unidade.foro.comarca.circunscricao.regiao.nomeRegiao}" id="ot2"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.unidade.circunscricao']}" id="colunaCircunscricao"
+                           width="100">
+                    <af:outputText value="#{unidade.foro.comarca.circunscricao.nomeCircunscricao}" id="ot3"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.unidade.comarca']}" id="colunaComarca" width="100">
+                    <af:outputText value="#{unidade.foro.comarca.nomeComarca}" id="ot4"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.unidade.foro']}" id="colunaForo" width="90">
+                    <af:outputText value="#{unidade.foro.nomeForo}" id="ot5"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.unidade.unidade']}" id="colunaUnidade" width="175">
+                    <af:outputText value="#{unidade.nomeUnidade}" id="ot6"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.unidade.situacao']}" id="tSitucao"
+                           rowHeader="unstyled" headerNoWrap="true" align="center" width="64">
+                    <af:image source="#{res['img.situacaoInativoOn']}" id="imgInativo"
+                              shortDesc="#{app['label.unidade.inativo']}"
+                              rendered="#{unidade.flagTipoSituacao == app['flag.situacaoInativa']}"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['botao.acoes']}" width="100" id="clEditarVisualizar"
+                           rowHeader="unstyled" headerNoWrap="true" align="center">
+                    <af:panelGroupLayout id="pgl2" layout="horizontal" halign="center">
+                        <af:link id="alterar" icon="#{res['img.editarOn']}" partialSubmit="true"
+                                 shortDesc="#{app['label.unidade.alterar']}">
+                            <af:showPopupBehavior popupId="popUpAlterarUnidade" triggerType="action"/>
+                        </af:link>
+                        <af:popup popupCanceledListener="#{pageFlowScope.unidadeBean.cancelarInsercao}"
+                                  childCreation="deferred" id="popUpAlterarUnidade"
+                                  popupFetchListener="#{pageFlowScope.unidadeBean.initDialogAlterar}"
+                                  contentDelivery="lazyUncached"
+                                  binding="#{pageFlowScope.unidadeBean.popUpAlterarUnidade}">
+                            <af:dialog id="alterarUnidadeDialog" title="#{app['label.unidade.alterar']}"
+                                       affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                       dialogListener="#{pageFlowScope.unidadeBean.persistirEntidade}" type="none"
+                                       cancelTextAndAccessKey="#{app['botao.cancelar']}">
+                                <af:declarativeComponent id="dc3"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterUnidade.jsff"/>
+                                <f:facet name="buttonBar">
+                                    <af:panelGroupLayout id="pgl1">
+                                        <af:button text="#{app['botao.salvar']}" id="b3"
+                                                   action="#{pageFlowScope.unidadeBean.salvarPopupUnidade}"/>
+                                        
+                                        <af:button text="#{app['botao.cancelar']}" id="b2"
+                                                   action="#{pageFlowScope.unidadeBean.cancelarPopup}"
+                                                   immediate="true"/>
+                                    </af:panelGroupLayout>
+                                </f:facet>
+                            </af:dialog>
+                        </af:popup>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupInfoAlterado">
+                            <af:dialog id="dialogInfoAlterado"
+                                       title="#{app['label.alteracao.registro']}"
+                                       affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                       cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                <af:declarativeComponent id="dc17" tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                         viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                         mensagem="#{app['msg.info.alteradoSucesso']}"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:spacer width="3" height="5" id="spacer"/>
+                        <af:link id="visualizar" icon="#{res['img.visualizarOn']}" partialSubmit="true"
+                                 shortDesc="#{app['label.unidade.visualizar']}">
+                            <af:showPopupBehavior popupId="detalheUnidadePopUp" triggerType="action"/>
+                        </af:link>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="detalheUnidadePopUp"
+                                  popupFetchListener="#{pageFlowScope.unidadeBean.initDialogVisualizar}"
+                                  contentDelivery="lazyUncached">
+                            <af:dialog id="visualizarUnidadeDialog" title="#{app['label.unidade.visualizar']}"
+                                       dialogListener="#{pageFlowScope.unidadeBean.persistirEntidade}" type="cancel"
+                                       cancelTextAndAccessKey="#{app['botao.voltar']}">
+                                <af:declarativeComponent id="dc6"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterUnidade.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:spacer width="5" height="5" id="s2"/>
+                        <af:link id="excluir" icon="#{res['img.lixeiraOn']}" shortDesc="#{app['label.unidade.apagar']}"
+                                 partialSubmit="true">
+                            <af:showPopupBehavior popupId="popupExcluir"/>
+                        </af:link>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupExcluir">
+                            <af:dialog id="dialogExcluir" dialogListener="#{pageFlowScope.unidadeBean.excluirEntidade}"
+                                       title="#{app['label.unidade.exclusaoUnidade']}"
+                                       affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                                       cancelTextAndAccessKey="#{app['botao.nao']}">
+                                <af:declarativeComponent id="dc7" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                         mensagem="#{app['msg.unidade.confirmacaoExcluir']}"
+                                                         infoAdicional="#{unidade.nomeUnidade}"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:spacer width="5" height="5" id="s4"/>
+                        <af:link id="vincular" icon="#{res['img.vincularOn']}" shortDesc="Vincular Formulario"
+                                 partialSubmit="true" action="configurarFormularioVinculacao"></af:link>
+                        <af:spacer width="5" height="5" id="s7" rendered="false"/>
+                        <af:link icon="#{res['img.maisAcoesOn']}" id="i4" rendered="false"/>
+                    </af:panelGroupLayout>
+                </af:column>
+            </af:table>
+            <af:panelGridLayout id="panelGridPaginacao">
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                    <af:gridCell width="25%" id="gc1">
+                        <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : " id="dc_ot1"
+                                       partialTriggers="botaoBuscar botaoLimpar" styleClass="paginacaoItensResultado"/>
+                        <af:outputText value="#{pageFlowScope.unidadeBean.paginacao.tamanhoMaximo}" id="dc_ot2"
+                                       partialTriggers="botaoBuscar botaoLimpar tabelaResultados tabelaResultados:dialogExcluir dialogIncluirUnidade tabelaResultados:alterarUnidadeDialog"
+                                       styleClass="paginacaoItensQtdeResultado"/>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                        <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal" halign="center">
+                            <af:button shortDesc="#{app['label.paginacao.primeira']}" id="primeiraPagina"
+                                       disabled="#{pageFlowScope.unidadeBean.paginacao.disabledPrimeiro}"
+                                       action="#{pageFlowScope.unidadeBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.unidadeBean.irPrimeiraPaginacao}"
+                                       icon="#{pageFlowScope.unidadeBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                       partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarUnidadeDialog tabelaResultados:dialogExcluir dialogIncluirUnidade"/>
+                            <af:spacer width="3" height="5" id="dc_s57"/>
+                            <af:button shortDesc="#{app['label.paginacao.anterior']}" id="paginaAnterior"
+                                       icon="#{pageFlowScope.unidadeBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                       action="#{pageFlowScope.unidadeBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.unidadeBean.irPaginacaoAnterior}"
+                                       partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarUnidadeDialog tabelaResultados:dialogExcluir dialogIncluirUnidade"
+                                       disabled="#{pageFlowScope.unidadeBean.paginacao.disabledAnterior}"/>
+                            <af:spacer width="3" height="5" id="dc_s58"/>
+                            <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                 partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                <af:forEach items="#{pageFlowScope.unidadeBean.paginacao.indicesPaginacao}"
+                                            var="indice">
+                                    <af:button text="#{indice+1}" id="botaoPaginacaoAtual"
+                                               partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                               disabled="true" styleClass="botaoPaginacaoAtual"
+                                               rendered="#{pageFlowScope.unidadeBean.paginacao.indice == indice}"/>
+                                    <af:button text="#{indice+1}" id="botaoPaginacao"
+                                               partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarUnidadeDialog tabelaResultados:dialogExcluir dialogIncluirUnidade"
+                                               styleClass="botaoPaginacao"
+                                               rendered="#{pageFlowScope.unidadeBean.paginacao.indice != indice}"
+                                               actionListener="#{pageFlowScope.unidadeBean.alterarIndicePaginacao(indice)}"
+                                               action="#{pageFlowScope.unidadeBean.pesquisarEntidade}"/>
+                                    <af:spacer width="3" height="5" id="dc_s61"/>
+                                </af:forEach>
+                            </af:panelGroupLayout>
+                            <af:button shortDesc="#{app['label.paginacao.proxima']}" id="proximaPagina"
+                                       icon="#{pageFlowScope.unidadeBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                       action="#{pageFlowScope.unidadeBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.unidadeBean.irProximaPaginacao}"
+                                       partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarUnidadeDialog tabelaResultados:dialogExcluir dialogIncluirUnidade"
+                                       disabled="#{pageFlowScope.unidadeBean.paginacao.disabledProximo}"/>
+                            <af:spacer width="3" height="5" id="dc_s59"/>
+                            <af:button shortDesc="#{app['label.paginacao.ultima']}" id="ultimaPagina"
+                                       icon="#{pageFlowScope.unidadeBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                       action="#{pageFlowScope.unidadeBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.unidadeBean.irUltimaPaginacao}"
+                                       disabled="#{pageFlowScope.unidadeBean.paginacao.disabledUltimo}"
+                                       partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarUnidadeDialog tabelaResultados:dialogExcluir dialogIncluirUnidade"/>
+                        </af:panelGroupLayout>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                </af:gridRow>
+            </af:panelGridLayout>
+            <af:panelGridLayout id="pgl3">
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
+                    <af:gridCell width="50%" id="gc4" halign="start">
+                        <af:button text="#{app['botao.regiao']}" id="botaoInserirRegiao"
+                                   icon="#{res['img.adicionarOn']}">
+                            <af:showPopupBehavior popupId="popupRegiao" triggerType="action"/>
+                        </af:button>
+                        <af:spacer width="10" height="10" id="s10"/>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupRegiao"
+                                  popupFetchListener="#{regiaoBean.initDialogInserir}" contentDelivery="lazyUncached"
+                                  popupCanceledListener="#{regiaoBean.cancelarInsercao}">
+                            <af:dialog id="dialogIncluirRegiao" title="#{app['label.regiao.inserir']}"
+                                       affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                       cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                       dialogListener="#{regiaoBean.persistirEntidade}">
+                                <af:declarativeComponent id="dc8"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterRegiao.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:button text="#{app['botao.circunscricao']}" id="botaoInserirCircunscricao"
+                                   icon="#{res['img.adicionarOn']}">
+                            <af:showPopupBehavior popupId="popUpInserirCircunscricao"/>
+                        </af:button>
+                        <af:spacer width="10" height="10" id="s11"/>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popUpInserirCircunscricao"
+                                  popupFetchListener="#{circunscricaoBean.initDialogInserir}"
+                                  contentDelivery="lazyUncached" popupCanceledListener="#{circunscricaoBean.cancelarInsercao}">
+                            <af:dialog id="dialogIncluirCircunscricao" title="#{app['label.circunscricao.inserir']}"
+                                       affirmativeTextAndAccessKey="Salvar" cancelTextAndAccessKey="Cancelar"
+                                       dialogListener="#{circunscricaoBean.persistirEntidade}">
+                                <af:declarativeComponent id="dc1"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterCircunscricao.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:button text="#{app['botao.comarca']}" id="botaoInserirComarca"
+                                   icon="#{res['img.adicionarOn']}">
+                            <af:showPopupBehavior popupId="popUpInserirComarca"/>
+                        </af:button>
+                        <af:spacer width="10" height="10" id="s12"/>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popUpInserirComarca"
+                                  popupFetchListener="#{comarcaBean.initDialogInserir}"
+                                  popupCanceledListener="#{comarcaBean.cancelarInsercao}" contentDelivery="lazyUncached">
+                            <af:dialog id="dialogIncluirComarca" title="#{app['label.comarca.inserir']}"
+                                       affirmativeTextAndAccessKey="Salvar" cancelTextAndAccessKey="Cancelar"
+                                       dialogListener="#{comarcaBean.persistirEntidade}">
+                                <f:facet name="buttonBar"/>
+                                <af:declarativeComponent id="dc2"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterComarca.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:button text="#{app['botao.foro']}" id="botaoInserirForo" icon="#{res['img.adicionarOn']}">
+                            <af:showPopupBehavior popupId="popUpInserirForo"/>
+                        </af:button>
+                        <af:spacer width="10" height="10" id="s5"/>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popUpInserirForo"
+                                  popupFetchListener="#{foroBean.initDialogInserir}"
+                                  popupCanceledListener="#{foroBean.cancelarInsercao}" contentDelivery="lazyUncached">
+                            <af:dialog id="dialogIncluirForo" affirmativeTextAndAccessKey="Salvar"
+                                       title="#{app['label.foro.inserir']}" cancelTextAndAccessKey="Cancelar"
+                                       dialogListener="#{foroBean.persistirEntidade}">
+                                <f:facet name="buttonBar"/>
+                                <af:declarativeComponent id="dc4"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterForo.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:button text="#{app['botao.estabelecimentoPrisional']}"
+                                   id="botaoInserirEstabelecimentoPrisional" icon="#{res['img.adicionarOn']}">
+                            <af:showPopupBehavior popupId="popUpInserirEstabelecimentoPrisional"/>
+                        </af:button>
+                        <af:spacer width="10" height="10" id="s6"/>
+                        <af:popup childCreation="deferred" autoCancel="disabled"
+                                  id="popUpInserirEstabelecimentoPrisional"
+                                  popupFetchListener="#{estabelecimentoPrisionalBean.initDialogInserir}"
+                                  popupCanceledListener="#{estabelecimentoPrisionalBean.cancelarInsercao}" contentDelivery="lazyUncached">
+                            <af:dialog id="dialogInserirEstabelecimento" affirmativeTextAndAccessKey="Salvar"
+                                       title="#{app['label.estabelecimentoPrisional.inserir']}"
+                                       cancelTextAndAccessKey="Cancelar"
+                                       dialogListener="#{estabelecimentoPrisionalBean.persistirEntidade}">
+                                <f:facet name="buttonBar"/>
+                                <af:declarativeComponent id="dc9"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterEstabelecimentoPrisional.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="50%" id="gc5" valign="top" halign="end">
+                        <af:button text="#{app['botao.adicionar']}" id="botaoAdicionarUnidade"
+                                   icon="#{res['img.adicionarOn']}">
+                            <af:showPopupBehavior popupId="popUpInserirUnidade"/>
+                        </af:button>
+                        <af:popup childCreation="deferred" binding="#{pageFlowScope.unidadeBean.popUpInserirUnidade}"
+                                  autoCancel="disabled" id="popUpInserirUnidade"
+                                  popupFetchListener="#{pageFlowScope.unidadeBean.initDialogInserir}"
+                                  contentDelivery="lazyUncached"
+                                  popupCanceledListener="#{pageFlowScope.unidadeBean.cancelarInsercao}">
+                            <af:dialog id="dialogIncluirUnidade" title="#{app['label.unidade.inserir']}"
+                                       affirmativeTextAndAccessKey="Salvar" cancelTextAndAccessKey="Cancelar"
+                                       dialogListener="#{pageFlowScope.unidadeBean.persistirEntidade}" type="none"
+                                       closeIconVisible="false">
+                                <af:declarativeComponent id="dc5"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterUnidade.jsff"/>
+                                <f:facet name="buttonBar">
+                                    <af:panelGroupLayout id="pgl4">
+                                        <af:button text="#{app['botao.salvar']}" id="bInserir"
+                                                   action="#{pageFlowScope.unidadeBean.validarPopupInserir}"/>
+                                        <af:button text="#{app['botao.cancelar']}" id="b1"
+                                                   action="#{pageFlowScope.unidadeBean.cancelarPopupInserir}"
+                                                   immediate="true"/>
+                                    </af:panelGroupLayout>
+                                </f:facet>
+                            </af:dialog>
+                        </af:popup>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupInfoInclusao">
+                            <af:dialog id="dialogInfoInclusao"
+                                       title="#{app['label.insercao.registro']}"
+                                       affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                       cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                <af:declarativeComponent id="dc117" tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                         viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                         mensagem="#{app['msg.info.incluirSucesso']}"/>
+                            
+                            </af:dialog>
+                        </af:popup>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+        </af:panelHeader>
+    </af:panelGroupLayout>
+</jsp:root>

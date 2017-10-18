@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="pgl9" layout="vertical">
+        <af:panelBox text="Tipo Regra" id="pb5">
+            <af:panelBox text="#{app['label.formulario.geral']}" id="pb2" styleClass="boxSecao">
+                <af:panelFormLayout id="pfl12">
+                    <af:inputText id="it1"
+                                  value="#{pageFlowScope.configuracaoFormularioBean.grupoSelecionado.labelGrupo}"
+                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                  label="#{app['label.formulario.labelgrupo']}" maximumLength="100"/>
+                    <af:inputText id="dominioBIGrupo"
+                                  value="#{pageFlowScope.configuracaoFormularioBean.grupoSelecionado.dominioBI}"
+                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                  label="#{app['label.formulario.codigobi']}" autoSubmit="true"
+                                  valueChangeListener="#{pageFlowScope.configuracaoFormularioBean.validarDominioBIGrupo}"
+                                  maximumLength="50"/>
+                </af:panelFormLayout>
+            </af:panelBox>
+            <af:panelBox text="#{app['label.formulario.tipoRegra']}" id="pb1" styleClass="boxSecao">
+                <af:panelFormLayout id="pfl24" labelAlignment="top">
+                    <af:panelGroupLayout id="pgl33" valign="middle" layout="horizontal">
+                        <af:selectOneChoice id="it4"
+                                            value="#{pageFlowScope.configuracaoFormularioBean.grupoSelecionado.tipoRegraDTO}"
+                                            disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                            partialTriggers="d2" autoSubmit="true"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaTipoRegra}"
+                                        var="tipoRegra">
+                                <af:selectItem label="#{tipoRegra.nomeTipoRegra}" id="si3" value="#{tipoRegra}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                        <af:panelGroupLayout styleClass="formLinks" id="pgl1">
+                            <af:spacer width="5" height="5" id="s1"/>
+                            <af:link id="b11" icon="#{res['img.adicionarOn']}" partialSubmit="true"
+                                     disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                     disabledIcon="#{res['img.adicionarOff']}"
+                                     shortDesc="#{app['msg.formulario.adicionarTipoRegra']}">
+                                <af:showPopupBehavior popupId="popupAdicionarTipoRegra" triggerType="click"
+                                                      align="endAfter"/>
+                            </af:link>
+                        </af:panelGroupLayout>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupAdicionarTipoRegra"
+                                  contentDelivery="lazyUncached">
+                            <af:dialog id="d2"
+                                       dialogListener="#{pageFlowScope.configuracaoFormularioBean.persistirTipoRegra}"
+                                       title="#{app['msg.formulario.adicionarTipoRegra']}">
+                                <af:panelFormLayout id="pfl26" labelAlignment="top">
+                                    <af:inputText label="Nome" id="it9"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.tipoRegraDTO.nomeTipoRegra}"
+                                                  required="true" maximumLength="40"/>
+                                    <af:inputText label="Descri&#231;&#227;o" id="it6" rows="3"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.tipoRegraDTO.descricaoTipoRegra}"
+                                                  required="true" maximumLength="40">
+                                        <af:validateLength maximum="40" disabled="false"/>
+                                    </af:inputText>
+                                </af:panelFormLayout>
+                            </af:dialog>
+                        </af:popup>
+                    </af:panelGroupLayout>
+                    <af:selectBooleanCheckbox text="#{app['label.formulario.inverterTipoRegra']}" id="sbc1"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.inverterRegraGrupo}"
+                                              disabled="#{empty pageFlowScope.configuracaoFormularioBean.grupoSelecionado.tipoRegraDTO.codigoTipoRegra}"
+                                              autoSubmit="true" partialTriggers="it4" styleClass="alinhamento"/>
+                </af:panelFormLayout>
+            </af:panelBox>
+        </af:panelBox>
+    </af:panelGroupLayout>
+</jsp:root>

@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:panelHeader text="#{app['menu.processoGabinete.gerenciarProcessoGabinete']}"
+                                            id="panelFiltro">
+                                <af:panelBox id="panelBoxFiltro">
+                                    <af:panelGridLayout id="panelGridFiltrosUsuario" partialTriggers="botaoLimpar">
+                                        <af:gridRow marginTop="5px" height="auto" id="gridRowPerfil" marginBottom="5px">
+                                            <af:gridCell id="gc4" width="30%">
+                                                <af:panelFormLayout id="panelFormFiltroNome" labelAlignment="top">
+                                                    <af:inputText id="inputFiltroNome" columns="40"
+                                                                  label="#{app['label.usuario.nome']}"
+                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.nome}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="30%" id="gridCellCodigoUsuario">
+                                                <af:panelFormLayout id="panelFormFiltroCodigoUsuario"
+                                                                    labelAlignment="top">
+                                                    <af:inputText id="inputFiltroCodigoUsuario" columns="40"
+                                                                  label="#{app['label.usuario.codigoUsuario']}"
+                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.codigoUsuario}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="20%" id="gridCellMatricula">
+                                                <af:panelFormLayout id="panelFormFiltroMatricula" labelAlignment="top">
+                                                    <af:inputText id="inputFiltroMatricula" columns="20"
+                                                                  label="#{app['label.usuario.matricula']}"
+                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.matricula}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc7" valign="bottom" halign="end" marginStart="15px"
+                                                         width="20%">
+                                                <af:button text="#{app['botao.buscar']}" id="botaoBuscar"
+                                                           icon="#{res['img.buscarOn']}"
+                                                           action="#{processoGabineteBean.filtrarEntidade}"/>
+                                                <af:spacer width="10" height="10" id="s1"/>
+                                                <af:button text="#{app['botao.limpar']}" id="botaoLimpar"
+                                                           icon="#{res['img.limparOn']}"
+                                                           action="#{processoGabineteBean.limparPesquisa}"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                                <af:spacer width="5" height="5" id="s2"/>
+                                <af:table id="tabelaResultados" summary="#{app['msg.usuario.resultadoBusca']}" var="row"
+                                          rows="0" emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                          autoHeightRows="10" disableColumnReordering="true"
+                                          columnStretching="column:tbNome" rowBandingInterval="0"
+                                          partialTriggers="::botaoBuscar ::botaoLimpar adicionarProcessosDialog ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina"
+                                          value="#{processoGabineteBean.listaEntidade}"
+                                          selectionListener="#{processoGabineteBean.selecionarEntidadeEmTabela}"
+                                          rowSelection="single" fetchSize="10" styleClass="AFStretchWidth" binding="#{processoGabineteBean.tabelaResultados}">
+                                    <af:column headerText="#{app['label.usuario.nome']}" id="tbNome"
+                                               rowHeader="unstyled" headerNoWrap="true" minimumWidth="12" width="383">
+                                        <af:outputText value="#{row.usuario.nome}" id="otNome"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.usuario.codigoUsuario']}" width="-172"
+                                               id="tbUsuario" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.usuario.codigoUsuario}" id="otCodigoUsuario"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.usuario.matricula']}" width="-28"
+                                               align="center" id="tbMatricula" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.usuario.matricula}" id="otMatricula"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.processoGabinete.tipoProcesso']}" width="101"
+                                               align="center" id="tbTipoProcesso" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.processoGabinete.tipoProcesso}"
+                                                       id="otTipoProcesso"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.processoGabinete.numeroProcesso']}" width="101"
+                                               align="center" id="tbNrProcesso" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.processoGabinete.numeroProcessoGabinete}"
+                                                       id="otNrProcesso"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.processoGabinete.anoProcesso']}" width="95"
+                                               align="center" id="tbAnoProcesso" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.processoGabinete.anoProcessoGabinete}"
+                                                       id="otAnoProcesso"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.processoGabinete.arquivado']}" width="66"
+                                               id="tbArquivado" rowHeader="unstyled" headerNoWrap="true" align="center">
+                                        <af:image source="#{res['img.flagSimOn']}" id="imgInativo"
+                                                  shortDesc="#{app['label.processoGabinete.processoArquivado']}"
+                                                  rendered="#{row.processoGabinete.flagArquivado== app['flag.statusSim']}"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="#{app['botao.acoes']}" width="45"
+                                               id="clEditarVisualizar" rowHeader="unstyled" headerNoWrap="true"
+                                               align="center">
+                                        <af:panelGroupLayout layout="horizontal" valign="top" id="pgEditarVisualizar">
+                                            <af:panelGroupLayout id="pgl2" layout="horizontal" halign="center">
+                                                <af:link id="alterar" icon="#{res['img.editarOn']}"
+                                                         shortDesc="#{app['label.processoGabinete.alterar']}"
+                                                         partialSubmit="true">
+                                                    <af:showPopupBehavior popupId="atualizarProcessoGabinetePopUp"
+                                                                          triggerType="action"/>
+                                                </af:link>
+                                                <af:popup childCreation="deferred" id="atualizarProcessoGabinetePopUp"
+                                                          popupFetchListener="#{processoGabineteBean.initDialogAlterar}"
+                                                          contentDelivery="lazyUncached"
+                                                          binding="#{processoGabineteBean.atualizarProcessoGabinetePopUp}">
+                                                    <af:dialog id="adicionarProcessosDialog"
+                                                               affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                               cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                               title="#{app['label.processoGabinete.atualizarProcesso']}"
+                                                               type="cancel">
+                                                        <af:declarativeComponent id="dc1"
+                                                                                 viewId="/paginas/processoGabinete/dialog/dialogAtualizarProcessoGabinete.jsff"/>
+                                                        <f:facet name="buttonBar">
+                                                            <af:button text="#{app['botao.salvar']}" id="bSave"
+                                                                       action="#{viewScope.processoGabineteBean.salvarPopup}"/>
+                                                        </f:facet>
+                                                    </af:dialog>
+                                                </af:popup>
+                                            </af:panelGroupLayout>
+                                            <af:spacer width="5" height="5" id="s4" rendered="false"/>
+                                            <af:link icon="#{res['img.maisAcoesOff']}" id="i4" disabled="true"
+                                                     rendered="false" shortDesc="#{app['label.maisAcoes']}"/>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                </af:table>
+                                <af:panelGridLayout id="pgl11">
+                                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                        <af:gridCell width="25%" id="gc1">
+                                            <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                                           id="dc_ot1" partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensResultado"/>
+                                            <af:outputText value="#{processoGabineteBean.paginacao.tamanhoMaximo}"
+                                                           id="dc_ot2" partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensQtdeResultado"/>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                                            <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal"
+                                                                 halign="center">
+                                                <af:button id="primeiraPagina"
+                                                           shortDesc="#{app['label.paginacao.primeira']}"
+                                                           icon="#{processoGabineteBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                                           disabled="#{processoGabineteBean.paginacao.disabledPrimeiro}"
+                                                           action="#{processoGabineteBean.pesquisarEntidade}"
+                                                           actionListener="#{processoGabineteBean.irPrimeiraPaginacao}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina "/>
+                                                <af:spacer width="3" height="5" id="dc_s57"/>
+                                                <af:button id="paginaAnterior"
+                                                           shortDesc="#{app['label.paginacao.anterior']}"
+                                                           action="#{processoGabineteBean.pesquisarEntidade}"
+                                                           icon="#{processoGabineteBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                                           actionListener="#{processoGabineteBean.irPaginacaoAnterior}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                           disabled="#{processoGabineteBean.paginacao.disabledAnterior}"/>
+                                                <af:spacer width="3" height="5" id="dc_s58"/>
+                                                <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                                     partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                                    <af:forEach items="#{processoGabineteBean.paginacao.indicesPaginacao}"
+                                                                var="indice">
+                                                        <af:button text=" #{indice+1} " id="botaoPaginacaoAtual"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina "
+                                                                   rendered="#{processoGabineteBean.paginacao.indice == indice}"
+                                                                   disabled="true" styleClass="botaoPaginacaoAtual"/>
+                                                        <af:button text=" #{indice+1} " id="botaoPaginacao"
+                                                                   partialTriggers="botaoBuscar botaoLimpar  primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{processoGabineteBean.paginacao.indice != indice}"
+                                                                   actionListener="#{processoGabineteBean.alterarIndicePaginacao(indice)}"
+                                                                   action="#{processoGabineteBean.pesquisarEntidade}"
+                                                                   styleClass="botaoPaginacao"/>
+                                                        <af:spacer width="3" height="5" id="dc_s61"/>
+                                                    </af:forEach>
+                                                </af:panelGroupLayout>
+                                                <af:button id="proximaPagina"
+                                                           shortDesc="#{app['label.paginacao.proxima']}"
+                                                           action="#{processoGabineteBean.pesquisarEntidade}"
+                                                           icon="#{processoGabineteBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                                           actionListener="#{processoGabineteBean.irProximaPaginacao}"
+                                                           partialTriggers="botaoBuscar botaoLimpar  primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                           disabled="#{processoGabineteBean.paginacao.disabledProximo}"/>
+                                                <af:spacer width="3" height="5" id="dc_s59"/>
+                                                <af:button id="ultimaPagina"
+                                                           shortDesc="#{app['label.paginacao.ultima']}"
+                                                           icon="#{processoGabineteBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                                           action="#{processoGabineteBean.pesquisarEntidade}"
+                                                           actionListener="#{processoGabineteBean.irUltimaPaginacao}"
+                                                           disabled="#{processoGabineteBean.paginacao.disabledUltimo}"
+                                                           partialTriggers="botaoBuscar botaoLimpar  primeiraPagina paginaAnterior proximaPagina ultimaPagina"/>
+                                            </af:panelGroupLayout>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+    <!--oracle-jdev-comment:preferred-managed-bean-name:usuarioBean-->
+</jsp:root>

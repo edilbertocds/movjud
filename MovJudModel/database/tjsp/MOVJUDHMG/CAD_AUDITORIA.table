@@ -1,0 +1,564 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<table xmlns="http://xmlns.oracle.com/jdeveloper/1211/offlinedb">
+  <name>CAD_AUDITORIA</name>
+  <columns>
+    <column>
+      <name>AUDITORIA_ID</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>AUDITORIA_ID</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DOMINIO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">30</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">CHAR</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DOMINIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>ACAO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">255</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>ACAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DE</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>CLOB</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DE</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+        <entry>
+          <key>OracleColumnProperties</key>
+          <value class="oracle.javatools.db.ora.OracleColumnProperties">
+            <LOBProperties>
+              <name></name>
+              <LOBCache>NOCACHE</LOBCache>
+              <LOBSegName>SYS_LOB0000021887C00004$$</LOBSegName>
+              <chunk>8192</chunk>
+              <properties>
+                <entry>
+                  <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+                  <value class="oracle.javatools.db.ReferenceID">
+                    <parent class="oracle.javatools.db.ReferenceID">
+                      <parent class="oracle.javatools.db.ReferenceID">
+                        <name>DE</name>
+                        <parent class="oracle.javatools.db.ReferenceID">
+                          <name>CAD_AUDITORIA</name>
+                          <identifier class="java.math.BigDecimal">21887</identifier>
+                          <schemaName>MOVJUDHOG</schemaName>
+                          <type>TABLE</type>
+                        </parent>
+                        <type>COLUMN</type>
+                      </parent>
+                      <type>OracleColumnProperties</type>
+                    </parent>
+                    <type>LOB DESCRIPTOR</type>
+                  </value>
+                </entry>
+              </properties>
+              <retention>true</retention>
+              <storage>
+                <bufferMode>DEFAULT</bufferMode>
+                <freelistGroups>1</freelistGroups>
+                <freelists>1</freelists>
+                <initialExtent>65536</initialExtent>
+                <logging>true</logging>
+                <maxExtent>0</maxExtent>
+                <minExtent>1</minExtent>
+                <nextExtent>1048576</nextExtent>
+                <tablespaceID class="oracle.javatools.db.ReferenceID">
+                  <name>SYSTEM</name>
+                  <type>TABLESPACE</type>
+                </tablespaceID>
+              </storage>
+              <storageInRow>true</storageInRow>
+            </LOBProperties>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>PARA</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>CLOB</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PARA</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+        <entry>
+          <key>OracleColumnProperties</key>
+          <value class="oracle.javatools.db.ora.OracleColumnProperties">
+            <LOBProperties>
+              <name></name>
+              <LOBCache>NOCACHE</LOBCache>
+              <LOBSegName>SYS_LOB0000021887C00005$$</LOBSegName>
+              <chunk>8192</chunk>
+              <properties>
+                <entry>
+                  <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+                  <value class="oracle.javatools.db.ReferenceID">
+                    <parent class="oracle.javatools.db.ReferenceID">
+                      <parent class="oracle.javatools.db.ReferenceID">
+                        <name>PARA</name>
+                        <parent class="oracle.javatools.db.ReferenceID">
+                          <name>CAD_AUDITORIA</name>
+                          <identifier class="java.math.BigDecimal">21887</identifier>
+                          <schemaName>MOVJUDHOG</schemaName>
+                          <type>TABLE</type>
+                        </parent>
+                        <type>COLUMN</type>
+                      </parent>
+                      <type>OracleColumnProperties</type>
+                    </parent>
+                    <type>LOB DESCRIPTOR</type>
+                  </value>
+                </entry>
+              </properties>
+              <retention>true</retention>
+              <storage>
+                <bufferMode>DEFAULT</bufferMode>
+                <freelistGroups>1</freelistGroups>
+                <freelists>1</freelists>
+                <initialExtent>65536</initialExtent>
+                <logging>true</logging>
+                <maxExtent>0</maxExtent>
+                <minExtent>1</minExtent>
+                <nextExtent>1048576</nextExtent>
+                <tablespaceID class="oracle.javatools.db.ReferenceID">
+                  <name>SYSTEM</name>
+                  <type>TABLESPACE</type>
+                </tablespaceID>
+              </storage>
+              <storageInRow>true</storageInRow>
+            </LOBProperties>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>USUARIO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">25</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">CHAR</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>USUARIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>ENTIDADE</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">70</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">CHAR</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>ENTIDADE</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>TP_SITUACAO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">1</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>CHAR</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">&apos;A&apos;</default>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>TP_SITUACAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_INCLUSAO</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DT_INCLUSAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_ATUALIZACAO</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DT_ATUALIZACAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+  </columns>
+  <constraints>
+    <constraint class="oracle.javatools.db.PKConstraint">
+      <name>PK_CAD_AUDITORIA</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>AUDITORIA_ID</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>CAD_AUDITORIA</name>
+            <schemaName>MOVJUDHMG</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>MOVJUDHMG</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <indexID class="oracle.javatools.db.NameBasedID">
+        <name>PK_CAD_AUDITORIA</name>
+        <parent class="oracle.javatools.db.NameBasedID">
+          <name>CAD_AUDITORIA</name>
+          <schemaName>MOVJUDHMG</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <schemaName>MOVJUDHMG</schemaName>
+        <type>INDEX</type>
+      </indexID>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PK_CAD_AUDITORIA</name>
+            <childObjectNames>
+              <childObjectName>AUDITORIA_ID</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>PKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+    </constraint>
+  </constraints>
+  <indexes>
+    <index>
+      <name>PK_CAD_AUDITORIA</name>
+      <columnExpressions>
+        <columnExpression>
+          <expressionSource>AUDITORIA_ID</expressionSource>
+          <orderType>ASC</orderType>
+          <properties>
+            <entry>
+              <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+              <value class="oracle.javatools.db.ReferenceID">
+                <name>AUDITORIA_ID</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>PK_CAD_AUDITORIA</name>
+                  <identifier class="java.math.BigDecimal">21892</identifier>
+                  <parent class="oracle.javatools.db.ReferenceID">
+                    <name>CAD_AUDITORIA</name>
+                    <identifier class="java.math.BigDecimal">21887</identifier>
+                    <schemaName>MOVJUDHOG</schemaName>
+                    <type>TABLE</type>
+                  </parent>
+                  <schemaName>MOVJUDHOG</schemaName>
+                  <type>INDEX</type>
+                </parent>
+                <type>IndexObject</type>
+              </value>
+            </entry>
+          </properties>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>UNIQUE</indexType>
+      <parallelDegree>1</parallelDegree>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PK_CAD_AUDITORIA</name>
+            <identifier class="java.math.BigDecimal">21892</identifier>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_AUDITORIA</name>
+              <identifier class="java.math.BigDecimal">21887</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>MOVJUDHOG</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+        <entry>
+          <key>OracleStorageProperties</key>
+          <value class="oracle.javatools.db.ora.OracleStorageProperties">
+            <bufferMode>DEFAULT</bufferMode>
+            <freelistGroups>1</freelistGroups>
+            <freelists>1</freelists>
+            <initialExtent>65536</initialExtent>
+            <initrans>2</initrans>
+            <logging>true</logging>
+            <maxExtent>0</maxExtent>
+            <minExtent>1</minExtent>
+            <nextExtent>1048576</nextExtent>
+            <percentFree>10</percentFree>
+            <tablespaceID class="oracle.javatools.db.ReferenceID">
+              <name>SYSTEM</name>
+              <type>TABLESPACE</type>
+            </tablespaceID>
+          </value>
+        </entry>
+      </properties>
+      <reverse>false</reverse>
+      <schema>
+        <name>MOVJUDHMG</name>
+      </schema>
+      <systemGenerated>true</systemGenerated>
+    </index>
+  </indexes>
+  <properties>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_CONNECTION</key>
+      <value class="java.lang.String">tjsp</value>
+    </entry>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+      <value class="oracle.javatools.db.ReferenceID">
+        <name>CAD_AUDITORIA</name>
+        <identifier class="java.math.BigDecimal">21887</identifier>
+        <schemaName>MOVJUDHOG</schemaName>
+        <type>TABLE</type>
+      </value>
+    </entry>
+    <entry>
+      <key>OracleStorageProperties</key>
+      <value class="oracle.javatools.db.ora.OracleStorageProperties">
+        <bufferMode>DEFAULT</bufferMode>
+        <freelistGroups>1</freelistGroups>
+        <freelists>1</freelists>
+        <initialExtent>65536</initialExtent>
+        <initrans>1</initrans>
+        <logging>true</logging>
+        <maxExtent>0</maxExtent>
+        <minExtent>1</minExtent>
+        <nextExtent>1048576</nextExtent>
+        <percentFree>10</percentFree>
+        <percentUsed>40</percentUsed>
+        <tablespaceID class="oracle.javatools.db.ReferenceID">
+          <name>SYSTEM</name>
+          <type>TABLESPACE</type>
+        </tablespaceID>
+      </value>
+    </entry>
+    <entry>
+      <key>OracleTableProperties</key>
+      <value class="oracle.javatools.db.ora.OracleTableProperties">
+        <parallelDegree>1</parallelDegree>
+        <tableCompression>NOCOMPRESS</tableCompression>
+      </value>
+    </entry>
+    <entry>
+      <key>TableType</key>
+      <value class="oracle.javatools.db.Table$TableType">NORMAL</value>
+    </entry>
+  </properties>
+  <schema>
+    <name>MOVJUDHMG</name>
+  </schema>
+</table>

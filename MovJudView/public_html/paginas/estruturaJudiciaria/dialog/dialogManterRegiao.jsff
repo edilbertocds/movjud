@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <!--<af:panelHeader text="#{regiaoBean.visualizar ? app['label.regiao.visualizar'] : (regiaoBean.entidadePersistencia.idRegiao == null ? app['label.regiao.inserir'] : app['label.regiao.alterar'])}"
+                        id="panelHeaderIncluirRegiao">-->
+    <af:panelGroupLayout id="panelGroupIncluirRegiao" layout="vertical" styleClass="AFStretchWidth formStyle">
+        <af:panelGridLayout id="panelGridIncluirRegiao">
+            <af:gridRow marginTop="5px" marginBottom="5px" id="rowCodigoNomeRegiao">
+                <af:gridCell width="auto" marginEnd="15px" id="cellNomeRegiao" valign="bottom">
+                    <af:panelFormLayout id="panelFormNomeRegiao" labelAlignment="top">
+                        <af:inputText label="#{app['label.regiao.nome']}" id="inputTextNomeRegiao"
+                                      value="#{regiaoBean.entidadePersistencia.nomeRegiao}"
+                                      disabled="#{regiaoBean.visualizar}" maximumLength="70" showRequired="true"
+                                      validator="#{regiaoBean.validate}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell width="auto" id="cellCodigoRegiao" valign="bottom">
+                    <af:panelGroupLayout id="panelFormStatus" layout="vertical">
+                        <af:outputLabel value="#{app['label.regiao.situacao']}" for="listaStatus"
+                                        showRequired="#{regiaoBean.visualizar ? false : true}" id="ol1"/>
+                        <af:selectOneChoice id="listaStatus" disabled="#{regiaoBean.visualizar}"
+                                            value="#{regiaoBean.entidadePersistencia.flagTipoSituacao}"
+                                            validator="#{regiaoBean.validate}" contentStyle="width:100px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="selectItemRegiaoAtivoManter"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="selectItemRegiaoInativoManter"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+    <!--</af:panelHeader>-->
+</jsp:root>

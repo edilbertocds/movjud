@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich" version="2.1">
+    <af:componentDef var="atributos">
+        <af:xmlContent>
+            <component xmlns="http://xmlns.oracle.com/adf/faces/rich/component">
+                <description>Dialog Notificacao</description>
+                <attribute>
+                    <attribute-name>mensagem</attribute-name>
+                    <attribute-class>java.lang.String</attribute-class>
+                    <required>true</required>
+                </attribute>
+                <attribute>
+                    <attribute-name>infoAdicional</attribute-name>
+                    <attribute-class>java.lang.String</attribute-class>
+                    <required>true</required>
+                </attribute>
+		
+		<attribute>
+                    <attribute-name>tipoNotificacao</attribute-name>
+                    <attribute-class>java.lang.String</attribute-class>
+                    <required>true</required>
+                </attribute>
+		
+            </component>
+        </af:xmlContent>
+        <af:panelGroupLayout id="pgl3" layout="horizontal">
+            <af:panelGroupLayout id="pgl4" layout="vertical">
+                <af:spacer width="100%" height="10" id="spacerTop"/>
+                <af:image source="#{res['img.dialogApagar']}" id="dialogApagar" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'excluir' || atributos.tipoNotificacao == null}"/>
+                <af:image source="#{res['img.dialogAviso']}" id="dialogAviso" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'aviso'}"/>
+                <af:image source="#{res['img.dialogConfirmacao']}" id="dialogConfirmacao" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'confirmacao'}"/>
+                <af:image source="#{res['img.dialogErro']}" id="dialogErro" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'erro'}"/>
+                <af:image source="#{res['img.dialogMensagem']}" id="dialogMensagem" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'mensagem'}"/>
+                <af:image source="#{res['img.dialogSalvar']}" id="dialogSalvar" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'salvar'}"/>
+                <af:image source="#{res['img.dialogSucesso']}" id="dialogSucesso" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'sucesso'}"/>
+                <af:image source="#{res['img.dialogVincular']}" id="dialogVincular" shortDesc=""
+                          rendered="#{atributos.tipoNotificacao == 'vincular'}"/>
+            </af:panelGroupLayout>
+            <af:spacer width="10" height="64" id="spacerDireita"/>
+            <af:panelGroupLayout id="pgl6" layout="vertical">
+                <af:spacer width="100%" height="10" id="spacerTop2"/>
+                <af:outputFormatted id="ot1" styleClass="mensagem" value="#{atributos.mensagem}"/>
+                <af:spacer width="15" height="15" id="spacerCenter"/>
+                <af:panelGroupLayout id="dc_pgl1" layout="scroll" styleClass="campoMensagem">
+                    <af:outputFormatted id="ot3" styleClass="infoAdicional" value="#{atributos.infoAdicional}"/>
+                </af:panelGroupLayout>
+            </af:panelGroupLayout>
+            <af:spacer width="10" height="64" id="spacerEsquerda"/>
+        </af:panelGroupLayout>
+    </af:componentDef>
+</jsp:root>

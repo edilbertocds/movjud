@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/> 
+    
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}" styleClass="loginPage">
+            <af:resource type="javascript">
+              /**
+               * Funcao responsavel por tratar o evento do enter
+               */
+              function handleKeyEnterPress(event) {
+                  var code = event.getKeyCode();
+
+                  // verifica 
+                  if (code == AdfKeyStroke.ENTER_KEY) {
+                      var button = AdfPage.PAGE.findComponent("acessar");
+
+                      if (button != null) {
+                          if (button != undefined) {
+                              AdfActionEvent.queue(button, false);
+                          }
+                      }
+                  }
+              }
+            </af:resource>
+            <af:form id="f1">
+                <af:panelGroupLayout id="pgl2" styleClass="boxLogin">
+                    <af:panelGridLayout id="pgl1">
+                        <af:gridRow id="gr0">
+                            <af:gridCell id="gc0" columnSpan="2" halign="center" inlineStyle="text-align:center;">
+                                <af:outputText styleClass="indisponivel" value="O sistema MovjudWeb está temporariamente indisponível. Aguarde." id="ot2" rendered="#{loginBean.bloqueado}"
+                                               inlineStyle="text-align:center; text-justify:none;"/>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="0px" height="auto" id="gr1">
+                            <af:gridCell marginEnd="0px" width="auto" id="gc1">
+                                <af:image source="#{res['img.logoLogin']}" id="i1" styleClass="logoLogin"/>
+                            </af:gridCell>
+                            <af:gridCell marginStart="0px" width="auto" marginEnd="0px" id="gc2">
+                                <af:panelFormLayout id="pfl1">
+                                    <af:inputText styleClass="user" placeholder="#{app['msg.login.usuario']}"
+                                                  id="usuario" value="#{loginBean.usuarioSessao.codigoUsuario}">
+                                        <af:clientListener method="handleKeyEnterPress" type="keyPress"/>
+                                    </af:inputText>
+                                    <af:inputText placeholder="#{app['msg.login.senha']}" id="senha"
+                                                  value="#{loginBean.usuarioSessao.senha}" secret="true">
+                                        <af:clientListener method="handleKeyEnterPress" type="keyPress"/>
+                                    </af:inputText>
+                                    <af:spacer width="10" height="10" id="s1"/>
+                                    <af:commandButton text="#{app['botao.login.acessarSistema']}" id="acessar"
+                                                      action="#{loginBean.logar}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl3" styleClass="footer" layout="horizontal">
+                    <af:outputText value="#{loginBean.anoCorrente} - #{app['aplicacao.rodape']} - #{app['aplicacao.versao']} #{app['aplicacao.versaoCompilacao']}"
+                                   id="ot1"/>
+                </af:panelGroupLayout>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

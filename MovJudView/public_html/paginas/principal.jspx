@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:panelHeader text="#{app['label.principal.avisos']}" id="ph1" size="1">
+                               <!-- <af:panelBox id="panelListaAvisos">-->
+				<af:panelGridLayout id="panelGridListaAvisos" styleClass="panelGridAvisos">
+                                    <af:gridRow height="auto" id="gr4">
+                                        <af:gridCell width="50%" id="gc8">
+                                            <!-- AVISOS -->
+                                            <af:table id="tabelaResultados" styleClass="AFStretchWidth tabelaAvisos"
+                                                      autoHeightRows="10"
+                                                      summary="#{app['msg.auditoria.resultadoBusca']}"
+                                                      var="avisoUsuario" rows="0" rowBandingInterval="0"
+                                                      rowSelection="single" fetchSize="10"
+                                                      emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                                      width="542"
+                                                      disableColumnReordering="true"
+                                                      columnStretching="column:tituloAvisoColumn"
+                                                      contentDelivery="immediate" displayRow="selected"
+                                                      selectionListener="#{apresentacaoAvisoBean.selecionarAvisoParaVisualizacao}"
+                                                      partialTriggers="::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina"
+                                                      value="#{apresentacaoAvisoBean.avisosUsuario}">
+                                                <af:column id="tituloAvisoColumn" rowHeader="false" headerNoWrap="false"
+                                                           styleClass="#{avisoUsuario.flagLido == app['flag.statusNao'] ? 'avisoNaoLido' : ''} listaAviso" 
+                                                             clientComponent="true">
+                                                    <af:panelGridLayout id="pgl3">
+                                                        <af:gridRow marginTop="5px" height="10px"  marginBottom="5px"
+                                                                    id="gr2">
+                                                            <af:gridCell marginStart="5px" width="80%"  id="gc4">
+                                                                <af:outputText clientComponent="true"
+                                                                               value="#{avisoUsuario.configuracaoAviso.nomeTitulo}"
+                                                                               id="tituloAviso"/>
+                                                            </af:gridCell>
+                                                            <af:gridCell marginStart="5px" width="20%"  marginEnd="5px"
+                                                                         id="gc5" halign="end">
+                                                                <af:outputText value="#{avisoUsuario.dataEnvio}"
+                                                                               id="dataEnvio"/>
+                                                            </af:gridCell>
+                                                        </af:gridRow>
+                                                    </af:panelGridLayout>
+                                                </af:column>
+                                            </af:table>
+                                        </af:gridCell>
+                                        <!-- CONTEUDO -->
+                                        <af:gridCell width="50%" id="gc9" halign="start">
+                                            
+                                                <af:panelGroupLayout id="panelFormAviso" layout="vertical"
+                                                                   styleClass="painel"
+                                                                   partialTriggers="tabelaResultados" halign="center">
+                                                    <af:panelGroupLayout layout="vertical" id="pgl1"
+                                                                         rendered="#{empty apresentacaoAvisoBean.conteudoAvisoAtual}"
+                                                                         halign="center" valign="middle"
+                                                                         styleClass="panelGroupAviso">
+                                                        <af:spacer width="72" height="76" id="s1"
+                                                                   rendered="#{empty apresentacaoAvisoBean.conteudoAvisoAtual}"/>
+                                                        <af:image source="#{res['img.mensagemAviso']}" id="i1"
+                                                                  shortDesc="#{app['msg.principal.selecionarAviso']}"
+                                                                  rendered="#{empty apresentacaoAvisoBean.conteudoAvisoAtual}"/>
+                                                        <af:outputText value="#{app['msg.principal.selecionarAviso']}"
+                                                                       id="ot1"
+                                                                       rendered="#{empty apresentacaoAvisoBean.conteudoAvisoAtual}"
+                                                                       styleClass="textAvisoMensagem"/>
+                                                    </af:panelGroupLayout>
+                                                    <af:panelGroupLayout layout="vertical" id="pgl2"
+                                                                         rendered="#{!empty apresentacaoAvisoBean.conteudoAvisoAtual}"
+                                                                         valign="top" halign="start"
+                                                                         styleClass="panelGroupAviso">
+                                                        <af:richTextEditor id="nomeAvisoEstrutura" simple="true"
+                                                                           partialTriggers="tabelaResultados"
+                                                                           value="#{apresentacaoAvisoBean.conteudoAvisoAtual}"
+                                                                           readOnly="true" contentStyle="width:535.0px;"
+                                                                           rows="14" styleClass="aviso"
+                                                                           rendered="#{!empty apresentacaoAvisoBean.conteudoAvisoAtual}"/>
+                                                    </af:panelGroupLayout>
+                                                </af:panelGroupLayout>
+                                         
+                                        </af:gridCell>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+
+				<!--</af:panelBox>-->
+				                                
+				<!-- PAGINACAO -->
+                                <af:panelGridLayout id="pgl11">
+                                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                        <af:gridCell width="25%" id="gc1">
+                                            <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : " id="dc_ot1" styleClass="paginacaoItensResultado"/>
+                                            <af:outputText value="#{apresentacaoAvisoBean.paginacao.tamanhoMaximo}" id="dc_ot2" styleClass="paginacaoItensQtdeResultado"/>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                                            <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal" halign="center">
+                                                <af:button id="primeiraPagina" shortDesc="#{app['label.paginacao.primeira']}"
+                                                           icon="#{apresentacaoAvisoBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                                           disabled="#{apresentacaoAvisoBean.paginacao.disabledPrimeiro}" action="#{apresentacaoAvisoBean.pesquisarEntidade}"
+                                                           actionListener="#{apresentacaoAvisoBean.irPrimeiraPaginacao}" partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina"/>
+                                                <af:spacer width="3" height="5" id="dc_s57"/>
+                                                <af:button id="paginaAnterior" shortDesc="#{app['label.paginacao.anterior']}"
+                                                           icon="#{apresentacaoAvisoBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                                           action="#{apresentacaoAvisoBean.pesquisarEntidade}" actionListener="#{apresentacaoAvisoBean.irPaginacaoAnterior}"
+                                                           partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina" disabled="#{apresentacaoAvisoBean.paginacao.disabledAnterior}"/>
+                                                <af:spacer width="3" height="5" id="dc_s58"/>
+                                                <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal" partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                                    <af:forEach items="#{apresentacaoAvisoBean.paginacao.indicesPaginacao}" var="indice">
+                                                        <af:button text=" #{indice+1} " id="botaoPaginacaoAtual" partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{apresentacaoAvisoBean.paginacao.indice == indice}" disabled="true" styleClass="botaoPaginacaoAtual"/>
+                                                        <af:button text=" #{indice+1} " id="botaoPaginacao" partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{apresentacaoAvisoBean.paginacao.indice != indice}"
+                                                                   actionListener="#{apresentacaoAvisoBean.alterarIndicePaginacao(indice)}" action="#{apresentacaoAvisoBean.pesquisarEntidade}"
+                                                                   styleClass="botaoPaginacao"/>
+                                                        <af:spacer width="3" height="5" id="dc_s61"/>
+                                                    </af:forEach>
+                                                </af:panelGroupLayout>
+                                                <af:button id="proximaPagina" shortDesc="#{app['label.paginacao.proxima']}"
+                                                           icon="#{apresentacaoAvisoBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                                           action="#{apresentacaoAvisoBean.pesquisarEntidade}" actionListener="#{apresentacaoAvisoBean.irProximaPaginacao}"
+                                                           partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina" disabled="#{apresentacaoAvisoBean.paginacao.disabledProximo}"/>
+                                                <af:spacer width="3" height="5" id="dc_s59"/>
+                                                <af:button id="ultimaPagina" shortDesc="#{app['label.paginacao.ultima']}"
+                                                           icon="#{apresentacaoAvisoBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                                           action="#{apresentacaoAvisoBean.pesquisarEntidade}" actionListener="#{apresentacaoAvisoBean.irUltimaPaginacao}"
+                                                           disabled="#{apresentacaoAvisoBean.paginacao.disabledUltimo}" partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina"/>
+                                            </af:panelGroupLayout>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+                <af:popup childCreation="deferred" autoCancel="disabled" id="popupMsg">
+                    <af:dialog id="dialogExcluir" title="#{app['label.principal.salvarTitulo']}"
+                               affirmativeTextAndAccessKey="#{app['botao.ok']}"
+                               cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                        <af:declarativeComponent id="dc2" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                 tipoNotificacao="mensagem"
+                                                 mensagem="#{af:format(app['msg.principal.avisoMensagem'], loginBean.usuarioSessao.nome)}"
+                                                 infoAdicional="#{(apresentacaoAvisoBean.numeroMensagensNaoLidas != '0' and apresentacaoAvisoBean.numeroMensagensNaoLidas != '1') ?  af:format(app['msg.principal.avisoAdicionalPlural'],apresentacaoAvisoBean.numeroMensagensNaoLidas) : app['msg.principal.avisoAdicionalSingular']}"/>
+                    </af:dialog>
+                </af:popup>
+            </af:form>
+            <af:showPopupBehavior popupId="popupMsg" triggerType="load"
+                                  disabled="#{apresentacaoAvisoBean.numeroMensagensNaoLidas == '0'}"/>
+        </af:document>
+    </f:view>
+</jsp:root>

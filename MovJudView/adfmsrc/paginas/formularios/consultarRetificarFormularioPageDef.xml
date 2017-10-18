@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.2.1.0.31"
+                id="consultarRetificarFormularioPageDef" Package="paginas.formularios">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <taskFlow id="consultarFormulario"
+              taskFlowId="/WEB-INF/taskFlowAcompanharFormulario.xml#taskFlowAcompanharFormulario"
+              xmlns="http://xmlns.oracle.com/adf/controller/binding">
+      <parameters>
+        <parameter id="controleFluxo" value="RETIFICAR"/>
+      </parameters>
+    </taskFlow>
+  </executables>
+  <bindings/>
+</pageDefinition>

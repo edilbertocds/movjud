@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-17T16:42:55 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Formulario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="20c41435-dcc9-4f0b-8a89-623a5f8e21cf">
+	<property name="ireport.zoom" value="1.4641000000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="nomeFormulario" class="java.lang.String"/>
+	<parameter name="nomeUnidade" class="java.lang.String"/>
+	<parameter name="mesAno" class="java.lang.String"/>
+	<parameter name="codigo" class="java.lang.String"/>
+	<parameter name="versao" class="java.lang.Long"/>
+	<parameter name="tiposRegraFormulario" class="java.util.Map"/>
+	<parameter name="nomeForo" class="java.lang.String"/>
+	<parameter name="enviadoPor" class="java.lang.String"/>
+	<parameter name="situacaoFormulario" class="java.lang.String"/>
+	<parameter name="responsavelUnidade" class="java.lang.String"/>
+	<field name="labelSecao" class="java.lang.String"/>
+	<field name="listaSubSecoes" class="java.util.List"/>
+	<variable name="dataHoraAgora" class="java.util.Date">
+		<variableExpression><![CDATA[new Date()]]></variableExpression>
+		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="100" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<image>
+				<reportElement x="0" y="0" width="130" height="61" uuid="a6608d51-23a5-4fb8-a3ce-cbd1ac6447ea">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<imageExpression><![CDATA["./imagens/logoMenu.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="72" width="102" height="11" uuid="8203176e-b787-49e9-a16e-dd068fdb3f7b">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enviado por]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="102" y="72" width="337" height="11" uuid="65eae70c-8390-4fcc-a0b2-8690cc9eb930">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{enviadoPor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="61" width="555" height="11" uuid="5f6927c3-5080-4ea9-912f-994874f4a39b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeUnidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="30" width="60" height="11" uuid="86cf7271-87a6-4c13-adc3-bf5493907859"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{mesAno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="260" height="20" forecolor="#000000" uuid="5da56d85-02d8-452b-b556-a3f4e2eeb458">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeFormulario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="50" width="555" height="11" uuid="af0a83ce-86a8-4bf6-87b7-cc8c30840d00"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeForo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="94" width="555" height="1" uuid="8d29551d-7713-4400-aa31-79a0726536c2">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="439" y="72" width="116" height="11" uuid="a1e0b999-c873-44c1-85a7-a10cbe7c54a7">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="439" y="83" width="116" height="11" uuid="87430f06-62b9-4fe4-960c-540cd38e4906">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{situacaoFormulario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="83" width="102" height="11" uuid="58819256-09ab-4ec2-a63b-a559a0a15248"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsável pela Unidade]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="102" y="83" width="337" height="11" uuid="236c2af9-815c-43a6-bafd-8ef0a722de4d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{responsavelUnidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d, yyyy HH:mm">
+				<reportElement x="455" y="0" width="100" height="20" uuid="47e3b385-3086-4df6-a040-a09f21cd291e"/>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{dataHoraAgora}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="0" y="27" width="555" height="20" uuid="e50eca69-0506-4590-b6e2-99bf824ca465">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="labelSecao">
+					<subreportParameterExpression><![CDATA[$F{labelSecao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tiposRegraFormulario">
+					<subreportParameterExpression><![CDATA[$P{tiposRegraFormulario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaSubSecoes})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportSubSecao.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="6" width="555" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="dde3f99e-9a52-4744-b6f1-351363d8f205">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelSecao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="455" y="0" width="54" height="20" uuid="4b8b6ad7-e159-4985-ada0-5cce823a6469"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" / "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="511" y="0" width="44" height="20" uuid="7779b2a8-485c-4f2f-bfdb-eee7c9fe9a8f"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

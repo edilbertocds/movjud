@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="pgl2" styleClass="dialogManterReus" layout="vertical">
+        <af:panelGridLayout id="pgl1">
+            <af:gridRow marginTop="5px" height="auto" id="gr1">
+                <af:gridCell marginStart="5px" width="50%" id="gc1">
+                    <af:panelFormLayout id="pfl1" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.nomePresoProvisorio']}" id="it27"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.nomeReuProvisorio}"
+                                      required="true" contentStyle="width:250px;" columns="70" maximumLength="100"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="50%" id="gc2" valign="bottom">
+                    <af:panelFormLayout id="pfl3" labelAlignment="top">
+                        <af:selectOneRadio label="#{app['label.formulario.sexo']}" id="sor1" layout="horizontal"
+                                           value="#{pageFlowScope.acompanhamentoFormularioBean.reu.sexo}"
+                                           required="true"
+                                           disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}">
+                            <af:selectItem label="#{app['label.formulario.masculino']}" id="si47" value="M"/>
+                            <af:selectItem label="#{app['label.formulario.feminino']}" id="si46" value="F"/>
+                        </af:selectOneRadio>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr2">
+                <af:gridCell marginStart="5px" width="50%" id="gc3" valign="bottom">
+                    <af:panelFormLayout id="pfl2" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.nomeDaMae']}" id="it28"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.nomeMaeReuProvisorio}"
+                                      required="true" contentStyle="width:250px;" maximumLength="100"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="50%" id="gc4">
+                    <af:panelFormLayout id="pfl4" labelAlignment="top">
+                        <af:inputDate label="#{app['label.formulario.dataPrisao']}" id="id22"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataPrisao}"
+                                      required="true"
+                                      maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}"
+                                      autoSubmit="true" contentStyle="width:200px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr3">
+                <af:gridCell marginStart="5px" width="50%" id="gc5">
+                    <af:outputLabel value="#{app['label.formulario.naturezaPrisao']}" showRequired="true" for="soc24"
+                                    id="ol1"/>
+                    <af:selectOneChoice id="soc24"
+                                        value="#{pageFlowScope.acompanhamentoFormularioBean.reu.idNaturezaPrisao}"
+                                        validator="#{pageFlowScope.acompanhamentoFormularioBean.validate}"
+                                        unselectedLabel="#{app['label.combo.selecione']}" autoSubmit="true"
+                                        contentStyle="width:250px;"
+                                        disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}">
+                        <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaTipoNaturezaPrisao}"
+                                    var="naturezaPrisao">
+                            <af:selectItem label="#{naturezaPrisao.descricaoTipoNatureza}" id="si1"
+                                           value="#{naturezaPrisao.idTipoNaturezaPrisao}"/>
+                        </af:forEach>
+                    </af:selectOneChoice>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="50%" id="gc6">
+                    <af:panelFormLayout id="pfl6" labelAlignment="top">
+                        <af:inputText label="#{app['label.estabelecimentoPrisional']}"
+                                      id="inputTextEstabelecimentoPrisional"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.nomeEstabelecimentoPrisional}"
+                                      autoSubmit="true"
+                                      valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeEstabelecimentoPrisionalSelecionadoReus}"
+                                      required="true" contentStyle="width:250px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}">
+                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.acompanhamentoFormularioBean.autoCompletarEstabelecimentoPrisional}"
+                                                    maxSuggestedItems="10"/>
+                        </af:inputText>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr4">
+                <af:gridCell marginStart="5px" width="50%" id="gc7">
+                    <af:panelFormLayout id="pfl7" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.numeroProcesso']}" id="it1"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.numeroProcesso}"
+                                      required="true" contentStyle="width:250px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="50%" id="gc8">
+                    <af:panelFormLayout id="pfl8" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.controleOrdem']}" id="it33"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.numeroControle}"
+                                      required="true" contentStyle="width:250px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr5">
+                <af:gridCell marginStart="5px" width="100%" id="gc9" columnSpan="2" >
+                    <af:panelGroupLayout id="pgl100" layout="horizontal">
+                    <!--   inlineStyle="width:900px; column-span:all;" -->
+                    <af:panelFormLayout id="pf20" labelAlignment="top">
+                        <af:inputDate label="#{app['label.formulario.dataUltimoMovProcessural']}" id="id23"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataUltimoMovimento}"
+                                      required="true"
+                                      maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                    <!-- af:outputLabel value="#{app['label.formulario.motivoBaixa']}" id="ol42"
+                                    rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.nomeReuProvisorio}"/ -->
+                    <af:panelFormLayout id="pf201" labelAlignment="top">
+                    <af:selectOneChoice id="soc23"
+                                        label="Motivo da Baixa"
+                                        value="#{pageFlowScope.acompanhamentoFormularioBean.reu.idMotivoBaixa}"
+                                        rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.nomeReuProvisorio}"
+                                        unselectedLabel="#{app['label.formulario.reuSemBaixa']}"
+                                        contentStyle="width:250px;"
+                                        disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"
+                                        required="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.dataBaixa}">
+                        <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listarTipoMotivoBaixa}"
+                                    var="motivoBaixa">
+                            <af:selectItem label="#{motivoBaixa.descricaoTipoMotivoBaixa}" id="si2"
+                                           value="#{motivoBaixa.idTipoMotivoBaixa}"/>
+                        </af:forEach>
+                    </af:selectOneChoice>
+                    </af:panelFormLayout>
+                    <af:panelFormLayout id="pf202" labelAlignment="top">
+                        <af:inputDate label="#{app['label.formulario.dataBaixa']}" id="id231"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataBaixa}"
+                                      required="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.idMotivoBaixa}"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"
+                                      minValue="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataPrisao}"
+                                      maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}"
+                                      />                    
+                    </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr6" marginBottom="5px">
+                <af:gridCell marginStart="5px" width="50%" id="gc11" columnSpan="2">
+                    <af:panelFormLayout id="pf21" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.conteudoUltimoMovProcessural']}" id="it34" rows="2"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.conteudoUltimoMovimento}"
+                                      required="true" columns="75" contentStyle="width:525px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr7">
+                <af:gridCell marginStart="5px" width="50%" id="gc14">
+                    <af:panelFormLayout id="pf24" labelAlignment="top">
+                        <af:inputDate label="#{app['label.formulario.dataFeitoMagistrado']}"
+                                      id="dataFeitoLevadoAoMagistrado"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataLevadoMagistrado}"
+                                      maxValue="#{pageFlowScope.acompanhamentoFormularioBean.dataAtual}"
+                                      autoSubmit="true" contentStyle="width:200px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="50%" id="gc13">
+                    <af:panelFormLayout id="pf23" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.magistradoResponsavelRelato']}"
+                                      id="inputTextMagistradoReus"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.nomeMagistrado}"
+                                      valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeMagistradoSelecionadoReus}"
+                                      autoSubmit="true" partialTriggers="dataFeitoLevadoAoMagistrado"
+                                      contentStyle="width:250px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}">
+                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.acompanhamentoFormularioBean.autoCompletar}"/>
+                        </af:inputText>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gr8">
+                <af:gridCell id="gc15" columnSpan="2">
+                    <af:panelFormLayout id="pf22" labelAlignment="top">
+                        <af:inputText label="#{app['label.formulario.relatorioInformativo']}" id="inputTextRelatorioCGJ"
+                                      rows="2"
+                                      value="#{pageFlowScope.acompanhamentoFormularioBean.reu.descricaoRelatorioCgj}"
+                                      partialTriggers="dataFeitoLevadoAoMagistrado" autoSubmit="true" columns="75"
+                                      contentStyle="width:525px;"
+                                      disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                    <af:spacer width="10" height="10" id="s1"/>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

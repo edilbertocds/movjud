@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="panelGroupVertEstabelecimentoPrisional" layout="vertical"
+                                             styleClass="container wrapper formStyle">
+                            <af:panelHeader text="#{app['menu.estruturaJuridica.gerenciarEstabelecimentoPrisional']}"
+                                            id="ph1">
+                                <af:panelBox id="panelBoxFiltrosEstabelecimentoPrisional">
+                                    <f:facet name="toolbar"/>
+                                    <af:panelGridLayout id="panelGridLayoutFiltros" partialTriggers="botaoLimpar">
+                                        <af:gridRow marginTop="5px" height="auto"
+                                                    id="gridRowFiltroEstabelecimentoPrisional">
+                                            <af:gridCell columnSpan="1" id="cellNomeEstabelecimentoPrisional"
+                                                         width="auto">
+                                                <af:panelFormLayout id="panelFormNomeEstabelecimentoPrisional"
+                                                                    labelAlignment="top">
+                                                    <af:inputText label="#{app['label.estabelecimentoPrisional.nomeEstabelecimentoPrisional']}"
+                                                                  id="inputTextNomeEstabelecimentoPrisional"
+                                                                  columns="50"
+                                                                  value="#{estabelecimentoPrisionalBean.entidadeFiltro.nomeEstabelecimentoPrisional}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc5">
+                                                <af:panelGroupLayout id="pgl4" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.estabelecimentoPrisional.internacao']}"
+                                                                    for="choiceInternacao" id="ol2"/>
+                                                    <af:selectOneChoice id="choiceInternacao"
+                                                                        value="#{estabelecimentoPrisionalBean.entidadeFiltro.flagInternacao}"
+                                                                        contentStyle="width:100.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:selectItem label="#{app['label.radio.sim']}"
+                                                                       id="selectItemInternacaoAtivo"
+                                                                       value="#{app['flag.statusSim']}"/>
+                                                        <af:selectItem label="#{app['label.radio.nao']}"
+                                                                       id="selectItemItemInternacaoInativo"
+                                                                       value="#{app['flag.statusNao']}"/>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc7">
+                                                <af:panelGroupLayout id="pgl5" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.estabelecimentoPrisional.prisional']}"
+                                                                    for="choiceInternacao" id="ol3"/>
+                                                    <af:selectOneChoice id="choicePrisional"
+                                                                        value="#{estabelecimentoPrisionalBean.entidadeFiltro.flagPrisional}"
+                                                                        contentStyle="width:100.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:selectItem label="#{app['label.radio.sim']}"
+                                                                       id="selectItemPrisionalAtivo"
+                                                                       value="#{app['flag.statusSim']}"/>
+                                                        <af:selectItem label="#{app['label.radio.nao']}"
+                                                                       id="selectItemPrisionalInativo"
+                                                                       value="#{app['flag.statusNao']}"/>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc8" marginStart="15px">
+                                                <af:panelGroupLayout id="pgl2" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.estabelecimentoPrisional.situacao']}"
+                                                                    for="choiceStatusEstabelecimentoPrisional" id="ol4"/>
+                                                    <af:selectOneChoice id="choiceStatusEstabelecimentoPrisional"
+                                                                        value="#{estabelecimentoPrisionalBean.entidadeFiltro.flagTipoSituacao}"
+                                                                        contentStyle="width:100.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:selectItem label="#{app['label.combo.ativo']}"
+                                                                       id="selectItemEstabelecimentoPrisionalAtivo"
+                                                                       value="#{app['flag.situacaoAtiva']}"/>
+                                                        <af:selectItem label="#{app['label.combo.inativo']}"
+                                                                       id="selectItemEstabelecimentoPrisionalInativo"
+                                                                       value="#{app['flag.situacaoInativa']}"/>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" marginBottom="5px" height="auto"
+                                                    id="gridRowFiltroNomeMunicipio">
+                                            <af:gridCell columnSpan="1" id="cellNomeMunicipio" width="30%">
+                                                <af:panelFormLayout id="panelFormNomeMunicipio" labelAlignment="top">
+                                                    <af:inputText label="#{app['label.estabelecimentoPrisional.nomeMunicipio']}"
+                                                                  id="inputTextNomeMunicipio" columns="50"
+                                                                  value="#{estabelecimentoPrisionalBean.entidadeFiltro.nomeMunicipio}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc4" marginStart="15px">
+                                                <af:panelGroupLayout id="panelFormUF" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.estabelecimentoPrisional.uf']}"
+                                                                    for="inputFiltroUF" id="ol1"/>
+                                                    <af:selectOneChoice id="inputFiltroUF"
+                                                                        value="#{estabelecimentoPrisionalBean.entidadeFiltro.codigoUf}"
+                                                                        contentStyle="width:100.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:forEach items="#{estabelecimentoPrisionalBean.listaUFs}"
+                                                                    var="uf">
+                                                            <af:selectItem label="#{uf.codigoUF}" id="selectItemUF"
+                                                                           value="#{uf.codigoUF}"/>
+                                                        </af:forEach>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell columnSpan="1" id="cellUF" width="auto" marginStart="15px"/>
+                                            <af:gridCell id="gc9" valign="bottom" halign="end" width="30%">
+                                                <af:button text="#{app['botao.buscar']}" id="botaoBuscar"
+                                                           icon="#{res['img.buscarOn']}"
+                                                           action="#{estabelecimentoPrisionalBean.filtrarEntidade}"/>
+                                                <af:spacer width="10" height="10" id="s1"/>
+                                                <af:button text="#{app['botao.limpar']}" id="botaoLimpar"
+                                                           icon="#{res['img.limparOn']}"
+                                                           action="#{estabelecimentoPrisionalBean.limparPesquisa}"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                                <af:spacer width="5" height="5" id="s3"/>
+                                <af:table var="estabelecimentoPrisional" rowBandingInterval="0" id="tabelaResultados"
+                                          emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                          summary="#{app['msg.estabelecimentoPrisional.resultadoBusca']}"
+                                          styleClass="AFStretchWidth" fetchSize="25"
+                                          columnStretching="column:colunaNomeEstabelecimentoPrisional"
+                                          rowSelection="single"
+                                          partialTriggers="::botaoBuscar ::botaoLimpar excluir ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina ::dialogIncluirEstabelecimentoPrisional dialogExcluir alterarEstabelecimentoPrisionalDialog"
+                                          value="#{estabelecimentoPrisionalBean.listaEntidade}"
+                                          selectionListener="#{estabelecimentoPrisionalBean.selecionarEntidadeEmTabela}">
+                                    <af:column sortable="false"
+                                               headerText="#{app['label.estabelecimentoPrisional.nomeEstabelecimentoPrisional']}"
+                                               id="colunaNomeEstabelecimentoPrisional" width="400">
+                                        <af:outputText value="#{estabelecimentoPrisional.nomeEstabelecimentoPrisional}"
+                                                       id="ot2"/>
+                                    </af:column>
+                                    <af:column sortable="false"
+                                               headerText="#{app['label.estabelecimentoPrisional.nomeMunicipio']}"
+                                               id="colunaNomeMunicipio" width="250">
+                                        <af:outputText value="#{estabelecimentoPrisional.nomeMunicipio}" id="ot1"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="#{app['label.estabelecimentoPrisional.uf']}"
+                                               id="colunaUf" align="center" width="60">
+                                        <af:outputText value="#{estabelecimentoPrisional.codigoUf}" id="ot3"/>
+                                    </af:column>
+                                    <af:column sortable="false"
+                                               headerText="#{app['label.estabelecimentoPrisional.prisional']}"
+                                               id="colunaPrisional" align="center" width="66">
+                                        <af:image source="#{res['img.flagSimOn']}" id="imgInativoPrisional"
+                                                  shortDesc="#{app['label.estabelecimentoPrisional.prisional']}"
+                                                  rendered="#{estabelecimentoPrisional.flagPrisional == app['flag.statusSim']}"/>
+                                    </af:column>
+                                    <af:column sortable="false"
+                                               headerText="#{app['label.estabelecimentoPrisional.internacao']}"
+                                               id="colunaInternacao" align="center" width="70">
+                                        <af:image source="#{res['img.flagSimOn']}" id="imgInativoInternacao"
+                                                  shortDesc="#{app['label.estabelecimentoPrisional.internacao']}"
+                                                  rendered="#{estabelecimentoPrisional.flagInternacao == app['flag.statusSim']}"/>
+                                    </af:column>
+                                    <af:column sortable="false"
+                                               headerText="#{app['label.estabelecimentoPrisional.situacao']}"
+                                               id="tSitucao" rowHeader="unstyled" headerNoWrap="true" align="center"
+                                               width="55">
+                                        <af:image source="#{res['img.situacaoInativoOn']}" id="imgInativo"
+                                                  shortDesc="#{app['label.estabelecimentoPrisional.inativo']}"
+                                                  rendered="#{estabelecimentoPrisional.flagTipoSituacao == app['flag.situacaoInativa']}"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="#{app['botao.acoes']}" width="92"
+                                               id="clEditarVisualizar" rowHeader="unstyled" headerNoWrap="true"
+                                               align="center">
+                                        <af:panelGroupLayout id="pgl1" layout="horizontal" halign="center">
+                                            <af:panelGroupLayout id="pgl3" layout="horizontal" halign="center">
+                                                <af:link id="alterar" icon="#{res['img.editarOn']}" partialSubmit="true"
+                                                         shortDesc="#{app['label.estabelecimentoPrisional.alterar']}">
+                                                    <af:showPopupBehavior popupId="popUpAlterarEstabelecimentoPrisional"
+                                                                          triggerType="action"/>
+                                                </af:link>
+                                                <af:popup childCreation="deferred"
+                                                          id="popUpAlterarEstabelecimentoPrisional"
+                                                          popupFetchListener="#{estabelecimentoPrisionalBean.initDialogAlterar}"
+                                                          contentDelivery="lazyUncached"
+                                                          popupCanceledListener="#{estabelecimentoPrisionalBean.cancelarInsercao}">
+                                                    <af:dialog id="alterarEstabelecimentoPrisionalDialog"
+                                                               title="#{app['label.estabelecimentoPrisional.alterar']}"
+                                                               affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                               dialogListener="#{estabelecimentoPrisionalBean.persistirEntidade}"
+                                                               cancelTextAndAccessKey="#{app['botao.cancelar']}">
+                                                        <af:declarativeComponent id="dc3"
+                                                                                 viewId="/paginas/estruturaJudiciaria/dialog/dialogManterEstabelecimentoPrisional.jsff"/>
+                                                    </af:dialog>
+                                                </af:popup>
+                                                <af:spacer width="3" height="5" id="spacer"/>
+                                                <af:link id="visualizar" icon="#{res['img.visualizarOn']}"
+                                                         partialSubmit="true"
+                                                         shortDesc="#{app['label.estabelecimentoPrisional.visualizar']}">
+                                                    <af:showPopupBehavior popupId="detalheEstabelecimentoPrisionalPopUp"
+                                                                          triggerType="action"/>
+                                                </af:link>
+                                                <af:popup childCreation="deferred" autoCancel="disabled"
+                                                          id="detalheEstabelecimentoPrisionalPopUp"
+                                                          popupFetchListener="#{estabelecimentoPrisionalBean.initDialogVisualizar}"
+                                                          contentDelivery="lazyUncached">
+                                                    <af:dialog id="visualizarRegiaoDialog"
+                                                               title="#{app['label.estabelecimentoPrisional.visualizar']}"
+                                                               dialogListener="#{estabelecimentoPrisionalBean.persistirEntidade}"
+                                                               type="cancel"
+                                                               cancelTextAndAccessKey="#{app['botao.voltar']}">
+                                                        <af:declarativeComponent id="dc1"
+                                                                                 viewId="/paginas/estruturaJudiciaria/dialog/dialogManterEstabelecimentoPrisional.jsff"/>
+                                                    </af:dialog>
+                                                </af:popup>
+                                                <af:spacer width="5" height="5" id="s2"/>
+                                                <af:link id="excluir" icon="#{res['img.lixeiraOn']}"
+                                                         shortDesc="#{app['label.estabelecimentoPrisional.apagar']}"
+                                                         partialSubmit="true">
+                                                    <af:showPopupBehavior popupId="popupExcluir"/>
+                                                </af:link>
+                                                <af:popup childCreation="deferred" autoCancel="disabled"
+                                                          id="popupExcluir">
+                                                    <af:dialog id="dialogExcluir"
+                                                               dialogListener="#{estabelecimentoPrisionalBean.excluirEntidade}"
+                                                               title="#{app['label.tituloExcluir']}"
+                                                               affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                                                               cancelTextAndAccessKey="#{app['botao.nao']}">
+                                                        <af:declarativeComponent id="dc4"
+                                                                                 viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                                 mensagem="#{app['msg.estabelecimentoPrisional.confirmacaoExcluir']}"
+                                                                                 infoAdicional="#{estabelecimentoPrisional.nomeEstabelecimentoPrisional}"/>
+                                                    </af:dialog>
+                                                </af:popup>
+                                            </af:panelGroupLayout>
+                                            <af:spacer width="5" height="5" id="s4" rendered="false"/>
+                                            <af:link icon="#{res['img.maisAcoesOn']}" id="i4" rendered="false"/>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                </af:table>
+                                <af:panelGridLayout id="panelGridPaginacao">
+                                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                        <af:gridCell width="25%" id="gc1" valign="top">
+                                            <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                                           id="dc_ot1" partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensResultado"/>
+                                            <af:outputText value="#{estabelecimentoPrisionalBean.paginacao.tamanhoMaximo}"
+                                                           id="dc_ot2"
+                                                           partialTriggers="botaoBuscar botaoLimpar tabelaResultados:excluir dialogIncluirEstabelecimentoPrisional tabelaResultados:alterarEstabelecimentoPrisionalDialog tabelaResultados:dialogExcluir"
+                                                           styleClass="paginacaoItensQtdeResultado"/>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                                            <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal"
+                                                                 halign="center">
+                                                <af:button shortDesc="#{app['label.paginacao.primeira']}"
+                                                           id="primeiraPagina"
+                                                           disabled="#{estabelecimentoPrisionalBean.paginacao.disabledPrimeiro}"
+                                                           action="#{estabelecimentoPrisionalBean.pesquisarEntidade}"
+                                                           actionListener="#{estabelecimentoPrisionalBean.irPrimeiraPaginacao}"
+                                                           icon="#{estabelecimentoPrisionalBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarEstabelecimentoPrisionalDialog tabelaResultados:dialogExcluir popUpInserirEstabelecimentoPrisional"/>
+                                                <af:spacer width="3" height="5" id="dc_s57"/>
+                                                <af:button shortDesc="#{app['label.paginacao.anterior']}"
+                                                           id="paginaAnterior"
+                                                           icon="#{estabelecimentoPrisionalBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                                           action="#{estabelecimentoPrisionalBean.pesquisarEntidade}"
+                                                           actionListener="#{estabelecimentoPrisionalBean.irPaginacaoAnterior}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarEstabelecimentoPrisionalDialog tabelaResultados:dialogExcluir popUpInserirEstabelecimentoPrisional"
+                                                           disabled="#{estabelecimentoPrisionalBean.paginacao.disabledAnterior}"/>
+                                                <af:spacer width="3" height="5" id="dc_s58"/>
+                                                <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                                     partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina dialogIncluirEstabelecimentoPrisional"
+                                                                     halign="default">
+                                                    <af:forEach items="#{estabelecimentoPrisionalBean.paginacao.indicesPaginacao}"
+                                                                var="indice">
+                                                        <af:button text="#{indice+1}" id="botaoPaginacaoAtual"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina dialogIncluirEstabelecimentoPrisional"
+                                                                   disabled="true" styleClass="botaoPaginacaoAtual"
+                                                                   rendered="#{estabelecimentoPrisionalBean.paginacao.indice == indice}"/>
+                                                        <af:button text="#{indice+1}" id="botaoPaginacao"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina dialogIncluirEstabelecimentoPrisional tabelaResultados:alterarEstabelecimentoPrisionalDialog tabelaResultados:dialogExcluir"
+                                                                   styleClass="botaoPaginacao"
+                                                                   rendered="#{estabelecimentoPrisionalBean.paginacao.indice != indice}"
+                                                                   actionListener="#{estabelecimentoPrisionalBean.alterarIndicePaginacao(indice)}"
+                                                                   action="#{estabelecimentoPrisionalBean.pesquisarEntidade}"/>
+                                                        <af:spacer width="3" height="5" id="dc_s61"/>
+                                                    </af:forEach>
+                                                </af:panelGroupLayout>
+                                                <af:button shortDesc="#{app['label.paginacao.proxima']}"
+                                                           id="proximaPagina"
+                                                           icon="#{estabelecimentoPrisionalBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                                           action="#{estabelecimentoPrisionalBean.pesquisarEntidade}"
+                                                           actionListener="#{estabelecimentoPrisionalBean.irProximaPaginacao}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:alterarEstabelecimentoPrisionalDialog tabelaResultados:dialogExcluir popUpInserirEstabelecimentoPrisional"
+                                                           disabled="#{estabelecimentoPrisionalBean.paginacao.disabledProximo}"/>
+                                                <af:spacer width="3" height="5" id="dc_s59"/>
+                                                <af:button shortDesc="#{app['label.paginacao.ultima']}"
+                                                           id="ultimaPagina"
+                                                           icon="#{estabelecimentoPrisionalBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                                           action="#{estabelecimentoPrisionalBean.pesquisarEntidade}"
+                                                           actionListener="#{estabelecimentoPrisionalBean.irUltimaPaginacao}"
+                                                           disabled="#{estabelecimentoPrisionalBean.paginacao.disabledUltimo}"
+                                                           partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                                            </af:panelGroupLayout>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                    </af:gridRow>
+                                    <af:gridRow id="gr2">
+                                        <af:gridCell id="gc6" halign="end" valign="top" columnSpan="3">
+                                            <af:button text="#{app['botao.adicionar']}" id="botaoAdicionar"
+                                                       icon="#{res['img.adicionarOn']}">
+                                                <af:showPopupBehavior popupId="popUpInserirEstabelecimentoPrisional"/>
+                                            </af:button>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popUpInserirEstabelecimentoPrisional"
+                                                      popupFetchListener="#{estabelecimentoPrisionalBean.initDialogInserir}"
+                                                      contentDelivery="lazyUncached"
+                                                      popupCanceledListener="#{estabelecimentoPrisionalBean.cancelarInsercao}">
+                                                <af:dialog id="dialogIncluirEstabelecimentoPrisional"
+                                                           title="#{app['label.estabelecimentoPrisional.inserir']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                           dialogListener="#{estabelecimentoPrisionalBean.persistirEntidade}">
+                                                    <af:declarativeComponent id="dc2"
+                                                                             viewId="/paginas/estruturaJudiciaria/dialog/dialogManterEstabelecimentoPrisional.jsff"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popupInfoAlterado">
+                                                <af:dialog id="dialogInfoAlterado"
+                                                           title="#{app['label.alteracao.registro']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                                    <af:declarativeComponent id="dc17"
+                                                                             tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.info.alteradoSucesso']}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popupInfoInclusao">
+                                                <af:dialog id="dialogInfoInclusao"
+                                                           title="#{app['label.insercao.registro']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                                    <af:declarativeComponent id="dc117"
+                                                                             tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.info.incluirSucesso']}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                        </af:gridCell>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

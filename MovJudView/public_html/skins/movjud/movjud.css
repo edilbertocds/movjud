@@ -1,0 +1,568 @@
+@charset "UTF-8";
+
+/**ADFFaces_Skin_File / DO NOT REMOVE**/
+@namespace af "http://xmlns.oracle.com/adf/faces/rich";
+@namespace dvt "http://xmlns.oracle.com/dss/adf/faces";
+
+/* ==========================================
+ Reset Custom 
+========================================== */
+body {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+* {
+    outline: none;
+}
+
+.preformatted {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+/* ==========================================
+ Global 
+========================================== */
+.cabecalho{
+    background-color: White;
+}
+
+.usuarioCabecalho {
+    color: #424242;
+    font-weight: bold;
+}
+
+.textoCabecalho {
+    color: #424242;
+}
+
+.center {
+    background: #eeeeee;
+    padding: 10px;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    background: #3a4146;
+}
+
+.containerMenu{
+    width: 100%;
+    margin: 0 auto;
+    background: #3a4146;
+    padding-left: 7%;
+}
+
+
+
+.container.wrapper {
+    width: 1090px;
+    background: white;
+    margin: 0px auto;
+    border-bottom: solid 1px #c3c3c3;
+    padding: 15px;
+}
+
+.footer {
+    background: #202224;
+    text-align: center;
+    font-size: 12px;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    padding: 10px 0;
+}
+
+.alinhamentoCampo {
+    padding-left: 7px;
+}
+
+.formLinks {
+    height: 30.0px;
+    flex-align: center;
+    flex-item-align: center;
+}
+/* ==========================================
+PanelBox Formulario
+========================================== */
+.boxSecao {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.boxGrupo {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* ==========================================
+Paginacao
+========================================== */
+.paginacaoItensQtdeResultado {
+    color: #424242;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.botaoPaginacaoAtual {
+    font-size: 14px !important;
+}
+
+.botaoPaginacao {
+    color: #525252 !important;
+    font-size: 14px !important;
+}
+/* ==========================================
+ Login Page 
+========================================== */
+body.loginPage {
+    background-color: #3a4146;
+    background-image: url("../../resource/images/backgroundTj.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.boxLogin {
+    top: 30%;
+    position: absolute;
+    left: 50%;
+    margin-left: -340px;
+    width: 680px;
+}
+
+.boxLogin input {
+    padding: 0 10px 0 55px;
+    border: none;
+    background: white;
+    font-size: 12px;
+    width: 295px;
+    height: 45px;
+    border-radius: 4px;
+    background-repeat: no-repeat !important;
+    background-image: url("../../resource/images/loginSenha.png");
+    background-position: 18px 0px;
+}
+
+.boxLogin .user input {
+    background-position: 18px -45px !important
+}
+
+.boxLogin .indisponivel {
+    color: White;
+    font-size: 24px;
+    margin-bottom: 50px;
+}
+
+.boxLogin button {
+    border: none;
+    background: #d42127;
+    color: white;
+    padding: 20px 30px;
+    margin: 5px 0 0 0;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 11px;
+    height: 45px;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+.logoLogin {
+    margin-right: 55px;
+}
+
+
+/* ==========================================
+ Principal Page 
+========================================== */
+.panelGridAvisos{
+    border: solid  1px #D6DFE6 !important;
+}
+
+.tabelaAvisos{
+    height:275px;border: solid  1px #FFFFFF;
+}
+
+.listaAviso{
+    border: solid  1px #FFFFFF !important; 
+}
+  
+.avisoNaoLido{
+    font-weight: bold;
+    background-color: #f9f9f9;
+}
+
+.painel{
+    height:322px; 
+    width:540px; 
+    border-left:solid 2px #D6DFE6 !important;
+}
+
+.panelGroupAviso{
+    height:320px;
+}
+
+.textAvisoMensagem{
+    color:#9E9E9E;
+}
+
+.aviso{
+    padding:6.0px;   
+}
+
+/* ==========================================
+ Preencher Formulario Page 
+========================================== */
+
+.panelFormulario{
+    height:410px !important;
+}
+
+.panelSecundario{
+    height:480px;
+}
+
+.panelInfo{
+    min-height:150px;
+}
+
+.painelAvisoFormulario{
+    background-color:#fff6f7; 
+    border: 1px solid #D6DFE6;
+}
+
+.formularioListaTipos{
+    margin-top:10px; 
+    margin-bottom:10px;
+}
+
+.formularioBoxCampos{
+    margin-top:5px; 
+    margin-bottom:5px;
+}
+
+.formularioBoxInputText{
+    width:250px
+}
+
+.formularioPanelLabel{
+    width:350px;
+}
+
+.formularioIndiceCampo{
+    width:40px;
+}
+
+.formularioLabelCampo{
+    width:313px;
+    display:inline-block;
+    word-wrap:break-word;
+    text-align:left;
+}
+
+.formularioLabelSubCampo{
+    width:290px; 
+    display:inline-block; 
+    word-wrap:break-word; 
+    text-align:left;
+}
+
+.formLabelSegundoSubCampo{
+    width:268px; 
+    display:inline-block; 
+    word-wrap:break-word; 
+    text-align:left;
+}
+
+.formLabelTerceiroSubCampo{
+    width:237px; 
+    display:inline-block; 
+    word-wrap:break-word; 
+    text-align:left;
+}
+
+.formularioLabelTitulo{
+  font-size:large;
+}
+
+.formularioTabela{
+    height:150px; 
+    padding-left:0px;
+}
+
+/* ==========================================
+ Gerenciar Unidade Page 
+========================================== */
+.tabelaResultados {
+    line-height: normal;
+    break-after: always;
+}
+
+/* ==========================================
+ Manter Gerenciar Formulario
+========================================== */
+
+.panelScrollGerenciar{
+     height:470px !important;
+}
+
+.panelBottonGerenciar{
+    height:40px;
+}
+
+/* ==========================================
+ Auditoria Page 
+========================================== */
+.tabelaResultadosAuditoria {
+    height: 280px;
+}
+
+.tabelaDe {
+    height: 240px;
+    vertical-align: top;
+}
+
+.outputTextDePara {
+    display: inline-block;
+    height: 230px;
+    width: 245px;
+}
+/* ==========================================
+ Liberar Formulario Page
+========================================== */
+.painelAviso {
+    background-color: #fff6f7;
+    border: 1px solid #D6DFE6;
+}
+
+.tituloMesCompetencia {
+    font-size: medium;
+    font-weight: bold;
+    padding-left: 7px;
+}
+/* ==========================================
+ Acompanhamento Devedores Page
+========================================== */
+.panelGerarRelatorios {
+    padding: 16px;
+    height: 405px !important;
+    width: 370px;
+    background-color: White;
+}
+/* ==========================================
+ Dialog Notificacao
+========================================== */
+.mensagem {
+    font-size: larger;
+}
+
+.infoAdicional {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.campoMensagem{
+    max-height: 500px; 
+    max-width: 800px;
+}
+
+/* ==========================================
+ Dialog Configuracao Formulario
+========================================== */
+.tabelaCompetencias {
+    height: 55px;
+}
+
+.alinhamento {
+    padding-left: 7px;
+}
+/* ==========================================
+ Dialog Configuração Campo
+========================================== */
+.dialogConfCampo {
+    height: 469px;
+    width: 498px;
+}
+
+.dialogGeralConfCampo {
+    width: 580px !important;
+    height: 400px;
+}
+
+.panelValidacao {
+    background-color: transparent;
+}
+/* ==========================================
+ Dialog Manter Reus
+========================================== */
+.dialogManterReus {
+    width: 550px;
+    height: 550px;
+}
+/* ==========================================
+ Dialog Usuario
+========================================== */
+.icones {
+    alignment-adjust: middle;
+}
+/* ==========================================
+ Dialog Manter Unidade
+========================================== */
+.dialogManterUnidade {
+    height: 510px;
+    width: 1153px;
+}
+/* ==========================================
+ Dialog Manter Modelo Aviso
+========================================== */
+.DialogManterModelo {
+    height: 545px;
+    width: 550px;
+}
+/* ==========================================
+ Dialog Manter Circunscrição
+========================================== */
+.dialogCircunscricao {
+    vertical-align: middle;
+}
+
+/* ==========================================
+ Dialog Atualizar processo Gabinete
+========================================== */
+
+.dialogAtualizarProcesso{
+    width:896px;
+    height:510px;
+}
+
+.processoGabineteLabel{
+    font-size:larger; 
+    font-weight:bold;
+}
+
+.panelGoupProcessoGabinete{
+    width:891px;
+}
+
+
+
+
+/* ==========================================
+ Dialog Manter Configuração
+========================================== */
+.DialogManterConfiguracao {
+    height: 500px;
+    width: 645px
+}
+
+.gridConfAviso {
+    text-indent: 1pt;
+}
+
+.panelModeloAviso {
+    width: 462px;
+    height: 160.0px;
+    background-color: #FFFFFF;
+    border: solid 1px #D6DFE6;
+}
+
+.panelModeloAvisoVisualizar {
+    width: 462px;
+    height: 160.0px;
+    background-color: #EFEfF1;
+}
+
+.panelAbrangencia {
+    width: 240px;
+    height: 86.0px;
+    background-color: #FFFFFF;
+    border: solid 1px #D6DFE6;
+}
+
+.panelAbrangenciaVisualizar {
+    width: 240px;
+    height: 86.0px;
+    background-color: #EFEfF1;
+}
+
+.outputText {
+    display: inline-block;
+    height: 150px;
+    width: 462px;
+    padding: 6.0px;
+}
+
+.outputTextVisualizar {
+    display: inline-block;
+    height: 150px;
+    width: 462px;
+    padding: 6.0px;
+    color: #9E9E9E
+}
+
+.outputTextAbrangencia {
+    display: inline-block;
+    height: 150px;
+    width: 240px;
+    padding: 6.0px;
+}
+
+.outputTextAbrangenciaVisualizar {
+    color: #9E9E9E
+}
+
+
+/* ==========================================
+ Dialog Configuração Campo
+========================================== */
+
+.dialogConfiguracaoCampo{
+    height:469px; 
+    width:498px;
+}
+
+/* ==========================================
+ Components 
+========================================== */
+af|selectOneChoice {
+    line-height: inherit;
+    column-fill: inherit;
+    column-width: auto;
+}
+
+.cancelarPadding {
+    padding-left: 0px;
+}
+
+af|outputLabel {
+    padding-left: 7px;
+}
+/* af|separator */
+af|separator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* af|menuBar */
+af|menuBar {
+    background-color: transparent;
+}
+
+af|menu::bar-item, af|commandMenuItem::bar-item {
+    padding: 0px 5px !important;
+    border-bottom: solid 3px transparent
+}
+
+af|menuBar::item .p_AFHoverTarget, af|menuBar::item .p_AFHighlighted {
+    background: transparent !important;
+    border: solid 1px transparent
+}
+
+af|menuBar af|commandMenuItem::bar-item-text, af|menuBar af|menu::bar-item-text {
+    font-size: 12px;
+    color: white !important;
+}

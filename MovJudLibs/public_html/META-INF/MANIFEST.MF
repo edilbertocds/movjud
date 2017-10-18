@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Specification-Title: MovJudLibs
+Specification-Version: 1.0
+Implementation-Title: MovJudLibs
+Implementation-Version: 1.0
+Implementation-Vendor: Oracle
+Extension-Name: MovJudLibs

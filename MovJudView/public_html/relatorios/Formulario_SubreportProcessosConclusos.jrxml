@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-09-21T09:58:03 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
+	<property name="ireport.zoom" value="2.000000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<field name="numeroProcesso" class="java.math.BigDecimal"/>
+	<field name="anoProcesso" class="java.lang.Integer"/>
+	<field name="dataConclusao" class="java.util.Date"/>
+	<field name="tipoConclusoDTO" class="java.lang.Object"/>
+	<field name="dataBaixa" class="java.util.Date"/>
+	<field name="situacao" class="java.lang.String"/>
+	<columnHeader>
+		<band height="16">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="1" width="141" height="15" backcolor="#CCCCCC" uuid="200fce3b-6e20-4399-9a11-e42dcdccb100"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Número do Processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="143" y="1" width="48" height="15" backcolor="#CCCCCC" uuid="be55ae82-581c-45d8-8402-e4b8bf34dc1b"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="192" y="1" width="92" height="15" backcolor="#CCCCCC" uuid="5b1e4e0f-6ca9-440e-afa2-0068a1cbad8f"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Conclusão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="285" y="1" width="100" height="15" backcolor="#CCCCCC" uuid="d0b5c6b9-fef3-4bf4-bb68-48c44ee3ca0b"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Conclusão Para]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="465" y="1" width="90" height="15" backcolor="#CCCCCC" uuid="c030aea7-064a-4727-88c6-579c8666d8e3"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Baixa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="386" y="1" width="78" height="15" backcolor="#CCCCCC" uuid="9daf5d0c-65bc-4a1c-b3de-9ca8800683fd"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="64b0dd58-6f4e-489b-8bc6-b8f445e7458d"/>
+			</line>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="76f3a61b-f586-4325-acca-6763ef25b13d"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<line>
+				<reportElement x="385" y="-15" width="1" height="31" uuid="09618f51-d1e9-43a1-ad85-12e7b61f48e5"/>
+			</line>
+			<line>
+				<reportElement x="284" y="-16" width="1" height="32" uuid="ae172422-2a83-462f-bc7f-dbf63d5ef2e0"/>
+			</line>
+			<line>
+				<reportElement x="191" y="-16" width="1" height="31" uuid="9c861387-fcd3-4dc1-80e8-ab3989f6c072"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-16" width="1" height="31" uuid="d8baa7db-0f1c-4811-951f-e1872b3e58f3"/>
+			</line>
+			<textField pattern="###0.###;(###0.###-)" isBlankWhenNull="true">
+				<reportElement x="2" y="0" width="140" height="15" uuid="45bd516b-8b25-401f-bdf9-72b5c5ccc2cc"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroProcesso}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="84d25547-df15-456d-a4f4-4661c7a894d2"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="285" y="0" width="100" height="15" uuid="a8189eb1-f042-424a-9a42-2c207c204cd1"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoConclusoDTO}.getDescricaoTipoProcessoConcluso()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="465" y="0" width="90" height="15" uuid="ca7bf22b-69e8-4f43-a941-8a71aadfd846"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataBaixa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="192" y="0" width="92" height="15" uuid="86c76e5b-3875-4114-8f80-51227a232b7d"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataConclusao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="386" y="0" width="78" height="15" uuid="54343976-2f6a-4c96-92a8-2296dbac2e66"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{dataBaixa}==null?"Ativo":"Inativo")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="142" y="0" width="49" height="15" uuid="fa8446b6-e1a0-4e95-a27b-ab8a99f88101"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anoProcesso}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="142" y="-16" width="1" height="31" uuid="47f08228-84d2-4753-9729-6ce4e38d3a53"/>
+			</line>
+			<line>
+				<reportElement x="554" y="-16" width="1" height="31" uuid="9e723330-c597-486e-a381-375729d8160b"/>
+			</line>
+			<line>
+				<reportElement x="464" y="-16" width="1" height="32" uuid="37f63070-7471-4475-93d1-e5fa5bb23ef9"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

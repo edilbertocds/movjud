@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <af:panelGroupLayout id="panelGroupIncluirDominioBI" layout="vertical" styleClass="AFStretchWidth formStyle">
+        <af:panelGridLayout id="panelGridIncluirDominioBI">
+            <af:gridRow marginTop="5px" marginBottom="10px" id="rowCodigoDominio">
+                <af:gridCell width="auto" marginEnd="5px" id="cellCodigoDominio" columnSpan="3">
+                    <af:panelFormLayout id="panelFormCodigoDominio" labelAlignment="top">
+                        <af:inputText label="#{app['label.dominioBI.codigo']}" id="inputTextCodigoDominio"
+                                      value="#{dominioBIBean.entidadePersistencia.codigoDominio}" showRequired="true"
+                                      validator="#{dominioBIBean.validate}"
+                                      disabled="#{dominioBIBean.visualizar or dominioBIBean.isAlterando()}" maximumLength="100"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="rowTipoDominio" marginBottom="10px">
+                <af:gridCell id="cellTipoDominio" columnSpan="3">
+                    <af:panelGroupLayout id="panelFormTipoDominio" layout="vertical">
+                        <af:outputLabel value="#{app['label.dominioBI.tipo']}" showRequired="true"
+                                        for="listaTipoDominio" id="ol1"/>
+                        <af:selectOneChoice id="listaTipoDominio" disabled="#{dominioBIBean.visualizar}"
+                                            validator="#{dominioBIBean.validate}"
+                                            value="#{dominioBIBean.entidadePersistencia.tipoDominio}"
+                                            contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="Campo" id="siTipoDominioCampo" value="C"/>
+                            <af:selectItem label="Grupo" id="siTipoDominioGrupo" value="G"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            
+            <af:gridRow id="rowNomeDominio" marginBottom="10px">
+                <af:gridCell width="auto" marginEnd="5px" id="cellNomeDominio" columnSpan="3">
+                    <af:panelFormLayout id="panelFormNomeDominio" labelAlignment="top">
+                        <af:inputText label="#{app['label.dominioBI.nome']}" id="inputTextNomeDominio"
+                                      value="#{dominioBIBean.entidadePersistencia.nomeDominio}"
+                                      disabled="#{dominioBIBean.visualizar}" showRequired="true"
+                                      validator="#{dominioBIBean.validate}" maximumLength="100"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="rowFlags" marginBottom="10px">
+                <af:gridCell id="cellFlgIntegracaoBI">
+                    <af:panelGroupLayout id="panelFormIntegracaoBI" layout="vertical">
+                        <af:outputLabel value="#{app['label.dominioBI.integracao']}" showRequired="true"
+                                        for="listaDominioBIIntegracao" id="ol2"/>
+                        <af:selectOneChoice id="listaDominioBIIntegracao" disabled="#{dominioBIBean.visualizar}"
+                                            validator="#{dominioBIBean.validate}"
+                                            value="#{dominioBIBean.entidadePersistencia.flgIntegracaoBI}"
+                                            contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="Sim" id="siIntegracaoS"
+                                           value="S"/>
+                            <af:selectItem label="Não" id="siIntegracaoN"
+                                           value="N"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="cellFlgPrecarga">
+                    <af:panelGroupLayout id="panelFormPreacarga" layout="vertical">
+                        <af:outputLabel value="#{app['label.dominioBI.precarga']}" showRequired="true"
+                                        for="listaDominioBIPrecarga" id="ol3"/>
+                        <af:selectOneChoice id="listaDominioBIPrecarga" disabled="#{dominioBIBean.visualizar}"
+                                            validator="#{dominioBIBean.validate}"
+                                            value="#{dominioBIBean.entidadePersistencia.flgPreCarga}"
+                                            contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="Sim" id="siPrecargaS"
+                                           value="S"/>
+                            <af:selectItem label="Não" id="siPreCargaN"
+                                           value="N"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="cellFlgAtivo">
+                    <af:panelGroupLayout id="panelFormAtivo" layout="vertical">
+                        <af:outputLabel value="#{app['label.dominioBI.ativo']}" showRequired="true"
+                                        for="listaDominioBIAtivo" id="ol4"/>
+                        <af:selectOneChoice id="listaDominioBIAtivo" disabled="#{dominioBIBean.visualizar}"
+                                            validator="#{dominioBIBean.validate}"
+                                            value="#{dominioBIBean.entidadePersistencia.flgAtivo}"
+                                            contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="Sim" id="siAtivoS"
+                                           value="S"/>
+                            <af:selectItem label="Não" id="siAtivoN"
+                                           value="N"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>                
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/> 
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <af:panelGroupLayout id="painelPricipal" layout="vertical" halign="center"
+                                             styleClass="container wrapper formStyle">
+        <af:panelHeader text="#{app['label.formulario.gerenciarFormularios']}" id="ph1">
+            <f:facet name="context"/>
+            <f:facet name="toolbar"/>
+            <f:facet name="menuBar"/>
+            <f:facet name="legend"/>
+            <f:facet name="info"/>
+            <af:panelBox id="pb1" partialTriggers="botaoLimpar">
+                <f:facet name="toolbar"/>
+                <af:panelGridLayout id="pgl1">
+                    <af:gridRow marginTop="5px" height="auto" id="gr1" marginBottom="5px">
+                        <af:gridCell width="20%" id="gc1" valign="bottom">
+                            <af:panelFormLayout id="pfl1" labelAlignment="top">
+                                <af:inputText label="#{app['label.formulario.codigo']}" id="it1"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.entidadeFiltro.codigoFormulario}"
+                                              contentStyle="width:200px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="20%" id="gc2" valign="bottom">
+                            <af:panelFormLayout id="pfl4" labelAlignment="top">
+                                <af:inputText label="#{app['label.formulario.instancia']}" id="it4"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.entidadeFiltro.instancia}"
+                                              contentStyle="width:200px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="20%" id="gc3" valign="bottom">
+                            <af:panelFormLayout id="pfl6" labelAlignment="top">
+                                <af:inputText label="#{app['label.formulario.versao']}" id="it2"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.entidadeFiltro.versao}"
+                                              contentStyle="width:100px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="40%" id="gc4"/>
+                    </af:gridRow>
+                    <af:gridRow marginTop="5px" marginBottom="5px" height="auto" id="gr2">
+                        <af:gridCell id="gc24" width="30%" valign="bottom">
+                            <af:panelFormLayout id="pfl5" labelAlignment="top">
+                                <af:inputText label="#{app['label.formulario.formulario']}" id="it5"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.entidadeFiltro.nomeFormulario}"
+                                              contentStyle="width:200px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" columnSpan="1" id="gc5" width="30%" valign="bottom">
+                            <af:panelFormLayout id="pfl3" labelAlignment="top">
+                                <af:inputDate label="#{app['label.formulario.dataCriacao']}"
+                                              id="id1"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.entidadeFiltro.dataCriacao}"
+                                              columns="20" contentStyle="width:200px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputDate>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="20%" id="gc6" valign="bottom">
+                            <af:panelGroupLayout id="pfl2" layout="vertical">
+                                <af:outputLabel value="#{app['label.formulario.situacao']}" for="soc1"/>
+                                <af:selectOneChoice id="soc1"
+                                                    value="#{pageFlowScope.configuracaoFormularioBean.entidadeFiltro.metadadoSituacaoFormularioDTO}"
+                                                    contentStyle="width:100px;"
+                                                    unselectedLabel="#{app['label.combo.selecione']}">
+                                        <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaSituacoesFormulario}"
+                                                var="situacao">
+                                        <af:selectItem label="#{situacao.labelSituacaoFormulario}" id="si2"
+                                                       value="#{situacao}"/>
+                                    </af:forEach>
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="40%" id="gc7" valign="bottom" halign="end">
+                            <af:button text="#{app['botao.buscar']}" id="botaoBuscar" icon="#{res['img.buscarOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.filtrarEntidade}"/>
+                            <af:spacer width="10" height="10" id="s1"/>
+                            <af:button text="#{app['botao.limpar']}" id="botaoLimpar" icon="#{res['img.limparOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.limparPesquisa}"/>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:panelBox>
+            <af:spacer width="5" height="5" id="s3"/>
+            <af:table var="row" rowBandingInterval="0" id="tabelaResultados"
+                      disableColumnReordering="true" rowSelection="single"
+                      styleClass="AFStretchWidth"
+                      emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                      columnStretching="column:c2" fetchSize="10"
+                      value="#{pageFlowScope.configuracaoFormularioBean.listaEntidade}"
+                      partialTriggers="::botaoBuscar ::botaoLimpar confirmacaoLiberarDialog ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina i4"
+                      selectionListener="#{pageFlowScope.configuracaoFormularioBean.selecionarEntidadeEmTabela}">
+                <af:column sortable="false" headerText="#{app['label.formulario.codigo']}" id="c1"
+                           rowHeader="unstyled" headerNoWrap="true" width="60" align="center">
+                    <af:outputText value="#{row.codigoFormulario}" id="ot1"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.formulario.formulario']}"
+                           id="c2" rowHeader="unstyled" headerNoWrap="true" width="119">
+                    <af:outputText value="#{row.nomeFormulario}" id="ot2"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.formulario.instancia']}"
+                           id="c7" rowHeader="unstyled" headerNoWrap="true" width="84">
+                    <af:outputText value="#{row.instancia eq 1 ? app['label.formulario.primeiraInstancia'] : app['label.formulario.segundaInstancia']}" id="ot7"
+                                   truncateAt="0"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.formulario.dataCriacao']}"
+                           id="c8" rowHeader="unstyled" headerNoWrap="true" width="96" align="center">
+                    <af:outputText value="#{row.dataCriacao}" id="ot8"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.formulario.versao']}" id="c9"
+                           rowHeader="unstyled" headerNoWrap="true" width="50" align="center">
+                    <af:outputText value="#{row.versao}" id="ot9"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.formulario.situacao']}" id="c4"
+                           rowHeader="unstyled" headerNoWrap="true" width="80" align="center">
+                      <af:panelGroupLayout layout="horizontal" valign="top" id="pgSituacao">
+                            <af:outputText value="#{row.metadadoSituacaoFormularioDTO.labelSituacaoFormulario}" id="ot3"/>
+                      </af:panelGroupLayout>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.acoes']}" id="c10"
+                           rowHeader="unstyled" headerNoWrap="true" width="80" align="center">
+                    <af:panelGroupLayout id="pgl2" layout="horizontal" halign="center">
+                        <af:link id="alterar" icon="#{res['img.editarOn']}" partialSubmit="true"
+                                 shortDesc="#{app['label.formulario.alterarMetadados']}" action="manterGerenciarFormulario"
+                                 actionListener="#{pageFlowScope.configuracaoFormularioBean.initAlterarMetadadosFormulario}"
+                                 disabled="#{row.metadadoSituacaoFormularioDTO.identificadorSituacaoFormulario eq 'HISTORICO' ? true : false}"
+                                 disabledIcon="#{res['img.editarOff']}">
+                        </af:link>
+                        <af:spacer width="3" height="5" id="spacer"/>
+                        <af:link id="visualizar" icon="#{res['img.visualizarOn']}"
+                                 partialSubmit="true" 
+                                 shortDesc="#{app['label.formulario.visualizarMetadados']}" action="manterGerenciarFormulario"
+                                 actionListener="#{pageFlowScope.configuracaoFormularioBean.initVisualizarMetadadosFormulario}">
+                      </af:link>
+                      <af:spacer width="5" height="5" id="s2"/>
+                        <af:link id="i4"
+                                  icon="#{res['img.liberarVersaoOn']}"
+                                 partialSubmit="true" shortDesc="#{app['label.formulario.liberarVersao']}"
+                                 disabled="#{row.metadadoSituacaoFormularioDTO.identificadorSituacaoFormulario eq 'HISTORICO' or row.metadadoSituacaoFormularioDTO.identificadorSituacaoFormulario eq 'EM_USO' ? true : false}"
+                                 disabledIcon="#{res['img.liberarVersaoOff']}">
+                            <af:showPopupBehavior popupId="confirmacaoLiberarPopUp"/>
+                        </af:link>
+                                 
+                        <af:popup childCreation="deferred" id="confirmacaoLiberarPopUp" contentDelivery="lazyUncached">
+                            <af:dialog id="confirmacaoLiberarDialog" affirmativeTextAndAccessKey="#{app['label.radio.sim']}" type="okCancel" title="#{app['label.formulario.liberarVersao']}"
+                                       dialogListener="#{pageFlowScope.configuracaoFormularioBean.liberarVersaoFormulario}"
+                                       cancelTextAndAccessKey="#{app['label.radio.nao']}">
+	    
+                                <af:declarativeComponent id="dc1" viewId="/paginas/comum/dialog/dialogNotificacao.jsff" mensagem="#{app['msg.formulario.perguntaLiberacao']}"
+                                                         tipoNotificacao="confirmacao"
+                                                         infoAdicional="#{af:format2(app['msg.formulario.confirmarLiberacao'], pageFlowScope.configuracaoFormularioBean.entidadePersistencia.nomeFormulario, pageFlowScope.configuracaoFormularioBean.entidadePersistencia.versao)}"/>
+
+			    </af:dialog>
+                        </af:popup>
+                    </af:panelGroupLayout>
+                </af:column>
+            </af:table>
+            <af:panelGridLayout id="pgl11">
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr7">
+                    <af:gridCell width="25%" id="gc22">
+                        <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                       id="dc_ot1" partialTriggers="botaoBuscar botaoLimpar"
+                                       styleClass="paginacaoItensResultado"/>
+                        <af:outputText value="#{pageFlowScope.configuracaoFormularioBean.paginacao.tamanhoMaximo}"
+                                       id="dc_ot2" partialTriggers="botaoBuscar botaoLimpar"
+                                       styleClass="paginacaoItensQtdeResultado"/>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="50%" id="gc21" halign="center">
+                        <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal"
+                                             halign="center">
+                            <af:button id="primeiraPagina"
+                                       shortDesc="#{app['label.paginacao.primeira']}"
+                                       icon="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                       disabled="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledPrimeiro}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.irPrimeiraPaginacao}"
+                                       partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                            <af:spacer width="3" height="5" id="dc_s57"/>
+                            <af:button id="paginaAnterior"
+                                       shortDesc="#{app['label.paginacao.anterior']}"
+                                       icon="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.irPaginacaoAnterior}"
+                                       partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"
+                                       disabled="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledAnterior}"/>
+                            <af:spacer width="3" height="5" id="dc_s58"/>
+                            <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                 partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.paginacao.indicesPaginacao}"
+                                            var="indice">
+                                    <af:button text=" #{indice+1} " id="botaoPaginacaoAtual"
+                                               partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                               rendered="#{pageFlowScope.configuracaoFormularioBean.paginacao.indice == indice}"
+                                               disabled="true" styleClass="botaoPaginacaoAtual"/>
+                                    <af:button text=" #{indice+1} " id="botaoPaginacao"
+                                               partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                               rendered="#{pageFlowScope.configuracaoFormularioBean.paginacao.indice != indice}"
+                                               actionListener="#{pageFlowScope.configuracaoFormularioBean.alterarIndicePaginacao(indice)}"
+                                               action="#{pageFlowScope.configuracaoFormularioBean.pesquisarEntidade}"
+                                               styleClass="botaoPaginacao"/>
+                                    <af:spacer width="3" height="5" id="dc_s61"/>
+                                </af:forEach>
+                            </af:panelGroupLayout>
+                            <af:button id="proximaPagina"
+                                       shortDesc="#{app['label.paginacao.proxima']}"
+                                       icon="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.irProximaPaginacao}"
+                                       partialTriggers="proximaPagina paginaAnterior primeiraPagina ultimaPagina botaoBuscar botaoLimpar"
+                                       disabled="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledProximo}"/>
+                            <af:spacer width="3" height="5" id="dc_s59"/>
+                            <af:button id="ultimaPagina"
+                                       shortDesc="#{app['label.paginacao.ultima']}"
+                                       icon="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.irUltimaPaginacao}"
+                                       disabled="#{pageFlowScope.configuracaoFormularioBean.paginacao.disabledUltimo}"
+                                       partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                        </af:panelGroupLayout>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="25%" id="gc23"/>
+                </af:gridRow>
+                <af:gridRow id="gr4">
+                    <af:gridCell id="gc12" columnSpan="3" valign="top" halign="end">
+                        <af:button text="#{app['botao.adicionar']}" id="b1"
+                                   icon="#{res['img.adicionarOn']}" action="manterGerenciarFormulario"
+                                   windowHeight="570" windowWidth="1300" useWindow="true"
+                                   windowModalityType="applicationModal"
+                                   actionListener="#{pageFlowScope.configuracaoFormularioBean.initInserirMetadadosFormulario}"
+                                   shortDesc="#{app['label.formulario.inserirMetadados']}"/>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+        </af:panelHeader>
+    </af:panelGroupLayout>
+</jsp:root>

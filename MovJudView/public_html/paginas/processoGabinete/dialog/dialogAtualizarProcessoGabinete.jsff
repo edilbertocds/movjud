@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelStretchLayout id="psl1" topHeight="50px" dimensionsFrom="parent" styleClass="dialogAtualizarProcesso">
+        <f:facet name="center">
+            <af:panelGroupLayout id="pgl5" layout="scroll" styleClass="formStyle AFStretchWidth" halign="left">
+                <af:panelHeader text="" id="ph6" styleClass="dialogAtualizarProcesso">
+                    <af:panelGroupLayout id="pgl2">
+                        <af:outputText id="ot3" styleClass="processoGabineteLabel"
+                                       value="#{processoGabineteBean.entidadePersistencia.usuario.nome}"/>
+                    </af:panelGroupLayout>
+                    <af:spacer width="5" height="5" id="s1"/>
+                    <af:panelGroupLayout id="pgl1" styleClass="panelGoupProcessoGabinete" halign="end" valign="top"
+                                         layout="horizontal" rendered="true">
+                        <af:button text="#{app['botao.adicionar']}" 
+                                   id="botaoInserirProcessoGabinete"
+                                   action="#{processoGabineteBean.incluirProcessoGabinete}"
+                                   icon="#{res['img.adicionarOn']}"
+                                   immediate="true"
+                                   rendered="#{not processoGabineteBean.temProcessoNaoArquivado}"/>
+                    </af:panelGroupLayout>
+                    <af:spacer width="10" height="10" id="s2"/>
+                    <af:table var="row" rowBandingInterval="0" id="t1" width="893"
+                              value="#{processoGabineteBean.entidadePersistencia.usuario.processosGabinete}"
+                              partialTriggers="::botaoInserirProcessoGabinete "
+                              selectionListener="#{processoGabineteBean.selecionarProcessoGabinete}"
+                              columnStretching="column:tbTipoProcesso">
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
+                                   id="tbTipoProcesso" width="100" align="center">
+                            <af:inputText id="it2" value="#{row.tipoProcesso}" maximumLength="10" required="true"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.numeroProcesso']}" id="c2"
+                                   width="100" align="center">
+                            <af:inputText id="it3" value="#{row.numeroProcessoGabinete}" maximumLength="10"
+                                          required="true"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.anoProcesso']}" id="c3"
+                                   width="90" align="center">
+                            <af:selectOneChoice id="inputAnoProcesso" value="#{row.anoProcessoGabinete}"
+                                                                                              contentStyle="width:91.0px;"
+                                                unselectedLabel="#{app['label.combo.selecione']}"
+                                                required="true">
+                                <f:selectItems value="#{processoGabineteBean.listaAno}" id="si4"/>
+                            </af:selectOneChoice>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.arquivado']}" id="c4"
+                                   width="63" align="center">
+                            <af:selectOneRadio id="sorArquivado" value="#{row.flagArquivado}" required="true"
+                                               autoSubmit="true" partialTriggers="sorArquivado" valuePassThru="true"
+                                               immediate="true"
+                                               binding="#{viewScope.processoGabineteBean.flagArquivado}">
+                                <af:selectItem label="#{app['label.radio.sim']}" id="si1"
+                                               value="#{app['flag.statusSim']}"/>
+                                <af:selectItem label="#{app['label.radio.nao']}" id="si2"
+                                               value="#{app['flag.statusNao']}"/>
+                            </af:selectOneRadio>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.dataArquivamento']}"
+                                   id="c5" width="143" align="center">
+                            <af:inputDate id="id2"
+                                          value="#{row.flagArquivado ne app['flag.statusNao']? row.dataArquivamento:''}"
+                                          maxValue="#{processoGabineteBean.dataAtual}" columns="15"
+                                          validator="#{processoGabineteBean.validate}" partialTriggers="sorArquivado"
+                                          readOnly="#{row.flagArquivado == app['flag.statusNao']}"
+                                          contentStyle="width:120.0px;" label="Data Arquivamento"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.caixa']}" id="c6"
+                                   width="91" align="center">
+                            <af:inputText id="it5" partialTriggers="sorArquivado"
+                                          value="#{row.flagArquivado ne app['flag.statusNao']?row.numeroCaixa:''}"
+                                          validator="#{processoGabineteBean.validate}"
+                                          maximumLength="10" readOnly="#{row.flagArquivado == app['flag.statusNao']}"
+                                          label="Caixa"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.processoCpa']}" id="c7"
+                                   width="120" align="center">
+                            <af:inputText id="it6" value="#{row.numeroProcessoCpa}" maximumLength="10"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.processoGabinete.anoProcessoCpa']}" id="c8"
+                                   width="93" align="center">
+                            <af:selectOneChoice id="inputAnoCPA" value="#{row.anoProcessoCpa}"
+                                                contentStyle="width:91.0px;"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                                <f:selectItems value="#{processoGabineteBean.listaAno}" id="si6"/>
+                            </af:selectOneChoice>
+                        </af:column>
+                    </af:table>
+                </af:panelHeader>
+            </af:panelGroupLayout>
+        </f:facet>
+    </af:panelStretchLayout>
+</jsp:root>

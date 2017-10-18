@@ -1,0 +1,668 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<view xmlns="http://xmlns.oracle.com/jdeveloper/1211/offlinedb">
+  <name>VW_USUARIO_PROCESSO_GAB</name>
+  <SQLQuery>
+    <queryString>SELECT 
+  U.ID_CAD_USUARIO,  
+  U.FK_CAD_PERFIL,   
+  U.CD_USUARIO,  
+  U.NM_USUARIO,
+  U.DS_TELEFONE,
+  U.DS_MATRICULA,
+  U.NM_EMAIL,
+  U.CD_CNJ,  
+  U.SAJPG_CDUSUARIO,    
+  PG1.ID_CAD_PROCESSO_GAB,  
+  PG1.NR_PROCESSO_GAB,  
+  PG1.NR_ANO_PROCESSO_GAB,    
+  PG1.TP_PROCESSO,
+  PG1.FL_ARQUIVADO,      
+  PG1.DT_ARQUIVAMENTO,         
+  PG1.NR_CAIXA, 
+  PG1.NR_PROCESSO_CPA,   
+  PG1.NR_ANO_PROCESSO_CPA 
+FROM CAD_USUARIO U
+INNER JOIN CAD_PERFIL P
+ON P.ID_CAD_PERFIL = U.FK_CAD_PERFIL
+LEFT JOIN
+  (SELECT PG2.*
+  FROM CAD_PROCESSO_GAB PG2,
+    (SELECT FK_USUARIO_MAGISTRADO,
+      MAX(NR_ANO_PROCESSO_GAB
+      || &apos;-&apos;
+      || lpad(NR_PROCESSO_GAB, 5, &apos;0&apos;)) ANO_NR_PROCESSO
+    FROM CAD_PROCESSO_GAB
+    GROUP BY FK_USUARIO_MAGISTRADO
+    ) PG3
+  WHERE PG3.FK_USUARIO_MAGISTRADO = PG2.FK_USUARIO_MAGISTRADO
+  AND PG3.ANO_NR_PROCESSO         = (PG2.NR_ANO_PROCESSO_GAB
+    || &apos;-&apos;
+    || lpad(PG2.NR_PROCESSO_GAB, 5, &apos;0&apos;))
+  ) PG1
+ON PG1.FK_USUARIO_MAGISTRADO = U.ID_CAD_USUARIO
+WHERE P.DS_SRC_PERFIL       IN (&apos;MAGISTRADO&apos;,&apos;DESEMBARGA&apos;, &apos;MASSESCORR&apos;)</queryString>
+  </SQLQuery>
+  <columns>
+    <column>
+      <name>ID_CAD_USUARIO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>ID_CAD_USUARIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>FK_CAD_PERFIL</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FK_CAD_PERFIL</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>CD_USUARIO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">25</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>CD_USUARIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NM_USUARIO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">200</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NM_USUARIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DS_TELEFONE</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">18</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DS_TELEFONE</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DS_MATRICULA</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">100</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DS_MATRICULA</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NM_EMAIL</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">255</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NM_EMAIL</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>CD_CNJ</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">50</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>CD_CNJ</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>SAJPG_CDUSUARIO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>SAJPG_CDUSUARIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>ID_CAD_PROCESSO_GAB</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>ID_CAD_PROCESSO_GAB</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NR_PROCESSO_GAB</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NR_PROCESSO_GAB</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NR_ANO_PROCESSO_GAB</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">4</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NR_ANO_PROCESSO_GAB</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>TP_PROCESSO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">20</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>TP_PROCESSO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>FL_ARQUIVADO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">1</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>CHAR</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FL_ARQUIVADO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_ARQUIVAMENTO</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DT_ARQUIVAMENTO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NR_CAIXA</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">10</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>VARCHAR2</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NR_CAIXA</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NR_PROCESSO_CPA</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NR_PROCESSO_CPA</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>NR_ANO_PROCESSO_CPA</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">4</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>NR_ANO_PROCESSO_CPA</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>VW_USUARIO_PROCESSO_GAB</name>
+              <identifier class="java.math.BigDecimal">1036267</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>VIEW</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+  </columns>
+  <forceOnCreate>false</forceOnCreate>
+  <properties>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_CONNECTION</key>
+      <value class="java.lang.String">tjsp</value>
+    </entry>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+      <value class="oracle.javatools.db.ReferenceID">
+        <name>VW_USUARIO_PROCESSO_GAB</name>
+        <identifier class="java.math.BigDecimal">1036267</identifier>
+        <schemaName>MOVJUDHOG</schemaName>
+        <type>VIEW</type>
+      </value>
+    </entry>
+  </properties>
+  <schema>
+    <name>MOVJUDHOG</name>
+  </schema>
+</view>

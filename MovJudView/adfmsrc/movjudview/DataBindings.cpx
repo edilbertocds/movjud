@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.0.31" id="DataBindings" SeparateXMLFiles="false" Package="movjudview" ClientType="Generic" dlerClass="br.jus.tjsp.movjud.core.exception.MovjudModelExceptionHandler">
+  <definitionFactories>
+    <factory nameSpace="http://xmlns.oracle.com/adf/controller/binding" className="oracle.adf.controller.internal.binding.TaskFlowBindingDefFactoryImpl"/>
+    <dtfactory className="oracle.adf.controller.internal.dtrt.binding.BindingDTObjectFactory"/>
+  </definitionFactories>
+  <pageMap>
+    <page path="/paginas/formularios/consultarPreencherFormulario.jspx" usageId="movjudview_consultarFormularioPageDef"/>
+    <page path="/paginas/formularios/gerenciarFormulario.jspx" usageId="movjudview_gerenciarFormularioPageDef"/>
+    <page path="/paginas/formularios/consultarGeral.jspx" usageId="movjudview_consultarGeralPageDef"/>
+    <page path="/paginas/estruturaJudiciaria/gerenciarUnidade.jspx" usageId="movjudview_gerenciarUnidadePageDef"/>
+    <page path="/paginas/formularios/consultarEnviarFormulario.jspx"
+          usageId="movjudview_consultarEnviarFormularioPageDef"/>
+    <page path="/paginas/formularios/configurarFormularioVinculacao.jspx" usageId="movjudview_configurarFormularioVinculacaoPageDef"/>
+    <page path="/paginas/formularios/consultarRetificarFormulario.jspx"
+          usageId="movjudview_consultarRetificarFormularioPageDef"/>
+    <page path="/paginas/formularios/avaliarRetificarFormulario.jspx" usageId="movjudview_avaliarRetificacoesPageDef"/>
+  </pageMap>
+  <pageDefinitionUsages>
+    <page id="movjudview_consultarFormularioPageDef" path="paginas.formularios.consultarPreencherFormularioPageDef"/>
+    <page id="movjudview_gerenciarFormularioPageDef" path="paginas.formularios.gerenciarFormularioPageDef"/>
+    <page id="movjudview_consultarGeralPageDef" path="paginas.formularios.consultarGeralPageDef"/>
+    <page id="movjudview_gerenciarUnidadePageDef" path="paginas.estruturaJudiciaria.gerenciarUnidadePageDef"/>
+    <page id="movjudview_consultarEnviarFormularioPageDef" path="paginas.formularios.consultarEnviarFormularioPageDef"/>
+    <page id="movjudview_configurarFormularioVinculacaoPageDef" path="paginas.formularios.configurarFormularioVinculacaoPageDef"/>
+    <page id="movjudview_consultarRetificarFormularioPageDef"
+          path="paginas.formularios.consultarRetificarFormularioPageDef"/>
+    <page id="movjudview_avaliarRetificacoesPageDef" path="paginas.formularios.avaliarRetificacoesPageDef"/>
+  </pageDefinitionUsages>
+</Application>

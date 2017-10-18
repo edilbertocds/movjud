@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+    <af:panelStretchLayout id="psl1" topHeight="50px" dimensionsFrom="parent" styleClass="dialogManterUnidade">
+        <f:facet name="center">
+            <af:panelGroupLayout id="panelGroupManterUnidade" layout="scroll" styleClass="formStyle AFStretchWidth"
+                                 halign="center">
+                <af:panelBox text="#{app['label.unidade.dadosUnidade']}" id="boxlabelDadosUnidade" disclosed="true"
+                             childCreation="lazy">
+                    <f:facet name="toolbar"/>
+                    <af:panelGridLayout id="panelGridUnidade">
+                        <af:gridRow marginTop="5px" marginBottom="10px" id="rowForoUnidade">
+                            <af:gridCell marginStart="0px" width="auto" marginEnd="0px" id="cellForoUnidade"
+                                         columnSpan="2">
+                                <af:panelGroupLayout layout="horizontal" valign="bottom" id="pgl1">
+                                    <af:panelFormLayout id="formForoUnidade" rows="1" labelAlignment="top">
+                                        <af:inputText label="#{app['label.unidade.foro']}" id="inputTextForoSugestao"
+                                                      columns="110" rows="1" maximumLength="100"
+                                                      value="#{pageFlowScope.unidadeBean.sugestao}" showRequired="true"
+                                                      disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                                      valueChangeListener="#{pageFlowScope.unidadeBean.alterarNomeForoSelecionada}"
+                                                      autoSubmit="true" required="true">
+                                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarForo}"/>
+                                        </af:inputText>
+                                    </af:panelFormLayout>
+                                    <af:panelFormLayout id="pfl1" styleClass="formLinks">
+                                        <af:link icon="#{res['img.adicionarOn']}"
+                                                 disabledIcon="#{res['img.adicionarOff']}" id="b1"
+                                                 shortDesc="#{app['label.foro.inserir']}"
+                                                 disabled="#{pageFlowScope.unidadeBean.visualizar}" immediate="true">
+                                            <af:showPopupBehavior popupId="popupForo" triggerType="action"/>
+                                        </af:link>
+                                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupForo"
+                                                  popupFetchListener="#{foroBean.initDialogInserir}"
+                                                  contentDelivery="lazyUncached">
+                                            <af:dialog id="dialogIncluirForo"
+                                                       affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                       title="#{app['label.foro.inserir']}"
+                                                       cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                       dialogListener="#{foroBean.persistirEntidade}">
+                                                <af:declarativeComponent id="dc3"
+                                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterForo.jsff"/>
+                                            </af:dialog>
+                                        </af:popup>
+                                    </af:panelFormLayout>
+                                </af:panelGroupLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="15px" height="auto" id="rowNome">
+                            <af:gridCell marginStart="0px" columnSpan="2" marginEnd="0px" id="cellNome">
+                                <af:panelFormLayout id="formNomeUnidade" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.nome']}" id="inputNomeUnidade"
+                                                  disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="110"
+                                                  showRequired="true"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.nomeUnidade}"
+                                                  maximumLength="100" required="true"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="15px" height="auto" id="rowCNJStatus">
+                            <af:gridCell id="cellCodigoCNJ" marginEnd="30px" width="50%" valign="bottom">
+                                <af:panelFormLayout id="formCNJUnidade" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.cnj']}" id="inputCNJUnidade"
+                                                  disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="40"
+                                                  maximumLength="50"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.codigoCnj}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                            <af:gridCell marginStart="0px" marginEnd="0px" id="cellStatus" width="50%" valign="bottom">
+                                <af:panelGroupLayout id="formStatusUnidade" layout="vertical">
+                                    <af:outputLabel value="#{app['label.unidade.situacao']}" for="listaStatus"
+                                                    showRequired="#{pageFlowScope.unidadeBean.visualizar ? false : true}"/>
+                                    <af:selectOneChoice id="listaStatus"
+                                                        disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                                        value="#{pageFlowScope.unidadeBean.entidadePersistencia.flagTipoSituacao}"
+                                                        autoSubmit="true"
+                                                        validator="#{pageFlowScope.unidadeBean.validate}"
+                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                        <af:selectItem label="#{app['label.combo.ativo']}"
+                                                       id="selectItemRegiaoAtivoManter"
+                                                       value="#{app['flag.situacaoAtiva']}"/>
+                                        <af:selectItem label="#{app['label.combo.inativo']}"
+                                                       id="selectItemRegiaoInativoManter"
+                                                       value="#{app['flag.situacaoInativa']}"/>
+                                    </af:selectOneChoice>
+                                </af:panelGroupLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="15px" height="auto" marginBottom="30px" id="rowMotivo">
+                            <af:gridCell marginStart="0px" id="cellMotivo" marginEnd="30px" columnSpan="2">
+                                <af:panelGroupLayout id="pgl4">
+                                    <af:panelFormLayout id="formMotivo" labelAlignment="top">
+                                        <af:inputText label="#{app['label.unidade.motivo']}" id="inputMotivo"
+                                                      disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="110"
+                                                      value="#{pageFlowScope.unidadeBean.entidadePersistencia.dsMotivo}"
+                                                      rows="7"/>
+                                    </af:panelFormLayout>
+                                </af:panelGroupLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="15px" height="auto" marginBottom="30px" id="rowDatas">
+                            <af:gridCell marginStart="0px" id="cellDataCriacao" marginEnd="30px">
+                                <af:panelFormLayout id="formDataInicial" labelAlignment="top">
+                                    <af:inputDate label="#{app['label.unidade.dataCriacao']}" id="idCriacao"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.dataCriacao}"
+                                                  autoSubmit="true" disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                                  showRequired="true" columns="40"
+                                                  valueChangeListener="#{pageFlowScope.unidadeBean.validarDataFim}"
+                                                  maxValue="#{pageFlowScope.unidadeBean.dataAtual}" required="true"
+                                                  binding="#{pageFlowScope.unidadeBean.idCriacao}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                            <af:gridCell marginStart="0px" marginEnd="0px" id="cellDataFim">
+                                <af:panelFormLayout id="formDataFim" labelAlignment="top">
+                                    <af:inputDate disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                                  label="#{app['label.unidade.dataFim']}" id="idFim"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.dataFim}"
+                                                  columns="40" autoSubmit="true"
+                                                  binding="#{pageFlowScope.unidadeBean.idFim}"
+                                                  valueChangeListener="#{pageFlowScope.unidadeBean.validarDataFim}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow id="gr1">
+                            <af:gridCell id="gc1">
+                                <af:panelGroupLayout id="pgl5">
+                                    <af:panelFormLayout id="pfl2" labelAlignment="top">
+                                        <af:inputText label="#{app['label.unidade.observacao']}" id="it1"
+                                                      columns="110" rows="7"
+                                                      value="#{pageFlowScope.unidadeBean.entidadePersistencia.descricaoObservacao}"
+                                                      disabled="#{pageFlowScope.unidadeBean.visualizar}"/>
+                                    </af:panelFormLayout>
+                                </af:panelGroupLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelBox>
+                <af:spacer width="5" height="5" id="s1"/>
+                <af:panelBox text="#{app['label.unidade.dadosPessoais']}" id="boxDadosPessoais" disclosed="false">
+                    <f:facet name="toolbar"/>
+                    <af:panelGridLayout id="panelGridDadosPessoais">
+                        <af:gridRow marginTop="15px" height="auto" id="rowResponsavelTelefone">
+                            <af:gridCell marginStart="0px" id="cellResponsavel" rowSpan="1" columnSpan="1">
+                                <af:panelFormLayout id="formResponsavel" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.responsavel']}"
+                                                  id="inputTextUsuarioSugestao" columns="100"
+                                                  value="#{pageFlowScope.unidadeBean.sugestaoUsuario}"
+                                                  showRequired="true" disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                                  maximumLength="200"
+                                                  valueChangeListener="#{pageFlowScope.unidadeBean.alterarNomeUsuarioSelecionado}"
+                                                  autoSubmit="true" required="true">
+                                        <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarUsuario}"/>
+                                    </af:inputText>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="15px" marginBottom="30px" height="auto" id="rowEmail">
+                            <af:gridCell marginStart="0px" marginEnd="0px" id="cellEmail" rowSpan="1" width="50%">
+                                <af:panelFormLayout id="formEmailResponsavel" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.email']}" id="inputEmailUsuarioUnidade"
+                                                  columns="43"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.usuario.email}"
+                                                  disabled="true" maximumLength="255"
+                                                  partialTriggers="inputTextUsuarioSugestao"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                            <af:gridCell marginStart="0px" marginEnd="0px" id="cellTelefoneResp" rowSpan="1"
+                                         width="50%">
+                                <af:panelFormLayout id="formTelefoneResponsavel" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.telefone']}"
+                                                  id="inputTelefoneUsuarioUnidade" columns="43"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.usuario.telefone}"
+                                                  disabled="true" maximumLength="18"
+                                                  partialTriggers="inputTextUsuarioSugestao"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelBox>
+                <af:spacer width="5" height="5" id="s2"/>
+                <af:panelBox text="#{app['label.unidade.dadosEnderecoUnidade']}" id="boxEnderecoUnidade">
+                    <f:facet name="toolbar"/>
+                    <af:panelGridLayout id="panelGriddadosEnderecoUnidade">
+                        <af:gridRow marginTop="15px" marginBottom="15px" height="auto" id="rowComplemento">
+                            <af:gridCell marginStart="0px" columnSpan="2" marginEnd="0px" id="cellComplemento">
+                                <af:panelGroupLayout id="formTipoLocal" layout="vertical">
+                                    <af:outputLabel value="#{app['label.unidade.tipoLocal']}"
+                                                    showRequired="#{pageFlowScope.unidadeBean.visualizar ? false : true}"
+                                                    for="selectTipoLocal"/>
+                                    <af:selectOneChoice id="selectTipoLocal"
+                                                        value="#{pageFlowScope.unidadeBean.entidadePersistencia.tipoLocal}"
+                                                        disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                                        required="true" autoSubmit="true"
+                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                        <af:forEach items="#{pageFlowScope.unidadeBean.listaTipoLocal}" var="tipoLocal">
+                                            <af:selectItem label="#{tipoLocal.nomeLocal}" id="itemtipoLocal"
+                                                           value="#{tipoLocal}"/>
+                                        </af:forEach>
+                                    </af:selectOneChoice>
+                                </af:panelGroupLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow id="rowEmailTelefoneUnidade">
+                            <af:gridCell id="cellEmailUnidade" marginStart="0px" marginEnd="0px">
+                                <af:panelFormLayout id="formEmailUnidade" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.email']}" id="inputEmailUnidade"
+                                                  disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="43"
+                                                  maximumLength="255"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.emailInstitucional}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                            <af:gridCell id="cellTelefoneUnidade" marginStart="0px" marginEnd="0px">
+                                <af:panelFormLayout id="formTelefone" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.telefone']}" id="inputTelefone"
+                                                  disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="43"
+                                                  maximumLength="18"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.telefoneInstitucional}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                        <af:gridRow marginTop="15px" marginBottom="30px" height="auto" id="rowUnidadeForoSAJ">
+                            <af:gridCell marginStart="0px" width="auto" marginEnd="30px" id="cellUnidadeSAJ">
+                                <af:panelFormLayout id="formUnidadeSAJ" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.unidadesaj']}" id="inputUnidadeSAJ"
+                                                  disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="43"
+                                                  maximumLength="10"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.codigoVaraSaj}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                            <af:gridCell marginStart="0px" marginEnd="0px" id="cellForoSA">
+                                <af:panelFormLayout id="formForoSA" rows="1" labelAlignment="top">
+                                    <af:inputText label="#{app['label.unidade.forosaj']}" id="inputForoSA"
+                                                  disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="43"
+                                                  maximumLength="10"
+                                                  value="#{pageFlowScope.unidadeBean.entidadePersistencia.codigoForoSaj}"/>
+                                </af:panelFormLayout>
+                            </af:gridCell>
+                        </af:gridRow>
+                    </af:panelGridLayout>
+                </af:panelBox>
+                <af:spacer width="5" height="5" id="s4"/>
+                <af:panelBox text="#{app['label.unidade.anexoSubUnidade']}" id="boxAnexoSubUnidades" disclosed="false"
+                             partialTriggers="selectTipoLocal incluirUnidadeAnexa"
+                             visible="#{pageFlowScope.unidadeBean.entidadePersistencia.tipoLocal.flagAnexo == app['flag.statusSim']}">
+                    <af:panelGroupLayout id="pgl2" layout="horizontal" halign="right"
+                                         partialTriggers="incluirUnidadeAnexa">
+                        <af:inputText id="inputTextUnidadeAnexaSugestao" columns="50"
+                                      value="#{pageFlowScope.unidadeBean.sugestaoUnidade}"
+                                      valueChangeListener="#{pageFlowScope.unidadeBean.alterarNomeUnidadeAnexaSelecionada}"
+                                      disabled="#{pageFlowScope.unidadeBean.visualizar}" autoSubmit="true"
+                                      maximumLength="100" partialTriggers="incluirUnidadeAnexa">
+                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarUnidade}"/>
+                        </af:inputText>
+                        <af:button id="incluirUnidadeAnexa" rendered="#{!pageFlowScope.unidadeBean.visualizar}"
+                                   action="#{pageFlowScope.unidadeBean.incluirUnidadeAnexa}" icon="#{res['img.maisOn']}"
+                                   immediate="true" partialSubmit="true" shortDesc="Anexar unidade"/>
+                    </af:panelGroupLayout>
+                    <af:spacer width="5" height="5" id="s8"/>
+                    <af:table var="unidadeAnexa" rowBandingInterval="0" id="tabelaResultadosUnidadesAnexas"
+                              columnStretching="column:c1"
+                              value="#{pageFlowScope.unidadeBean.entidadePersistencia.unidadesAnexa}"
+                              partialTriggers="removerUnidadeAnexa ::incluirUnidadeAnexa" rowSelection="single"
+                              selectionListener="#{pageFlowScope.unidadeBean.selecionarUnidadeAnexa}" fetchSize="5"
+                              autoHeightRows="0">
+                        <af:column sortable="false" headerText="#{app['label.unidade.unidade']}" id="c1" width="200">
+                            <af:outputText id="ot1" value="#{unidadeAnexa.nomeUnidade}" truncateAt="0"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.acoes']}" id="c3" align="center"
+                                   width="60">
+                            <af:panelGroupLayout id="groupAcoesAnexoUnidade" layout="horizontal" halign="left">
+                                <af:link id="removerUnidadeAnexa" icon="#{res['img.lixeiraOn']}"
+                                         rendered="#{!pageFlowScope.unidadeBean.visualizar}" partialSubmit="true"
+                                         action="#{pageFlowScope.unidadeBean.removerUnidadeAnexa}"
+                                         shortDesc="#{app['label.unidade.removerSubUnidade']}" immediate="true"/>
+                            </af:panelGroupLayout>
+                        </af:column>
+                    </af:table>
+                </af:panelBox>
+                <af:spacer width="5" height="5" id="s5"/>
+                <af:panelBox text="#{app['label.unidade.estabelecimentoEntidade']}" id="boxEstabelecimentoEntidade"
+                             disclosed="false" partialTriggers="selectTipoLocal"
+                             visible="#{pageFlowScope.unidadeBean.entidadePersistencia.tipoLocal.flagUnidadePrisional == app['flag.statusSim']}">
+                    <af:spacer width="10" height="10" id="s3"/>
+                    <af:panelGroupLayout id="pgl3" layout="horizontal" halign="right">
+                        <af:inputText id="inputTextUnidadeEstabelecimento" columns="50"
+                                      value="#{pageFlowScope.unidadeBean.sugestaoEstabelecimentoPrisional}"
+                                      valueChangeListener="#{pageFlowScope.unidadeBean.alterarNomeEstabelecimentoPrisional}"
+                                      maximumLength="100" disabled="#{pageFlowScope.unidadeBean.visualizar}"
+                                      autoSubmit="true" partialTriggers="botaoInserirEstabelecimentoEntidade">
+                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarEstabelecimentoPrisional}"/>
+                        </af:inputText>
+                        <af:button id="botaoInserirEstabelecimentoEntidade"
+                                   rendered="#{!pageFlowScope.unidadeBean.visualizar}"
+                                   action="#{pageFlowScope.unidadeBean.incluirRegistroEstabelecimentoPrisional}"
+                                   icon="#{res['img.maisOn']}" partialSubmit="true" immediate="true"/>
+                    </af:panelGroupLayout>
+                    <af:spacer width="5" height="5" id="s6"/>
+                    <af:table var="prisional" rowBandingInterval="0" id="tabelaResultadosEstabelecimentoEntidade"
+                              columnStretching="column:colNomePrisional"
+                              value="#{pageFlowScope.unidadeBean.entidadePersistencia.unidadeEstabelecimentosPrisionais}"
+                              partialTriggers="::botaoInserirEstabelecimentoEntidade linkLixoEstabelecimentoEntidade"
+                              rowSelection="single"
+                              selectionListener="#{pageFlowScope.unidadeBean.selecionarEstabelecimentoPrisional}"
+                              fetchSize="5" autoHeightRows="0">
+                        <af:column sortable="false" headerText="#{app['label.unidade.nome']}" id="colNomePrisional"
+                                   width="300">
+                            <af:outputText id="ot01"
+                                           value="#{prisional.estabelecimentoPrisional.nomeEstabelecimentoPrisional}"/>
+                        </af:column>
+                        <af:column headerText="#{app['label.unidadeEstabelecimentoPrisional.dataInicio']}"
+                                   id="colDataInicio" width="-89" align="center">
+                            <af:inputDate disabled="#{pageFlowScope.unidadeBean.visualizar}" id="id3"
+                                          value="#{prisional.dataInicio}" autoSubmit="true"/>
+                        </af:column>
+                        <af:column headerText="#{app['label.unidadeEstabelecimentoPrisional.dataFim']}" id="colDataFim"
+                                   width="100" align="center">
+                            <af:inputDate disabled="#{pageFlowScope.unidadeBean.visualizar}" id="id4"
+                                          value="#{prisional.dataFim}" minValue="#{prisional.dataInicio}">
+                                <af:validateDateTimeRange minimum="#{prisional.dataInicio}"/>
+                            </af:inputDate>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.estabelecimentoPrisional.prisional']}"
+                                   id="colunaPrisional" align="center" width="52">
+                            <af:image source="#{res['img.flagSimOn']}" id="imgInativoPrisional"
+                                      shortDesc="#{app['label.processoGabinete.inativo']}"
+                                      rendered="#{prisional.estabelecimentoPrisional.flagPrisional== app['flag.statusSim']}"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.estabelecimentoPrisional.internacao']}"
+                                   id="colunaInternacao" align="center" width="62">
+                            <af:image source="#{res['img.flagSimOn']}" id="imgInativoInternacao"
+                                      shortDesc="#{app['label.processoGabinete.inativo']}"
+                                      rendered="#{prisional.estabelecimentoPrisional.flagInternacao== app['flag.statusSim']}"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.estabelecimentoPrisional.nomeMunicipio']}"
+                                   id="colunaNomeMunicipio" width="200">
+                            <af:outputText value="#{prisional.estabelecimentoPrisional.nomeMunicipio}" id="ot31"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.estabelecimentoPrisional.uf']}"
+                                   id="colunaUf" align="center" width="25">
+                            <af:outputText value="#{prisional.estabelecimentoPrisional.codigoUf}" id="ot3"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.estabelecimentoPrisional.codigoSaj']}"
+                                   id="colunaCodSaj" align="center" width="80">
+                            <af:outputText value="#{prisional.estabelecimentoPrisional.codigoLocalPrisaoSaj}"
+                                           id="ot13"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.acoes']}"
+                                   id="colunaAcoesEstabelecimentoEntidade" width="40" align="center">
+                            <af:panelGroupLayout id="groupAcoesAnexoEstabelecimentoEntidade" layout="horizontal"
+                                                 halign="left">
+                                <af:link id="linkLixoEstabelecimentoEntidade" icon="#{res['img.lixeiraOn']}"
+                                         rendered="#{!pageFlowScope.unidadeBean.visualizar}" partialSubmit="true"
+                                         action="#{pageFlowScope.unidadeBean.removerRegistroEstabelecimentoPrisional}"
+                                         shortDesc="#{app['label.formulario.removerEstabelecimentoprisional']}"
+                                         immediate="true"/>
+                            </af:panelGroupLayout>
+                        </af:column>
+                    </af:table>
+                    <af:popup childCreation="deferred" autoCancel="disabled" id="popupAddEstabelecimentoPrisional"
+                              popupFetchListener="#{estabelecimentoPrisionalBean.initDialogInserir}"
+                              popupCanceledListener="#{estabelecimentoPrisionalBean.cancelarInsercao}"
+                              contentDelivery="lazyUncached">
+                        <af:dialog id="dialogInserirEstabelecimento" affirmativeTextAndAccessKey="Salvar"
+                                   title="#{app['label.estabelecimentoPrisional.inserir']}"
+                                   cancelTextAndAccessKey="Cancelar"
+                                   dialogListener="#{estabelecimentoPrisionalBean.persistirEntidade}">
+                            <af:declarativeComponent id="dc9"
+                                                     viewId="/paginas/estruturaJudiciaria/dialog/dialogManterEstabelecimentoPrisional.jsff"/>
+                        </af:dialog>
+                    </af:popup>
+                    <f:facet name="toolbar">
+                        <af:button text="#{app['botao.estabelecimentoPrisional']}" id="b2"
+                                   icon="#{res['img.adicionarOn']}"  rendered="#{!pageFlowScope.unidadeBean.visualizar}">
+                            <af:showPopupBehavior popupId="popupAddEstabelecimentoPrisional"/>
+                        </af:button>
+                    </f:facet>
+                </af:panelBox>
+                <af:spacer width="5" height="5" id="s7"/>
+                <af:panelBox text="#{app['label.unidade.forosRecursais']}" id="boxforosRecursais" disclosed="false"
+                             partialTriggers="selectTipoLocal"
+                             visible="#{pageFlowScope.unidadeBean.entidadePersistencia.tipoLocal.flagColegioRecursal == app['flag.statusSim']}">
+                    <af:panelGroupLayout id="groupforosRecursais" layout="horizontal" halign="right">
+                        <af:inputText id="inputTextForoRecursal" columns="50"
+                                      value="#{pageFlowScope.unidadeBean.sugestaoForoRecursal}"
+                                      valueChangeListener="#{pageFlowScope.unidadeBean.alterarNomeForoRecursalSelecionada}"
+                                      maximumLength="100" autoSubmit="true" partialTriggers="botaoInserirforosRecursais"
+                                      disabled='#{pageFlowScope.unidadeBean.entidadePersistencia.tipoLocal.flagColegioRecursal eq "N" or pageFlowScope.unidadeBean.visualizar}'>
+                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarForo}"/>
+                        </af:inputText>
+                        <af:button id="botaoInserirforosRecursais" rendered="#{!pageFlowScope.unidadeBean.visualizar}"
+                                   action="#{pageFlowScope.unidadeBean.incluirForoRecursal}" icon="#{res['img.maisOn']}"
+                                   partialSubmit="true" immediate="true"
+                                   disabled='#{pageFlowScope.unidadeBean.entidadePersistencia.tipoLocal.flagColegioRecursal eq "N"}'/>
+                    </af:panelGroupLayout>
+                    <af:spacer width="5" height="5" id="s9"/>
+                    <af:table var="foroRecursal" rowBandingInterval="0" id="tabelaResultadosforosRecursais"
+                              columnStretching="column:c6"
+                              value="#{pageFlowScope.unidadeBean.entidadePersistencia.forosRecursais}"
+                              rowSelection="single"
+                              selectionListener="#{pageFlowScope.unidadeBean.selecionarForoRecursal}"
+                              partialTriggers="::botaoInserirforosRecursais linkLixoforosRecursais" fetchSize="5">
+                        <af:column sortable="false" headerText="#{app['label.foro.nome']}" id="c6" width="200">
+                            <af:outputText value="#{foroRecursal.nomeForo}" id="ot2"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.foro.entrancia']}" id="c7">
+                            <af:outputText value="#{foroRecursal.tipoEntrancia.nomeEntrancia}" id="ot53"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.foro.dataCriacao']}" id="c9">
+                            <af:outputText id="ot4" value="#{foroRecursal.dataCriacao}"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.foro.dataFim']}" id="c10">
+                            <af:outputText value="#{foroRecursal.dataFim}" id="ot6"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.foro.situacao']}" id="c11" width="70"
+                                   align="center">
+                            <af:image source="#{res['img.situacaoInativoOn']}" id="imgInativo"
+                                      shortDesc="#{app['label.foro.inativo']}"
+                                      rendered="#{foroRecursal.flagTipoSituacao == app['flag.situacaoInativa']}"/>
+                        </af:column>
+                        <af:column sortable="false" headerText="#{app['label.acoes']}" id="colunaAcoesforosRecursais"
+                                   width="60" align="center">
+                            <af:panelGroupLayout id="groupAcoesforosRecursais" layout="horizontal" halign="left">
+                                <af:link id="linkLixoforosRecursais" icon="#{res['img.lixeiraOn']}"
+                                         rendered="#{!pageFlowScope.unidadeBean.visualizar}"
+                                         action="#{pageFlowScope.unidadeBean.removerForoRecursal}"
+                                         shortDesc="#{app['label.foro.remover']}" partialSubmit="true"
+                                         immediate="true"/>
+                            </af:panelGroupLayout>
+                        </af:column>
+                    </af:table>
+                </af:panelBox>
+                <af:spacer width="10" height="10" id="s10"/>
+            </af:panelGroupLayout>
+        </f:facet>
+    </af:panelStretchLayout>
+</jsp:root>

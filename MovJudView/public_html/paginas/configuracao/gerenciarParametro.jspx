@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:spacer id="spa01" height="5px"/>
+                            <af:panelHeader text="#{app['menu.configuracao.gerenciarParametros']}" id="ph1">
+                                <af:panelBox id="panelBoxFiltroParametro" titleHalign="center">
+                                    <f:facet name="toolbar"/>
+                                    <af:panelGridLayout id="panelGridFiltrosParametro" partialTriggers="botaoLimpar">
+                                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gridRowNome">
+                                            <af:gridCell marginStart="0px" width="55%" id="gridCellNome">
+                                                <af:panelFormLayout id="panelFormFiltroNome" labelAlignment="top">
+                                                    <af:inputText id="inputFiltroNome" columns="60"
+                                                                  label="#{app['label.parametro.nome']}"
+                                                                  value="#{parametroBean.entidadeFiltro.nomeParametro}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc5" marginStart="15px" width="15%">
+                                                <af:panelGroupLayout id="panelFormStatusParametro" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.parametro.situacao']}"
+                                                                    for="choiceStatusParametro" id="ot1"/>
+                                                    <af:selectOneChoice id="choiceStatusParametro"
+                                                                        value="#{parametroBean.entidadeFiltro.flagTipoSituacao}"
+                                                                        contentStyle="width:100.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:selectItem label="#{app['label.combo.ativo']}"
+                                                                       id="selectItemConfiguracaoAvisoAtivo"
+                                                                       value="#{app['flag.situacaoAtiva']}"/>
+                                                        <af:selectItem label="#{app['label.combo.inativo']}"
+                                                                       id="selectItemRegiaoInativo"
+                                                                       value="#{app['flag.situacaoInativa']}"/>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc6" marginStart="15px" valign="bottom" halign="end"
+                                                         width="40%">
+                                                <af:button text="#{app['botao.buscar']}" id="botaoBuscar"
+                                                           icon="#{res['img.buscarOn']}"
+                                                           action="#{parametroBean.filtrarEntidade}"/>
+                                                <af:spacer width="10" height="10" id="s1"/>
+                                                <af:button text="#{app['botao.limpar']}" id="botaoLimpar"
+                                                           icon="#{res['img.limparOn']}"
+                                                           action="#{parametroBean.limparPesquisa}"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                                <af:spacer width="5" height="5" id="dc_s55"/>
+                                <af:table id="tabelaResultados" styleClass="AFStretchWidth"
+                                          summary="#{app['msg.parametro.resultadoBusca']}" var="row" rows="0"
+                                          emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                          autoHeightRows="10" disableColumnReordering="true"
+                                          columnStretching="column:tbDesricao" rowBandingInterval="0"
+                                          partialTriggers="::botaoBuscar ::botaoLimpar dialogAlterarParametro ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina ::dialogIncluirParametro dialogExcluir"
+                                          value="#{parametroBean.listaEntidade}"
+                                          selectionListener="#{parametroBean.selecionarEntidadeEmTabela}"
+                                          rowSelection="single" fetchSize="10">
+                                    <af:column headerText="#{app['label.parametro.nome']}" width="245" id="tbNome"
+                                               rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.nomeParametro}" id="otNome"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.parametro.descricao']}" width="115"
+                                               id="tbDesricao" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.descricaoParametro}" id="otDescricao"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.parametro.valor']}" width="187" id="tbValor"
+                                               rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.valorParametro}" id="otValorParametro"/>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="#{app['label.parametro.situacao']}"
+                                               id="colunaStatus" width="64" align="center">
+                                        <af:panelGroupLayout layout="horizontal" valign="top" id="pgSituacao">
+                                            <af:image source="#{res['img.situacaoInativoOn']}" id="imgInativo"
+                                                      shortDesc="#{app['label.parametro.inativo']}"
+                                                      rendered="#{row.flagTipoSituacao == app['flag.situacaoInativa']}"/>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                    <af:column headerText="#{app['botao.acoes']}" width="100" id="clEditarVisualizar"
+                                               rowHeader="unstyled" headerNoWrap="true" align="center">
+                                        <af:panelGroupLayout id="pgl2" layout="horizontal" halign="center">
+                                            <af:link id="alterar" icon="#{res['img.editarOn']}"
+                                                     shortDesc="#{app['label.parametro.alterar']}">
+                                                <af:showPopupBehavior popupId="popUpAlterarParametro"/>
+                                            </af:link>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popUpAlterarParametro" contentDelivery="lazyUncached"
+                                                      popupFetchListener="#{parametroBean.initDialogAlterar}"
+                                                      popupCanceledListener="#{usuarioBean.cancelarInsercao}">
+                                                <af:dialog id="dialogAlterarParametro"
+                                                           title="#{app['label.parametro.alterar']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                           dialogListener="#{parametroBean.persistirEntidade}">
+                                                    <af:declarativeComponent id="dc2"
+                                                                             viewId="/paginas/configuracao/dialog/dialogManterParametro.jsff"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:spacer width="5" height="5" id="s2"/>
+                                            <af:link id="excluir" icon="#{res['img.lixeiraOn']}"
+                                                     shortDesc="#{app['label.parametro.apagar']}" partialSubmit="true">
+                                                <af:showPopupBehavior popupId="popupExcluir"/>
+                                            </af:link>
+                                            <af:popup childCreation="deferred" autoCancel="disabled" id="popupExcluir">
+                                                <af:dialog id="dialogExcluir"
+                                                           dialogListener="#{parametroBean.excluirEntidade}"
+                                                           title="#{app['label.tituloExcluir']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}">
+                                                    <af:declarativeComponent id="dc7"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.parametro.confirmacaoExcluir']}"
+                                                                             infoAdicional="#{row.nomeParametro}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                </af:table>
+                                <f:facet name="toolbar"/>
+                                <af:panelGridLayout id="pgl11">
+                                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                        <af:gridCell width="25%" id="gc1">
+                                            <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                                           id="dc_ot1" partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensResultado"/>
+                                            <af:outputText value="#{parametroBean.paginacao.tamanhoMaximo}" id="dc_ot2"
+                                                           partialTriggers="botaoBuscar botaoLimpar tabelaResultados:dialogAlterarParametro tabelaResultados:dialogExcluir dialogIncluirParametro"
+                                                           styleClass="paginacaoItensQtdeResultado"/>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                                            <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal"
+                                                                 halign="center">
+                                                <af:button id="primeiraPagina"
+                                                           shortDesc="#{app['label.paginacao.primeira']}"
+                                                           disabled="#{parametroBean.paginacao.disabledPrimeiro}"
+                                                           icon="#{parametroBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                                           action="#{parametroBean.pesquisarEntidade}"
+                                                           actionListener="#{parametroBean.irPrimeiraPaginacao}"
+                                                           styleClass="paginacao"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarParametro tabelaResultados:dialogExcluir dialogIncluirParametro"/>
+                                                <af:spacer width="3" height="5" id="dc_s57"/>
+                                                <af:button id="paginaAnterior" styleClass="paginacao"
+                                                           shortDesc="#{app['label.paginacao.anterior']}"
+                                                           action="#{parametroBean.pesquisarEntidade}"
+                                                           icon="#{parametroBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                                           actionListener="#{parametroBean.irPaginacaoAnterior}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarParametro tabelaResultados:dialogExcluir dialogIncluirParametro"
+                                                           disabled="#{parametroBean.paginacao.disabledAnterior}"/>
+                                                <af:spacer width="3" height="5" id="dc_s58"/>
+                                                <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                                     partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                                    <af:forEach items="#{parametroBean.paginacao.indicesPaginacao}"
+                                                                var="indice">
+                                                        <af:button text="#{indice+1}" id="botaoPaginacaoAtual"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{parametroBean.paginacao.indice == indice}"
+                                                                   styleClass="botaoPaginacaoAtual"  disabled="true"/>
+                                                        <af:button text="#{indice+1}" id="botaoPaginacao"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarParametro tabelaResultados:dialogExcluir dialogIncluirParametro"
+                                                                   rendered="#{parametroBean.paginacao.indice != indice}"
+                                                                   actionListener="#{parametroBean.alterarIndicePaginacao(indice)}"
+                                                                   action="#{parametroBean.pesquisarEntidade}"
+                                                                   styleClass="botaoPaginacao"/>
+                                                        <af:spacer width="3" height="5" id="dc_s61"/>
+                                                    </af:forEach>
+                                                </af:panelGroupLayout>
+                                                <af:button id="proximaPagina" styleClass="paginacao"
+                                                           shortDesc="#{app['label.paginacao.proxima']}"
+                                                           action="#{parametroBean.pesquisarEntidade}"
+                                                           icon="#{parametroBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                                           actionListener="#{parametroBean.irProximaPaginacao}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarParametro tabelaResultados:dialogExcluir dialogIncluirParametro"
+                                                           disabled="#{parametroBean.paginacao.disabledProximo}"/>
+                                                <af:spacer width="3" height="5" id="dc_s59"/>
+                                                <af:button id="ultimaPagina" styleClass="paginacao"
+                                                           shortDesc="#{app['label.paginacao.ultima']}"
+                                                           action="#{parametroBean.pesquisarEntidade}"
+                                                           icon="#{parametroBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                                           actionListener="#{parametroBean.irUltimaPaginacao}"
+                                                           disabled="#{parametroBean.paginacao.disabledUltimo}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarParametro tabelaResultados:dialogExcluir dialogIncluirParametro"/>
+                                            </af:panelGroupLayout>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                    </af:gridRow>
+                                    <af:gridRow id="gr2">
+                                        <af:gridCell id="gc4" columnSpan="3" halign="end" valign="top">
+                                            <af:button text="#{app['botao.adicionar']}" id="botaoInserir"
+                                                       icon="#{res['img.adicionarOn']}">
+                                                <af:showPopupBehavior popupId="popUpInserirParametro"/>
+                                            </af:button>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popUpInserirParametro"
+                                                      popupFetchListener="#{parametroBean.initDialogInserir}"
+                                                      contentDelivery="lazyUncached"
+                                                      popupCanceledListener="#{usuarioBean.cancelarInsercao}">
+                                                <af:dialog id="dialogIncluirParametro"
+                                                           title="#{app['label.parametro.inserir']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                           dialogListener="#{parametroBean.persistirEntidade}">
+                                                    <af:declarativeComponent id="dc1"
+                                                                             viewId="/paginas/configuracao/dialog/dialogManterParametro.jsff"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popupInfoAlterado">
+                                                <af:dialog id="dialogInfoAlterado"
+                                                           title="#{app['label.alteracao.registro']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                                    <af:declarativeComponent id="dc17"
+                                                                             tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.info.alteradoSucesso']}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popupInfoInclusao">
+                                                <af:dialog id="dialogInfoInclusao"
+                                                           title="#{app['label.insercao.registro']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                                    <af:declarativeComponent id="dc117"
+                                                                             tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.info.incluirSucesso']}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                        </af:gridCell>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+    <!--oracle-jdev-comment:preferred-managed-bean-name:parametroBean-->
+</jsp:root>

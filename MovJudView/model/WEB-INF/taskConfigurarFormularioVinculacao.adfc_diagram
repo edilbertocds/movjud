@@ -1,0 +1,24 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<SDM>
+   <OverallProperties
+      id="OverallProperties1"/>
+   <View
+      id="View3">
+      <property
+         name="activityId">configurarFormularioVinculacao</property>
+      <property
+         name="pageFragment">true</property>
+      <property
+         name="x">-87.0</property>
+      <property
+         name="start">true</property>
+      <property
+         name="description">&lt;html>&lt;p>&lt;b>configurarFormularioVinculacao&lt;/b> (Default Activity)&lt;/p>&lt;p>Activity Type:  View&lt;/p></property>
+      <property
+         name="y">113.49414</property>
+      <property
+         name="page">/paginas/formularios/jsff/configurarFormularioVinculacao.jsff</property>
+      <property
+         name="exceptionHandler">false</property>
+   </View>
+</SDM>

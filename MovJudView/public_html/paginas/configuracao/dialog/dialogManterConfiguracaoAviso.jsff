@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="panelGroupIncluirConfiguracaoAviso" layout="vertical"
+                        styleClass="DialogManterConfiguracao">
+        <af:panelGridLayout id="pgl1">
+            <af:gridRow marginTop="5px" height="auto" id="gr1">
+                <af:gridCell width="50%" id="gc1" columnSpan="3">
+                    <!-- TITULO AVISO -->
+                    <af:panelFormLayout id="panelFormTituloAviso" labelAlignment="top">
+                        <af:inputText label="#{app['label.configuracaoAviso.titulo']}" id="inputTextTituloAviso"
+                                      value="#{configuracaoAvisoBean.entidadePersistencia.nomeTitulo}"
+                                      validator="#{configuracaoAvisoBean.validate}" showRequired="true" columns="85"
+                                      disabled="#{configuracaoAvisoBean.visualizar}" maximumLength="100"
+                                      contentStyle="width:630.0px;" immediate="true" autoSubmit="true"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr2">
+                <af:gridCell width="50%" id="gc4" columnSpan="3">
+                    <!-- RESUMO AVISO -->
+                    <af:panelFormLayout id="panelFormResumoAviso" labelAlignment="top">
+                        <af:inputText label="#{app['label.configuracaoAviso.resumo']}" id="resumoAviso" rows="4"
+                                      value="#{configuracaoAvisoBean.entidadePersistencia.descricaoResumo}"
+                                      showRequired="true" validator="#{configuracaoAvisoBean.validate}"
+                                      maximumLength="255" columns="85" disabled="#{configuracaoAvisoBean.visualizar}"
+                                      contentStyle="width:630.0px;" immediate="true" autoSubmit="true"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr3">
+                <af:gridCell width="160.0px" id="gc7">
+                    <!-- PERIODICIDADE AVISO -->
+                    <af:panelGroupLayout id="panelFormPeriodicidadeAviso" layout="vertical">
+                        <af:outputLabel value="#{app['label.configuracaoAviso.periodicidade']}" showRequired="true"
+                                        id="ol2"/>
+                        <af:selectOneChoice id="inputFiltroPeriodicidade"
+                                            value="#{configuracaoAvisoBean.entidadePersistencia.tipoPeriodicidade}"
+                                            disabled="#{configuracaoAvisoBean.visualizar}" autoSubmit="true"
+                                            validator="#{configuracaoAvisoBean.validate}"
+                                            contentStyle="width:120.0px;" immediate="true"
+                                            binding="#{configuracaoAvisoBean.inputFiltroPeriodicidade}"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:forEach items="#{configuracaoAvisoBean.listaTiposPeriodicidade}"
+                                        var="tipoPeriodicidade">
+                                <af:selectItem label="#{tipoPeriodicidade.descricaoPeriodicidade}" id="si11"
+                                               value="#{tipoPeriodicidade}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="222.0px" id="gc10" valign="bottom">
+                    <af:panelGroupLayout layout="horizontal" partialTriggers="inputFiltroPeriodicidade" id="pgl2"
+                                         valign="bottom">
+                        <af:panelGroupLayout id="pfl4" layout="vertical">
+                            <af:outputLabel value="#{app['label.configuracaoAviso.periodicidadeDiaSemana']}"
+                                            for="socDiaDaSemana"
+                                            showRequired="true" id="ol7"
+                                            rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoPeriodicidade.codigoPeriodicidade eq 'SEMANAL' ? true : false}"/>
+                            <af:selectOneChoice value="#{configuracaoAvisoBean.entidadePersistencia.valorPeriodicidade}"
+                                                id="socDiaDaSemana" simple="true" partialTriggers="inputFiltroPeriodicidade"
+                                                rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoPeriodicidade.codigoPeriodicidade eq 'SEMANAL' ? true : false}"
+                                                disabled="#{configuracaoAvisoBean.visualizar}"
+                                                contentStyle="width:150.0px;" styleClass="alinhamentoCampo"
+                                                binding="#{configuracaoAvisoBean.socDiaDaSemana}"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                               <f:selectItems value="#{configuracaoAvisoBean.listaDiasDaSemana}" id="si3"/>
+                            </af:selectOneChoice>
+                        </af:panelGroupLayout>
+                        <af:panelGroupLayout id="pfl3" layout="vertical">
+                            <af:outputLabel value="#{app['label.configuracaoAviso.valor']}" showRequired="true" id="ol1"
+                                            for="socValor" 
+                                            rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoPeriodicidade.codigoPeriodicidade eq 'DIAS_ANTES_ACAO' ? true : false}"/>
+                            <af:selectOneChoice id="socValor"
+                                                value="#configuracaoAvisoBean.entidadePersistencia.valorPeriodicidade}"
+                                                rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoPeriodicidade.codigoPeriodicidade eq 'DIAS_ANTES_ACAO' ? true : false}"
+                                                disabled="#{configuracaoAvisoBean.visualizar}"
+                                                contentStyle="width:150.0px;"
+                                                binding="#{configuracaoAvisoBean.socValor}"
+                                                partialTriggers="inputFiltroPeriodicidade"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                               <f:selectItems value="#{configuracaoAvisoBean.listaQtdesDiasAntes}" id="si2"/>
+                            </af:selectOneChoice>
+                        </af:panelGroupLayout>
+                        <af:panelFormLayout id="pfl5" labelAlignment="top">
+                            <af:inputDate id="socDataEsp" showRequired="true" partialTriggers="inputFiltroPeriodicidade"
+                                          label="#{app['label.configuracaoAviso.periodicidadeData']}"
+                                          value="#{configuracaoAvisoBean.entidadePersistencia.valorPeriodicidade}"
+                                          rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoPeriodicidade.codigoPeriodicidade eq 'DATA_ESPECIFICA' ? true : false}"
+                                          disabled="#{configuracaoAvisoBean.visualizar}" contentStyle="width:150.0px;"
+                                          binding="#{viewScope.configuracaoAvisoBean.socDataEsp}"/>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="gc3" rowSpan="2" width="250.0px" valign="bottom" halign="end">
+                    <!-- USUARIOS ESPECIFICOS / PERFIS -->
+                    <af:outputLabel value="#{app['label.configuracaoAviso.abrangenciaSelecionada']}" styleClass="cancelarPadding" for="it5"
+                                    id="ol10"/>
+                    <af:panelGroupLayout id="pgl4"
+                                         styleClass="#{configuracaoAvisoBean.visualizar ? 'panelAbrangenciaVisualizar' : 'panelAbrangencia'}"
+                                         rendered="true" layout="vertical" valign="bottom" halign="start">
+                        <af:outputText id="it5" rendered="true"
+                                      value="#{(configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso==null) ? app['msg.configuracaoAviso.selecionarAbrangencia'] :  
+                                      configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'TODOS' ? app['msg.configuracaoAviso.todosUsuarios'] : (configuracaoAvisoBean.entidadePersistencia.valorAbrangenciaEnvio)}"
+                                      partialTriggers="inputFiltroAbrangencia socPerfil"
+                                      styleClass=" #{configuracaoAvisoBean.visualizar ? 'outputTextAbrangenciaVisualizar outputTextAbrangencia' : 'outputTextAbrangencia'}"/>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr4">
+                <af:gridCell width="160.0px" id="gc13">
+                    <!-- ABRANGENCIA AVISO -->
+                    <af:panelGroupLayout id="panelFormAbrangenciaAviso" layout="vertical">
+                        <af:outputLabel value="#{app['label.configuracaoAviso.abrangencia']}" showRequired="true"
+                                        id="ol6"/>
+                        <af:selectOneChoice id="inputFiltroAbrangencia" autoSubmit="true"
+                                            value="#{configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso}"
+                                            validator="#{configuracaoAvisoBean.validate}"
+                                            disabled="#{configuracaoAvisoBean.visualizar}"
+                                            valueChangeListener="#{configuracaoAvisoBean.limparValorAbrangencia}"
+                                            contentStyle="width:120.0px;" immediate="true"
+                                            binding="#{configuracaoAvisoBean.inputFiltroAbrangencia}"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                           <af:forEach items="#{configuracaoAvisoBean.listaTiposAbrangenciaAviso}"
+                                        var="tipoAbrangenciaAviso">
+                                <af:selectItem label="#{tipoAbrangenciaAviso.descricaoAbrangenciaAviso}" id="si13"
+                                               value="#{tipoAbrangenciaAviso}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="222.0px" id="gc14" valign="bottom">
+                    <af:panelGroupLayout layout="horizontal" partialTriggers="inputFiltroAbrangencia" id="pgl3"
+                                         valign="bottom">
+                        <af:panelFormLayout id="pfl1" labelAlignment="top">
+                                <af:inputText label="#{app['label.configuracaoAviso.usuario']}" id="usuarioSelecionado"
+                                              showRequired="true" autoSubmit="true"
+                                              partialTriggers="cb3 inputFiltroAbrangencia"
+                                              rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'USUARIO_ESPECIFICO' ? true : false}"
+                                              value="#{configuracaoAvisoBean.sugestao}" columns="15"
+                                              disabled="#{configuracaoAvisoBean.visualizar}"
+                                              valueChangeListener="#{configuracaoAvisoBean.alterarNomeUsuarioSelecionado}">
+                                    <af:autoSuggestBehavior maxSuggestedItems="10"
+                                                            suggestedItems="#{configuracaoAvisoBean.autoCompletar}"/>
+                                </af:inputText>
+                        </af:panelFormLayout>
+                        <af:panelGroupLayout id="pfl2" layout="vertical">
+                            <af:outputLabel value="#{app['label.configuracaoAviso.perfil']}" for="socPerfil"
+                                            showRequired="true" id="ol8"
+                                            rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'PERFIL' ? true : false}"/>
+                            <af:selectOneChoice id="socPerfil" autoSubmit="true"
+                                                rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'PERFIL' ? true : false}"
+                                                value="#{configuracaoAvisoBean.perfil}"
+                                                disabled="#{configuracaoAvisoBean.visualizar}"
+                                                partialTriggers="cb3 inputFiltroAbrangencia"
+                                                contentStyle="width:100.0px;"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                                <af:forEach var="perfil" items="#{configuracaoAvisoBean.listaPerfis}">
+                                    <af:selectItem label="#{perfil.nomePerfil}" value="#{perfil}" id="si10"/>
+                                </af:forEach>
+                            </af:selectOneChoice>
+                        </af:panelGroupLayout>
+                        <af:panelFormLayout id="pfl6" styleClass="formLinks">
+                            <af:link shortDesc="#{app['label.configuracaoAviso.adicionarAbrangencia']}" id="cb3"
+                                     actionListener="#{configuracaoAvisoBean.adicionarValorAbrangencia}"
+                                    
+                                     rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'USUARIO_ESPECIFICO' or configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'USUARIO_ACAO' or configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'PERFIL'}"
+                                     icon="#{res['img.adicionarOn']}"
+                                     partialTriggers="cb4 inputFiltroAbrangencia socPerfil"
+                                     disabled="#{configuracaoAvisoBean.visualizar}" partialSubmit="true"
+                                     disabledIcon="#{res['img.adicionarOff']}" immediate="true"
+                                     action="#{configuracaoAvisoBean.limparCampos}"/>
+                        </af:panelFormLayout>
+                        <af:panelFormLayout id="pfl7" styleClass="formLinks">
+                            <af:link shortDesc="#{app['label.configuracaoAviso.limparAbrangencia']}" id="cb4"
+                                     rendered="#{configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'USUARIO_ESPECIFICO' or configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'USUARIO_ACAO' or configuracaoAvisoBean.entidadePersistencia.tipoAbrangenciaAviso.codigoAbrangenciaAviso eq 'PERFIL'}"
+                                     actionListener="#{configuracaoAvisoBean.limparValorAbrangencia}"
+                                     icon="#{res['img.lixeiraOn']}" disabled="#{configuracaoAvisoBean.visualizar}"
+                                     partialSubmit="true" disabledIcon="#{res['img.lixeiraOff']}" immediate="true"/>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr6">
+                <af:gridCell width="25%" id="gc18">
+                    <!-- MODELO AVISO -->
+                    <af:panelGroupLayout id="panelFormNomeModeloAviso" layout="vertical">
+                        <af:outputLabel value="#{app['label.configuracaoAviso.modelo']}" showRequired="true" id="ol3"/>
+                        <af:selectOneChoice id="modeloConfiguracaoAvisoChoice" autoSubmit="true"
+                                            value="#{configuracaoAvisoBean.entidadePersistencia.avisoEstrutura}"
+                                            validator="#{configuracaoAvisoBean.validate}"
+                                            disabled="#{configuracaoAvisoBean.visualizar}"
+                                            contentStyle="width:120.0px;" immediate="true"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                          <!--f:selectItems value="#{configuracaoAvisoBean.listaModelosAviso}" id="si9"/-->
+                            <af:forEach items="#{configuracaoAvisoBean.listaModelosAviso}" var="modeloAviso">
+                                <af:selectItem label="#{modeloAviso.nomeAvisoEstrutura}" value="#{modeloAviso}"
+                                               id="si4"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                    <!-- FLAG SITUACAO -->
+                    <af:spacer width="4" height="4" id="s1"/>
+                    <af:panelGroupLayout id="panelFormSituacaoConfiguracaoAviso" layout="vertical">
+                        <af:outputLabel value="#{app['label.configuracaoAviso.situacao']}" showRequired="true" id="ol4"/>
+                        <af:selectOneChoice id="listaSituacaoConfiguracaoAviso"
+                                            disabled="#{configuracaoAvisoBean.visualizar}"
+                                            value="#{configuracaoAvisoBean.entidadePersistencia.flagTipoSituacao}"
+                                            contentStyle="width:120.0px;" validator="#{configuracaoAvisoBean.validate}"
+                                            immediate="true"
+                                            unselectedLabel="#{app['label.combo.selecione']}" autoSubmit="true">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="selectItemConfiguracaoAvisoAtivo"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="selectItemConfiguracaoAvisoInativo"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                        <!-- FLAG GERAR HISTORICO FORMULARIO -->
+                    </af:panelGroupLayout>
+                    <af:spacer width="4" height="4" id="s2"/>
+                    <af:panelGroupLayout id="panelFormGerarHistoricoFormulario" layout="vertical">
+                        <af:outputLabel value="#{app['label.configuracaoAviso.gerarHistoricoFormulario']}"
+                                        showRequired="true" id="ol5"/>
+                        <af:selectOneRadio value="#{configuracaoAvisoBean.entidadePersistencia.flagGerarHistoricoFormulario}"
+                                           validator="#{configuracaoAvisoBean.validate}" id="sor2" layout="horizontal"
+                                           disabled="#{configuracaoAvisoBean.visualizar}" immediate="true"
+                                           autoSubmit="true">
+                            <af:selectItem label="#{app['label.radio.sim']}" value="#{app['flag.situacaoAtiva']}"
+                                           id="si7"/>
+                            <af:selectItem label="#{app['label.radio.nao']}" value="#{app['flag.situacaoInativa']}"
+                                           id="si1"/>
+                        </af:selectOneRadio>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="70%" id="gc19" halign="end" columnSpan="2"
+                             styleClass="gridConfAviso">
+                    <af:outputLabel value="#{app['label.configuracaoAviso.aviso']}" styleClass="cancelarPadding" for="nomeAvisoEstrutura" id="ol9"/>
+                    <af:panelGroupLayout id="panelFormNomeModeloAviso2" layout="vertical" valign="bottom" halign="start"
+                                        styleClass="#{configuracaoAvisoBean.visualizar ? 'panelModeloAvisoVisualizar' : 'panelModeloAviso'}">
+                        <af:outputText value="#{(configuracaoAvisoBean.entidadePersistencia.avisoEstrutura == null) ? app['msg.configuracaoAviso.selecionarModeloAviso'] : configuracaoAvisoBean.entidadePersistencia.avisoEstrutura.nomeAvisoEstrutura}"
+                                       id="nomeAvisoEstrutura" partialTriggers="modeloConfiguracaoAvisoChoice"
+                                       styleClass="#{configuracaoAvisoBean.visualizar ? 'outputTextVisualizar' : 'outputText'}"/>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>  

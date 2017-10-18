@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-18T10:25:17 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
+	<property name="ireport.zoom" value="2.1435888100000025"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="cfa4cd14-460b-42d5-a23c-8571cb3afd67"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="labelSecao" class="java.lang.String"/>
+	<parameter name="tiposRegraFormulario" class="java.util.Map"/>
+	<field name="labelSecao" class="java.lang.String"/>
+	<field name="listaGrupos" class="java.util.List"/>
+	<field name="codigoSubSecao" class="java.lang.String"/>
+	<field name="nomeMagistrado" class="java.lang.String"/>
+	<field name="tipoMateria" class="java.lang.Object"/>
+	<field name="listaProcessosConclusos" class="java.util.List"/>
+	<field name="listaForosOrigem" class="java.util.List"/>
+	<field name="listaReus" class="java.util.List"/>
+	<field name="listaEstabelecimentosEntidade" class="java.util.List"/>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<subreport>
+				<reportElement x="4" y="23" width="546" height="15" uuid="e50eca69-0506-4590-b6e2-99bf824ca465">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tiposRegraFormulario">
+					<subreportParameterExpression><![CDATA[$P{tiposRegraFormulario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaGrupos},false)]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportGrupo.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="4" y="5" width="546" height="15" backcolor="#FFFFFF" uuid="056899a8-b900-4f6e-8291-c4f3eb556a6c">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="MA"]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoMateria}.nomeTipoMateria]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Transparent" x="4" y="5" width="546" height="15" backcolor="#FFFFFF" uuid="277fb702-93a3-41b3-9cec-348c6de418a1">
+					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="M"]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+					<paragraph leftIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeMagistrado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="21" width="549" height="1" uuid="2d1ce565-aa9d-47c6-9195-1481ca001250">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+		</band>
+		<band height="40" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="M"]]></printWhenExpression>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="133" height="15" backcolor="#FFFFFF" uuid="f2736785-8a6c-46b9-967e-0df7e5bc613a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Processos Conclusos]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="21" width="555" height="16" uuid="b025a8b1-4078-4f04-8e14-e9ad08096069"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaProcessosConclusos})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportProcessosConclusos.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="15" width="133" height="15" backcolor="#FFFFFF" uuid="7c9122e1-2de3-47cc-9a63-e17034833f12">
+					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="M"&&($F{listaProcessosConclusos}==null || $F{listaProcessosConclusos}.isEmpty())]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sem Processos Conclusos]]></text>
+			</staticText>
+		</band>
+		<band height="40" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="SU"&&$F{listaForosOrigem}!=null && !$F{listaForosOrigem}.isEmpty()]]></printWhenExpression>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="3" width="553" height="15" backcolor="#FFFFFF" uuid="0c73e15d-1586-41ab-aaf8-afbca1fe6c94"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Foro de origem - Quantidade de recursos enviados]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="16" uuid="608e88c7-b820-4243-8afb-0da69cf70ea6"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaForosOrigem})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportForosOrigem.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="R"&&$F{listaReus}!=null && !$F{listaReus}.isEmpty()]]></printWhenExpression>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="4" y="1" width="546" height="15" backcolor="#FFFFFF" uuid="e82be57e-9e32-4710-9263-9149010c4765"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dados Réus]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="4" y="19" width="545" height="20" uuid="f7bd0d74-5b1c-47a5-81a8-24261c5a8b2e">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaReus})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportDadosReus.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="40" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="ES"&&$F{listaEstabelecimentosEntidade}!=null && !$F{listaEstabelecimentosEntidade}.isEmpty()]]></printWhenExpression>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="3" width="553" height="15" backcolor="#FFFFFF" uuid="89bbd1b2-52fc-44b7-990e-26d292acf417"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estabelecimento / Entidade]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="21" width="555" height="16" uuid="34378bea-9e47-41fc-a2e0-3bf9efed6ca0"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaEstabelecimentosEntidade})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportEstabelecimentoPrisional.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,10 @@
+https://materialdesignicons.com/
+
+Informacao para criacao de icones:
+- tamanho: 16x16
+- formato: png
+- cores:
+    #9E9E9E - desativado
+    #444444 - ativado
+    #E0E0E0 - Imagem Tela Principal
+	

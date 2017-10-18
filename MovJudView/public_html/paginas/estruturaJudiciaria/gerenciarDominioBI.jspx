@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>          
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document title="#{app['aplicacao.titulo']}" id="d1">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:spacer id="spa01" height="5px"/>
+                            <af:panelHeader text="#{app['menu.estruturaJuridica.gerenciarDominioBI']}" id="ph1">
+                                <af:panelBox id="panelBoxFiltroDominioBI" titleHalign="center">
+                                    <f:facet name="toolbar"/>
+                                    <af:panelGridLayout id="panelGridFiltrosDominioBI" partialTriggers="botaoLimpar">
+                                        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gridRowNome">
+                                            <af:gridCell marginStart="0px" width="55%" id="gridCellNome">
+                                                <af:panelFormLayout id="panelFormFiltroCodigo" labelAlignment="top">
+                                                    <af:inputText id="inputFiltroCodigo" columns="60"
+                                                                  label="#{app['label.dominioBI.codigo']}"
+                                                                  value="#{dominioBIBean.entidadeFiltro.codigoDominio}">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc5" marginStart="15px" width="15%">
+                                                <af:panelGroupLayout id="panelFormTipoDominioBI" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.dominioBI.tipo']}" id="ot1" for="soc1"/>
+                                                <af:selectOneChoice id="soc1"
+                                                                    unselectedLabel="#{app['label.combo.selecione']}"
+                                                                    value="#{dominioBIBean.entidadeFiltro.tipoDominio}">
+                                                    <af:selectItem label="Campo" value="C" id="si1"/>
+                                                    <af:selectItem label="Grupo" value="G" id="si2"/>
+                                                </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc6" marginStart="15px" valign="bottom" halign="end"
+                                                         width="40%">
+                                                <af:button text="#{app['botao.buscar']}" id="botaoBuscar"
+                                                           icon="#{res['img.buscarOn']}"
+                                                           action="#{dominioBIBean.filtrarEntidade}"/>
+                                                <af:spacer width="10" height="10" id="s1"/>
+                                                <af:button text="#{app['botao.limpar']}" id="botaoLimpar"
+                                                           icon="#{res['img.limparOn']}"
+                                                           action="#{dominioBIBean.limparPesquisa}"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                                <af:spacer width="5" height="5" id="dc_s55"/>
+                                <af:table id="tabelaResultados" styleClass="AFStretchWidth"
+                                          summary="#{app['msg.dominioBI.resultadoBusca']}" var="row" rows="0"
+                                          emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                          autoHeightRows="10" disableColumnReordering="true"
+                                          columnStretching="column:tbDesricao" rowBandingInterval="0"
+                                          partialTriggers="::botaoBuscar ::botaoLimpar dialogAlterarDominioBI ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina ::dialogIncluirDominioBI dialogExcluir"
+                                          value="#{dominioBIBean.listaEntidade}"
+                                          selectionListener="#{dominioBIBean.selecionarEntidadeEmTabela}"
+                                          rowSelection="single" fetchSize="10">
+                                    <af:column headerText="#{app['label.dominioBI.codigo']}" width="200" id="tbCodigo"
+                                               rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.codigoDominio}" id="otCodigo"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.dominioBI.tipo']}" width="64"
+                                               id="tbTipo" rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{fn:startsWith(row.tipoDominio, 'C') ? 'Campo' : 'Grupo'}" id="otTipo"/>
+                                    </af:column>
+                                    <af:column headerText="#{app['label.dominioBI.nome']}" width="200" id="tbNome"
+                                               rowHeader="unstyled" headerNoWrap="true">
+                                        <af:outputText value="#{row.nomeDominio}" id="otNome"/>
+                                    </af:column>
+                                    
+                                    <af:column sortable="false" headerText="#{app['label.dominioBI.integracao']}"
+                                               id="colunaIntegracao" width="64" align="center">
+                                        <af:panelGroupLayout layout="horizontal" valign="top" id="pgIntegracao">
+                                            <af:image source="#{res['img.flagSimOn']}" id="imgIntegracao"
+                                                      shortDesc="#{app['label.dominioBI.ativo']}"
+                                                      rendered="#{fn:startsWith(row.flgIntegracaoBI, 'S')}"/>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                    <af:column sortable="false" headerText="#{app['label.dominioBI.precarga']}"
+                                               id="colunaPrecarga" width="64" align="center">
+                                        <af:panelGroupLayout layout="horizontal" valign="top" id="pgPrecarga">
+                                            <af:image source="#{res['img.flagSimOn']}" id="imgPrecarga"
+                                                      shortDesc="#{app['label.dominioBI.ativo']}"
+                                                      rendered="#{fn:startsWith(row.flgPreCarga, 'S')}"/>
+                                        </af:panelGroupLayout>
+                                    </af:column>                                    
+                                    
+                                    <af:column sortable="false" headerText="#{app['label.dominioBI.ativo']}"
+                                               id="colunaStatus" width="64" align="center">
+                                        <af:panelGroupLayout layout="horizontal" valign="top" id="pgSituacao">
+                                            <af:image source="#{res['img.situacaoInativoOn']}" id="imgInativo"
+                                                      shortDesc="#{app['label.dominioBI.inativo']}"
+                                                      rendered="#{row.flgAtivo == app['flag.statusNao']}"/>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                    <af:column headerText="#{app['botao.acoes']}" width="100" id="clEditarVisualizar"
+                                               rowHeader="unstyled" headerNoWrap="true" align="center">
+                                        <af:panelGroupLayout id="pgl2" layout="horizontal" halign="center">
+                                            <af:link id="alterar" icon="#{res['img.editarOn']}"
+                                                     shortDesc="#{app['label.dominioBI.alterar']}">
+                                                <af:showPopupBehavior popupId="popUpAlterarDominioBI"/>
+                                            </af:link>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popUpAlterarDominioBI" contentDelivery="lazyUncached"
+                                                      popupFetchListener="#{dominioBIBean.initDialogAlterar}"
+                                                      popupCanceledListener="#{dominioBIBean.cancelarInsercao}">
+                                                <af:dialog id="dialogAlterarDominioBI"
+                                                           title="#{app['label.dominioBI.alterar']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                           dialogListener="#{dominioBIBean.persistirEntidade}">
+                                                    <af:declarativeComponent id="dc2"
+                                                                             viewId="/paginas/estruturaJudiciaria/dialog/dialogManterDominioBI.jsff"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:spacer width="5" height="5" id="s2"/>
+                                            <af:link id="excluir" icon="#{res['img.lixeiraOn']}"
+                                                     shortDesc="#{app['label.dominioBI.apagar']}" partialSubmit="true">
+                                                <af:showPopupBehavior popupId="popupExcluir"/>
+                                            </af:link>
+                                            <af:popup childCreation="deferred" autoCancel="disabled" id="popupExcluir">
+                                                <af:dialog id="dialogExcluir"
+                                                           dialogListener="#{dominioBIBean.excluirEntidade}"
+                                                           title="#{app['label.tituloExcluir']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}">
+                                                    <af:declarativeComponent id="dc7"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.dominioBI.confirmacaoExcluir']}"
+                                                                             infoAdicional="#{row.codigoDominio}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                        </af:panelGroupLayout>
+                                    </af:column>
+                                </af:table>
+                                <f:facet name="toolbar"/>
+                                <af:panelGridLayout id="pgl11">
+                                    <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                        <af:gridCell width="25%" id="gc1">
+                                            <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                                           id="dc_ot1" partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensResultado"/>
+                                            <af:outputText value="#{dominioBIBean.paginacao.tamanhoMaximo}" id="dc_ot2"
+                                                           partialTriggers="botaoBuscar botaoLimpar tabelaResultados:dialogAlterarDominioBI tabelaResultados:dialogExcluir dialogIncluirDominioBI"
+                                                           styleClass="paginacaoItensQtdeResultado"/>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                                            <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal"
+                                                                 halign="center">
+                                                <af:button id="primeiraPagina"
+                                                           shortDesc="#{app['label.paginacao.primeira']}"
+                                                           disabled="#{dominioBIBean.paginacao.disabledPrimeiro}"
+                                                           icon="#{dominioBIBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                                           action="#{dominioBIBean.pesquisarEntidade}"
+                                                           actionListener="#{dominioBIBean.irPrimeiraPaginacao}"
+                                                           styleClass="paginacao"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarDominioBI tabelaResultados:dialogExcluir dialogIncluirDominioBI"/>
+                                                <af:spacer width="3" height="5" id="dc_s57"/>
+                                                <af:button id="paginaAnterior" styleClass="paginacao"
+                                                           shortDesc="#{app['label.paginacao.anterior']}"
+                                                           action="#{dominioBIBean.pesquisarEntidade}"
+                                                           icon="#{dominioBIBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                                           actionListener="#{dominioBIBean.irPaginacaoAnterior}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarDominioBI tabelaResultados:dialogExcluir dialogIncluirDominioBI"
+                                                           disabled="#{dominioBIBean.paginacao.disabledAnterior}"/>
+                                                <af:spacer width="3" height="5" id="dc_s58"/>
+                                                <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                                     partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                                    <af:forEach items="#{dominioBIBean.paginacao.indicesPaginacao}"
+                                                                var="indice">
+                                                        <af:button text="#{indice+1}" id="botaoPaginacaoAtual"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{dominioBIBean.paginacao.indice == indice}"
+                                                                   styleClass="botaoPaginacaoAtual"  disabled="true"/>
+                                                        <af:button text="#{indice+1}" id="botaoPaginacao"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarDominioBI tabelaResultados:dialogExcluir dialogIncluirDominioBI"
+                                                                   rendered="#{dominioBIBean.paginacao.indice != indice}"
+                                                                   actionListener="#{dominioBIBean.alterarIndicePaginacao(indice)}"
+                                                                   action="#{dominioBIBean.pesquisarEntidade}"
+                                                                   styleClass="botaoPaginacao"/>
+                                                        <af:spacer width="3" height="5" id="dc_s61"/>
+                                                    </af:forEach>
+                                                </af:panelGroupLayout>
+                                                <af:button id="proximaPagina" styleClass="paginacao"
+                                                           shortDesc="#{app['label.paginacao.proxima']}"
+                                                           action="#{dominioBIBean.pesquisarEntidade}"
+                                                           icon="#{dominioBIBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                                           actionListener="#{dominioBIBean.irProximaPaginacao}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarDominioBI tabelaResultados:dialogExcluir dialogIncluirDominioBI"
+                                                           disabled="#{dominioBIBean.paginacao.disabledProximo}"/>
+                                                <af:spacer width="3" height="5" id="dc_s59"/>
+                                                <af:button id="ultimaPagina" styleClass="paginacao"
+                                                           shortDesc="#{app['label.paginacao.ultima']}"
+                                                           action="#{dominioBIBean.pesquisarEntidade}"
+                                                           icon="#{dominioBIBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                                           actionListener="#{dominioBIBean.irUltimaPaginacao}"
+                                                           disabled="#{dominioBIBean.paginacao.disabledUltimo}"
+                                                           partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina tabelaResultados:dialogAlterarDominioBI tabelaResultados:dialogExcluir dialogIncluirDominioBI"/>
+                                            </af:panelGroupLayout>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                    </af:gridRow>
+                                    <af:gridRow id="gr2">
+                                        <af:gridCell id="gc4" columnSpan="3" halign="end" valign="top">
+                                            <af:button text="#{app['botao.adicionar']}" id="botaoInserir"
+                                                       icon="#{res['img.adicionarOn']}">
+                                                <af:showPopupBehavior popupId="popUpInserirDominioBI"/>
+                                            </af:button>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popUpInserirDominioBI"
+                                                      popupFetchListener="#{dominioBIBean.initDialogInserir}"
+                                                      contentDelivery="lazyUncached"
+                                                      popupCanceledListener="#{dominioBIBean.cancelarInsercao}">
+                                                <af:dialog id="dialogIncluirDominioBI"
+                                                           title="#{app['label.dominioBI.inserir']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                                           dialogListener="#{dominioBIBean.persistirEntidade}">
+                                                    <af:declarativeComponent id="dc1"
+                                                                             viewId="/paginas/estruturaJudiciaria/dialog/dialogManterDominioBI.jsff"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popupInfoAlterado">
+                                                <af:dialog id="dialogInfoAlterado"
+                                                           title="#{app['label.alteracao.registro']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                                    <af:declarativeComponent id="dc17"
+                                                                             tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.info.alteradoSucesso']}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                            <af:popup childCreation="deferred" autoCancel="disabled"
+                                                      id="popupInfoInclusao">
+                                                <af:dialog id="dialogInfoInclusao"
+                                                           title="#{app['label.insercao.registro']}"
+                                                           affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                                           cancelTextAndAccessKey="#{app['botao.nao']}" type="ok">
+                                                    <af:declarativeComponent id="dc117"
+                                                                             tipoNotificacao="#{app['msg.info.tipo.salvar']}"
+                                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                             mensagem="#{app['msg.info.incluirSucesso']}"/>
+                                                </af:dialog>
+                                            </af:popup>
+                                        </af:gridCell>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>            
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

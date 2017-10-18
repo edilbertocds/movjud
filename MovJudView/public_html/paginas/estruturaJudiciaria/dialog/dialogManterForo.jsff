@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="panelGroupIncluirForo" layout="vertical" styleClass="AFStretchWidth formStyle">
+        <af:panelGridLayout id="panelGridIncluirForo">
+            <af:gridRow marginTop="5px" marginBottom="10px" id="rowRegiaoForo">
+                <af:gridCell width="auto" id="cellRegiaoForo" columnSpan="2">
+                    <af:panelFormLayout id="panelFormNomeForo" labelAlignment="top">
+                        <af:inputText label="#{app['label.foro.nome']}" id="inputTextNomeForo"
+                                      value="#{foroBean.entidadePersistencia.nomeForo}" columns="55" showRequired="true"
+                                      validator="#{foroBean.validate}" 
+                                      disabled="#{foroBean.visualizar}"
+                                      maximumLength="100" contentStyle="width:368px;"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gridRowNomeStatusForo" marginBottom="15px">
+                <af:gridCell id="gridCellNomeForo" columnSpan="2">
+                    <af:panelGroupLayout id="panelGroupComarca" layout="horizontal" valign="bottom">
+                        <af:panelFormLayout id="panelFormRegiaoForo" labelAlignment="top" rows="1">
+                            <af:inputText label="#{app['label.foro.comarca']}" id="inputTextComarcaSugestao"
+                                          value="#{foroBean.sugestao}"
+                                          valueChangeListener="#{foroBean.alterarNomeComarcaSelecionada}"
+                                          autoSubmit="true" showRequired="true" 
+                                          validator="#{foroBean.validate}"
+                                          columns="46" disabled="#{foroBean.visualizar}" maximumLength="100">
+                                                                <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                        suggestedItems="#{foroBean.autoCompletar}"/>
+                            </af:inputText>
+                        </af:panelFormLayout>
+                        <af:panelFormLayout id="pfl2" styleClass="formLinks">
+                            <af:link id="botaoInserir" disabled="#{foroBean.visualizar}"
+                                     shortDesc="#{app['label.comarca.inserir']}" icon="#{res['img.adicionarOn']}"
+                                     disabledIcon="#{res['img.adicionarOff']}">
+                                <af:showPopupBehavior popupId="popUpInserirComarca"/>
+                            </af:link>
+                            <af:popup childCreation="deferred" autoCancel="disabled" id="popUpInserirComarca"
+                                      popupFetchListener="#{comarcaBean.initDialogInserir}"
+                                      contentDelivery="lazyUncached">
+                                <af:dialog id="dialogIncluirComarca" title="#{app['label.comarca.inserir']}"
+                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                           dialogListener="#{comarcaBean.persistirEntidade}">
+                                    <f:facet name="buttonBar"/>
+                                    <af:declarativeComponent id="dc3"
+                                                             viewId="/paginas/estruturaJudiciaria/dialog/dialogManterComarca.jsff"/>
+                                </af:dialog>
+                            </af:popup>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gridRowDatasForo" marginBottom="15px">
+                <af:gridCell id="gridCellDataCricaoForo" marginEnd="15px">
+                    <af:panelFormLayout id="panelFormDataCricaoForo" labelAlignment="top">
+                        <af:inputDate label="#{app['label.foro.dataCriacao']}" id="dataCriacaoForo" showRequired="true"
+                                      validator="#{foroBean.validate}"
+                                      value="#{foroBean.entidadePersistencia.dataCriacao}"
+                                      disabled="#{foroBean.visualizar}"
+                                      maxValue="#{foroBean.dataAtual}" 
+                                      autoSubmit="true"
+                                      contentStyle="width:170.0px;"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell id="gridCellDataFimForo" marginStart="15px">
+                    <af:panelFormLayout id="panelFormDataFimForo" labelAlignment="top">
+                        <af:inputDate label="#{app['label.foro.dataFim']}" id="dataFimForo"
+                                      value="#{foroBean.entidadePersistencia.dataFim}"
+                                      disabled="#{foroBean.visualizar}" contentStyle="width:170.0px;"
+                                      minValue="#{foroBean.entidadePersistencia.dataCriacao}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gr1" marginBottom="10px">
+                <af:gridCell id="gc1" marginEnd="15px">
+                    <af:panelGroupLayout id="pgl1" layout="vertical">
+                    <af:outputLabel value="#{app['label.foro.entrancia']}" for="selectChoiceEntrancia" showRequired="#{foroBean.visualizar ? false : true}"/>
+                        <af:selectOneChoice id="selectChoiceEntrancia"
+                                            disabled="#{foroBean.visualizar}" 
+                                            validator="#{foroBean.validate}"
+                                            value="#{foroBean.entidadePersistencia.tipoEntrancia}"
+                                            contentStyle="width:170.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:forEach items="#{foroBean.listaTipoEntrancia}" var="tipoEntrancia">
+                                <af:selectItem label="#{tipoEntrancia.nomeEntrancia}" id="selectItemTipoEntrancia"
+                                               value="#{tipoEntrancia}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="gc2" marginStart="15px">
+                    <af:panelGroupLayout id="pgl2" layout="vertical">
+                    <af:outputLabel value="#{app['label.foro.situacao']}" for="listaStatusForo" showRequired="#{foroBean.visualizar ? false : true}"
+                                    id="ol1"/>
+                        <af:selectOneChoice id="listaStatusForo"
+                                            validator="#{foroBean.validate}"
+                                            value="#{foroBean.entidadePersistencia.flagTipoSituacao}"
+                                            disabled="#{foroBean.visualizar}" contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="itemAtivoForo"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="itemInativoForo"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
+	<property name="ireport.zoom" value="2.3579476910000063"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<field name="nomeEstabelecimentoEntidade" class="java.lang.String"/>
+	<field name="nomeMagistrado" class="java.lang.String"/>
+	<field name="dataInspecao" class="java.util.Date"/>
+	<field name="inspecaoNaoRealizada" class="java.lang.Boolean"/>
+	<field name="motivoInspecaoNaoRealizada" class="java.lang.String"/>
+	<columnHeader>
+		<band height="23">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="1" width="154" height="21" backcolor="#CCCCCC" uuid="c5673ef0-66c4-44c6-bbe4-56de9422d15c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Estabelecimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="156" y="1" width="168" height="21" backcolor="#CCCCCC" uuid="169e1bb1-d559-45f6-a412-24546dc155e4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Magistrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="324" y="1" width="65" height="21" backcolor="#CCCCCC" uuid="aa9dce6a-8f4b-4087-b977-a685f6396c5a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Inspeção]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="389" y="1" width="66" height="22" backcolor="#CCCCCC" uuid="41648e58-18c3-4c75-93ef-d046bcede19d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Inspeção Não Realizada?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="455" y="1" width="100" height="21" backcolor="#CCCCCC" uuid="fb9b8b0a-69e6-4743-a949-eee5a9666f62"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Motivo da não realização da Inspeção]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="22" width="555" height="1" uuid="01a0f007-e39e-48fd-bc5f-dad001c0848a"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="ea726094-e969-40b5-964e-0981bf003e06"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<image>
+				<reportElement x="417" y="0" width="14" height="14" uuid="c40f4a32-162f-4f91-a18c-7df01706893f">
+					<printWhenExpression><![CDATA[$F{inspecaoNaoRealizada}]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA["./imagens/okOn.png"]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="0" width="152" height="15" uuid="7bf84d2c-c023-44b8-a3aa-d1a4e6f02a6b"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeEstabelecimentoEntidade}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="157" y="0" width="167" height="15" uuid="50f0a0f2-f7ac-4c03-9e9c-df8af8053c75"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeMagistrado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="14" width="555" height="1" uuid="7f603bf1-415c-4ee5-bc76-ac4b506cad97"/>
+			</line>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="324" y="0" width="64" height="15" uuid="5fb295a1-a48b-47b0-81c0-94fb582ae0c4"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataInspecao}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="554" y="-22" width="1" height="36" uuid="0617457b-1147-4da9-acf4-52298c938834"/>
+			</line>
+			<line>
+				<reportElement x="390" y="-22" width="1" height="36" uuid="0ced7b4c-c565-4581-849f-b031a7e71409"/>
+			</line>
+			<line>
+				<reportElement x="451" y="-22" width="1" height="36" uuid="6ffa2ea8-b723-4bf8-a955-c6a72be68d0b"/>
+			</line>
+			<line>
+				<reportElement x="155" y="-22" width="1" height="36" uuid="bfae481f-dc05-4aaa-aa7d-0da57a0f08ee"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-22" width="1" height="36" uuid="5023eaa3-a25a-4ca0-8c3a-bcd7f0cb605b"/>
+			</line>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="455" y="0" width="100" height="15" isRemoveLineWhenBlank="true" uuid="efbf4e2e-c3d5-4336-95f9-af3b15375900"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motivoInspecaoNaoRealizada}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="323" y="-22" width="1" height="36" uuid="810954d1-0485-4b80-9e79-6798e023fd28"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

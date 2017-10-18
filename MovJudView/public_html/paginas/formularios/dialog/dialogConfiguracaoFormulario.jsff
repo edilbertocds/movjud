@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+
+        <af:panelGroupLayout id="pgl1" layout="horizontal">
+            <af:spacer width="15" height="15" id="s1"/>
+            <af:panelGroupLayout id="pgl2" layout="vertical">
+                <af:outputLabel value="#{app['label.formulario.geral']}" id="ol1"/>
+                <af:panelFormLayout id="pfl1">
+                <af:panelGroupLayout id="pgl8" layout="horizontal">
+                    <af:panelFormLayout id="pfl7" labelAlignment="top">
+                        <af:inputText id="it1"
+                                      value="#{pageFlowScope.configuracaoFormularioBean.formulario.nomeFormulario}"
+                                      autoSubmit="true" required="true"
+                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                      label="#{app['label.formulario.formulario']}" columns="27" maximumLength="200"/>
+                    </af:panelFormLayout>
+                    <af:spacer width="15" height="15" id="s4"/>
+                    <af:panelFormLayout id="pfl8" labelAlignment="top">
+                        <af:inputText id="it3"
+                                      value="#{pageFlowScope.configuracaoFormularioBean.formulario.codigoFormulario}" 
+                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : not empty pageFlowScope.configuracaoFormularioBean.formulario.idMetadadosFormulario ? true : false}"
+                                      columns="17" label="#{app['label.formulario.codigo']}" required="true"
+                                      maximumLength="25"/>
+                    </af:panelFormLayout>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl6" layout="horizontal">
+                        <af:panelGroupLayout id="pgl7" layout="horizontal">
+                            <af:panelFormLayout id="pfl5" labelAlignment="top">
+                                <af:selectOneChoice label="#{app['label.formulario.area']}" id="soc2"
+                                                    value="#{pageFlowScope.configuracaoFormularioBean.formulario.area}"
+                                                    required="true"
+                                                    disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                                    unselectedLabel="#{app['label.combo.selecione']}">
+                                    <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaAreas}" var="area">
+                                        <af:selectItem label="#{area.labelArea}" id="si2" value="#{area}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelFormLayout>
+                            <af:spacer width="15" height="15" id="s3"/>
+                            <af:panelFormLayout id="pfl6" labelAlignment="top">
+                                <af:selectOneChoice label="#{app['label.formulario.segmentos']}" id="soc3"
+                                                    value="#{pageFlowScope.configuracaoFormularioBean.formulario.segmento}"
+                                                    required="true"
+                                                    disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                                    unselectedLabel="#{app['label.combo.selecione']}">
+                                    <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaSegmentos}" var="segmento">
+                                        <af:selectItem label="#{segmento.labelSegmento}" id="si3" value="#{segmento}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelFormLayout>
+                        </af:panelGroupLayout>
+                </af:panelGroupLayout>
+                    <af:panelGroupLayout id="pgl3" layout="horizontal" valign="bottom">
+                        <af:panelFormLayout id="pfl2">
+                            <af:selectOneChoice label="#{app['label.formulario.competencias']}" id="soc1"
+                                                value="#{pageFlowScope.configuracaoFormularioBean.competenciaFormulario}"
+                                                partialTriggers="b1 b2"
+                                                disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                                <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaCompetencias}" var="competencia">
+                                    <af:selectItem label="#{competencia.labelCompetencia}" id="si1"
+                                                   value="#{competencia}"/>
+                                </af:forEach>
+                            </af:selectOneChoice>
+                        </af:panelFormLayout>
+                        <af:panelGroupLayout id="pgl5" layout="horizontal">
+                            <af:button id="b1"
+                                       icon="#{pageFlowScope.configuracaoFormularioBean.visualizar ? res['img.maisOff'] : res['img.maisOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.adicionarCompetenciaAoFormulario}"
+                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                            <af:button id="b2"
+                                       icon="#{pageFlowScope.configuracaoFormularioBean.visualizar ? res['img.lixeiraOff'] : res['img.lixeiraOn']}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.removerCompetenciaFormulario}"
+                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                    <af:panelGroupLayout id="pgl4" layout="horizontal">
+                        <af:panelFormLayout id="pfl3" labelAlignment="top">
+                            <af:table var="row" rowBandingInterval="0" id="t1" autoHeightRows="5" fetchSize="25" styleClass="tabelaCompetencias"
+                                      width="370"
+                                      columnStretching="column:c1"
+                                      value="#{pageFlowScope.configuracaoFormularioBean.listaCompetenciasFormulario}"
+                                      rowSelection="single" partialTriggers="::b1 ::b2"
+                                      selectionListener="#{pageFlowScope.configuracaoFormularioBean.selecionarLinhaCompetenciaFormulario}">
+                                <af:column sortable="false" id="c1">
+                                    <af:outputText value="#{row.labelCompetencia}" id="ot1"/>
+                                </af:column>
+                            </af:table>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                    <af:panelGroupLayout id="pgl16">
+                    <af:panelFormLayout id="pfl4" labelAlignment="top">
+                      <af:inputText label="#{app['label.formulario.aviso']}" id="it2"
+                                    rows="3"
+                                    columns="55" value="#{pageFlowScope.configuracaoFormularioBean.formulario.aviso}"
+                                    disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                  </af:panelGroupLayout>
+                </af:panelFormLayout>
+            </af:panelGroupLayout>
+            <af:spacer width="15" height="15" id="s2"/>
+        </af:panelGroupLayout>
+</jsp:root>

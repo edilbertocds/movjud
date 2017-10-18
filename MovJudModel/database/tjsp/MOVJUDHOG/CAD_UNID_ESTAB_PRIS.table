@@ -1,0 +1,570 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<table xmlns="http://xmlns.oracle.com/jdeveloper/1211/offlinedb">
+  <name>CAD_UNID_ESTAB_PRIS</name>
+  <columns>
+    <column>
+      <name>ID_CAD_UNID_ESTAB_PRIS</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>ID_CAD_UNID_ESTAB_PRIS</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>FK_CAD_UNIDADE</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FK_CAD_UNIDADE</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>FK_CAD_ESTAB_PRISIONAL</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>precision</key>
+            <value class="java.lang.String">10</value>
+          </entry>
+          <entry>
+            <key>scale</key>
+            <value class="java.lang.Long">0</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>NUMBER</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FK_CAD_ESTAB_PRISIONAL</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_INICIO</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DT_INICIO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>TP_SITUACAO</name>
+      <dataTypeUsage>
+        <attributeValues>
+          <entry>
+            <key>size</key>
+            <value class="java.lang.Long">1</value>
+          </entry>
+          <entry>
+            <key>unit</key>
+            <value class="java.lang.String">BYTE</value>
+          </entry>
+        </attributeValues>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>CHAR</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <default class="java.lang.String">&apos;A&apos;</default>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>TP_SITUACAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_INCLUSAO</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>true</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DT_INCLUSAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_ATUALIZACAO</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>DT_ATUALIZACAO</name>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <type>COLUMN</type>
+          </value>
+        </entry>
+      </properties>
+    </column>
+    <column>
+      <name>DT_FIM</name>
+      <dataTypeUsage>
+        <dataTypeID class="oracle.javatools.db.datatypes.DataTypeID">
+          <typeName>DATE</typeName>
+        </dataTypeID>
+      </dataTypeUsage>
+      <notNull>false</notNull>
+    </column>
+  </columns>
+  <constraints>
+    <constraint class="oracle.javatools.db.FKConstraint">
+      <name>FK_CAD_UNI_UNI_ESTA_ESTA_PRI</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>FK_CAD_ESTAB_PRISIONAL</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>CAD_UNID_ESTAB_PRIS</name>
+            <schemaName>MOVJUDHOG</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>MOVJUDHOG</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <onDeleteAction>NO_ACTION</onDeleteAction>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FK_CAD_UNI_UNI_ESTA_ESTA_PRI</name>
+            <childObjectNames>
+              <childObjectName>FK_CAD_ESTAB_PRISIONAL</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>FKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+      <referenceID class="oracle.javatools.db.NameBasedID">
+        <name>PK_CAD_ESTAB_PRISIONAL</name>
+        <parent class="oracle.javatools.db.NameBasedID">
+          <name>CAD_ESTAB_PRISIONAL</name>
+          <schemaName>MOVJUDHMG</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <schemaName>MOVJUDHMG</schemaName>
+        <type>CONSTRAINT</type>
+      </referenceID>
+    </constraint>
+    <constraint class="oracle.javatools.db.FKConstraint">
+      <name>FK_CAD_UNI_UNI_ESTA_UNID</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>FK_CAD_UNIDADE</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>CAD_UNID_ESTAB_PRIS</name>
+            <schemaName>MOVJUDHOG</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>MOVJUDHOG</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <onDeleteAction>NO_ACTION</onDeleteAction>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>FK_CAD_UNI_UNI_ESTA_UNID</name>
+            <childObjectNames>
+              <childObjectName>FK_CAD_UNIDADE</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>FKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+      <referenceID class="oracle.javatools.db.NameBasedID">
+        <name>PK_CAD_UNIDADE</name>
+        <parent class="oracle.javatools.db.NameBasedID">
+          <name>CAD_UNIDADE</name>
+          <schemaName>MOVJUDHMG</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <schemaName>MOVJUDHMG</schemaName>
+        <type>CONSTRAINT</type>
+      </referenceID>
+    </constraint>
+    <constraint class="oracle.javatools.db.PKConstraint">
+      <name>PK_CAD_UNID_ESTAB_PRIS</name>
+      <columnIDs>
+        <columnID class="oracle.javatools.db.NameBasedID">
+          <name>ID_CAD_UNID_ESTAB_PRIS</name>
+          <parent class="oracle.javatools.db.NameBasedID">
+            <name>CAD_UNID_ESTAB_PRIS</name>
+            <schemaName>MOVJUDHOG</schemaName>
+            <type>TABLE</type>
+          </parent>
+          <schemaName>MOVJUDHOG</schemaName>
+          <type>COLUMN</type>
+        </columnID>
+      </columnIDs>
+      <enabled>true</enabled>
+      <indexID class="oracle.javatools.db.NameBasedID">
+        <name>PK_CAD_UNID_ESTAB_PRIS</name>
+        <parent class="oracle.javatools.db.NameBasedID">
+          <name>CAD_UNID_ESTAB_PRIS</name>
+          <schemaName>MOVJUDHOG</schemaName>
+          <type>TABLE</type>
+        </parent>
+        <schemaName>MOVJUDHOG</schemaName>
+        <type>INDEX</type>
+      </indexID>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PK_CAD_UNID_ESTAB_PRIS</name>
+            <childObjectNames>
+              <childObjectName>ID_CAD_UNID_ESTAB_PRIS</childObjectName>
+            </childObjectNames>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <subType>PKConstraint</subType>
+            <type>CONSTRAINT</type>
+          </value>
+        </entry>
+      </properties>
+    </constraint>
+  </constraints>
+  <indexes>
+    <index>
+      <name>PK_CAD_UNID_ESTAB_PRIS</name>
+      <columnExpressions>
+        <columnExpression>
+          <expressionSource>ID_CAD_UNID_ESTAB_PRIS</expressionSource>
+          <orderType>ASC</orderType>
+          <properties>
+            <entry>
+              <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+              <value class="oracle.javatools.db.ReferenceID">
+                <name>ID_CAD_UNID_ESTAB_PRIS</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>PK_CAD_UNID_ESTAB_PRIS</name>
+                  <identifier class="java.math.BigDecimal">957025</identifier>
+                  <parent class="oracle.javatools.db.ReferenceID">
+                    <name>CAD_UNID_ESTAB_PRIS</name>
+                    <identifier class="java.math.BigDecimal">957024</identifier>
+                    <schemaName>MOVJUDHOG</schemaName>
+                    <type>TABLE</type>
+                  </parent>
+                  <schemaName>MOVJUDHOG</schemaName>
+                  <type>INDEX</type>
+                </parent>
+                <type>IndexObject</type>
+              </value>
+            </entry>
+          </properties>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>UNIQUE</indexType>
+      <parallelDegree>1</parallelDegree>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>PK_CAD_UNID_ESTAB_PRIS</name>
+            <identifier class="java.math.BigDecimal">957025</identifier>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>MOVJUDHOG</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+        <entry>
+          <key>OracleStorageProperties</key>
+          <value class="oracle.javatools.db.ora.OracleStorageProperties">
+            <bufferMode>DEFAULT</bufferMode>
+            <initrans>2</initrans>
+            <logging>true</logging>
+            <percentFree>10</percentFree>
+            <tablespaceID class="oracle.javatools.db.ReferenceID">
+              <name>TBS_MOVJUDHOG_DATA</name>
+              <type>TABLESPACE</type>
+            </tablespaceID>
+          </value>
+        </entry>
+      </properties>
+      <reverse>false</reverse>
+      <schema>
+        <name>MOVJUDHOG</name>
+      </schema>
+      <systemGenerated>true</systemGenerated>
+    </index>
+    <index>
+      <name>UK_CAD_UNID_ESTAB_PRIS</name>
+      <columnExpressions>
+        <columnExpression>
+          <expressionSource>FK_CAD_UNIDADE</expressionSource>
+          <orderType>ASC</orderType>
+          <properties>
+            <entry>
+              <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+              <value class="oracle.javatools.db.ReferenceID">
+                <name>FK_CAD_UNIDADE</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>UK_CAD_UNID_ESTAB_PRIS</name>
+                  <identifier class="java.math.BigDecimal">1053638</identifier>
+                  <parent class="oracle.javatools.db.ReferenceID">
+                    <name>CAD_UNID_ESTAB_PRIS</name>
+                    <identifier class="java.math.BigDecimal">957024</identifier>
+                    <schemaName>MOVJUDHOG</schemaName>
+                    <type>TABLE</type>
+                  </parent>
+                  <schemaName>MOVJUDHOG</schemaName>
+                  <type>INDEX</type>
+                </parent>
+                <type>IndexObject</type>
+              </value>
+            </entry>
+          </properties>
+        </columnExpression>
+        <columnExpression>
+          <expressionSource>FK_CAD_ESTAB_PRISIONAL</expressionSource>
+          <orderType>ASC</orderType>
+          <properties>
+            <entry>
+              <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+              <value class="oracle.javatools.db.ReferenceID">
+                <name>FK_CAD_ESTAB_PRISIONAL</name>
+                <parent class="oracle.javatools.db.ReferenceID">
+                  <name>UK_CAD_UNID_ESTAB_PRIS</name>
+                  <identifier class="java.math.BigDecimal">1053638</identifier>
+                  <parent class="oracle.javatools.db.ReferenceID">
+                    <name>CAD_UNID_ESTAB_PRIS</name>
+                    <identifier class="java.math.BigDecimal">957024</identifier>
+                    <schemaName>MOVJUDHOG</schemaName>
+                    <type>TABLE</type>
+                  </parent>
+                  <schemaName>MOVJUDHOG</schemaName>
+                  <type>INDEX</type>
+                </parent>
+                <type>IndexObject</type>
+              </value>
+            </entry>
+          </properties>
+        </columnExpression>
+      </columnExpressions>
+      <indexType>UNIQUE</indexType>
+      <parallelDegree>1</parallelDegree>
+      <properties>
+        <entry>
+          <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+          <value class="oracle.javatools.db.ReferenceID">
+            <name>UK_CAD_UNID_ESTAB_PRIS</name>
+            <identifier class="java.math.BigDecimal">1053638</identifier>
+            <parent class="oracle.javatools.db.ReferenceID">
+              <name>CAD_UNID_ESTAB_PRIS</name>
+              <identifier class="java.math.BigDecimal">957024</identifier>
+              <schemaName>MOVJUDHOG</schemaName>
+              <type>TABLE</type>
+            </parent>
+            <schemaName>MOVJUDHOG</schemaName>
+            <type>INDEX</type>
+          </value>
+        </entry>
+        <entry>
+          <key>OracleStorageProperties</key>
+          <value class="oracle.javatools.db.ora.OracleStorageProperties">
+            <bufferMode>DEFAULT</bufferMode>
+            <initialExtent>65536</initialExtent>
+            <initrans>2</initrans>
+            <logging>true</logging>
+            <maxExtent>0</maxExtent>
+            <minExtent>1</minExtent>
+            <nextExtent>1048576</nextExtent>
+            <percentFree>10</percentFree>
+            <tablespaceID class="oracle.javatools.db.ReferenceID">
+              <name>TBS_MOVJUDHOG_DATA</name>
+              <type>TABLESPACE</type>
+            </tablespaceID>
+          </value>
+        </entry>
+      </properties>
+      <reverse>false</reverse>
+      <schema>
+        <name>MOVJUDHOG</name>
+      </schema>
+      <systemGenerated>false</systemGenerated>
+    </index>
+  </indexes>
+  <properties>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_CONNECTION</key>
+      <value class="java.lang.String">tjsp</value>
+    </entry>
+    <entry>
+      <key>OfflineDBConstants.IMPORT_SOURCE_ID</key>
+      <value class="oracle.javatools.db.ReferenceID">
+        <name>CAD_UNID_ESTAB_PRIS</name>
+        <identifier class="java.math.BigDecimal">957024</identifier>
+        <schemaName>MOVJUDHOG</schemaName>
+        <type>TABLE</type>
+      </value>
+    </entry>
+    <entry>
+      <key>OracleStorageProperties</key>
+      <value class="oracle.javatools.db.ora.OracleStorageProperties">
+        <bufferMode>DEFAULT</bufferMode>
+        <initrans>1</initrans>
+        <logging>true</logging>
+        <percentFree>10</percentFree>
+        <tablespaceID class="oracle.javatools.db.ReferenceID">
+          <name>TBS_MOVJUDHOG_DATA</name>
+          <type>TABLESPACE</type>
+        </tablespaceID>
+      </value>
+    </entry>
+    <entry>
+      <key>OracleTableProperties</key>
+      <value class="oracle.javatools.db.ora.OracleTableProperties">
+        <parallelDegree>1</parallelDegree>
+        <tableCompression>NOCOMPRESS</tableCompression>
+      </value>
+    </entry>
+    <entry>
+      <key>TableType</key>
+      <value class="oracle.javatools.db.Table$TableType">NORMAL</value>
+    </entry>
+  </properties>
+  <schema>
+    <name>MOVJUDHOG</name>
+  </schema>
+</table>

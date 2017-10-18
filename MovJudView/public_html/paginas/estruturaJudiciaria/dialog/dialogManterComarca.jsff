@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <af:panelGroupLayout id="panelGroupIncluirComarca" layout="vertical" styleClass="AFStretchWidth formStyle">
+        <af:panelGridLayout id="panelGridIncluirComarca">
+            <af:gridRow marginTop="5px" marginBottom="10px" id="rowRegiaoComarca">
+                <af:gridCell width="auto" marginEnd="5px" id="cellRegiaoComarca" columnSpan="3">
+                    <af:panelFormLayout id="panelFormNomeComarca" labelAlignment="top">
+                        <af:inputText label="#{app['label.comarca.nome']}" id="inputTextNomeComarca" maximumLength="100"
+                                      value="#{comarcaBean.entidadePersistencia.nomeComarca}" showRequired="true"
+                                      validator="#{comarcaBean.validate}" disabled="#{comarcaBean.visualizar}"
+                                      columns="49" contentStyle="width:350px;"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gridRowNomeStatusComarca" marginBottom="15px">
+                <af:gridCell id="gridCellNomeComarca">
+                    <af:panelGroupLayout id="panelGroupCircunscricao" layout="horizontal" valign="bottom">
+                        <af:panelFormLayout id="panelFormRegiaoComarca" labelAlignment="top" rows="1">
+                            <af:inputText label="#{app['label.comarca.circunscricao']}"
+                                          id="inputTextCircunscricaoSugestao" value="#{comarcaBean.sugestao}"
+                                          showRequired="true" validator="#{comarcaBean.validate}"
+                                          disabled="#{comarcaBean.visualizar}"
+                                          valueChangeListener="#{comarcaBean.alterarNomeCircunscricaoSelecionada}"
+                                          maximumLength="100" autoSubmit="true" columns="25">
+                                <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                        suggestedItems="#{comarcaBean.autoCompletar}"/>
+                            </af:inputText>
+                        </af:panelFormLayout>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popUpInserirCircunscricao"
+                                  popupFetchListener="#{circunscricaoBean.initDialogInserir}"
+                                  contentDelivery="lazyUncached">
+                            <af:dialog id="dialogIncluirCircunscricao" title="#{app['label.circunscricao.inserir']}"
+                                       affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                       cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                       dialogListener="#{circunscricaoBean.persistirEntidade}">
+                                <af:declarativeComponent id="dc3"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterCircunscricao.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                        <af:panelFormLayout id="pfl2" styleClass="formLinks">
+                            <af:link icon="#{res['img.adicionarOn']}" disabledIcon="#{res['img.adicionarOff']}"
+                                     shortDesc="#{app['label.circunscricao.inserir']}" id="botaoInserir"
+                                     disabled="#{comarcaBean.visualizar}" partialSubmit="true">
+                                <af:showPopupBehavior popupId="popUpInserirCircunscricao"/>
+                            </af:link>
+                            <af:showPopupBehavior popupId="popUpInserirCircunscricao"/>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="gridCellStatusComarca" valign="bottom" marginStart="15px">
+                    <af:panelGroupLayout id="panelFormStatusComarca" layout="vertical">
+                        <af:outputLabel value="#{app['label.comarca.situacao']}" for="listaStatusComarca"
+                                        showRequired="true" id="ol1"/>
+                        <af:selectOneChoice id="listaStatusComarca" validator="#{comarcaBean.validate}"
+                                            value="#{comarcaBean.entidadePersistencia.flagTipoSituacao}"
+                                            disabled="#{comarcaBean.visualizar}" contentStyle="width:100px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="itemAtivoComarca"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="itemInativoComarca"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gridRowDatasComarca" marginBottom="15px">
+                <af:gridCell id="gridCellDataCricaoComarca">
+                    <af:panelFormLayout id="panelFormDataCricaoComarca" labelAlignment="top">
+                        <af:inputDate label="#{app['label.comarca.dataCriacao']}" showRequired="true"
+                                      validator="#{comarcaBean.validate}" id="dataCriacaoComarca"
+                                      value="#{comarcaBean.entidadePersistencia.dataCriacao}"
+                                      autoSubmit="true"
+                                      disabled="#{comarcaBean.visualizar}" maxValue="#{comarcaBean.dataAtual}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell id="gridCellDataFimComarca">
+                    <af:panelFormLayout id="panelFormDataFimComarca" labelAlignment="top">
+                        <af:inputDate label="#{app['label.comarca.dataFim']}" id="dataFimComarca"
+                                      value="#{comarcaBean.entidadePersistencia.dataFim}"
+                                      disabled="#{comarcaBean.visualizar}"
+                                      minValue="#{comarcaBean.entidadePersistencia.dataCriacao}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

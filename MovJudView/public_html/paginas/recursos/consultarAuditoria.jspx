@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:panelHeader text="#{app['menu.auditoria.consultarAuditoria']}" id="ph1" size="1">
+                                <af:panelBox id="panelBoxFiltroAuditoria" titleHalign="center">
+                                    <f:facet name="toolbar"/>
+                                    <af:panelGridLayout id="panelGridFiltrosAuditoria" partialTriggers="botaoLimpar">
+                                        <af:gridRow marginTop="5px" height="auto" marginBottom="10px"
+                                                    id="gridRowCamposFiltro">
+                                            <af:gridCell width="auto" id="gridCellDominio">
+                                                <af:panelGroupLayout id="panelFormFiltroDominio" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.auditoria.dominio']}"
+                                                                    for="inputFiltroDominio" id="ol1"/>
+                                                    <af:selectOneChoice id="inputFiltroDominio"
+                                                                        value="#{auditoriaBean.entidadeFiltro.dominio}"
+                                                                        contentStyle="width:160.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:forEach items="#{auditoriaBean.listaDominios}"
+                                                                    var="dominio">
+                                                            <af:selectItem label="#{dominio.nomeDominio}"
+                                                                           id="selectItemDominio"
+                                                                           value="#{dominio.nomeDominio}"/>
+                                                        </af:forEach>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="auto" id="gridCellEntidade">
+                                                <af:panelGroupLayout id="pgl1" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.auditoria.entidade']}"
+                                                                    for="inputFiltroEntidade"/>
+                                                    <af:selectOneChoice id="inputFiltroEntidade"
+                                                                        value="#{auditoriaBean.entidadeFiltro.entidade}"
+                                                                        contentStyle="width:160.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:forEach items="#{auditoriaBean.listaEntidades}"
+                                                                    var="entidade">
+                                                            <af:selectItem label="#{entidade}" id="selectItemEntidade"
+                                                                           value="#{entidade}"/>
+                                                        </af:forEach>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="auto" id="gridCellUsuario">
+                                                <af:panelGroupLayout id="pgl2" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.auditoria.usuario']}"
+                                                                    for="inputFiltroUsuario"/>
+                                                    <af:selectOneChoice id="inputFiltroUsuario"
+                                                                        value="#{auditoriaBean.entidadeFiltro.usuario}"
+                                                                        contentStyle="width:160.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:forEach items="#{auditoriaBean.listaUsuarios}"
+                                                                    var="usuario">
+                                                            <af:selectItem label="#{usuario}" id="selectItemUsuario"
+                                                                           value="#{usuario}"/>
+                                                        </af:forEach>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="auto" id="gridCellAcao">
+                                                <af:panelGroupLayout id="panelFormFiltroAcao" layout="vertical">
+                                                    <af:outputLabel value="#{app['label.auditoria.acao']}"
+                                                                    for="inputFiltroAcao" id="ol2"/>
+                                                    <af:selectOneChoice id="inputFiltroAcao"
+                                                                        value="#{auditoriaBean.entidadeFiltro.acao}"
+                                                                        contentStyle="width:160.0px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:forEach items="#{auditoriaBean.listaAcoes}" var="acao">
+                                                            <af:selectItem label="#{acao.nomeAcao}" id="selectItemAcao"
+                                                                           value="#{acao.nomeAcao}"/>
+                                                        </af:forEach>
+                                                    </af:selectOneChoice>
+                                                </af:panelGroupLayout>
+                                            </af:gridCell>
+                                            <af:gridCell id="gc10" width="100%" marginStart="15px"/>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="auto" id="gridRowData" marginBottom="5px">
+                                            <af:gridCell width="auto" id="gridDataInicio">
+                                                <af:panelFormLayout id="panelFormFiltroDataInicio" labelAlignment="top">
+                                                    <af:inputDate label="#{app['label.auditoria.dataInicio']}" id="id1"
+                                                                  value="#{auditoriaBean.entidadeFiltro.dataFiltroInicio}"
+                                                                  columns="12" contentStyle="width:160.0px;"
+                                                                  autoSubmit="true">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputDate>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="auto" id="gridCellDataFim">
+                                                <af:panelFormLayout id="panelFormFiltroDataFim" labelAlignment="top">
+                                                    <af:inputDate label="#{app['label.auditoria.dataFim']}" id="id2"
+                                                                  value="#{auditoriaBean.entidadeFiltro.dataFiltroFim}"
+                                                                  columns="12" contentStyle="width:160.0px;">
+                                                        <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                                    </af:inputDate>
+                                                </af:panelFormLayout>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="15px" width="auto" id="gridCellLimpar"
+                                                         columnSpan="2" valign="bottom" halign="end"/>
+                                            <af:gridCell id="gc11" halign="end" valign="bottom" marginStart="15px">
+                                                <af:button text="#{app['botao.buscar']}" id="botaoBuscar"
+                                                           icon="#{res['img.buscarOn']}"
+                                                           action="#{auditoriaBean.filtrarEntidade}"/>
+                                                <af:spacer width="10" height="10" id="s1"/>
+                                                <af:button text="#{app['botao.limpar']}" id="botaoLimpar"
+                                                           icon="#{res['img.limparOn']}"
+                                                           action="#{auditoriaBean.limparPesquisa}"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                                <af:spacer width="5" height="5" id="s2"/>
+                                <af:panelGridLayout id="panelAlteracao">
+                                    <af:gridRow height="auto" marginBottom="5px" id="gr4">
+                                        <af:gridCell width="50%" id="gc8">
+                                            <af:table id="tabelaResultados" styleClass="AFStretchWidth tabelaResultadosAuditoria"
+                                                      summary="#{app['msg.auditoria.resultadoBusca']}" var="row"
+                                                      rows="0"
+                                                      emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                                      disableColumnReordering="true" columnStretching="column:tbDominio"
+                                                      rowBandingInterval="0"
+                                                      partialTriggers="::botaoBuscar ::botaoLimpar ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina"
+                                                      value="#{auditoriaBean.listaEntidade}"
+                                                      selectionListener="#{auditoriaBean.selecionarEntidadeEmTabela}"
+                                                      rowSelection="single" fetchSize="10" autoHeightRows="10"
+                                                      width="540">
+                                                <af:column headerText="#{app['label.auditoria.dominio']}" id="tbDominio"
+                                                           rowHeader="unstyled" headerNoWrap="true" width="136">
+                                                    <af:outputText value="#{row.dominio}" id="otDominio"/>
+                                                </af:column>
+                                                <af:column headerText="#{app['label.auditoria.entidade']}"
+                                                           id="tbEntidade" rowHeader="unstyled" headerNoWrap="true"
+                                                           width="93">
+                                                    <af:outputText value="#{row.entidade}" id="otEntidade"/>
+                                                </af:column>
+                                                <af:column headerText="#{app['label.auditoria.usuario']}" id="tbUsuario"
+                                                           rowHeader="unstyled" headerNoWrap="true" width="80">
+                                                    <af:outputText value="#{row.usuario}" id="otUsuario"/>
+                                                </af:column>
+                                                <af:column headerText="#{app['label.auditoria.acao']}" id="tbAcao"
+                                                           rowHeader="unstyled" headerNoWrap="true" width="71">
+                                                    <af:outputText value="#{row.acao}" id="otAcao"/>
+                                                </af:column>
+                                                <af:column headerText="#{app['label.auditoria.data']}" id="tbData"
+                                                           rowHeader="unstyled" headerNoWrap="true" width="86">
+                                                    <af:outputText value="#{row.dataInclusao}" id="otData"/>
+                                                </af:column>
+                                            </af:table>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc9" halign="end">
+                                            <!--
+                                                    id="tabelaResultados" 
+                                                      styleClass="AFStretchWidth"
+                                                      summary="#{app['msg.auditoria.resultadoBusca']}" 
+                                                      var="row"
+                                                      rows="0"
+                                                      emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                                      disableColumnReordering="true" columnStretching="column:tbDominio"
+                                                      rowBandingInterval="0"
+                                                      partialTriggers="::botaoBuscar ::botaoLimpar ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina"
+                                                      value="#{auditoriaBean.listaEntidade}"
+                                                      selectionListener="#{auditoriaBean.selecionarEntidadeEmTabela}"
+                                                      rowSelection="single" 
+                                                      fetchSize="10" 
+                                                      autoHeightRows="10"
+                                                 -->
+                                            <af:panelStretchLayout id="psl1">
+                                                <f:facet name="center">
+                                                    <af:table id="tabelaDePara" summary="" var="row" rows="0"
+                                                              emptyText="Selecione registro da tabela ao lado"
+                                                              disableColumnReordering="true"
+                                                              columnStretching="column:tbPara" rowBandingInterval="0"
+                                                              partialTriggers="::tabelaResultados ::botaoBuscar ::botaoLimpar ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina"
+                                                              value="#{auditoriaBean.listaDePara}" rowSelection="none"
+                                                              fetchSize="1" autoHeightRows="1" width="540">
+                                                        <af:column headerText="#{app['label.auditoria.de']}:" id="tbDe"
+                                                                   rowHeader="unstyled" headerNoWrap="true" width="250"
+                                                                   styleClass="tabelaDe"
+                                                                                                                                     align="start">
+                                                            <div class="preformatted">
+                                                                <af:outputText value="#{row.de}" id="otDe"
+                                                                              styleClass="outputTextDePara"/>
+                                                            </div>
+                                                        </af:column>
+                                                        <af:column headerText="#{app['label.auditoria.para']}:"
+                                                                   id="tbPara" rowHeader="unstyled" headerNoWrap="true"
+                                                                   width="250" 
+                                                                   align="start">
+                                                            <div class="preformatted">
+                                                                <af:outputText value="#{row.para}" id="otPara"
+                                                                               styleClass="outputTextDePara"/>
+                                                            </div>
+                                                        </af:column>
+                                                    </af:table>
+                                                </f:facet>
+                                            </af:panelStretchLayout>
+                                        </af:gridCell>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                                <af:panelGridLayout id="pgl11">
+                                    <af:gridRow height="auto" marginBottom="5px" id="gr1">
+                                        <af:gridCell width="25%" id="gc1">
+                                            <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                                           id="dc_ot1" partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensResultado"/>
+                                            <af:outputText value="#{auditoriaBean.paginacao.tamanhoMaximo}" id="dc_ot2"
+                                                           partialTriggers="botaoBuscar botaoLimpar"
+                                                           styleClass="paginacaoItensQtdeResultado"/>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center">
+                                            <af:panelGroupLayout id="panelGroupPaginacao" layout="horizontal"
+                                                                 halign="center">
+                                                <af:button id="primeiraPagina"
+                                                           shortDesc="#{app['label.paginacao.primeira']}"
+                                                           icon="#{auditoriaBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                                           disabled="#{auditoriaBean.paginacao.disabledPrimeiro}"
+                                                           action="#{auditoriaBean.pesquisarEntidade}"
+                                                           actionListener="#{auditoriaBean.irPrimeiraPaginacao}"
+                                                           partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                                                <af:spacer width="3" height="5" id="dc_s57"/>
+                                                <af:button id="paginaAnterior"
+                                                           shortDesc="#{app['label.paginacao.anterior']}"
+                                                           icon="#{auditoriaBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                                           action="#{auditoriaBean.pesquisarEntidade}"
+                                                           actionListener="#{auditoriaBean.irPaginacaoAnterior}"
+                                                           partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"
+                                                           disabled="#{auditoriaBean.paginacao.disabledAnterior}"/>
+                                                <af:spacer width="3" height="5" id="dc_s58"/>
+                                                <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                                     partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                                    <af:forEach items="#{auditoriaBean.paginacao.indicesPaginacao}"
+                                                                var="indice">
+                                                        <af:button text=" #{indice+1} " id="botaoPaginacaoAtual"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{auditoriaBean.paginacao.indice == indice}"
+                                                                   disabled="true" styleClass="botaoPaginacaoAtual"/>
+                                                        <af:button text=" #{indice+1} " id="botaoPaginacao"
+                                                                   partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                                                   rendered="#{auditoriaBean.paginacao.indice != indice}"
+                                                                   actionListener="#{auditoriaBean.alterarIndicePaginacao(indice)}"
+                                                                   action="#{auditoriaBean.pesquisarEntidade}"
+                                                                   styleClass="botaoPaginacao"/>
+                                                        <af:spacer width="3" height="5" id="dc_s61"/>
+                                                    </af:forEach>
+                                                </af:panelGroupLayout>
+                                                <af:button id="proximaPagina"
+                                                           shortDesc="#{app['label.paginacao.proxima']}"
+                                                           icon="#{auditoriaBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                                           action="#{auditoriaBean.pesquisarEntidade}"
+                                                           actionListener="#{auditoriaBean.irProximaPaginacao}"
+                                                           partialTriggers="proximaPagina paginaAnterior primeiraPagina ultimaPagina botaoBuscar botaoLimpar"
+                                                           disabled="#{auditoriaBean.paginacao.disabledProximo}"/>
+                                                <af:spacer width="3" height="5" id="dc_s59"/>
+                                                <af:button id="ultimaPagina"
+                                                           shortDesc="#{app['label.paginacao.ultima']}"
+                                                           icon="#{auditoriaBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                                           action="#{auditoriaBean.pesquisarEntidade}"
+                                                           actionListener="#{auditoriaBean.irUltimaPaginacao}"
+                                                           disabled="#{auditoriaBean.paginacao.disabledUltimo}"
+                                                           partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                                            </af:panelGroupLayout>
+                                        </af:gridCell>
+                                        <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                    </af:gridRow>
+                                </af:panelGridLayout>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+    <!--oracle-jdev-comment:preferred-managed-bean-name:auditoriaBean-->
+</jsp:root>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelSplitter id="ps1" collapsed="true" orientation="horizontal" positionedFromEnd="true"
+                                          binding="#{acompanhamentoDevedoresBean.panelSplit}"
+                                          styleClass="AFStretchWidth" partialTriggers="b2">
+                            <f:facet name="first">
+                                <af:panelGroupLayout id="pgl5" layout="vertical"
+                                                     styleClass="container wrapper formStyle">
+                                    <af:panelHeader text="#{app['menu.formularios.acompanhamentoDevedores']}" id="ph2">
+                                        <!-- BOTOES -->
+                                        <af:panelGridLayout id="pgl1">
+                                            <af:gridRow marginTop="15px" height="auto" marginBottom="8px" id="gr5">
+                                                <af:gridCell marginStart="5px" width="50%" id="gc13"/>
+                                                <af:gridCell marginStart="5px" width="50%" id="gc14" halign="end">
+                                                    <af:link id="botaoAtualizar" icon="#{res['img.reloadOn']}"
+                                                             shortDesc="Atualizar" partialSubmit="true"
+                                                             action="#{acompanhamentoDevedoresBean.pesquisarEntidade}"/>
+                                                    <af:spacer width="3" height="5" id="s1"/>
+                                                    <af:link id="botaoEmissaoRelatorioDevedores"
+                                                             icon="#{res['img.printerOn']}" partialSubmit="true"
+                                                             shortDesc="#{app['label.acompanhamentoDevedores.emitirRelatorio']}"
+                                                             action="#{acompanhamentoDevedoresBean.panelSplitRelatorio}"/>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                        </af:panelGridLayout>
+                                        <!-- LISTA DEVEDORES -->
+                                        <af:table id="tabelaResultados"
+                                                  summary="#{app['msg.acompanhamentoDevedores.resultadoBusca']}"
+                                                  emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
+                                                  var="unidade" columnStretching="column:colunaFormularios"
+                                                  rowBandingInterval="0" styleClass="AFStretchWidth"
+                                                  partialTriggers="::botaoAtualizar"
+                                                  value="#{acompanhamentoDevedoresBean.listaEntidade}"
+                                                  rowSelection="single" fetchSize="10" disableColumnReordering="true">
+                                            <af:column id="colunaForo"
+                                                       headerText="#{app['label.acompanhamentoDevedores.foro']}"
+                                                       width="200">
+                                                <af:outputText value="#{unidade.foro.nomeForo}" id="foro"/>
+                                            </af:column>
+                                            <af:column id="colunaUnidade"
+                                                       headerText="#{app['label.acompanhamentoDevedores.unidade']}"
+                                                       width="200">
+                                                <af:outputText value="#{unidade.nomeUnidade}" id="unidade"/>
+                                            </af:column>
+                                            <af:column id="colunaFormularios"
+                                                       headerText="#{app['label.acompanhamentoDevedores.formulariosPendentes']}">
+                                                <af:outputText value="#{unidade.formulariosPendentes}"
+                                                               id="formularios"/>
+                                            </af:column>
+                                        </af:table>
+                                        <!-- PAGINACAO -->
+                                        <af:panelGridLayout id="pgl11">
+                                            <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                                                <af:gridCell width="25%" id="gc1">
+                                                    <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : "
+                                                                   id="dc_ot1" partialTriggers=""
+                                                                   styleClass="paginacaoItensResultado"/>
+                                                    <af:outputText value="#{acompanhamentoDevedoresBean.tamanhoUnidadesDevedoras}"
+                                                                   id="dc_ot2" styleClass="paginacaoItensQtdeResultado"
+                                                                   partialTriggers="tabelaResultados"/>
+                                                </af:gridCell>
+                                                <af:gridCell marginStart="5px" width="50%" id="gc2" halign="center"/>
+                                                <af:gridCell marginStart="5px" width="25%" id="gc3"/>
+                                            </af:gridRow>
+                                        </af:panelGridLayout>
+                                    </af:panelHeader>
+                                </af:panelGroupLayout>
+                            </f:facet>
+                            <f:facet name="second">
+                                <af:panelGroupLayout id="panelGroupEmissaoRelatorioDevedores" layout="vertical"
+                                                     styleClass="panelGerarRelatorios AFStretchWidth formStyle" partialTriggers="b2">
+                                    <af:panelHeader text="#{app['label.acompanhamentoDevedores.geracaoRelatorio']}"
+                                                    id="ph1">
+                                        <af:panelGridLayout id="pgl4">
+                                            <af:gridRow marginTop="5px" height="auto" id="gr3">
+                                                <af:gridCell id="gc4" columnSpan="2">
+                                                    <!-- MES REFERENCIA -->
+                                                    <af:panelFormLayout id="panelFormMesReferencia"
+                                                                        labelAlignment="top">
+                                                        <af:inputText label="#{app['label.acompanhamentoDevedores.mesReferencia']}"
+                                                                      id="inputTextMesReferencia"
+                                                                      value="#{acompanhamentoDevedoresBean.mesReferencia}"
+                                                                      showRequired="true" columns="5" maximumLength="10"
+                                                                      autoSubmit="true"
+                                                                      valueChangeListener="#{acompanhamentoDevedoresBean.habilitarImpressao}"/>
+                                                    </af:panelFormLayout>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                            <af:gridRow marginTop="5px" height="auto" id="gr2">
+                                                <af:gridCell id="gc5" columnSpan="2">
+                                                    <!-- COMUNIDADE CG NRO -->
+                                                    <af:panelFormLayout id="panelFormComunicadoCGNro"
+                                                                        labelAlignment="top">
+                                                        <af:inputText label="#{app['label.acompanhamentoDevedores.comunicadoCgNro']}"
+                                                                      id="inputTextComunicadoCgNro"
+                                                                      value="#{acompanhamentoDevedoresBean.comunicadoCgNumero}"
+                                                                      showRequired="true" columns="10"
+                                                                      maximumLength="10" autoSubmit="true"
+                                                                      valueChangeListener="#{acompanhamentoDevedoresBean.habilitarImpressao}"/>
+                                                    </af:panelFormLayout>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                            <af:gridRow marginTop="5px" height="auto" id="gr31">
+                                                <af:gridCell id="gc31" width="50%">
+                                                    <!-- DATA ENVIO -->
+                                                    <af:panelFormLayout id="panelFormDataEnvio" labelAlignment="top">
+                                                        <af:inputDate id="id1" contentStyle="width:150.0px;"
+                                                                      showRequired="true"
+                                                                      label="#{app['label.acompanhamentoDevedores.dataEnvio']}"
+                                                                      value="#{acompanhamentoDevedoresBean.dataEnvio}"
+                                                                      autoSubmit="true"
+                                                                      valueChangeListener="#{acompanhamentoDevedoresBean.habilitarImpressao}"/>
+                                                    </af:panelFormLayout>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                            <af:gridRow id="gr4" marginTop="5px">
+                                                <af:gridCell id="gc6">
+                                                    <!-- DATA LIMITE -->
+                                                    <af:panelFormLayout id="panelFormDataLimite" labelAlignment="top">
+                                                        <af:inputDate id="id2" contentStyle="width:150.0px;"
+                                                                      showRequired="true"
+                                                                      label="#{app['label.acompanhamentoDevedores.dataLimite']}"
+                                                                      value="#{acompanhamentoDevedoresBean.dataLimite}"
+                                                                      autoSubmit="true"
+                                                                      valueChangeListener="#{acompanhamentoDevedoresBean.habilitarImpressao}"/>
+                                                    </af:panelFormLayout>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                            <af:gridRow id="gr6" marginTop="20px">
+                                                <af:gridCell id="gc7" valign="bottom" halign="start">
+                                                    <af:spacer width="8" height="8" id="s2"/>
+                                                    <af:button text="#{app['botao.imprimir']}" id="b2" 
+                                                               disabled="#{empty acompanhamentoDevedoresBean.mesReferencia || empty acompanhamentoDevedoresBean.comunicadoCgNumero || empty acompanhamentoDevedoresBean.dataEnvio || empty acompanhamentoDevedoresBean.dataLimite}">
+                                                        
+                                                        <af:fileDownloadActionListener method="#{acompanhamentoDevedoresBean.emitirRelatorioDevedores}" 
+                                                                                       filename="#{acompanhamentoDevedoresBean.nomeRelatorioDownload}"
+                                                                                       contentType="#{acompanhamentoDevedoresBean.contentType}"/>
+                                                                                                  
+                                                                                                                </af:button>
+                                                </af:gridCell>
+                                            </af:gridRow>
+                                        </af:panelGridLayout>
+                                    </af:panelHeader>
+                                </af:panelGroupLayout>
+                            </f:facet>
+                        </af:panelSplitter>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

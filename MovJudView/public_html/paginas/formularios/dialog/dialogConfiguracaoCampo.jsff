@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <af:popup childCreation="deferred" autoCancel="disabled" id="dialogEditarCampo" contentDelivery="lazyUncached">
+        <af:dialog id="d7" affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                   cancelTextAndAccessKey="#{app['botao.nao']}"
+                   title="#{app['label.formulario.alterarCampoReutilizado']}"
+                   dialogListener="#{pageFlowScope.configuracaoFormularioBean.editarCampoReaproveitado}">
+            <f:facet name="buttonBar"/>
+            <af:declarativeComponent id="dc9" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                     mensagem="#{app['msg.formulario.confirmacaoAlteracaoCampoReutilizado']}"
+                                     tipoNotificacao="confirmacao"
+                                     infoAdicional="#{app['msg.formulario.desejaContinuar']}"/>
+        </af:dialog>
+    </af:popup>
+    <af:dialog id="d1" affirmativeTextAndAccessKey="#{app['botao.salvar']}" type="none"
+               cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+               title="#{app['label.formulario.configurarCampo']} - #{(pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.descricaoCampoFormula.length() gt 160) ? pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.descricaoCampoFormula.substring(0, 160) : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.descricaoCampoFormula}"
+               partialTriggers="d7" styleClass=".dialogConfCampo">
+        <f:facet name="buttonBar">
+            <af:panelGroupLayout id="pgl8" partialTriggers="botaoCopiar">
+                <af:button text="#{app['botao.salvar']}" id="b13"
+                           rendered="#{pageFlowScope.configuracaoFormularioBean.visualizar ? false : true}"
+                           action="#{pageFlowScope.configuracaoFormularioBean.atualizarCampo}"
+                           partialTriggers="d7 botaoCopiar"/>
+                <af:button text="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           id="b14" action="#{pageFlowScope.configuracaoFormularioBean.calcelarPopupConfigCampo}"
+                           partialTriggers="d7 botaoCopiar"/>
+            </af:panelGroupLayout>
+        </f:facet>
+        <af:panelGroupLayout id="pgl3" layout="horizontal" valign="top" partialTriggers="selectTipoCampo botaoCopiar">
+            <af:panelTabbed position="above" id="pt1" styleClass="dialogGeralConfCampo">
+                <af:showDetailItem text="#{app['label.formulario.geral']}" id="sdiGeral" partialTriggers="botaoCopiar">
+                    <af:panelGroupLayout id="pgl5" styleClass="dialogConfCampo" layout="vertical"
+                                         partialTriggers="botaoCopiar">
+                        <af:panelGroupLayout id="pgl9" styleClass="dialogConfiguracaoCampo" layout="scroll"
+                                             partialTriggers="botaoCopiar d7">
+                            <af:panelHeader text="#{app['label.formulario.campoExistente']}" id="ph5"
+                                            contentStyle="width:340px;">
+                                <af:panelFormLayout id="pfl2" labelAlignment="start">
+                                    <af:panelLabelAndMessage id="plam4">
+                                        <af:inputText id="inputTextSugestaoCampo" autoSubmit="true"
+                                                      value="#{pageFlowScope.configuracaoFormularioBean.sugestaoCampo}"
+                                                      valueChangeListener="#{pageFlowScope.configuracaoFormularioBean.alterarNomeCampoSelecionado}"
+                                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}">
+                                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.configuracaoFormularioBean.autoCompletarCampo}"/>
+                                        </af:inputText>
+                                        <f:facet name="end">
+                                            <af:panelGroupLayout id="pgl6" layout="horizontal">
+                                                <af:button text="#{app['botao.formulario.copiar']}" id="botaoCopiar"
+                                                           action="#{pageFlowScope.configuracaoFormularioBean.criarCopiaCampoModelo}"
+                                                           disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                                            </af:panelGroupLayout>
+                                        </f:facet>
+                                    </af:panelLabelAndMessage>
+                                </af:panelFormLayout>
+                            </af:panelHeader>
+                            <af:panelHeader text="#{app['label.formulario.geral']}" id="ph3">
+                                <af:panelFormLayout id="pfl4" labelAlignment="start">
+                                    <af:panelLabelAndMessage label="#{app['label.formulario.indice']}" id="plam10">
+                                        <af:inputText id="it7"
+                                                      value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.indiceCampo}"
+                                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"/>
+                                        <f:facet name="end"/>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelLabelAndMessage label="#{app['label.formulario.labelcampo']}" id="plam5">
+                                        <af:inputText id="it5"
+                                                      value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.labelCampo}"
+                                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"/>
+                                        <f:facet name="end"/>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelLabelAndMessage id="plam12" label="#{app['label.formulario.tipocampo']}">
+                                        <af:selectOneChoice id="selectTipoCampo" autoSubmit="true"
+                                                            value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo}"
+                                                            unselectedLabel="#{app['label.combo.selecione']}"
+                                                            disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                            valueChangeListener="#{pageFlowScope.configuracaoFormularioBean.atualizarListaCamposFormulario}">
+                                            <f:selectItems value="#{pageFlowScope.configuracaoFormularioBean.listaTipoCampo}"
+                                                           id="si44"/>
+                                        </af:selectOneChoice>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelLabelAndMessage label="#{app['label.formulario.codigobi']}" id="plam7"
+                                                             rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'LABEL' ? false : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'TITULO' ? false : true}">
+                                        <af:inputText id="dominioBICampo"
+                                                      value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.codigoBI}"
+                                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                      valueChangeListener="#{pageFlowScope.configuracaoFormularioBean.validarDominiBICampo}"
+                                                      autoSubmit="true"/>
+                                        <f:facet name="end"/>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelLabelAndMessage id="plam6"
+                                                             rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'TEXTO' ? true : false}"
+                                                             label="#{app['label.formulario.mincaracteres']}">
+                                        <af:inputNumberSpinbox id="ins1" minimum="0"
+                                                               value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.numeroMinimoCaracteres}"
+                                                               disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"/>
+                                        <f:facet name="end"/>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelLabelAndMessage id="plam11"
+                                                             rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'TEXTO' ? true : false}"
+                                                             label="#{app['label.formulario.maxcaracteres']}">
+                                        <af:inputNumberSpinbox id="ins2" minimum="0"
+                                                               value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.numeroMaximoCaracteres}"
+                                                               disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"/>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelLabelAndMessage label="#{app['label.formulario.listaselecao']}" id="plam8"
+                                                             rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'LISTA' ? true : false}">
+                                        <af:inputText id="it3" value="#{pageFlowScope.configuracaoFormularioBean.item}"
+                                                      partialTriggers="b4 b5"
+                                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"/>
+                                        <f:facet name="end">
+                                            <af:panelGroupLayout id="pgl15" layout="horizontal">
+                                                <af:link id="b4" icon="#{res['img.adicionarOn']}" partialSubmit="true"
+                                                         action="#{pageFlowScope.configuracaoFormularioBean.adicionarItemEmListaSelecao}"
+                                                         disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                         disabledIcon="#{res['img.adicionarOff']}"/>
+                                                <af:link id="b5" icon="#{res['img.lixeiraOn']}" partialSubmit="true"
+                                                         action="#{pageFlowScope.configuracaoFormularioBean.removerItemEmListaSelecao}"
+                                                         disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                         disabledIcon="#{res['img.lixeiraOff']}"/>
+                                            </af:panelGroupLayout>
+                                        </f:facet>
+                                    </af:panelLabelAndMessage>
+                                    <af:panelFormLayout id="pfl1"
+                                                        rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'LISTA' ? true : false}">
+                                        <af:table var="row" rowBandingInterval="0" id="t1" autoHeightRows="4"
+                                                  fetchSize="25" columnStretching="column:c1" rowSelection="single"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.listaItensSelecaoDTO}"
+                                                  partialTriggers="::b4 ::b5"
+                                                  selectionListener="#{pageFlowScope.configuracaoFormularioBean.selecionarLinhaListaSelecao}">
+                                            <af:column sortable="false" id="c1">
+                                                <?audit suppress oracle.adf.faces.tablecolneedsheaders?>
+                                                <af:outputText value="#{row.labelItemSelecao}" id="ot1"/>
+                                            </af:column>
+                                        </af:table>
+                                    </af:panelFormLayout>
+                                    <af:panelLabelAndMessage label="#{app['label.formulario.ajuda']}" id="plam9">
+                                        <af:inputText id="it2"
+                                                      value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.hint}"
+                                                      disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                      rows="3" columns="42"/>
+                                    </af:panelLabelAndMessage>
+                                </af:panelFormLayout>
+                                <f:facet name="toolbar">
+                                    <af:link id="l3" icon="#{res['img.editarOn']}"
+                                             disabledIcon="#{res['img.editarOff']}"
+                                             shortDesc="#{app['label.formulario.habilitarEdicao']}" immediate="true"
+                                             disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado ? false : true}">
+                                        <af:showPopupBehavior popupId="dialogEditarCampo"/>
+                                    </af:link>
+                                </f:facet>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </af:showDetailItem>
+                <af:showDetailItem text="#{app['label.formulario.tipoRegra']}" id="sdiTipoRegra"
+                                   rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'LABEL' ? false : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'TITULO' ? false : true}">
+                    <af:panelGroupLayout id="pgl4" styleClass="dialogConfCampo" layout="vertical">
+                        <af:panelHeader text="#{app['label.formulario.tipoRegra']}" id="ph4">
+                            <af:panelFormLayout id="pfl3">
+                                <af:panelGroupLayout id="pgl7" layout="horizontal">
+                                    <af:selectOneChoice id="it4" partialTriggers="inputTextSugestaoCampo d2 botaoCopiar"
+                                                        value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoRegraDTO}"
+                                                        disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                        autoSubmit="true"
+                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                        <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaTipoRegra}"
+                                                    var="tipoRegra">
+                                            <af:selectItem label="#{tipoRegra.nomeTipoRegra}" id="si3"
+                                                           value="#{tipoRegra}"/>
+                                        </af:forEach>
+                                    </af:selectOneChoice>
+                                    <af:spacer width="5" height="5" id="s4"/>
+                                    <af:link id="b11" icon="#{res['img.adicionarOn']}" partialSubmit="true"
+                                             disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                             disabledIcon="#{res['img.adicionarOff']}">
+                                        <af:showPopupBehavior popupId="popupAdicionarTipoRegra" triggerType="click"
+                                                              align="endAfter"/>
+                                    </af:link>
+                                    <af:popup childCreation="deferred" autoCancel="disabled"
+                                              id="popupAdicionarTipoRegra" contentDelivery="lazyUncached">
+                                        <af:dialog id="d2"
+                                                   dialogListener="#{pageFlowScope.configuracaoFormularioBean.persistirTipoRegra}">
+                                            <f:facet name="buttonBar"/>
+                                            <af:panelFormLayout id="pfl26" labelAlignment="top">
+                                                <af:inputText label="Nome" id="it9"
+                                                              value="#{pageFlowScope.configuracaoFormularioBean.tipoRegraDTO.nomeTipoRegra}"
+                                                              required="true" maximumLength="40"/>
+                                                <af:inputText label="Descri&#231;&#227;o" id="it6" rows="3"
+                                                              value="#{pageFlowScope.configuracaoFormularioBean.tipoRegraDTO.descricaoTipoRegra}"
+                                                              required="true" maximumLength="40"/>
+                                            </af:panelFormLayout>
+                                        </af:dialog>
+                                    </af:popup>
+                                </af:panelGroupLayout>
+                                <af:selectBooleanCheckbox text="#{app['label.formulario.inverterTipoRegra']}"
+                                                          id="inverterTipoRegra"
+                                                          value="#{pageFlowScope.configuracaoFormularioBean.inverterRegraCampo}"
+                                                          disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                          autoSubmit="true" partialTriggers="it4"/>
+                            </af:panelFormLayout>
+                        </af:panelHeader>
+                    </af:panelGroupLayout>
+                </af:showDetailItem>
+                <af:showDetailItem text="#{app['label.formulario.validacao']}" id="sdiValidacao"
+                                   rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'LABEL' ? false : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'TITULO' ? false : true}">
+                    <af:panelGroupLayout id="pgl2" layout="vertical" styleClass="dialogConfCampo">
+                        <af:panelHeader text="#{app['label.formulario.validacao']}" id="ph1">
+                            <af:panelFormLayout id="pfl15" labelAlignment="start" styleClass="panelValidacao">
+                                <af:panelLabelAndMessage label="#{app['label.formulario.tipovalidacao']}"
+                                                         id="plamTipoValidacao">
+                                    <af:selectOneChoice id="socTipoValidacao"
+                                                        unselectedLabel="#{app['label.combo.selecione']}"
+                                                        value="#{pageFlowScope.configuracaoFormularioBean.validacao.codigoTipoValidacao}"
+                                                        partialTriggers="t3:l2 b3 b1 inputTextSugestaoCampo botaoCopiar"
+                                                        disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                        binding="#{pageFlowScope.configuracaoFormularioBean.socTipoValidacao}">
+                                        <?audit suppress oracle.adf.faces.compnotlabelled?>
+                                        <af:selectItem label="#{app['label.radio.aviso']}" id="si4" value="AVISO"/>
+                                        <af:selectItem label="#{app['label.radio.erro']}" id="si5" value="ERRO"/>
+                                        <af:selectItem label="#{app['label.radio.confirmacao']}" id="si6"
+                                                       value="CONFIRMACAO"/>
+                                    </af:selectOneChoice>
+                                    <f:facet name="end"/>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.formulario.funcao']}"
+                                                         id="plamFuncaoValidacao">
+                                    <af:selectOneChoice id="socFuncaoValidacao"
+                                                        value="#{pageFlowScope.configuracaoFormularioBean.validacao.formula.codigoFuncao}"
+                                                        partialTriggers="inputTextSugestaoCampo t3:l2 b3 b1 botaoCopiar"
+                                                        disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                        autoSubmit="true"
+                                                        binding="#{pageFlowScope.configuracaoFormularioBean.socFuncaoValidacao}"
+                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                        <?audit suppress oracle.adf.faces.bindingWithoutRequestOrBackingBeanScope?>
+                                        <?audit suppress oracle.adf.faces.compnotlabelled?>
+                                        <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaFuncoes}"
+                                                    var="funcao">
+                                            <af:selectItem label="#{funcao.nomeFuncao}" id="siValidacao"
+                                                           value="#{funcao.codigoFuncao}"/>
+                                        </af:forEach>
+                                    </af:selectOneChoice>
+                                    <f:facet name="end"/>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.campo']}" id="CampoValidacao">
+                                    <af:selectOneChoice id="socCampoValidacao"
+                                                        value="#{pageFlowScope.configuracaoFormularioBean.campoValidacao}"
+                                                        partialTriggers="inputTextSugestaoCampo t3:l2 b3 b1 botaoCopiar"
+                                                        disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                        autoSubmit="true"
+                                                        unselectedLabel="#{app['label.combo.selecione']}"
+                                                        binding="#{pageFlowScope.configuracaoFormularioBean.socCampoValidacao}"
+                                                        contentStyle="width:350.0px">
+                                        <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaCamposFormulario}"
+                                                    var="funcao">
+                                            <af:selectItem label="#{fn:substring(funcao.descricaoCampoFormula,0,60)}"
+                                                           id="si7" value="#{funcao}"
+                                                           shortDesc="#{funcao.descricaoCampoFormula}"/>
+                                        </af:forEach>
+                                    </af:selectOneChoice>
+                                    <f:facet name="end">
+                                        <af:link id="b6" icon="#{res['img.adicionarOn']}"
+                                                   action="#{pageFlowScope.configuracaoFormularioBean.adicionarExpressaoValidacao}"
+                                                   partialTriggers="inputTextSugestaoCampo botaoCopiar" partialSubmit="true"
+                                                   disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"/>
+                                    </f:facet>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.formulario.formula']}"
+                                                         id="plamExpressaoValidacao">
+                                    <af:inputText id="itExpressaoValidacao" rows="5" columns="45"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.validacao.formula.expressao}"
+                                                  partialTriggers="t3:l2 b3 b6 b1 inputTextSugestaoCampo"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                  binding="#{pageFlowScope.configuracaoFormularioBean.itExpressaoValidacao}"/>
+                                    <f:facet name="end">
+                                        <af:panelGroupLayout id="pgl18" layout="vertical" halign="center">
+                                            <af:button text="#{app['botao.validar']}" id="b7"
+                                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.testarValidacao}"
+                                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                       icon="#{res['img.okOn']}" partialTriggers="botaoCopiar"/>
+                                            <af:spacer width="30" height="19" id="s1"/>
+                                            <af:button text="#{app['botao.limpar']}" id="b3"
+                                                       action="#{pageFlowScope.configuracaoFormularioBean.limparConfiguracaoValidacao}"
+                                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                       icon="#{res['img.limparOn']}"
+                                                       partialTriggers="inputTextSugestaoCampo botaoCopiar"/>
+                                        </af:panelGroupLayout>
+                                    </f:facet>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.formulario.mensagem']}" id="plamMensagem">
+                                    <af:inputText id="itMensagem" rows="3" columns="45"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.validacao.mensagem}"
+                                                  partialTriggers="t3:l2 b3 b1 inputTextSugestaoCampo botaoCopiar"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                  binding="#{pageFlowScope.configuracaoFormularioBean.itMensagem}"/>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.formulario.validacoes']}" id="plam1">
+                                    <af:panelFormLayout id="pfl14" labelAlignment="top">
+                                        <af:panelGroupLayout id="pgl17"
+                                                             rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'LABEL' ? false : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'TITULO' ? false : true}"
+                                                             halign="right">
+                                            <af:button text="#{app['botao.adicionar']}" id="b1"
+                                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                       icon="#{res['img.adicionarOn']}" partialTriggers="botaoCopiar"
+                                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.adicionarValidacaoCampo}"/>
+                                            <af:spacer width="10" height="10" id="s8"/>
+                                            <af:button text="#{app['botao.salvarEdicao']}" id="bSalvarEdicao"
+                                                       icon="/resource/images/salvarOn.png"
+                                                       action="#{pageFlowScope.configuracaoFormularioBean.salvarEdicao}"
+                                                       visible="false"/>
+                                            <af:spacer width="10" height="10" id="s7"/>
+                                            <af:button text="#{app['botao.cancelarEdicao']}" id="bCancelarEdicao"
+                                                       icon="/resource/images/cancelarOn.png"
+                                                       action="#{pageFlowScope.configuracaoFormularioBean.cancelarEdicao}"
+                                                       visible="false"/>
+                                        </af:panelGroupLayout>
+                                        <af:table var="validacao" rowBandingInterval="0" id="t3"
+                                                  columnStretching="column:c4"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.listaValidacoesCampo}"
+                                                  rowSelection="single" autoHeightRows="2"
+                                                  partialTriggers="::inputTextSugestaoCampo ::botaoCopiar l1"
+                                                  selectionListener="#{pageFlowScope.configuracaoFormularioBean.selecionarValidacaoExistente}"
+                                                  binding="#{pageFlowScope.configuracaoFormularioBean.t3}">
+                                            <af:column sortable="false"
+                                                       headerText="#{app['label.formulario.validacao']}" id="c3">
+                                                <af:outputText value="#{validacao.tipoValidacao}" id="ot5"/>
+                                            </af:column>
+                                            <af:column sortable="false" headerText="#{app['label.formulario.mensagem']}"
+                                                       id="c4">
+                                                <af:outputText value="#{validacao.mensagem}" id="ot6"/>
+                                            </af:column>
+                                            <af:column id="c6" headerText="#{app['label.formulario.acoes']}"
+                                                       displayIndex="-1" align="center" width="50">
+                                                <af:panelGroupLayout id="pgl30" layout="horizontal">
+                                                    <af:link id="l2" icon="#{res['img.editarOn']}" partialSubmit="true"
+                                                             disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                             action="#{pageFlowScope.configuracaoFormularioBean.alterarValidacaoCampo}"
+                                                             disabledIcon="#{res['img.editarOff']}"
+                                                             partialTriggers="::botaoCopiar"/>
+                                                    <af:spacer width="5" height="5" id="s3"/>
+                                                    <af:link id="l1" icon="#{res['img.lixeiraOn']}" partialSubmit="true"
+                                                             action="#{pageFlowScope.configuracaoFormularioBean.removerValidacaoCampo}"
+                                                             disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                             disabledIcon="#{res['img.lixeiraOff']}"
+                                                             partialTriggers="::botaoCopiar"/>
+                                                </af:panelGroupLayout>
+                                            </af:column>
+                                        </af:table>
+                                    </af:panelFormLayout>
+                                </af:panelLabelAndMessage>
+                            </af:panelFormLayout>
+                        </af:panelHeader>
+                    </af:panelGroupLayout>
+                </af:showDetailItem>
+                <af:showDetailItem rendered="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.tipoCampo eq 'FORMULA' ? true : false}"
+                                   text="#{app['label.formulario.formula']}" id="sdiFormula">
+                    <af:panelGroupLayout id="pgl1" styleClass="dialogConfCampo" layout="vertical">
+                        <af:panelHeader text="#{app['label.formulario.formula']}" id="ph2">
+                            <af:panelFormLayout id="pfl13" labelAlignment="start">
+                                <af:panelLabelAndMessage label="#{app['label.formulario.funcao']}"
+                                                         id="plamFuncaoFormula">
+                                    <af:selectOneChoice id="socFuncaoFormula" partialTriggers="b1 t3 b3 botaoCopiar b8"
+                                                        value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.formula.codigoFuncao}"
+                                                        disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                        binding="#{pageFlowScope.configuracaoFormularioBean.socFuncaoFormula}"
+                                                        autoSubmit="true"
+                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                        <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaFuncoes}"
+                                                    var="funcao">
+                                            <af:selectItem label="#{funcao.nomeFuncao}" id="siFuncao"
+                                                           value="#{funcao.codigoFuncao}"/>
+                                        </af:forEach>
+                                    </af:selectOneChoice>
+                                    <f:facet name="end"/>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.campo']}" id="plam2">
+                                    <af:selectOneChoice id="socCampoFormula" partialTriggers="b1 t3 b3 botaoCopiar b8"
+                                                        unselectedLabel="#{app['label.combo.selecione']}"
+                                                        value="#{pageFlowScope.configuracaoFormularioBean.campoFormula}"
+                                                        disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                        autoSubmit="true"
+                                                        binding="#{pageFlowScope.configuracaoFormularioBean.socCampoFormula}"
+                                                        contentStyle="width:350.0px">
+                                        <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaCamposFormulario}"
+                                                    var="funcao">
+                                            <af:selectItem label="#{fn:substring(funcao.descricaoCampoFormula,0,60)}"
+                                                           id="siFuncaoFormula" value="#{funcao}"
+                                                           shortDesc="#{funcao.descricaoCampoFormula}"/>
+                                        </af:forEach>
+                                    </af:selectOneChoice>
+                                    <f:facet name="end">
+                                        <af:link id="b10" icon="#{res['img.adicionarOn']}" partialSubmit="true"
+                                                   action="#{pageFlowScope.configuracaoFormularioBean.adicionarExpressaoFormula}"
+                                                   disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                   disabledIcon="#{res['img.adicionarOff']}" partialTriggers="botaoCopiar"/>
+                                    </f:facet>
+                                </af:panelLabelAndMessage>
+                                <af:panelLabelAndMessage label="#{app['label.formulario.formula']}" id="plam3">
+                                    <af:inputText id="itExpressaoFormula" rows="5" columns="45"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.formula.expressao}"
+                                                  partialTriggers="b10 botaoCopiar b8"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                  binding="#{pageFlowScope.configuracaoFormularioBean.itExpressaoFormula}"/>
+                                    <f:facet name="end">
+                                        <af:panelGroupLayout id="pgl29" layout="vertical" halign="center">
+                                            <af:button text="#{app['botao.validar']}" id="b9"
+                                                       actionListener="#{pageFlowScope.configuracaoFormularioBean.testarFormula}"
+                                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                       icon="#{res['img.okOn']}" partialTriggers="botaoCopiar"/>
+                                            <af:spacer width="30" height="10" id="s9"/>
+                                            <af:button text="#{app['botao.limpar']}" id="b8"
+                                                       disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.campoSelecionadoClone.desabilitado}"
+                                                       icon="#{res['img.limparOn']}" partialTriggers="botaoCopiar"
+                                                       action="#{pageFlowScope.configuracaoFormularioBean.limparConfiguracaoFormula}"/>
+                                        </af:panelGroupLayout>
+                                    </f:facet>
+                                </af:panelLabelAndMessage>
+                            </af:panelFormLayout>
+                        </af:panelHeader>
+                    </af:panelGroupLayout>
+                </af:showDetailItem>
+            </af:panelTabbed>
+        </af:panelGroupLayout>
+    </af:dialog>
+</jsp:root>

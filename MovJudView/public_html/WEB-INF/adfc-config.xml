@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+    <view id="login">
+        <page>/login.jspx</page>
+    </view>
+    <view id="principal">
+        <page>/paginas/principal.jspx</page>
+    </view>
+    <view id="gerenciarUsuario">
+        <page>/paginas/estruturaJudiciaria/gerenciarUsuario.jspx</page>
+    </view>
+    <view id="gerenciarRegiao">
+        <page>/paginas/estruturaJudiciaria/gerenciarRegiao.jspx</page>
+    </view>
+    <view id="gerenciarUnidade">
+        <page>/paginas/estruturaJudiciaria/gerenciarUnidade.jspx</page>
+    </view>
+    <view id="gerenciarParametro">
+        <page>/paginas/configuracao/gerenciarParametro.jspx</page>
+    </view>
+    <view id="gerenciarCircunscricao">
+        <page>/paginas/estruturaJudiciaria/gerenciarCircunscricao.jspx</page>
+    </view>
+    <view id="gerenciarComarca">
+        <page>/paginas/estruturaJudiciaria/gerenciarComarca.jspx</page>
+    </view>
+    <view id="gerenciarForo">
+        <page>/paginas/estruturaJudiciaria/gerenciarForo.jspx</page>
+    </view>
+    <view id="gerenciarDominioBI">
+        <page>/paginas/estruturaJudiciaria/gerenciarDominioBI.jspx</page>
+    </view>
+    <view id="gerenciarFormulario">
+        <page>/paginas/formularios/gerenciarFormulario.jspx</page>
+    </view>
+    <view id="consultarAuditoria">
+        <page>/paginas/recursos/consultarAuditoria.jspx</page>
+    </view>
+    <view id="gerenciarModeloAviso">
+        <page>/paginas/configuracao/gerenciarModeloAviso.jspx</page>
+    </view>
+    <view id="gerenciarConfiguracaoAviso">
+        <page>/paginas/configuracao/gerenciarConfiguracaoAviso.jspx</page>
+    </view>
+    <view id="consultarPreencherFormulario">
+        <page>/paginas/formularios/consultarPreencherFormulario.jspx</page>
+    </view>
+    <view id="gerenciarPermissaoUnidadeTemporaria">
+        <page>/paginas/estruturaJudiciaria/gerenciarPermissaoUnidadeTemporaria.jspx</page>
+    </view>
+    <view id="gerenciarProcessoGabinete">
+        <page>/paginas/processoGabinete/gerenciarProcessoGabinete.jspx</page>
+    </view>
+    <view id="gerenciarEstabelecimentoPrisional">
+        <page>/paginas/estruturaJudiciaria/gerenciarEstabelecimentoPrisional.jspx</page>
+    </view>
+    <view id="acompanharDevedores">
+        <page>/paginas/formularios/acompanharDevedores.jspx</page>
+    </view>
+    <view id="consultarGeralFormulario">
+        <page>/paginas/formularios/consultarGeral.jspx</page>
+    </view>
+    <view id="consultarEnviarFormulario">
+        <page>/paginas/formularios/consultarEnviarFormulario.jspx</page>
+    </view>
+    <view id="configurarFormularioVinculacao">
+        <page>/paginas/formularios/configurarFormularioVinculacao.jspx</page>
+    </view>
+    <view id="consultarRetificarFormulario">
+        <page>/paginas/formularios/consultarRetificarFormulario.jspx</page>
+    </view>
+    <view id="avaliarRetificarFormulario">
+        <page>/paginas/formularios/avaliarRetificarFormulario.jspx</page>
+    </view>
+    <view id="liberarFormulario">
+        <page>/paginas/formularios/liberarFormulario.jspx</page>
+    </view>
+    <control-flow-rule id="__9">
+        <from-activity-id id="__10">login</from-activity-id>
+        <control-flow-case id="__11">
+            <from-outcome id="__13">sucesso</from-outcome>
+            <to-activity-id id="__12">principal</to-activity-id>
+        </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__7">
+        <from-activity-id>*</from-activity-id>
+        <control-flow-case id="__5">
+            <from-outcome>gerenciarUsuario</from-outcome>
+            <to-activity-id>gerenciarUsuario</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__1">
+            <from-outcome>gerenciarUnidade</from-outcome>
+            <to-activity-id>gerenciarUnidade</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__2">
+            <from-outcome>gerenciarRegiao</from-outcome>
+            <to-activity-id>gerenciarRegiao</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__6">
+            <from-outcome>gerenciarParametro</from-outcome>
+            <to-activity-id>gerenciarParametro</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__3">
+            <from-outcome>gerenciarCircunscricao</from-outcome>
+            <to-activity-id>gerenciarCircunscricao</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__4">
+            <from-outcome>gerenciarComarca</from-outcome>
+            <to-activity-id>gerenciarComarca</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__8">
+            <from-outcome>gerenciarForo</from-outcome>
+            <to-activity-id>gerenciarForo</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__14">
+            <from-outcome>gerenciarFormulario</from-outcome>
+            <to-activity-id>gerenciarFormulario</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__15">
+            <from-outcome>consultarAuditoria</from-outcome>
+            <to-activity-id>consultarAuditoria</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__16">
+            <from-outcome>gerenciarModeloAviso</from-outcome>
+            <to-activity-id>gerenciarModeloAviso</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__17">
+            <from-outcome>gerenciarConfiguracaoAviso</from-outcome>
+            <to-activity-id>gerenciarConfiguracaoAviso</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__19">
+            <from-outcome>consultarPreencherFormulario</from-outcome>
+            <to-activity-id>consultarPreencherFormulario</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__20">
+            <from-outcome>gerenciarPermissaoUnidadeTemporaria</from-outcome>
+            <to-activity-id>gerenciarPermissaoUnidadeTemporaria</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__21">
+            <from-outcome>gerenciarProcessoGabinete</from-outcome>
+            <to-activity-id>gerenciarProcessoGabinete</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__23">
+            <from-outcome>gerenciarEstabelecimentoPrisional</from-outcome>
+            <to-activity-id>gerenciarEstabelecimentoPrisional</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__26">
+            <from-outcome>consultarGeral</from-outcome>
+            <to-activity-id>consultarGeral</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__25">
+            <from-outcome>consultarEnviarFormulario</from-outcome>
+            <to-activity-id>consultarEnviarFormulario</to-activity-id>
+        </control-flow-case>
+	
+	<control-flow-case id="__28">
+            <from-outcome>configurarFormularioVinculacao</from-outcome>
+            <to-activity-id>configurarFormularioVinculacao</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__29">
+            <from-outcome>consultarRetificarFormulario</from-outcome>
+            <to-activity-id>consultarRetificarFormulario</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__30">
+            <from-outcome>avaliarRetificarFormulario</from-outcome>
+            <to-activity-id>avaliarRetificarFormulario</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__24">
+            <from-outcome>liberarFormulario</from-outcome>
+            <to-activity-id>liberarFormulario</to-activity-id>
+        </control-flow-case>
+        <control-flow-case id="__31">
+            <from-outcome>gerenciarDominioBI</from-outcome>
+            <to-activity-id>gerenciarDominioBI</to-activity-id>
+        </control-flow-case>
+    </control-flow-rule>
+    <managed-bean id="__22">
+        <managed-bean-name>acompanhamentoFormularioBean</managed-bean-name>
+        <managed-bean-class>br.jus.tjsp.movjud.web.formulario.bean.AcompanhamentoFormularioBean</managed-bean-class>
+        <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+    <managed-bean id="__18">
+        <managed-bean-name>configuracaoFormularioBean</managed-bean-name>
+        <managed-bean-class>br.jus.tjsp.movjud.web.formulario.bean.ConfiguracaoFormularioBean</managed-bean-class>
+        <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+    <managed-bean id="__27">
+        <managed-bean-name>consultarGeralFormularioBean</managed-bean-name>
+        <managed-bean-class>br.jus.tjsp.movjud.web.formulario.bean.ConsultarGeralFormularioBean</managed-bean-class>
+        <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+</adfc-config>

@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <af:panelGroupLayout id="pgl1" layout="vertical">
+        <af:panelGroupLayout id="groupPrincipal" layout="scroll" halign="center" styleClass="panelScrollGerenciar">
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popupExcluirGrupo">
+                <af:dialog id="dialogExcluirGrupo"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.removerGrupo}"
+                           title="#{app['label.tituloExcluir']}" affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                           cancelTextAndAccessKey="#{app['botao.nao']}">
+                    <af:declarativeComponent id="dc8" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                             mensagem="#{app['msg.formulario.excluirGrupo']}"
+                                             infoAdicional="#{pageFlowScope.configuracaoFormularioBean.nomeGrupo}"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popupExcluirCampo">
+                <af:dialog id="dialogExcluirCampo"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.removerCampo}"
+                           title="#{app['label.tituloExcluir']}" affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                           cancelTextAndAccessKey="#{app['botao.nao']}">
+                    <af:declarativeComponent id="dc3" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                             mensagem="#{app['msg.formulario.excluirCampo']}"
+                                             infoAdicional="#{pageFlowScope.configuracaoFormularioBean.nomeCampo}"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="popupExcluirSecao">
+                <af:dialog id="dialogExcluirSecao"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.RemoverSecao}"
+                           title="#{app['label.tituloExcluir']}" affirmativeTextAndAccessKey="#{app['botao.sim']}"
+                           cancelTextAndAccessKey="#{app['botao.nao']}">
+                    <af:declarativeComponent id="dc9" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                             mensagem="#{app['msg.formulario.excluirSessao']}"
+                                             infoAdicional="#{pageFlowScope.configuracaoFormularioBean.nomeSecao}"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup id="dialogConfigGrupo" contentDelivery="lazyUncached"
+                      popupCanceledListener="#{pageFlowScope.configuracaoFormularioBean.cancelarConfiguracaoGrupo}">
+                <af:dialog id="d6" affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                           cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           title="#{app['label.formulario.configurarGrupo']}" type="cancel">
+                    <f:facet name="buttonBar">
+                        <af:button text="#{app['botao.salvar']}" id="b5"
+                                   action="#{pageFlowScope.configuracaoFormularioBean.atualizarGrupo}"/>
+                    </f:facet>
+                    <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoGrupo.jsff"
+                                             id="dc6"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup id="dialogConfigCampo" contentDelivery="lazyUncached"
+                      popupCanceledListener="#{pageFlowScope.configuracaoFormularioBean.calcelarPopupConfigCampo}"
+                      resetEditableValues="whenCanceled"
+                      binding="#{pageFlowScope.configuracaoFormularioBean.dialogConfigCampo}">
+                <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoCampo.jsff" id="dc1"/>
+            </af:popup>
+            <af:popup childCreation="deferred" id="dialogConfigForm" contentDelivery="lazyUncached"
+                      popupFetchListener="#{pageFlowScope.configuracaoFormularioBean.initDialogConfiguracaoFormulario}">
+                <af:dialog id="d2" title="#{app['label.formulario.configurarformulario']}"
+                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                           cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           type="none">
+                    <f:facet name="buttonBar">
+                        <af:panelGroupLayout id="pgl2">
+                            <af:button text="#{app['botao.salvar']}" id="b2"
+                                       rendered="#{pageFlowScope.configuracaoFormularioBean.visualizar ? 'false' : 'true'}"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.salvarPopupConfigurarFormulario}"/>
+                            <af:button text="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                                       id="b4"
+                                       action="#{pageFlowScope.configuracaoFormularioBean.cancelarPopupConfigurarFormulario}"/>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                    <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoFormulario.jsff"
+                                             id="dc2"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="dialogConfigSecaoMagistrado"
+                      contentDelivery="lazyUncached"
+                      popupFetchListener="#{pageFlowScope.configuracaoFormularioBean.initDialogSecaoMagistrado}">
+                <af:dialog id="d4" title="#{app['label.formulario.configurarsecaomagistrado']}"
+                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                           cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.adicionarConfiguracaoSecaoMagistrado}"
+                           type="#{pageFlowScope.configuracaoFormularioBean.visualizar ? 'cancel' : 'okCancel'}">
+                    <f:facet name="buttonBar"/>
+                    <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoSecaoMagistrado.jsff"
+                                             id="dc7"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="dialogConfigSecaoMaterias"
+                      contentDelivery="lazyUncached"
+                      popupFetchListener="#{pageFlowScope.configuracaoFormularioBean.initDialogConfigurarSecaoMaterias}">
+                <af:dialog id="d3" title="#{app['label.formulario.configurarmateria']}"
+                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                           cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.adicionarConfiguracaoSecaoMateria}"
+                           type="#{pageFlowScope.configuracaoFormularioBean.visualizar ? 'cancel' : 'okCancel'}">
+                    <f:facet name="buttonBar"/>
+                    <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoSecaoMaterias.jsff"
+                                             id="dc4"/>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="dialogConfigSecaoEstabelecimentoPrisional"
+                      contentDelivery="lazyUncached"
+                      popupFetchListener="#{pageFlowScope.configuracaoFormularioBean.initDialogSecaoEstabelecimentoPrisional}">
+                <af:dialog id="d5" title="#{app['label.formulario.configurarestabelecimentoprisional']}"
+                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                           cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.adicionarConfiguracaoSecaoEstabelecimentoPrisional}"
+                           type="#{pageFlowScope.configuracaoFormularioBean.visualizar ? 'cancel' : 'okCancel'}">
+                    <f:facet name="buttonBar"/>
+                    <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoSecaoEstabelecimentoPrisional.jsff"
+                                             id="dc5"/>
+                </af:dialog>
+            </af:popup>
+            <af:panelHeader id="painelPrincipal" binding="#{pageFlowScope.configuracaoFormularioBean.painelPricipal}"
+                            text="#{pageFlowScope.configuracaoFormularioBean.formulario.nomeFormulario}"
+                            partialTriggers="d2 b2">
+                <f:facet name="context"/>
+                <f:facet name="toolbar">
+                    <af:panelGroupLayout id="pgl4" layout="horizontal">
+                        <af:outputLabel value="#{app['label.formulario.instancia']}" id="ol1"/>
+                        <af:inputText id="it6" value="#{app['label.formulario.primeiraInstancia']}" disabled="true"
+                                      columns="10"/>
+                        <af:spacer width="10" height="10" id="s6"/>
+                        <af:outputLabel value="#{app['label.formulario.codigo']}" id="ol2"/>
+                        <af:inputText id="it3"
+                                      value="#{pageFlowScope.configuracaoFormularioBean.formulario.codigoFormulario}"
+                                      placeholder="#{app['label.formulario.codigo']}" columns="10" disabled="true"
+                                      partialTriggers="d2"/>
+                        <af:spacer width="20" height="10" id="s4"/>
+                        <af:outputLabel value="#{app['label.formulario.versao']}: " id="ol3"/>
+                        <af:inputText id="it4"
+                                      value="#{pageFlowScope.configuracaoFormularioBean.formulario.metadadoSituacaoFormularioDTO.identificadorSituacaoFormulario eq 'EM_USO' and (not pageFlowScope.configuracaoFormularioBean.visualizar) ? pageFlowScope.configuracaoFormularioBean.formulario.versao+1 : pageFlowScope.configuracaoFormularioBean.formulario.versao}"
+                                      disabled="true" columns="2"/>
+                        <af:spacer width="10" height="10" id="s8"/>
+                    </af:panelGroupLayout>
+                </f:facet>
+                <f:facet name="menuBar"/>
+                <f:facet name="legend"/>
+                <f:facet name="info">
+                    <af:panelGroupLayout id="pgl31" layout="horizontal">
+                        <af:selectOneChoice id="soc4" binding="#{pageFlowScope.configuracaoFormularioBean.tipoSecao}"
+                                            disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                            label="#{app['label.formulario.addSecao']}"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaTiposSecao}"
+                                        var="tipoSecao">
+                                <af:selectItem label="#{tipoSecao.labelSecao}" id="si9" value="#{tipoSecao}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                        <af:spacer width="10" height="10" id="s1"/>
+                        <af:link shortDesc="#{app['label.formulario.addsecao']}" id="b15"
+                                 actionListener="#{pageFlowScope.configuracaoFormularioBean.adicionarSecao}"
+                                 disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                 icon="#{res['img.adicionarSecaoOn']}" disabledIcon="#{res['img.adicionarSecaoOff']}"/>
+                        <af:link id="b11" icon="#{res['img.configuracaoOn']}"
+                                 shortDesc="#{app['label.formulario.configFormulario']}"
+                                 disabledIcon="#{res['img.configuracaoOff']}" immediate="true">
+                            <af:showPopupBehavior popupId="dialogConfigForm"/>
+                        </af:link>
+                    </af:panelGroupLayout>
+                </f:facet>
+            </af:panelHeader>
+        </af:panelGroupLayout>
+        <af:spacer width="10" height="5" id="s5"/>
+        <af:panelGroupLayout id="pgl5" layout="horizontal" halign="end" styleClass="panelBottonGerenciar">
+            <af:button text="Salvar" id="b1" action="#{pageFlowScope.configuracaoFormularioBean.persistirEntidade}"
+                       rendered="#{pageFlowScope.configuracaoFormularioBean.visualizar eq false}"
+                       icon="#{res['img.salvarOn']}"/>
+            <af:spacer width="10" height="10" id="s2"/>
+            <af:button text="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                       id="b3" action="voltar" immediate="true" icon="#{res['img.cancelarOn']}"
+                       disabledIcon="#{res['img.cancelarOff']}"/>
+        </af:panelGroupLayout>
+    </af:panelGroupLayout>
+</jsp:root>

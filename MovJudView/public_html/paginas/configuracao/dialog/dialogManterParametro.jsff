@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="panelGroupIncluirParametro" layout="vertical" styleClass="AFStretchWidth formStyle">
+        <af:panelGridLayout id="panelGridIncluirParametro">
+            <af:gridRow marginTop="5px" marginBottom="10px" id="rowNomeParametro">
+                <af:gridCell width="auto" marginEnd="5px" id="cellNomeParametro" columnSpan="2">
+                    <af:panelFormLayout id="panelFormNomeParametro" labelAlignment="top">
+                        <af:inputText label="#{app['label.parametro.nome']}" id="inputTextNomeParametro"
+                                      value="#{parametroBean.entidadePersistencia.nomeParametro}" showRequired="true"
+                                      validator="#{parametroBean.validate}" columns="65"
+                                      disabled="#{parametroBean.visualizar}" maximumLength="100"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="rowDescricaoParametro" marginBottom="10px">
+                <af:gridCell width="auto" marginEnd="5px" id="cellDescricaoParametro" columnSpan="2">
+                    <af:panelFormLayout id="panelFormDescricaoParametro" labelAlignment="top">
+                        <af:inputText label="#{app['label.parametro.descricao']}" id="inputTextDescricaoParametro"
+                                      value="#{parametroBean.entidadePersistencia.descricaoParametro}" columns="65"
+                                      disabled="#{parametroBean.visualizar}" showRequired="true"
+                                      validator="#{parametroBean.validate}" maximumLength="100"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="rowValorParametro" marginBottom="10px">
+                <af:gridCell id="cellValorParametro">
+                    <af:panelFormLayout id="panelFormValorParametro" labelAlignment="top">
+                        <af:inputText label="#{app['label.parametro.valor']}" id="inputTextValorParametro"
+                                      value="#{parametroBean.entidadePersistencia.valorParametro}" columns="65"
+                                      disabled="#{parametroBean.visualizar}" maximumLength="255"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="rowStatusParametro" marginBottom="10px">
+                <af:gridCell id="cellStatusParametro">
+                    <af:panelGroupLayout id="panelFormStatusParametro" layout="vertical">
+                        <af:outputLabel value="#{app['label.parametro.situacao']}" showRequired="true"
+                                        for="listaStatusParametro" id="ol1"/>
+                        <af:selectOneChoice id="listaStatusParametro" disabled="#{parametroBean.visualizar}"
+                                            validator="#{parametroBean.validate}"
+                                            value="#{parametroBean.entidadePersistencia.flagTipoSituacao}"
+                                            contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="selectItemParametroAtivoManter"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="selectItemParametroInativoManter"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

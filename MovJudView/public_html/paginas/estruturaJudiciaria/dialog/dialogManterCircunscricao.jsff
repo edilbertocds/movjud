@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <af:panelGroupLayout id="panelGroupIncluirCircunscricao" layout="vertical" styleClass="AFStretchWidth formStyle dialogCircunscricao">
+        <af:panelGridLayout id="panelGridIncluirCircunscricao">
+            <af:gridRow marginTop="5px" marginBottom="10px" id="rowRegiaoCircunscricao">
+                <af:gridCell width="auto" marginEnd="5px" id="cellRegiaoCircunscricao">
+                    <af:panelFormLayout id="panelFormNomeCircunscricao" labelAlignment="top">
+                        <af:inputText label="#{app['label.circunscricao.nome']}" id="inputTextNomeCircunscricao"
+                                      disabled="#{circunscricaoBean.visualizar}" maximumLength="100"
+                                      value="#{circunscricaoBean.entidadePersistencia.nomeCircunscricao}" columns="20"
+                                      showRequired="true" validator="#{circunscricaoBean.validate}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell id="gridCellNomeCricunscricao" marginStart="30px">
+                    <af:panelGroupLayout id="panelGroupRegiao" layout="horizontal" valign="bottom">
+                        <af:panelFormLayout id="panelFormRegiaoCircunscricao" labelAlignment="top" rows="1">
+                            <af:inputText label="#{app['label.circunscricao.regiaoAdministrativa']}"
+                                          id="inputTextRegiaoSugestao" disabled="#{circunscricaoBean.visualizar}"
+                                          value="#{circunscricaoBean.sugestao}"
+                                          valueChangeListener="#{circunscricaoBean.alterarNomeRegiaoSelecionada}"
+                                          maximumLength="70" autoSubmit="true" columns="20" showRequired="true"
+                                          validator="#{circunscricaoBean.validate}">
+                                <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                        suggestedItems="#{circunscricaoBean.autoCompletar}"/>
+                            </af:inputText>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="gc1" valign="bottom">
+                    <af:panelFormLayout id="pfl1" styleClass="formLinks">
+                        <af:link icon="#{res['img.adicionarOn']}"
+                                 id="b1"  shortDesc="#{app['label.regiao.inserir']}"
+                                 disabled="#{circunscricaoBean.visualizar}" 
+                                 disabledIcon="#{res['img.adicionarOff']}">
+                                
+                            <af:showPopupBehavior popupId="popupRegiao" triggerType="action"/>
+                        </af:link>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupRegiao"
+                                  popupFetchListener="#{regiaoBean.initDialogInserir}" contentDelivery="lazyUncached">
+                            <af:dialog id="dialogIncluirRegiao" affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                       title="#{app['label.regiao.inserir']}"
+                                       cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                       dialogListener="#{regiaoBean.persistirEntidade}">
+                                <af:declarativeComponent id="dc3"
+                                                         viewId="/paginas/estruturaJudiciaria/dialog/dialogManterRegiao.jsff"/>
+                            </af:dialog>
+                        </af:popup>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow id="gridRowStatusCircuncricao" marginBottom="5px">
+                <af:gridCell id="gridCellStatusCircuncricao">
+                    <af:panelGroupLayout id="panelFormStatusCircuncricao" layout="vertical">
+                    <af:outputLabel value="#{app['label.circunscricao.situacao']}" for="listaStatusCircuncricao"
+                                    id="ol1" showRequired="#{circunscricaoBean.visualizar ? false : true}"/>
+                        <af:selectOneChoice  id="listaStatusCircuncricao"
+                                            value="#{circunscricaoBean.entidadePersistencia.flagTipoSituacao}"
+                                            disabled="#{circunscricaoBean.visualizar}" 
+                                            validator="#{circunscricaoBean.validate}" contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="itemAtivoCircuncricao"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="itemInativoCircuncricao"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

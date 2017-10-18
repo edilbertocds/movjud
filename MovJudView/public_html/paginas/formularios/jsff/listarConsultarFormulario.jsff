@@ -1,0 +1,489 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <af:panelGroupLayout id="painelPricipal" layout="vertical" halign="center" styleClass="container wrapper formStyle">
+        <af:panelHeader text="#{pageFlowScope.acompanhamentoFormularioBean.tituloPagina}" id="ph2">
+            <f:facet name="context"/>
+            <f:facet name="menuBar"/>
+            <f:facet name="legend"/>
+            <f:facet name="info"/>
+            <af:panelBox id="pb1" partialTriggers="botaoLimpar">
+                <f:facet name="toolbar"/>
+                <af:panelGridLayout id="pgl1">
+                    <af:gridRow marginTop="5px" height="auto" id="gr2" marginBottom="5px">
+                        <af:gridCell marginStart="0px" id="gc15" columnSpan="2">
+                            <af:panelFormLayout id="pfl2" labelAlignment="top">
+                                <af:inputText id="inputTextFiltroFormulario" columns="33"
+                                              label="#{app['label.consultarFormulario.formulario']}"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.nomeFormulario}"
+                                              contentStyle="width:204.0px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc6" marginStart="15px">
+                            <af:panelFormLayout id="pfl6" labelAlignment="top">
+                                <af:inputText id="it1" columns="33"
+                                              label="#{app['label.consultarFormulario.magistrado']}"
+                                              disabled="#{!pageFlowScope.acompanhamentoFormularioBean.administrador and (pageFlowScope.controleFluxo eq 'CONSULTAR'  or pageFlowScope.controleFluxo eq 'ENVIAR')}"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.nomeMagistrado}"
+                                              contentStyle="width:240.0px;">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc2" marginStart="15px"
+                                     rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'ENVIAR'}">
+                            <af:panelFormLayout id="pfl9" labelAlignment="top">
+                                <af:inputText id="it3" columns="33"
+                                              label="#{app['label.consultarFormulario.usuarioPreenchimento']}"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.nomeUsuarioPreenchimento}">
+                                    <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc9" marginStart="15px" rendered="#{pageFlowScope.controleFluxo eq 'CONSULTAR'  or pageFlowScope.controleFluxo eq 'RETIFICAR'
+                                     or pageFlowScope.controleFluxo eq 'AVALIAR'}"/>
+                    </af:gridRow>
+                    <af:gridRow marginTop="5px" height="auto" id="gr3" marginBottom="5px">
+                        <af:gridCell id="gc14" columnSpan="2" marginEnd="15px">
+                            <af:panelGroupLayout id="panelFormFiltroSituacao" layout="vertical" halign="start"
+                                                 valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.foro']}" id="ol7"
+                                                for="inputFiltroForo"/>
+                                <af:selectOneChoice id="inputFiltroForo"
+                                                    valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.atualizarListaUnidade}"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.idForo}"
+                                                    autoSubmit="true" contentStyle="width:204.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si3" value="0"/>
+                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaForo}"
+                                                var="foro">
+                                        <af:selectItem label="#{foro.nomeForo}" id="si7" value="#{foro.idForo}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc7" columnSpan="4">
+                            <af:panelGroupLayout id="pfl7" layout="vertical" halign="start" valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.unidade']}" id="ol4"
+                                                for="inputFiltroUnidade"/>
+                                <af:selectOneChoice id="inputFiltroUnidade" partialTriggers="inputFiltroForo"
+                                                    autoSubmit="true"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.idUnidade}"
+                                                    immediate="true" contentStyle="width:240.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si8" value="0"/>
+                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaUnidade}"
+                                                var="unidade">
+                                        <af:selectItem label="#{unidade.nomeUnidade}" id="si6"
+                                                       value="#{unidade.idUnidade}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                    </af:gridRow>
+                    <af:gridRow marginTop="5px" height="auto" id="gr5" marginBottom="5px">
+                        <af:gridCell id="gc13">
+                            <af:panelGroupLayout id="pfl3" layout="vertical" halign="start" valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.mes']}" id="ol1"
+                                                for="inputFiltroMes"/>
+                                <af:selectOneChoice id="inputFiltroMes" partialTriggers="inputFiltroForo"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.mes}"
+                                                    contentStyle="width:91.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si1" value="0"/>
+                                    <f:selectItems value="#{pageFlowScope.acompanhamentoFormularioBean.listaMes}"
+                                                   id="si2"/>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc4" marginStart="14px">
+                            <af:panelGroupLayout id="pfl4" layout="vertical" halign="start" valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.ano']}" id="ol2"
+                                                for="inputFiltroAno"/>
+                                <af:selectOneChoice id="inputFiltroAno" partialTriggers="inputFiltroForo"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.ano}"
+                                                    contentStyle="width:91.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si5" value="0"/>
+                                    <f:selectItems value="#{pageFlowScope.acompanhamentoFormularioBean.listaAno}"
+                                                   id="si4"/>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc5"
+                                     rendered="#{pageFlowScope.controleFluxo eq 'CONSULTAR'  or pageFlowScope.controleFluxo eq 'RETIFICAR'
+                                     or pageFlowScope.controleFluxo eq 'ENVIAR' or pageFlowScope.controleFluxo eq 'PREENCHER'}"
+                                     marginEnd="15px">
+                            <af:panelGroupLayout id="pfl5" layout="vertical" halign="start" valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.situacao']}" id="ol3"
+                                                for="inputTextFiltroSituacao"/>
+                                <af:selectOneChoice id="inputTextFiltroSituacao" partialTriggers="inputFiltroForo"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.situacaoFormularioDTO.codigoSituacaoFormulario}"
+                                                    contentStyle="width:240.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si9" value="0"/>
+                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaSituacao}"
+                                                var="situacao">
+                                        <af:selectItem label="#{situacao.labelSituacaoFormulario}" id="si10"
+                                                       value="#{situacao.codigoSituacaoFormulario}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="0px" id="gc8"
+                                     rendered="#{pageFlowScope.controleFluxo eq 'ENVIAR' or pageFlowScope.controleFluxo eq 'PREENCHER' }"
+                                     valign="bottom">
+                            <af:panelFormLayout id="pfl11" labelAlignment="top">
+                                <af:inputDate id="id1" label="#{app['label.consultarFormulario.dataConclusao']}"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.entidadeFiltro.dataConclusao}">
+                                <af:clientListener method="onFieldEnterKey" type="keyUp"/>
+                                </af:inputDate>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="0px" id="gc3"/>
+                        <af:gridCell marginStart="15px" width="20%" id="gc11" valign="bottom" halign="end">
+                            <af:button text="#{app['botao.buscar']}" id="botaoBuscar" icon="#{res['img.buscarOn']}"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.filtrarEntidade}"/>
+                            <af:spacer width="10" height="10" id="s91"/>
+                            <af:button text="#{app['botao.limpar']}" id="botaoLimpar" icon="#{res['img.limparOn']}"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.limparPesquisa}"/>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:panelBox>
+            <af:spacer width="5" height="5" id="s3"/>
+            <af:table var="row" rowBandingInterval="0" id="tabelaResultados" disableColumnReordering="true"
+                      rowSelection="single" styleClass="AFStretchWidth"
+                      emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}" columnStretching="column:c7"
+                      fetchSize="10" value="#{pageFlowScope.acompanhamentoFormularioBean.listaEntidade}"
+                      partialTriggers="::botaoBuscar ::botaoLimpar ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina confirmacaoEnviarFormularioDialog confirmacaoDefinirMagistradoDialog confirmacaoSolicitarRetificacaoDialog"
+                      selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarEntidadeEmTabela}">
+                <af:column sortable="false" id="c0" width="25" rowHeader="unstyled" headerNoWrap="true" align="center"
+                           rendered="#{pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                    <af:selectBooleanCheckbox id="ot1" value="#{row.flagRetificacao}"
+                                              disabled="#{row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_APROVADA' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_EM_PREENCHIMENTO' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_CONCLUIDA' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'ENVIADO_CGJ' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_ENVIADA_AO_CGJ' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_REPROVADA' and not empty  row.situacaoFormularioDTO.identificadorSituacaoFormulario}"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.foro']}" id="c1"
+                           rowHeader="unstyled" headerNoWrap="true" align="left"
+                           width="#{pageFlowScope.acompanhamentoFormularioBean.colunas}">
+                    <af:outputText value="#{row.nomeForo}" id="ot10"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.unidade']}" id="c7"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="#{pageFlowScope.acompanhamentoFormularioBean.colunas}" align="left">
+                    <af:outputText value="#{row.nomeUnidade}" id="ot7"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.formulario']}" id="c8"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="#{pageFlowScope.acompanhamentoFormularioBean.colunas}" align="left">
+                    <af:outputText value="#{row.nomeFormulario}" id="ot8"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.ano']}" id="c9"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="60" align="center">
+                    <af:outputText value="#{row.ano}" id="ot9"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.mes']}" id="c4"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="50px" align="center">
+                    <af:outputText value="#{row.mes}" id="ot2"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.situacao']}" id="c2"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="170" align="center" rendered="#{pageFlowScope.controleFluxo eq 'ENVIAR' or pageFlowScope.controleFluxo eq 'PREENCHER' or
+                           pageFlowScope.controleFluxo eq 'CONSULTAR' or pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                    <af:outputText value="#{empty row.situacaoFormularioDTO.labelSituacaoFormulario? 'Aberto' : row.situacaoFormularioDTO.labelSituacaoFormulario}"
+                                   id="ot3"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.concluido']}" id="c6"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="85" align="center"
+                           rendered="#{pageFlowScope.controleFluxo eq 'ENVIAR' or pageFlowScope.controleFluxo eq 'PREENCHER'}">
+                    <af:outputText value="#{row.dataConclusao}" id="ot6"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.magistrado']}" id="c3"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="#{pageFlowScope.acompanhamentoFormularioBean.colunas}" align="center"
+                           rendered="#{pageFlowScope.controleFluxo eq 'CONSULTAR' or pageFlowScope.controleFluxo eq 'PREENCHER'  or pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                    <af:outputText value="#{row.nomeMagistrado}" id="ot4"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.consultarFormulario.usuario']}" id="c5"
+                           rowHeader="unstyled" headerNoWrap="true"
+                           width="#{pageFlowScope.acompanhamentoFormularioBean.colunas}" align="center"
+                           rendered="#{pageFlowScope.controleFluxo eq 'ENVIAR' or pageFlowScope.controleFluxo eq 'PREENCHER'}">
+                    <af:outputText value="#{row.nomeUsuarioPreenchimento}" id="ot5"/>
+                </af:column>
+                <af:column sortable="false" headerText="#{app['label.acoes']}" id="c10" rowHeader="unstyled"
+                           headerNoWrap="true" width="87" align="center">
+                    <af:panelGroupLayout id="pgl2" layout="horizontal" halign="center">
+                        <af:link id="preencher" icon="#{res['img.editarOn']}" partialSubmit="true"
+                                 shortDesc="#{app['label.consultarFormulario.preencherFormulario']}"
+                                 action="#{pageFlowScope.acompanhamentoFormularioBean.initAlterarMetadadosFormulario}"
+                                 rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER' or  pageFlowScope.controleFluxo eq 'RETIFICAR'}"
+                                 disabled="#{row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_APROVADA' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_EM_PREENCHIMENTO' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'ABERTO' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'EM_PREENCHIMENTO' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'DEVOLVIDO' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_DEVOLVIDA' and not empty  row.situacaoFormularioDTO.identificadorSituacaoFormulario and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'CONCLUIDO' and row.situacaoFormularioDTO.identificadorSituacaoFormulario ne 'RETIFICACAO_CONCLUIDA'}"
+                                 disabledIcon="#{res['img.editarOff']}"></af:link>
+                        <af:spacer width="5" height="5" id="s4"/>
+                        <af:link id="visualizar" icon="#{res['img.visualizarOn']}" partialSubmit="true"
+                                 shortDesc="#{app['label.consultarFormulario.visualizarFormulario']}"
+                                 rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'ENVIAR'
+                                    or pageFlowScope.controleFluxo eq 'RETIFICAR' or pageFlowScope.controleFluxo eq 'CONSULTAR'}"
+                                 action="#{pageFlowScope.acompanhamentoFormularioBean.initVisualizarMetadadosFormulario}"></af:link>
+                        <af:link id="avaliar" icon="#{res['img.visualizarOn']}" partialSubmit="true"
+                                 shortDesc="#{app['label.consultarFormulario.avaliarRetificar']}"
+                                 rendered="#{pageFlowScope.controleFluxo eq 'AVALIAR'}"
+                                 action="#{pageFlowScope.acompanhamentoFormularioBean.initAvaliarRetificacaoFormulario}"></af:link>
+                        <af:spacer width="5" height="5" id="s2"/>
+
+                        <af:link id="baixar" icon="#{res['img.printerOn']}" 
+                                 partialSubmit="true"
+                                 shortDesc="#{app['label.consultarFormulario.baixarFormulario']}"
+                                 action="#{pageFlowScope.acompanhamentoFormularioBean.initBaixarMetadadosFormulario}"
+                                 rendered="#{pageFlowScope.controleFluxo eq 'CONSULTAR' or pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                            <af:fileDownloadActionListener filename="formulario.pdf" contentType="application/pdf"
+                                                           method="#{pageFlowScope.acompanhamentoFormularioBean.baixarFormulario}"/>
+                        </af:link>
+                       
+               
+                    </af:panelGroupLayout>
+                </af:column>
+            </af:table>
+            <af:panelGridLayout id="pgl108">
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr7">
+                    <af:gridCell width="25%" id="gc22">
+                        <af:outputText value="#{app['msg.resultado.quantidadeRegistros']} : " id="ot11"
+                                       partialTriggers="botaoBuscar botaoLimpar" styleClass="paginacaoItensResultado"/>
+                        <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.tamanhoMaximo}"
+                                       id="ot44" partialTriggers="botaoBuscar botaoLimpar"
+                                       styleClass="paginacaoItensQtdeResultado"/>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="50%" id="gc21" halign="center">
+                        <af:panelGroupLayout id="panelGroupPaginacao1" layout="horizontal" halign="center">
+                            <af:spacer width="3" height="5" id="dc_s571"/>
+                            <af:button id="primeiraPagina" shortDesc="#{app['label.paginacao.primeira']}"
+                                       icon="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledPrimeiro ? res['img.paginacaoPrimeiraOff'] : res['img.paginacaoPrimeiraOn']}"
+                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledPrimeiro}"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.irPrimeiraPaginacao}"
+                                       partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                            <af:spacer width="3" height="5" id="s5"/>
+                            <af:button id="paginaAnterior" shortDesc="#{app['label.paginacao.anterior']}"
+                                       icon="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledAnterior ? res['img.paginacaoAnteriorOff'] : res['img.paginacaoAnteriorOn']}"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.irPaginacaoAnterior}"
+                                       partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"
+                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledAnterior}"/>
+                            <af:spacer width="3" height="5" id="s88"/>
+                            <af:panelGroupLayout id="panelGroupPaginacaoNumeral" layout="horizontal"
+                                                 partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina">
+                                <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.indicesPaginacao}"
+                                            var="indice">
+                                    <af:button text=" #{indice+1} " id="botaoPaginacaoAtual"
+                                               partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                               rendered="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.indice == indice}"
+                                               disabled="true" styleClass="botaoPaginacaoAtual"/>
+                                    <af:button text=" #{indice+1} " id="botaoPaginacao1"
+                                               partialTriggers="botaoBuscar botaoLimpar primeiraPagina paginaAnterior proximaPagina ultimaPagina"
+                                               rendered="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.indice != indice}"
+                                               actionListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarIndicePaginacao(indice)}"
+                                               action="#{pageFlowScope.acompanhamentoFormularioBean.pesquisarEntidade}"
+                                               styleClass="botaoPaginacao"/>
+                                    <af:spacer width="3" height="5" id="s89"/>
+                                </af:forEach>
+                            </af:panelGroupLayout>
+                            <af:button id="proximaPagina" shortDesc="#{app['label.paginacao.proxima']}"
+                                       icon="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledProximo ? res['img.paginacaoProximaOff'] : res['img.paginacaoProximaOn']}"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.irProximaPaginacao}"
+                                       partialTriggers="proximaPagina paginaAnterior primeiraPagina ultimaPagina botaoBuscar botaoLimpar"
+                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledProximo}"/>
+                            <af:spacer width="3" height="5" id="s90"/>
+                            <af:button id="ultimaPagina" shortDesc="#{app['label.paginacao.ultima']}"
+                                       icon="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledUltimo ? res['img.paginacaoUltimaOff'] : res['img.paginacaoUltimaOn']}"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.pesquisarEntidade}"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.irUltimaPaginacao}"
+                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.paginacao.disabledUltimo}"
+                                       partialTriggers="primeiraPagina paginaAnterior proximaPagina ultimaPagina botaoBuscar botaoLimpar"/>
+                        </af:panelGroupLayout>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="25%" id="gc23"/>
+                </af:gridRow>
+                <af:gridRow id="gr4">
+                    <af:gridCell id="gc12" columnSpan="3" valign="top" halign="end">
+                        <af:panelGroupLayout id="pgl9" layout="vertical" halign="start">
+                            <af:spacer width="5" height="5" id="s1"
+                                       rendered="#{pageFlowScope.controleFluxo != 'ENVIAR'}"/>
+                            <af:button text="#{app['botao.consultarFormulario.enviarCGJ']}"
+                                       rendered="#{pageFlowScope.controleFluxo eq 'ENVIAR'}" id="botaoEnviarCGJ"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.validarEnviarFormulario}"></af:button>
+                        </af:panelGroupLayout>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+            <af:popup childCreation="deferred" id="confirmacaoEnviarFormularioPopUp" contentDelivery="lazyUncached">
+                <af:dialog id="confirmacaoEnviarFormularioDialog"
+                           affirmativeTextAndAccessKey="#{app['label.radio.sim']}" type="okCancel"
+                           title="#{app['botao.consultarFormulario.enviarFormulario']}"
+                           cancelTextAndAccessKey="#{app['label.radio.nao']}"
+                           dialogListener="#{pageFlowScope.acompanhamentoFormularioBean.enviarFormulario}">
+                    <af:declarativeComponent id="dc4" viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                             mensagem="#{app['msg.formulario.perguntaEnviarFormulario']}"
+                                             tipoNotificacao="confirmacao"/>
+                    <!--infoAdicional="#{pageFlowScope.acompanhamentoFormularioBean.mensagemMagistrado}"/>-->
+                </af:dialog>
+            </af:popup>
+            <af:panelBox id="pb2" partialTriggers="botaoLimpar"
+                         rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                <!-- <af:panelGridLayout id="pgl3" rendered="#{pageFlowScope.controleFluxo eq 'ENVIAR'}">
+                    <af:gridRow marginTop="5px" height="auto" id="gr1" marginBottom="5px">
+                         <af:gridCell marginStart="0px" width="20%" id="gc16" valign="bottom" halign="start">
+                            <af:panelFormLayout id="pfl8" labelAlignment="top">
+                                <af:inputText id="it4" label="#{app['label.consultarFormulario.motivoDevolucao']}"
+                                              rows="2" maximumLength="255" columns="100"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.motivoDevolucao}"/>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="0px" width="20%" id="gc1" valign="bottom">
+                            <af:spacer width="7" height="10" id="s6"/>
+                            <af:button text="#{app['botao.cancelar']}" id="botaoCancelar"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.cancelarEnviarFormulario}"/>
+                            <af:spacer width="10" height="10" id="s7"/> 
+                            
+                                 <af:spacer width="10" height="10" id="s1"/>
+                            <af:button text="#{app['botao.consultarFormulario.devolver']}" id="botaoDevolver"
+                                       action="#{pageFlowScope.acompanhamentoFormularioBean.devolverFormulario}"/>
+                                       
+                            
+                        </af:gridCell>
+                    </af:gridRow>-->
+                <af:panelGridLayout id="pgl4"
+                                    rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                    <af:gridRow marginTop="5px" height="auto" id="gr6" marginBottom="5px">
+                        <af:gridCell marginStart="0px" id="gc10"
+                                     rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER'}" valign="bottom"
+                                     marginEnd="15px">
+                            <af:panelGroupLayout id="pgl7" layout="vertical" halign="start" valign="top"
+                                                 styleClass="width:212px;">
+                                <af:outputLabel value="#{app['label.consultarFormulario.unidade']}" id="ol6"
+                                                for="inputFiltroUnidade"/>
+                                <af:selectOneChoice id="soc1"
+                                                    partialTriggers="tabelaResultados confirmacaoDefinirMagistradoDialog"
+                                                    autoSubmit="true"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.unidadeFormularioMagistrado}"
+                                                    immediate="true" contentStyle="width:204.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si13" value=""/>
+                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaUnidadeFormulario}"
+                                                var="unidade">
+                                        <af:selectItem label="#{unidade.nomeUnidade}" id="si11"
+                                                       value="#{unidade.nomeUnidade}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="0px" id="gc26"
+                                     rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER'}" valign="bottom"
+                                     marginEnd="15px">
+                            <af:panelGroupLayout id="pgl6" layout="vertical" halign="start" valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.mesReferencia']}" id="ol5"
+                                                for="inputFiltroUnidade"/>
+                                <af:selectOneChoice id="soc2"
+                                                    partialTriggers="tabelaResultados confirmacaoDefinirMagistradoDialog"
+                                                    autoSubmit="true"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.mesReferencia}"
+                                                    immediate="true" contentStyle="width:100.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si15" value="0"/>
+                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaMesReferencia}"
+                                                var="mes">
+                                        <af:selectItem label="#{mes}" id="si14" value="#{mes}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="0px" id="gc20"
+                                     rendered="#{pageFlowScope.controleFluxo eq 'PREENCHER'}" valign="bottom"
+                                     marginEnd="15px">
+                            <af:panelGroupLayout id="pgl8" layout="vertical" halign="start" valign="top">
+                                <af:outputLabel value="#{app['label.consultarFormulario.anoReferencia']}" id="ol8"
+                                                for="inputFiltroUnidade"/>
+                                <af:selectOneChoice id="soc3"
+                                                    partialTriggers="tabelaResultados confirmacaoDefinirMagistradoDialog"
+                                                    autoSubmit="true"
+                                                    value="#{pageFlowScope.acompanhamentoFormularioBean.anoReferencia}"
+                                                    immediate="true" contentStyle="width:100.0px;">
+                                    <af:selectItem label="#{app['label.combo.selecione']}" id="si12" value="0"/>
+                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaAnoReferencia}"
+                                                var="ano">
+                                        <af:selectItem label="#{ano}" id="si16" value="#{ano}"/>
+                                    </af:forEach>
+                                </af:selectOneChoice>
+                            </af:panelGroupLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="0px" id="gc24" valign="bottom" marginEnd="15px">
+                            <af:panelFormLayout id="pfl10" labelAlignment="top">
+                                <af:inputText id="inputTextUsuarioSugestao" columns="60"
+                                              partialTriggers="tabelaResultados confirmacaoDefinirMagistradoDialog"
+                                              disabled="#{not pageFlowScope.acompanhamentoFormularioBean.alterarMagistrado}"
+                                              valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeUsuarioSelecionada}"
+                                              label="#{app['label.consultarFormulario.magistrado']}" autoSubmit="true"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.sugestaoMagistrado}">
+                                    <af:autoSuggestBehavior maxSuggestedItems="10"
+                                                            suggestedItems="#{pageFlowScope.acompanhamentoFormularioBean.autoCompletarUsuario}"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="20%" id="gc17" valign="bottom" halign="start">
+                            <af:button text="#{app['botao.consultarFormulario.definirMagistrado']}"
+                                       partialTriggers="tabelaResultados" id="botaoDefinirMagistrado"
+                                       disabled="#{not pageFlowScope.acompanhamentoFormularioBean.alterarMagistrado}"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.validarDefinirMagistrado}"></af:button>
+                            <af:popup childCreation="deferred" id="confirmacaoDefinirMagistradoPopUp"
+                                      contentDelivery="lazyUncached">
+                                <af:dialog id="confirmacaoDefinirMagistradoDialog"
+                                           affirmativeTextAndAccessKey="#{app['label.radio.sim']}" type="okCancel"
+                                           title="#{app['label.formulario.definirMagistrado']}"
+                                           cancelTextAndAccessKey="#{app['label.radio.nao']}"
+                                           dialogListener="#{pageFlowScope.acompanhamentoFormularioBean.definirMagistrado}">
+                                    <af:declarativeComponent id="dc1"
+                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                             mensagem="#{app['msg.formulario.perguntaDefinirMagistrado']}"
+                                                             tipoNotificacao="confirmacao"/>
+                                    <!--infoAdicional="#{pageFlowScope.acompanhamentoFormularioBean.mensagemMagistrado}"/>-->
+                                </af:dialog>
+                            </af:popup>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+                <af:panelGridLayout id="pgl5" rendered="#{pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                    <af:gridRow marginTop="5px" height="auto" id="gr9" marginBottom="5px">
+                        <af:gridCell width="35%" id="gc18" valign="bottom" halign="start">
+                            <af:panelFormLayout id="pfl1" labelAlignment="top">
+                                <af:inputText id="it2" label="#{app['label.consultarFormulario.motivoRetificacao']}"
+                                              rows="2" maximumLength="255" columns="100"
+                                              value="#{pageFlowScope.acompanhamentoFormularioBean.motivoDevolucao}"
+                                              partialTriggers="tabelaResultados confirmacaoSolicitarRetificacaoDialog"/>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell marginStart="15px" width="20%" id="gc19" valign="bottom">
+                            <af:spacer width="7" height="10" id="s8"/>
+                            <af:button text="#{app['botao.consultarFormulario.solicitarRetificacao']}"
+                                       partialTriggers="tabelaResultados" id="botaoSolicitarRetificacao"
+                                       actionListener="#{pageFlowScope.acompanhamentoFormularioBean.validarSolicitarRetificacao}"></af:button>
+                            <af:popup childCreation="deferred" id="confirmacaoSolicitarRetificacaoPopUp"
+                                      contentDelivery="lazyUncached">
+                                <af:dialog id="confirmacaoSolicitarRetificacaoDialog"
+                                           affirmativeTextAndAccessKey="#{app['label.radio.sim']}" type="okCancel"
+                                           title="#{app['label.consultarFormulario.solicitarRetificacao']}"
+                                           cancelTextAndAccessKey="#{app['label.radio.nao']}"
+                                           dialogListener="#{pageFlowScope.acompanhamentoFormularioBean.solicitarRetificacao}">
+                                    <af:declarativeComponent id="dc2"
+                                                             viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                             mensagem="#{app['msg.formulario.perguntaSolicitarRetificacao']}"
+                                                             tipoNotificacao="confirmacao"/>
+                                    <!--infoAdicional="#{pageFlowScope.acompanhamentoFormularioBean.mensagemMagistrado}"/>-->
+                                </af:dialog>
+                            </af:popup>
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:panelBox>
+        </af:panelHeader>
+    </af:panelGroupLayout>
+</jsp:root>

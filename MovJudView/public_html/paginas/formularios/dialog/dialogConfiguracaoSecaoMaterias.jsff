@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+        <af:panelGroupLayout id="pgl2" layout="horizontal">
+            <af:spacer width="30" height="30" id="s6"/>
+            <af:panelFormLayout id="pfl1">
+                <af:panelGroupLayout id="pgl6" layout="vertical" valign="bottom" halign="center">
+                    <af:panelGroupLayout id="pgl1" layout="horizontal" valign="bottom">
+                        <af:panelFormLayout id="pfl5" labelAlignment="top">
+                            <af:selectOneChoice label="#{app['label.formulario.materia']}" id="soc1"
+                                                partialTriggers="d2 b2 b3"
+                                                value="#{pageFlowScope.configuracaoFormularioBean.materiaVincular}"
+                                                disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}">
+                                <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaMaterias}" var="materia">
+                                    <af:selectItem label="#{materia.nomeTipoMateria}" id="si1" value="#{materia}"/>
+                                </af:forEach>
+                            </af:selectOneChoice>
+                        </af:panelFormLayout>
+                        <af:spacer width="5" height="5" id="s5"/>
+                        <af:button id="b1"
+                                   icon="#{res['img.adicionarOn']}"
+                                   disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                   disabledIcon="#{res['img.adicionarOff']}">
+                            <af:showPopupBehavior popupId="popupAdicionarMateria" triggerType="click" align="afterEnd"/>
+                        </af:button>
+                        <af:spacer width="5" height="5" id="s4"/>
+                        <af:popup childCreation="deferred" autoCancel="disabled" id="popupAdicionarMateria"
+                                  contentDelivery="lazyUncached">
+                            <af:dialog id="d2" dialogListener="#{pageFlowScope.configuracaoFormularioBean.adicionarNovaMateria}">
+                                <f:facet name="buttonBar"/>
+                                <af:panelFormLayout id="pfl2" labelAlignment="top">
+                                    <af:inputText label="#{app['label.formulario.materia']}" id="it1"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.materiaAdicionar.nomeTipoMateria}"
+                                                  maximumLength="100"/>
+                                </af:panelFormLayout>
+                            </af:dialog>
+                        </af:popup>
+                    </af:panelGroupLayout>
+                    <af:spacer width="10" height="10" id="s2"/>
+                    <af:panelGroupLayout id="pgl3" layout="horizontal" halign="center">
+                        <af:button id="b2" icon="/resource/images/paraBaixoOn.png"
+                                   actionListener="#{pageFlowScope.configuracaoFormularioBean.vincularMateriaFormulario}"
+                                   shortDesc="Vincular"
+                                   disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                        <af:spacer width="15" height="10" id="s1"/>
+                        <af:button id="b3" icon="/resource/images/paraCimaOn.png"
+                                   actionListener="#{pageFlowScope.configuracaoFormularioBean.desvincularMateriaFormulario}"
+                                   shortDesc="Desvincular"
+                                   disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                    </af:panelGroupLayout>
+                    <af:spacer width="10" height="10" id="s3"/>
+                    <af:table var="row" rowBandingInterval="0" id="tabelaMaterias" rowSelection="single"
+                              value="#{pageFlowScope.configuracaoFormularioBean.listaMateriasSecao}"
+                              selectionListener="#{pageFlowScope.configuracaoFormularioBean.selecionarLinhaTabelaMaterias}"
+                              partialTriggers="::b2 ::b3" columnStretching="column:c1">
+                        <af:column sortable="false" id="c1">
+                            <af:outputText value="#{row.nomeTipoMateria}" id="ot1"/>
+                        </af:column>
+                    </af:table>
+                    <af:spacer width="15" height="15" id="s8"/>
+                </af:panelGroupLayout>
+            </af:panelFormLayout>
+            <af:spacer width="30" height="30" id="s7"/>
+        </af:panelGroupLayout>
+</jsp:root>

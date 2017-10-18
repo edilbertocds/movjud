@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+        <af:panelGroupLayout id="pgl2" layout="horizontal">
+            <af:spacer width="30" height="30" id="s6"/>
+            <af:panelGroupLayout id="pgl6" layout="vertical">
+                <af:panelGroupLayout id="pgl5" layout="horizontal">
+                    <af:panelFormLayout id="pfl3" labelAlignment="top" rows="1">
+                        <af:selectBooleanCheckbox text="#{app['label.formulario.perguntatipointernacao']}" id="sbc2"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.secaoEstabelecimentoPrisional.tipoInternacao}"/>
+                    <af:selectBooleanCheckbox text="#{app['label.formulario.perguntatipoprisional']}" id="sbc3"
+                                              value="#{pageFlowScope.configuracaoFormularioBean.secaoEstabelecimentoPrisional.tipoPrisional}"
+                                              disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                </af:panelFormLayout>
+                </af:panelGroupLayout>
+                <af:spacer width="15" height="15" id="s8"/>
+            </af:panelGroupLayout>
+            <af:spacer width="30" height="30" id="s7"/>
+        </af:panelGroupLayout>
+</jsp:root>

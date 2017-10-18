@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="panelGroupIncluirModeloAviso" layout="vertical" 
+                         styleClass="DialogManterModelo formStyle">
+        <af:panelGridLayout id="pgl1">
+            <af:gridRow marginTop="5px" height="auto" id="gr1">
+                <af:gridCell marginStart="5px" width="50%" id="gc1" columnSpan="2">
+                    <af:panelFormLayout id="panelFormNomeModeloAviso" labelAlignment="top">
+                        <af:inputText label="#{app['label.modeloAviso.nome']}" id="inputTextNomeModeloAviso"
+                                      value="#{modeloAvisoBean.entidadePersistencia.nomeAvisoEstrutura}" columns="70"
+                                      disabled="#{modeloAvisoBean.visualizar}" maximumLength="100" showRequired="true"
+                                      validator="#{modeloAvisoBean.validate}"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr2">
+                <af:gridCell marginStart="5px" width="50%" id="gc3" columnSpan="2">
+                    <af:panelGroupLayout id="panelFormTipoModeloAviso" layout="vertical">
+                        <af:outputLabel value="#{app['label.modeloAviso.tipo']}" for="inputFiltroTipo" id="ol2"
+                                        showRequired="#{modeloAvisoBean.visualizar ? false : true}"/>
+                        <af:selectOneChoice id="inputFiltroTipo" disabled="#{modeloAvisoBean.visualizar}"
+                                            autoSubmit="true" value="#{modeloAvisoBean.entidadePersistencia.tipoAviso}"
+                                            contentStyle="width:200.0px;" validator="#{modeloAvisoBean.validate}"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:forEach items="#{modeloAvisoBean.listaTiposAviso}" var="tipoAviso">
+                                <af:selectItem label="#{tipoAviso.descricaoTipoAviso}" id="si9" value="#{tipoAviso}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr3">
+                <af:gridCell marginStart="5px" width="50%" id="gc5" columnSpan="2">
+                    <af:panelGroupLayout id="panelFormSituacaoModeloAviso" layout="vertical">
+                        <af:outputLabel value="#{app['label.modeloAviso.situacao']}"
+                                        showRequired="#{modeloAvisoBean.visualizar ? false : true}"
+                                        for="listaSituacaoModeloAviso" id="ol3"/>
+                        <af:selectOneChoice id="listaSituacaoModeloAviso" disabled="#{modeloAvisoBean.visualizar}"
+                                            value="#{modeloAvisoBean.entidadePersistencia.flagTipoSituacao}"
+                                            contentStyle="width:200.0px;" validator="#{modeloAvisoBean.validate}"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}" id="selectItemModeloAvisoAtivo"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}" id="selectItemModeloAvisoInativo"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr4">
+                <af:gridCell width="210px" id="gc7" columnSpan="1">
+                    <af:panelGroupLayout layout="horizontal" id="pgl2" valign="bottom">
+                        <af:panelGroupLayout id="panelVariaveisModeloAviso" layout="vertical">
+                            <af:outputLabel value="#{app['label.modeloAviso.variaveis']}" for="inputFiltroVariaveis"
+                                            id="ol4"/>
+                            <af:selectOneChoice id="inputFiltroVariaveis" disabled="#{modeloAvisoBean.visualizar}"
+                                                value="#{modeloAvisoBean.variavel}" partialTriggers="inputFiltroTipo"
+                                                autoSubmit="true" contentStyle="width:200.0px;"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                                <af:forEach items="#{modeloAvisoBean.entidadePersistencia.tipoAviso.variaveis}"
+                                            var="variavel">
+                                    <af:selectItem label="#{variavel.nomeVariavel}" id="si10" value="#{variavel}"/>
+                                </af:forEach>
+                            </af:selectOneChoice>
+                        </af:panelGroupLayout>
+                        <af:panelFormLayout id="panelAdicionarVariavelModeloAviso" styleClass="formLinks">
+                            <af:link id="addVariavel" icon="#{res['img.adicionarOn']}"
+                                     shortDesc="#{app['label.modeloAviso.adicionarVariavel']}"
+                                     actionListener="#{modeloAvisoBean.adicionarVariavelNoModeloAviso}"
+                                     disabled="#{modeloAvisoBean.visualizar}" partialSubmit="true"
+                                     disabledIcon="#{res['img.adicionarOff']}"/>
+                        </af:panelFormLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell width="40%" id="gc8" halign="start" valign="bottom"/>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr5">
+                <af:gridCell marginStart="5px" width="50%" id="gc9" columnSpan="2" >
+                    <af:panelFormLayout id="panelFormConteudoModeloAviso" labelAlignment="top">
+                        <af:outputLabel value="#{app['label.modeloAviso.modelo']}" styleClass="cancelarPadding"
+                                        showRequired="#{modeloAvisoBean.visualizar ? false : true}" id="ol1"
+                                        for="msgBody"/>
+                        <af:richTextEditor id="msgBody" contentStyle="width:520.0px;" clientComponent="true" rows="6"
+                                           disabled="#{modeloAvisoBean.visualizar}"
+                                           validator="#{modeloAvisoBean.validate}"
+                                           value="#{modeloAvisoBean.entidadePersistencia.descricaoConteudo}"
+                                           partialTriggers="addVariavel"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+        </af:panelGroupLayout>
+</jsp:root>  

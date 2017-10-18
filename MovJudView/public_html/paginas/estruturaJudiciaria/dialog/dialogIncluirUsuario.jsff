@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <af:panelGroupLayout id="pgl5" valign="top" layout="horizontal">
+        <af:panelHeader text="#{app['label.informacoes']}" id="ph6" contentStyle="width:414px;">
+            <af:panelGridLayout id="pgl2">
+                <af:gridRow marginTop="5px" height="auto" id="gr10">
+                    <af:gridCell marginStart="5px" width="50%" id="gc10" columnSpan="2">
+                        <af:panelFormLayout id="pfl1" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.codigoUsuario']}" id="it1" maximumLength="25"
+                                          value="#{usuarioBean.entidadePersistencia.codigoUsuario}" columns="54"
+                                          showRequired="true" validator="#{usuarioBean.validate}"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" id="gr11">
+                    <af:gridCell marginStart="5px" width="60%" id="gc12">
+                        <af:panelFormLayout id="pfl9" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.cnj']}" id="it2" maximumLength="50"
+                                          value="#{usuarioBean.entidadePersistencia.codigoCnj}" columns="27"
+                                          disabled="#{usuarioBean.visualizar}"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                    <af:gridCell marginStart="10px" width="40%" id="gc13">
+                        <af:panelFormLayout id="pfl3" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.codigoSaj']}" id="it9"
+                                          value="#{usuarioBean.entidadePersistencia.codigoUsuarioSaj}" columns="16"
+                                          partialTriggers="soc2" maximumLength="10"
+                                          disabled="#{usuarioBean.entidadePersistencia.perfil.codigoPerfil !=  constantesBean.PERFIL_COD_MAGISTRADO}"
+                                          autoSubmit="true"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" id="gr12">
+                    <af:gridCell marginStart="5px" width="50%" id="gc14" columnSpan="2">
+                        <af:panelFormLayout id="pfl8" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.nome']}" id="it3" maximumLength="200"
+                                          value="#{usuarioBean.entidadePersistencia.nome}" columns="54"
+                                          disabled="#{usuarioBean.visualizar}" 
+                                          showRequired="true" validator="#{usuarioBean.validate}"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" id="gr13">
+                    <af:gridCell marginStart="5px" width="50%" id="gc16" columnSpan="2">
+                        <af:panelFormLayout id="pfl7" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.matricula']}" id="it4" maximumLength="100"
+                                          value="#{usuarioBean.entidadePersistencia.matricula}" columns="54"
+                                          disabled="#{usuarioBean.visualizar}"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" id="gr14">
+                    <af:gridCell marginStart="5px" width="50%" id="gc18" columnSpan="2">
+                        <af:panelFormLayout id="pfl6" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.email']}" id="it5" maximumLength="255"
+                                          value="#{usuarioBean.entidadePersistencia.email}" columns="54"
+                                          disabled="#{usuarioBean.visualizar}"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" id="gr15">
+                    <af:gridCell marginStart="5px" width="50%" id="gc20" columnSpan="2">
+                        <af:panelFormLayout id="pfl5" labelAlignment="top">
+                            <af:inputText label="#{app['label.usuario.telefone']}" id="it8" maximumLength="18"
+                                          value="#{usuarioBean.entidadePersistencia.telefone}" columns="54"
+                                          disabled="#{usuarioBean.visualizar}"/>
+                        </af:panelFormLayout>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr16">
+                    <af:gridCell marginStart="5px" width="50%" id="gc22">
+                        <af:panelGroupLayout id="pfl4" layout="vertical">
+                            <af:outputLabel value="#{app['label.usuario.perfil']}" for="soc2" 
+                                            id="ol1" showRequired="true"/> 
+                            <af:selectOneChoice id="soc2"
+                                                value="#{usuarioBean.entidadePersistencia.perfil}"
+                                                valueChangeListener="#{usuarioBean.popularAcoesCadastro}"
+                                                autoSubmit="true" disabled="#{usuarioBean.visualizar}" 
+                                                 validator="#{usuarioBean.validate}"
+                                                mode="default" contentStyle="width:200px;"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                                <af:forEach items="#{usuarioBean.listaPerfis}" var="perfil">
+                                    <af:selectItem label="#{perfil.nomePerfil}" id="si9" value="#{perfil}"/>
+                                </af:forEach>
+                            </af:selectOneChoice>
+                        </af:panelGroupLayout>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="50%" id="gc23">
+                        <af:panelGroupLayout id="pfl2" layout="vertical">
+                            <af:outputLabel value="#{app['label.usuario.situacao']}" for="choiceStatusUsuario"
+                                            id="ol2" showRequired="true"/> 
+                            <af:selectOneChoice id="choiceStatusUsuario"
+                                                value="#{usuarioBean.entidadePersistencia.flagTipoSituacao}"
+                                                disabled="#{usuarioBean.visualizar}" 
+                                                validator="#{usuarioBean.validate}"
+                                                contentStyle="width:135px;"
+                                                unselectedLabel="#{app['label.combo.selecione']}">
+                                <af:selectItem label="#{app['label.combo.ativo']}" id="selectItemRegiaoAtivo"
+                                               value="#{app['flag.situacaoAtiva']}"/>
+                                <af:selectItem label="#{app['label.combo.inativo']}" id="selectItemRegiaoInativo"
+                                               value="#{app['flag.situacaoInativa']}"/>
+                            </af:selectOneChoice>
+                        </af:panelGroupLayout>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+        </af:panelHeader>
+        <af:spacer width="5" height="5" id="s4"/>
+        <af:panelHeader text="#{app['label.acoes']}" id="ph7">
+            <af:panelGroupLayout id="pg20" layout="horizontal">
+                <af:image source="#{res['img.listaVazia']}" id="i5"/>
+                <af:selectBooleanCheckbox text="#{app['label.usuario.direitosEspeciais']}" partialTriggers="soc2"
+                                          id="selectBooleanDireitosEspeciais"
+                                          valueChangeListener="#{usuarioBean.alterarDireitosEspeciais}"
+                                          autoSubmit="true" value="#{usuarioBean.direitosEspeciais}"
+                                          disabled="#{usuarioBean.entidadePersistencia.perfil.codigoPerfil == app['label.combo.selecione'] or usuarioBean.entidadePersistencia.perfil.codigoPerfil == null  }"/>
+            </af:panelGroupLayout>
+            <af:separator id="s1"/>
+            <af:panelGroupLayout id="painelAcoesIncluir" layout="vertical"
+                                 partialTriggers="soc2 selectBooleanDireitosEspeciais">
+                <af:forEach items="#{usuarioBean.listaAcoesSelecionadasComMarcacao}" var="type">
+                    <af:panelGroupLayout id="pgl9" layout="horizontal">
+                        <af:image source="#{type.imagem}" id="i4" styleClass="icones"/>
+                        <af:selectBooleanCheckbox id="sbc5" selected="#{type.marcado}"
+                                                  valueChangeListener="#{usuarioBean.alterarPermissaoAcao}"
+                                                  autoSubmit="true"
+                                                  disabled="#{(usuarioBean.visualizar == true or type.habilitado == false) ? true : false}">
+                            <af:setPropertyListener from="#{type}" to="#{usuarioBean.acaoCorrente}" type="valueChange"/>
+                        </af:selectBooleanCheckbox>
+                        <af:outputText value="#{type.acao.nomeAcao}" id="ot2"/>
+                    </af:panelGroupLayout>
+                </af:forEach>
+            </af:panelGroupLayout>
+        </af:panelHeader>
+        <af:spacer width="5" height="5" id="s2"/>
+    </af:panelGroupLayout>
+</jsp:root>

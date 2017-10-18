@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="taskFlowGerenciarFormulario">
+    <default-activity>listarGerenciarFormulario</default-activity>
+    <data-control-scope>
+      <shared/>
+    </data-control-scope>
+    <managed-bean id="__1">
+      <managed-bean-name>configuracaoFormularioBean</managed-bean-name>
+      <managed-bean-class>br.jus.tjsp.movjud.web.formulario.bean.ConfiguracaoFormularioBean</managed-bean-class>
+      <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+    <view id="listarGerenciarFormulario">
+      <page>/paginas/formularios/jsff/listarGerenciarFormulario.jsff</page>
+    </view>
+    <view id="manterGerenciarFormulario">
+      <page>/paginas/formularios/jsff/manterGerenciarFormulario.jsff</page>
+    </view>
+    <method-call id="pesquisarEntidade">
+      <method>#{pageFlowScope.configuracaoFormularioBean.pesquisarEntidade}</method>
+      <outcome>
+        <fixed-outcome>voltar</fixed-outcome>
+      </outcome>
+    </method-call>
+    <control-flow-rule id="__4">
+      <from-activity-id>listarGerenciarFormulario</from-activity-id>
+      <control-flow-case id="__5">
+        <from-outcome>manterGerenciarFormulario</from-outcome>
+        <to-activity-id>manterGerenciarFormulario</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__6">
+      <from-activity-id>manterGerenciarFormulario</from-activity-id>
+      <control-flow-case id="__7">
+        <from-outcome>voltar</from-outcome>
+        <to-activity-id>pesquisarEntidade</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__2">
+      <from-activity-id>pesquisarEntidade</from-activity-id>
+      <control-flow-case id="__3">
+        <from-outcome>voltar</from-outcome>
+        <to-activity-id>listarGerenciarFormulario</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>

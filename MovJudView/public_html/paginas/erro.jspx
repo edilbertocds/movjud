@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:panelHeader text="ERRO!" id="ph2">
+                                <f:facet name="context"/>
+                                <af:panelBox id="panelBox" titleHalign="center">
+                                    <f:facet name="toolbar"/>
+                                    <af:panelGridLayout id="pgl1">
+                                        <af:gridRow id="gr1">
+                                            <af:gridCell id="gc13">
+                                                <af:outputText value="Classe de Erro: " id="ot1"/>
+                                                <af:outputLabel value="#{exceptionBean.classeErro}" id="ol1"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow id="gr2">
+                                            <af:gridCell id="gc1">
+                                                <af:outputText value="Mensagem de Erro: " id="ot2"/>
+                                                <af:outputLabel value="#{exceptionBean.mensagemErro}" id="ol2"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow id="gr3">
+                                            <af:gridCell id="gc2">
+                                                <af:outputText value="Stack do Erro: " id="ot3"/>
+                                                <af:outputLabel value="#{exceptionBean.stack}" id="ol3"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                            </af:panelHeader>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

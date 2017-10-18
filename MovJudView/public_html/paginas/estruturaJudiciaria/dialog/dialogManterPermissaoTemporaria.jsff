@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGridLayout id="pgl1">
+        <af:gridRow marginTop="5px" height="auto" id="gr1">
+            <af:gridCell width="50%" id="gc1" columnSpan="2">
+                <af:panelFormLayout id="panelFormFuncionarioCartorio" labelAlignment="top">
+                    <af:inputText label="#{app['label.permissaoTemporaria.funcionarioCartorio']}"
+                                  id="inputTextUsuarioSugestao"
+                                  value="#{permissaoUnidadeTemporariaBean.sugestaoUsuario}"
+                                  valueChangeListener="#{permissaoUnidadeTemporariaBean.alterarNomeUsuarioSelecionada}"
+                                  autoSubmit="true" showRequired="true"
+                                  validator="#{permissaoUnidadeTemporariaBean.validate}" columns="60"
+                                  disabled="#{permissaoUnidadeTemporariaBean.visualizar}" maximumLength="100"
+                                  contentStyle="width:421px;">
+                        <af:autoSuggestBehavior maxSuggestedItems="5"
+                                                suggestedItems="#{permissaoUnidadeTemporariaBean.autoCompletarUsuario}"/>
+                    </af:inputText>
+                </af:panelFormLayout>
+            </af:gridCell>
+        </af:gridRow>
+        <af:gridRow marginTop="5px" height="auto" id="gr2">
+            <af:gridCell width="50%" id="gc3" columnSpan="2">
+                <af:panelGroupLayout id="panelGroupForoUnidade" layout="vertical">
+                    <af:outputLabel value="#{app['label.permissaoTemporaria.foroUnidade']}" showRequired="#{permissaoUnidadeTemporariaBean.visualizar ? false : true}"
+                                    for="inputFiltroForoUnidade"/>
+                    <af:selectOneChoice simple="false" autoSubmit="true" id="inputFiltroForoUnidade"
+                                        disabled="#{permissaoUnidadeTemporariaBean.visualizar}"
+                                        validator="#{permissaoUnidadeTemporariaBean.validate}"
+                                        value="#{permissaoUnidadeTemporariaBean.entidadePersistencia.unidade.idUnidade}"
+                                        contentStyle="width:421px;"
+                                        unselectedLabel="#{app['label.combo.selecione']}">
+                        <af:forEach items="#{permissaoUnidadeTemporariaBean.listaUnidade}" var="unidade">
+                            <af:selectItem label="#{unidade.foro.nomeForo} - #{unidade.nomeUnidade}" id="si1"
+                                           value="#{unidade.idUnidade}"/>
+                        </af:forEach>
+                    </af:selectOneChoice>
+                </af:panelGroupLayout>
+            </af:gridCell>
+        </af:gridRow>
+        <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr3">
+            <af:gridCell width="215px" id="gc5">
+                <af:panelFormLayout id="panelFormDataInicio" labelAlignment="top" rows="1" maxColumns="100">
+                    <af:inputDate label="#{app['label.permissaoTemporaria.dataInicio']}" id="id1"
+                                  showRequired="true"
+                                  autoSubmit="true"
+                                  disabled="#{permissaoUnidadeTemporariaBean.visualizar}" 
+                                  validator="#{permissaoUnidadeTemporariaBean.validate}"
+                                  value="#{permissaoUnidadeTemporariaBean.entidadePersistencia.dataInicio}"
+                                  contentStyle="width:190px;"/>
+                </af:panelFormLayout>
+            </af:gridCell>
+            <af:gridCell marginStart="5px" width="215px" id="gc6" halign="end">
+                <af:panelFormLayout id="panelFormForoDataFim" labelAlignment="top" rows="1" maxColumns="100">
+                    <af:inputDate label="#{app['label.permissaoTemporaria.dataFim']}" id="id2"
+                                  showRequired="true"
+                                  disabled="#{permissaoUnidadeTemporariaBean.visualizar}" 
+                                  validator="#{permissaoUnidadeTemporariaBean.validate}"
+                                  minValue="#{permissaoUnidadeTemporariaBean.entidadePersistencia.dataInicio}"
+                                  value="#{permissaoUnidadeTemporariaBean.entidadePersistencia.dataValidade}"
+                                  contentStyle="width:190px;"/>
+                </af:panelFormLayout>
+            </af:gridCell>
+        </af:gridRow>
+    </af:panelGridLayout>
+</jsp:root>

@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+      <af:pageTemplateDef var="attrs">
+        <af:xmlContent>
+            <component xmlns="http://xmlns.oracle.com/adf/faces/rich/component">
+                <display-name></display-name>
+                <facet>
+                    <facet-name>conteudo</facet-name>
+                </facet>
+            </component>
+        </af:xmlContent>
+        <af:panelGridLayout id="pt_pgl5">
+            <af:gridRow height="85px" id="pt_gr3">
+                <af:gridCell width="100%" halign="stretch" valign="stretch" id="pt_gc6">
+                    <af:panelGroupLayout id="top" layout="vertical" valign="top" styleClass="cabecalho">
+                        <af:panelGridLayout id="pt_pgl6">
+                            <af:gridRow height="auto" id="pt_gr6" marginBottom="2px" marginTop="7px">
+                                <af:gridCell width="400px" id="pt_gc9" valign="bottom" marginStart="115px">
+                                    <af:panelGroupLayout id="pt_pgl1" layout="vertical">
+                                        <af:image source="#{res['img.logoMenu']}" id="pt_i1" shortDesc=""/>
+                                    </af:panelGroupLayout>
+                                </af:gridCell>
+                                <af:gridCell width="100%" id="pt_gc10"/>
+                                <af:gridCell width="400px" id="pt_gc11" halign="end" valign="bottom" marginEnd="115px">
+                                    <af:panelGridLayout id="pt_pgl2">
+                                        <af:gridRow marginTop="" height="auto" marginBottom="" id="pt_gr2">
+                                            <af:gridCell id="pt_gc5" halign="end" columnSpan="4">
+                                                <af:image source="#{res['img.quadradosTj']}" id="pt_i2" shortDesc="" visible="false"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="auto" id="pt_gr1">
+                                            <af:gridCell marginStart="5px" id="pt_gc1">
+                                                <af:image id="pt_2" shortDesc="" source="#{res['img.usuarioLogin']}"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" id="pt_gc2">
+                                                <af:outputText value="#{loginBean.usuarioSessao.codigoUsuario}"
+                                                               id="pt_ot1" styleClass="usuarioCabecalho"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" id="pt_gc4">
+                                                <af:outputText value="|" id="pt_ot2" styleClass="textoCabecalho"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" id="pt_gc3">
+                                                <af:link text="#{app['label.logout']}" id="pt_l1"
+                                                         action="#{loginBean.irLogout}" styleClass="textoCabecalho"
+                                                         immediate="true"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:gridCell>
+                            </af:gridRow>
+                        </af:panelGridLayout>
+                        <af:panelGroupLayout id="topmenu" layout="horizontal" styleClass="container" halign="start">
+                            
+                            <af:panelGroupLayout id="pt_pgl3" layout="vertical" styleClass="containerMenu" halign="start">
+                                <af:menuBar id="pt_mb1">
+                                    <af:commandMenuItem immediate="true" text="#{app['menu.principal.home']}"
+                                                        id="pt_cmi1" action="principal"/>
+                                    <af:menu text="#{app['menu.formularios']}" id="pt_m1" rendered="#{loginBean.permissoesUsuario['PREFORM'] || 
+                                                     loginBean.permissoesUsuario['ENVFORM'] || 
+                                                     loginBean.permissoesUsuario['AVAFORM'] || 
+                                                     loginBean.permissoesUsuario['PERMPREEFORM'] || 
+                                                     loginBean.permissoesUsuario['RETFORM'] || 
+                                                     loginBean.permissoesUsuario['INTEGRCNJ'] || 
+                                                     loginBean.permissoesUsuario['RELACOMPDEVED'] || 
+                                                     loginBean.permissoesUsuario['CONGERAL']}">
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.consultarPreencher']}"
+                                                            rendered="#{loginBean.permissoesUsuario['PREFORM']}"
+                                                            id="pt_m2" action="consultarPreencherFormulario"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.consultarEnviar']}"
+                                                            rendered="#{loginBean.permissoesUsuario['ENVFORM']}"
+                                                            id="pt_m3" action="consultarEnviarFormulario"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.gerenciarPermissoesTemporarias']}"
+                                                            rendered="#{loginBean.permissoesUsuario['PERMPREEFORM']}"
+                                                            id="pt_m5" action="gerenciarPermissaoUnidadeTemporaria"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.consultarRetificacoes']}"
+                                                            rendered="#{loginBean.permissoesUsuario['RETFORM']}"
+                                                            id="pt_m6" action="consultarRetificarFormulario"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.consultarGeral']}"
+                                                            rendered="#{loginBean.permissoesUsuario['CONGERAL']}"
+                                                            id="pt_m8" action="consultarGeralFormulario"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.avaliarRetificacoes']}"
+                                                            rendered="#{loginBean.permissoesUsuario['AVAFORM']}"
+                                                            id="pt_m9" action="avaliarRetificarFormulario"/>
+                                       <!-- <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.integracaoSistemaCNJ']}"
+                                                            rendered="#{loginBean.permissoesUsuario['INTEGRCNJ']}"
+                                                            id="pt_m10"/> -->
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.formularios.acompanhamentoDevedores']}"
+                                                            rendered="#{loginBean.permissoesUsuario['RELACOMPDEVED']}"
+                                                            id="pt_m24" action="acompanharDevedores"/>
+                                    </af:menu>
+                                    <af:menu text="#{app['menu.controleDeFormularios']}"
+                                             rendered="#{loginBean.permissoesUsuario['GERFORM'] || loginBean.permissoesUsuario['GERVINC']}"
+                                             id="pt_m16">
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.controleDeFormularios.gerenciarFormulario']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFORM']}"
+                                                            id="pt_m17" action="gerenciarFormulario"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.controleDeFormularios.configurarFormularioVinculacao']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERVINC']}"
+                                                            id="pt_cmi13" action="configurarFormularioVinculacao"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.controleDeFormularios.liberarFormulario']}"
+                                                            rendered="#{loginBean.permissoesUsuario['LIBFORM']}"
+                                                            id="pt_cmi14" action="liberarFormulario"/>
+                                    </af:menu>
+                                    <af:menu text="#{app['menu.estruturaJuridica']}"
+                                             rendered="#{loginBean.permissoesUsuario['GERFOROUNID'] ||
+                                                     loginBean.permissoesUsuario['GERUSUA'] }"
+                                             id="pt_m19">
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarUnidade']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            id="pt_cmi3" action="gerenciarUnidade"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarRegiao']}"
+                                                            id="pt_cmi6"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            action="gerenciarRegiao"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarCircunscricao']}"
+                                                            id="pt_cmi7"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            action="gerenciarCircunscricao"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarComarca']}"
+                                                            id="pt_cmi8"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            action="gerenciarComarca"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarForo']}"
+                                                            id="pt_cmi9"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            action="gerenciarForo"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarEstabelecimentoPrisional']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            id="pt_cmi12" action="gerenciarEstabelecimentoPrisional"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarUsuario']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERUSUA']}"
+                                                            id="pt_cmi2" action="gerenciarUsuario"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarDominioBI']}"
+                                                            id="pt_cmigfb" action="gerenciarDominioBI"/>
+                                    </af:menu>
+                                    <af:menu text="#{app['menu.processoGabinete']}"
+                                             rendered="#{loginBean.permissoesUsuario['PROCGAB']}" id="pt_m14">
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.processoGabinete.gerenciarProcessoGabinete']}"
+                                                            rendered="#{loginBean.permissoesUsuario['PROCGAB']}"
+                                                            id="pt_cmi11" action="gerenciarProcessoGabinete"/>
+                                    </af:menu>
+                                    <af:menu text="#{app['menu.configuracao']}" rendered="#{loginBean.permissoesUsuario['GERMODEAVIS'] || 
+                                                     loginBean.permissoesUsuario['GERAVIS'] ||
+                                                     loginBean.permissoesUsuario['GERPARAM']}" id="pt_m11">
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.configuracao.gerenciarModelodeAviso']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERMODEAVIS']}"
+                                                            id="pt_m12" action="gerenciarModeloAviso"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.configuracao.gerenciarConfiguracaoDeAviso']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERAVIS']}"
+                                                            id="pt_m13" action="gerenciarConfiguracaoAviso"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.configuracao.gerenciarParametros']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERPARAM']}"
+                                                            id="pt_cmi5" action="gerenciarParametro"/>
+                                    </af:menu>
+                                    <af:menu text="#{app['menu.auditoria']}"
+                                             rendered="#{loginBean.permissoesUsuario['CONAUDI']}" id="pt_m20">
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.auditoria.consultarAuditoria']}"
+                                                            rendered="#{loginBean.permissoesUsuario['CONAUDI']}"
+                                                            id="pt_cmi4" action="consultarAuditoria"/>
+                                    </af:menu>
+                                </af:menuBar>
+                            </af:panelGroupLayout>
+                        </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow height="100%" id="pt_gr4">
+                <af:gridCell width="100%" halign="stretch" valign="stretch" id="pt_gc7">
+                    <af:panelGroupLayout id="center" layout="scroll" styleClass="center">
+                        <af:facetRef facetName="conteudo"/>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow height="30px" id="pt_gr5">
+                <af:gridCell width="100%" halign="stretch" valign="stretch" id="pt_gc8">
+                    <af:panelGroupLayout id="pt_pgl4" layout="vertical" styleClass="footer">
+                        <af:outputText value="#{loginBean.anoCorrente} - #{app['aplicacao.rodape']} - #{app['aplicacao.versao']} #{app['aplicacao.versaoCompilacao']}"/>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+        </af:panelGridLayout>
+      <af:resource type="javascript">   
+                
+    </af:resource>
+    </af:pageTemplateDef>
+      
+</jsp:root>

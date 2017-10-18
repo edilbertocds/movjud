@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<skins xmlns="http://myfaces.apache.org/trinidad/skin">
+  <skin>
+    <id>movjud.desktop</id>
+    <family>movjud</family>
+    <extends>alta-v1.desktop</extends>
+    <render-kit-id>org.apache.myfaces.trinidad.desktop</render-kit-id>
+    <style-sheet-name>skins/movjud/movjud.css</style-sheet-name>
+  </skin>
+  <!--    <skin> 
+        <id>custom</id> 
+        <family>custom</family> 
+        <extends>desktop</extends> 
+        <style-sheet-name>resource/css/custom.css</style-sheet-name>  
+    </skin> -->
+</skins> 

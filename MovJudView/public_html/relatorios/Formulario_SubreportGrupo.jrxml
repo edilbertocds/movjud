@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-17T16:00:45 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<parameter name="tiposRegraFormulario" class="java.util.Map"/>
+	<field name="codigoGrupo" class="java.lang.String"/>
+	<field name="labelGrupo" class="java.lang.String"/>
+	<field name="idGrupo" class="java.lang.Long"/>
+	<field name="listaCampos" class="java.util.List"/>
+	<field name="tipoRegraDTO" class="br.jus.tjsp.movjud.business.formulario.dto.TipoRegraDTO"/>
+	<detail>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="0f398074-217b-4377-b711-4a4c9d53155b">
+					<printWhenExpression><![CDATA[1==0]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="0" y="0" width="556" height="15" backcolor="#CCCCCC" uuid="45bd516b-8b25-401f-bdf9-72b5c5ccc2cc">
+					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{labelGrupo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="70" height="15" uuid="d1c4cd2f-bbb1-42bf-b91a-b8fcbc8abf0c">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["T.P. do G: "+$F{tipoRegraDTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="0" width="86" height="15" uuid="53f318c8-1f10-492b-8b1f-f3ed4122ddf3">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["T.P. Array: "+$P{tiposRegraFormulario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="15" uuid="ddee9fb1-0bd6-4c03-893a-551cbf591868">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["R.Exp. T.R.: "+($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="14">
+			<subreport>
+				<reportElement positionType="Float" x="1" y="-2" width="555" height="15" uuid="94ec5ad8-3a63-4d05-9c1e-53b943344f7c">
+					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tiposRegraFormulario">
+					<subreportParameterExpression><![CDATA[$P{tiposRegraFormulario}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaCampos},false)]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportCampo.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

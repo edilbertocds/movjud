@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="taskFlowAcompanharFormulario">
+    <default-activity>init</default-activity>
+    <data-control-scope>
+      <shared/>
+    </data-control-scope>
+    <input-parameter-definition id="__17">
+      <name>controleFluxo</name>
+      <value>#{pageFlowScope.controleFluxo}</value>
+      <class>java.lang.String</class>
+      <required/>
+    </input-parameter-definition>
+    <managed-bean id="__1">
+      <managed-bean-name>acompanhamentoFormularioBean</managed-bean-name>
+      <managed-bean-class>br.jus.tjsp.movjud.web.formulario.bean.AcompanhamentoFormularioBean</managed-bean-class>
+      <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+    <view id="listarConsultarFormulario">
+      <page>/paginas/formularios/jsff/listarConsultarFormulario.jsff</page>
+    </view>
+    <view id="preencherFormulario">
+      <page>/paginas/formularios/jsff/preencherFormulario.jsff</page>
+    </view>
+    <method-call id="init">
+      <method>#{pageFlowScope.acompanhamentoFormularioBean.init}</method>
+      <outcome>
+        <fixed-outcome>listarConsultarFormulario</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="pesquisarFormularios">
+      <method>#{pageFlowScope.acompanhamentoFormularioBean.pesquisarEntidade}</method>
+      <outcome>
+        <fixed-outcome>listarConsultarFormulario</fixed-outcome>
+      </outcome>
+    </method-call>
+    <control-flow-rule id="__5">
+      <from-activity-id>listarConsultarFormulario</from-activity-id>
+      <control-flow-case id="__6">
+        <from-outcome>preencherFormulario</from-outcome>
+        <to-activity-id>preencherFormulario</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__2">
+      <from-activity-id>init</from-activity-id>
+      <control-flow-case id="__3">
+        <from-outcome>listarConsultarFormulario</from-outcome>
+        <to-activity-id>listarConsultarFormulario</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__4">
+      <from-activity-id>preencherFormulario</from-activity-id>
+      <control-flow-case id="__7">
+        <from-outcome>voltar</from-outcome>
+        <to-activity-id>pesquisarFormularios</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__8">
+      <from-activity-id>pesquisarFormularios</from-activity-id>
+      <control-flow-case id="__9">
+        <from-outcome>listarConsultarFormulario</from-outcome>
+        <to-activity-id>listarConsultarFormulario</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <use-page-fragments/>
+  </task-flow-definition>
+</adfc-config>

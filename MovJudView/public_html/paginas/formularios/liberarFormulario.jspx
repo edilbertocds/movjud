@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:h="http://java.sun.com/jsf/html" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <f:view>
+        <af:document id="d1" title="#{app['aplicacao.titulo']}">
+            <af:resource type="javascript" source="/resource/js/scripts.js"/>
+            <af:form id="f1">
+                <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
+                    <f:facet name="conteudo">
+                        <af:panelGroupLayout id="pgl1" layout="vertical" styleClass="container wrapper formStyle">
+                            <af:panelHeader text="#{app['label.liberacaoFormulario.liberacaoFormularios']}" id="ph1">
+                                  <af:panelBox id="pb1">
+                                                    <af:panelGridLayout id="pgl9">
+                                        <af:gridRow marginTop="5px" height="40px" id="gr2">
+                                            <af:gridCell marginStart="5px" width="50%" id="gc3" rowSpan="6"
+                                                         halign="center" valign="bottom">
+                                                <af:image source="#{res['img.formularioLiberacao']}" id="i1"
+                                                          shortDesc=""/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" width="50%" id="gc4" rowSpan="1"
+                                                         columnSpan="2" valign="middle">
+                                                <af:outputText value="Compet&#234;ncia: #{liberacaoFormularioBean.mesCompetencia}/#{liberacaoFormularioBean.anoCompetencia} "
+                                                               id="ot1" truncateAt="0"
+                                                               styleClass="tituloMesCompetencia"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="30px" id="gr9">
+                                            <af:gridCell marginStart="5px" width="30%" id="gc18" valign="middle">
+                                                <af:outputLabel value="#{app['label.liberacaoFormulario.formularioEmUso']}:"
+                                                                id="ol6"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" width="10%" marginEnd="5px" id="gc19"
+                                                         valign="middle" halign="center">
+                                                <af:outputText value="#{liberacaoFormularioBean.liberacaoFormularioDTO.numeroMetadadosFormularioEmUso}"
+                                                               id="ot7" truncateAt="0"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="30px" id="gr10">
+                                            <af:gridCell marginStart="5px" width="30%" id="gc21" valign="middle">
+                                                <af:outputLabel value="#{app['label.liberacaoFormulario.unidadeVinculadas']}:"
+                                                                id="ol7"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" width="10%" marginEnd="5px" id="gc22"
+                                                         valign="middle" halign="center">
+                                                <af:outputText value="#{liberacaoFormularioBean.liberacaoFormularioDTO.numeroUnidadesVinculadas}"
+                                                               id="ot8" truncateAt="0"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="30px" id="gr11">
+                                            <af:gridCell marginStart="5px" width="30%" id="gc24" valign="middle">
+                                                <af:outputLabel value="#{app['label.liberacaoFormulario.formulariosLiberados']}: "
+                                                                id="ol3"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" width="10%" marginEnd="5px" id="gc25"
+                                                         valign="middle" halign="center">
+                                                <af:outputText value="#{liberacaoFormularioBean.liberacaoFormularioDTO.numeroFormulariosAnoMesReferencia}"
+                                                               id="ot3" truncateAt="0"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="30px" id="gr12">
+                                            <af:gridCell marginStart="5px" width="30%" id="gc27" valign="middle">
+                                                <af:outputLabel value="#{app['label.liberacaoFormulario.formulariosNaoLiberados']}: "
+                                                                id="ol4"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" width="10%" marginEnd="5px" id="gc28"
+                                                         valign="middle" halign="center">
+                                                <af:outputText value="#{liberacaoFormularioBean.liberacaoFormularioDTO.numeroUnidadesXFormularios}"
+                                                               id="ot4" truncateAt="0"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                        <af:gridRow marginTop="5px" height="30px" marginBottom="5px" id="gr13">
+                                            <af:gridCell marginStart="5px" width="30%" id="gc30" valign="middle">
+                                                <af:outputLabel value="#{app['label.liberacaoFormulario.totalFormulariosLiberar']}: "
+                                                                id="ol5"/>
+                                            </af:gridCell>
+                                            <af:gridCell marginStart="5px" width="10%" marginEnd="5px" id="gc31"
+                                                         valign="middle" halign="center">
+                                                <af:outputText value="#{liberacaoFormularioBean.liberacaoFormularioDTO.numeroTotalFormulariosVinculados}"
+                                                               id="ot5" truncateAt="0"/>
+                                            </af:gridCell>
+                                        </af:gridRow>
+                                    </af:panelGridLayout>
+                                </af:panelBox>
+                            </af:panelHeader>
+                            <af:spacer width="10" height="10" id="s1"/>
+                            <af:panelGroupLayout id="pgl2" layout="horizontal" halign="end">
+                                <af:button id="b1" text="#{app['botao.liberacaoFormulario.liberarGeral']}"
+                                           disabled="#{liberacaoFormularioBean.liberacaoFormularioDTO.numeroUnidadesXFormularios eq 0}"
+                                           icon="#{res['img.liberarGeralOn']}"
+                                           disabledIcon="#{res['img.liberarGeralOff']}">
+                                    <af:showPopupBehavior popupId="confirmarLiberacaoPopUp"/>
+                                </af:button>
+                                <af:popup childCreation="deferred" id="confirmarLiberacaoPopUp"
+                                          contentDelivery="lazyUncached">
+                                    <af:dialog id="confirmarLiberacaoDialog"
+                                               affirmativeTextAndAccessKey="#{app['botao.ok']}"
+                                               cancelTextAndAccessKey="#{app['botao.cancelar']}" type="okCancel"
+                                               title="#{app['msg.liberacaoFormulario.liberarFormularios']}"
+                                               closeIconVisible="false"
+                                               dialogListener="#{liberacaoFormularioBean.iniciarLiberacaoFormularios}">
+                                        <af:declarativeComponent id="dc2"
+                                                                 viewId="/paginas/comum/dialog/dialogNotificacao.jsff"
+                                                                 mensagem="#{app['msg.liberacaoFormulario.confirmacaoLiberacao']}"
+                                                                 tipoNotificacao="confirmacao"
+                                                                 infoAdicional="#{af:format2(app['msg.liberacaoFormulario.totalLiberar'],liberacaoFormularioBean.liberacaoFormularioDTO.numeroUnidadesXFormularios, liberacaoFormularioBean.liberacaoFormularioDTO.numeroUnidadesVinculadas)}"/>
+                                    </af:dialog>
+                                </af:popup>
+                                <af:popup childCreation="deferred" id="progressoLiberacaoPopUp"
+                                          contentDelivery="lazyUncached"
+                                          popupFetchListener="#{liberacaoFormularioBean.initLiberacaoFormulario}">
+                                    <af:dialog id="progressoLiberacaoDialog"
+                                               affirmativeTextAndAccessKey="#{app['botao.fechar']}"
+                                               cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                               type="#{liberacaoFormularioBean.indicadorProgresso.finalizouProcessamento ? 'ok' : 'none'}"
+                                               closeIconVisible="false" partialTriggers="pollIntervalo"
+                                               dialogListener="#{liberacaoFormularioBean.fecharPopupLiberacao}"
+                                               title="#{app['label.formulario.liberacao.tituloPopup']}">
+                                        <f:facet name="buttonBar"/>
+                                        <af:panelGroupLayout id="painelAviso" layout="vertical" valign="top"
+                                                             rendered="true"
+                                                             styleClass="painelAviso">
+                                            <af:panelGridLayout id="pgl12">
+                                                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr6">
+                                                    <af:gridCell marginStart="5px" width="95%" id="gc12">
+                                                        <af:message id="messageInformacao"
+                                                                    message="#{app['msg.formulario.liberacao.advertenciaProgresso']}"
+                                                                    messageType="info"/>
+                                                    </af:gridCell>                                                    
+                                                </af:gridRow>
+                                            </af:panelGridLayout>
+                                        </af:panelGroupLayout>
+                                        <af:panelGroupLayout id="pgl6" layout="vertical">
+                                            <af:spacer width="10" height="10" id="s5"/>
+                                            <af:panelGroupLayout id="pgl3" layout="horizontal" halign="center">
+                                                <af:panelGroupLayout id="pgl5" layout="vertical">
+                                                    <af:image source="#{res['img.dialogLiberarGeral']}" id="imgLiberarGeral" shortDesc=""/>
+                                                </af:panelGroupLayout>
+                                                <af:spacer width="10" height="10" id="s3"/>
+                                                <af:panelGroupLayout id="pgl8" layout="vertical" halign="right">
+                                                    <af:panelGroupLayout id="pgl4" layout="horizontal" halign="center">
+                                                        <af:image source="#{res['img.barraFinalizado']}"
+                                                                  id="imagemFinalizado" 
+                                                                  shortDesc="#{app['msg.liberacaoFormulario.liberarFormularios']}"
+                                                                  rendered="false"/>
+                                                        <af:image source="#{res['img.barraProgresso']}"
+                                                                  shortDesc="#{app['msg.liberacaoFormulario.liberarFormularios']}"
+                                                                  id="imagemCarregando"/>
+                                                    </af:panelGroupLayout>
+                                                    <af:outputLabel value="#{app['msg.liberacaoFormulario.unidadesLiberadas']} #{liberacaoFormularioBean.value} / #{liberacaoFormularioBean.maximum}"
+                                                                    id="outputInformacao" partialTriggers="pollIntervalo"/>
+                                                    <af:poll id="pollIntervalo"
+                                                             interval="#{liberacaoFormularioBean.indicadorProgresso.intervalo}"
+                                                             clientComponent="true"
+                                                             timeout="#{liberacaoFormularioBean.indicadorProgresso.timeOut}"
+                                                             pollListener="#{liberacaoFormularioBean.atualizarProgressoLiberacao}"/>
+                                                </af:panelGroupLayout>
+                                                <af:spacer width="10" height="10" id="s4"/>
+                                            </af:panelGroupLayout>
+                                        </af:panelGroupLayout>
+                                    </af:dialog>
+                                </af:popup>
+                            </af:panelGroupLayout>
+                        </af:panelGroupLayout>
+                    </f:facet>
+                </af:pageTemplate>
+            </af:form>
+        </af:document>
+    </f:view>
+</jsp:root>

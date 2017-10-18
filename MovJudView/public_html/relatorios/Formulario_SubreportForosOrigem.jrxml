@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
+	<property name="ireport.zoom" value="2.1435888100000042"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<field name="nomeForo" class="java.lang.String"/>
+	<field name="valorCampo" class="java.lang.String"/>
+	<columnHeader>
+		<band height="16">
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="1" width="410" height="15" backcolor="#CCCCCC" uuid="ad06e61f-e21e-44e7-8141-f78c7d1295f8"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Foro Origem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="412" y="1" width="142" height="15" backcolor="#CCCCCC" uuid="8a9a62dd-721b-448b-b011-b7bfe8ffb414"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Quantidade de Recursos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="0c1b9d83-e817-4560-b5da-985a96c8e6e8"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="b88cbe9d-5b98-4467-b7ba-bba277ad3ceb"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField isBlankWhenNull="true">
+				<reportElement x="2" y="0" width="409" height="15" uuid="2483ace1-b0b3-48e2-a556-d214a1a13896"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeForo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="413" y="0" width="141" height="15" uuid="b8aa15a4-5592-438f-b7c7-e25741ed6e88"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorCampo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="554" y="-15" width="1" height="30" uuid="717dfeec-d9ca-441a-9ca6-341d40d906b8"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-15" width="1" height="30" uuid="a87ccea0-e031-45b3-a1c3-468a27442749"/>
+			</line>
+			<line>
+				<reportElement x="0" y="15" width="555" height="1" uuid="c1638e1a-1934-40ba-beae-b854b99b67d4"/>
+			</line>
+			<line>
+				<reportElement x="411" y="-15" width="1" height="30" uuid="c4dd0c97-0f66-4a99-a259-444f9738c9a0"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

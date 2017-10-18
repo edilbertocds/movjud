@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+          xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:set var="app" value="#{adfBundle['AppBundle']}"/>
+    <c:set var="res" value="#{adfBundle['AppResource']}"/>
+    <af:panelGroupLayout id="panelGroupIncluirEstabelecimentoPrisional" layout="vertical"
+                         styleClass="AFStretchWidth formStyle">
+        <af:panelGridLayout id="panelGridIncluirEstabelecimentoPrisional">
+            <af:gridRow marginTop="5px" marginBottom="5px" id="rowCodigoNomeEstabelecimentoPrisional">
+                <af:gridCell width="auto" id="cellNomeEstabelecimentoPrisional" valign="bottom"
+                             columnSpan="2">
+                    <af:panelFormLayout id="panelFormNomeEstabelecimentoPrisional" labelAlignment="top">
+                        <af:inputText 
+                                      label="#{app['label.estabelecimentoPrisional.nomeEstabelecimentoPrisional']}"
+                                      id="inputTextNomeEstabelecimentoPrisional"
+                                      value="#{estabelecimentoPrisionalBean.entidadePersistencia.nomeEstabelecimentoPrisional}"
+                                      disabled="#{estabelecimentoPrisionalBean.visualizar}" maximumLength="200"
+                                      showRequired="true" 
+                                      validator="#{estabelecimentoPrisionalBean.validate}"
+                                      columns="30"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" marginBottom="5px" id="rowPrisionalInternacao">
+                <af:gridCell width="auto" marginEnd="15px" id="cellPrisional" valign="bottom">
+                    <af:panelFormLayout id="panelFormNomeMunicipio" labelAlignment="top">
+                        <af:inputText label="#{app['label.estabelecimentoPrisional.nomeMunicipio']}"
+                                      id="inputTextNomeMunicipio"
+                                      value="#{estabelecimentoPrisionalBean.entidadePersistencia.nomeMunicipio}"
+                                      disabled="#{estabelecimentoPrisionalBean.visualizar}" maximumLength="100"
+                                      showRequired="true" validator="#{estabelecimentoPrisionalBean.validate}"
+                                      columns="30"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell width="auto" id="cellInternacao" valign="bottom">
+                    <af:panelGroupLayout id="panelUF" layout="vertical">
+                        <af:outputLabel value="#{app['label.estabelecimentoPrisional.uf']}" 
+                                        showRequired="true" id="ol1" for="inputFiltroUF"/>
+                        <af:selectOneChoice disabled="#{estabelecimentoPrisionalBean.visualizar}" id="inputFiltroUF"
+                                                                                        value="#{estabelecimentoPrisionalBean.entidadePersistencia.codigoUf}"
+                                            contentStyle="width:100.0px;"
+                                            validator="#{estabelecimentoPrisionalBean.validate}"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:forEach items="#{estabelecimentoPrisionalBean.listaUFs}" var="uf">
+                                <af:selectItem label="#{uf.codigoUF}" id="selectItemUF" value="#{uf.codigoUF}"/>
+                            </af:forEach>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" marginBottom="5px" id="rowMunicipio">
+                <af:gridCell width="auto" marginEnd="15px" id="cellMunicipio" valign="bottom">
+                    <af:panelFormLayout id="panelCodigoSAJ" labelAlignment="top">
+                        <af:inputText label="#{app['label.estabelecimentoPrisional.codigoSaj']}" id="inputTextCodigoSAJ"
+                                      value="#{estabelecimentoPrisionalBean.entidadePersistencia.codigoLocalPrisaoSaj}"
+                                                                            disabled="#{estabelecimentoPrisionalBean.visualizar}"
+                                      maximumLength="10"
+                                      columns="30"/>
+                    </af:panelFormLayout>
+                </af:gridCell>
+                <af:gridCell id="gc1" width="auto">
+                    <af:panelGroupLayout id="panelFormStatus" layout="vertical">
+                        <af:outputLabel value="#{app['label.estabelecimentoPrisional.situacao']}" for="listaStatus"
+                                        showRequired="true" id="ol2"/>
+                        <af:selectOneChoice id="listaStatus" disabled="#{estabelecimentoPrisionalBean.visualizar}"
+                                            value="#{estabelecimentoPrisionalBean.entidadePersistencia.flagTipoSituacao}"
+                                            validator="#{estabelecimentoPrisionalBean.validate}"
+                                            contentStyle="width:100.0px;"
+                                            unselectedLabel="#{app['label.combo.selecione']}">
+                            <af:selectItem label="#{app['label.combo.ativo']}"
+                                           id="selectItemEstabelecimentoPrisionalAtivoManter"
+                                           value="#{app['flag.situacaoAtiva']}"/>
+                            <af:selectItem label="#{app['label.combo.inativo']}"
+                                           id="selectItemEstabelecimentoPrisionalInativoManter"
+                                           value="#{app['flag.situacaoInativa']}"/>
+                        </af:selectOneChoice>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" id="rowUfCodigoSAJ">
+                <af:gridCell width="auto" marginEnd="15px" id="cellUF" valign="bottom">
+                   <af:panelGroupLayout id="pgl2" layout="horizontal">
+                    <af:panelGroupLayout id="pgl1" layout="vertical">
+                        <af:outputLabel value="#{app['label.estabelecimentoPrisional.internacao']}" for="sorInternacao"
+                                        id="ol3" showRequired="true"/>
+                        <af:selectOneRadio id="sorInternacao" disabled="#{estabelecimentoPrisionalBean.visualizar}"
+                                           value="#{estabelecimentoPrisionalBean.entidadePersistencia.flagInternacao}"
+                                           validator="#{estabelecimentoPrisionalBean.validate}" autoSubmit="true"
+                                           partialTriggers="sorInternacao" valuePassThru="true" layout="horizontal">
+                            <af:selectItem label="#{app['label.radio.sim']}" id="si1" value="#{app['flag.statusSim']}"/>
+                            <af:selectItem label="#{app['label.radio.nao']}" id="si2" value="#{app['flag.statusNao']}"/>
+                        </af:selectOneRadio>
+                    </af:panelGroupLayout>
+                        <af:spacer width="5" height="5" id="s1"/>
+                        <af:panelGroupLayout id="pgl3" layout="vertical">
+                        <af:outputLabel value="#{app['label.estabelecimentoPrisional.prisional']}" for="sorPrisional"
+                                        id="ol4" showRequired="true"/>
+                        <af:selectOneRadio id="sorPrisional" disabled="#{estabelecimentoPrisionalBean.visualizar}"
+                                           value="#{estabelecimentoPrisionalBean.entidadePersistencia.flagPrisional}"
+                                           validator="#{estabelecimentoPrisionalBean.validate}" autoSubmit="true"
+                                           partialTriggers="sorPrisional" valuePassThru="true" layout="horizontal">
+                            <af:selectItem label="#{app['label.radio.sim']}" id="si3" value="#{app['flag.statusSim']}"/>
+                            <af:selectItem label="#{app['label.radio.nao']}" id="si4" value="#{app['flag.statusNao']}"/>
+                        </af:selectOneRadio>
+                    </af:panelGroupLayout>
+                    </af:panelGroupLayout>
+                </af:gridCell>
+                <af:gridCell id="gc2"/>
+            </af:gridRow>
+        </af:panelGridLayout>
+    </af:panelGroupLayout>
+</jsp:root>

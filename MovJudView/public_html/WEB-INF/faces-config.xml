@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<faces-config version="2.1" xmlns="http://java.sun.com/xml/ns/javaee">
+    <application>
+        <default-render-kit-id>oracle.adf.rich</default-render-kit-id>
+        <locale-config>
+            <supported-locale>pt_BR</supported-locale>
+        </locale-config>     
+        <resource-bundle>
+            <base-name>AppBundle</base-name>
+            <var>app</var>
+        </resource-bundle>
+       <resource-bundle>
+            <base-name>AppResource</base-name>
+            <var>res</var>
+        </resource-bundle>
+    </application>
+</faces-config>

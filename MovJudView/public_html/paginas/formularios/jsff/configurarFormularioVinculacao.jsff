@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:f="http://java.sun.com/jsf/core">
+    <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
+        <af:panelHeader text="#{app['menu.controleDeFormularios.configurarFormularioVinculacao']}" id="panelFiltro">
+            <af:panelBox id="panelBoxFiltro">
+                <af:panelGridLayout id="panelGridFiltros" partialTriggers="botaoLimpar">
+                    <af:gridRow marginTop="5px" height="auto" id="gridRowPerfil" marginBottom="5px">
+                        <af:gridCell width="800px" id="gridCell">
+                            <af:panelFormLayout id="panelFormFiltroSituacao" labelAlignment="top">
+                                <af:inputText label="Unidade" id="unidadeInputText" value="#{pageFlowScope.formularioVinculacaoBean.sugestao}" autoSubmit="true" columns="100"
+                                              valueChangeListener="#{pageFlowScope.formularioVinculacaoBean.alterarNomeUnidadeSelecionada}" partialTriggers="botaoLimpar botaoLimpar">
+                                    <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.formularioVinculacaoBean.autoCompletar}" maxSuggestedItems="15"/>
+                                </af:inputText>
+                            </af:panelFormLayout>
+                        </af:gridCell>
+                        <af:gridCell id="gc7" valign="bottom" halign="end" marginStart="15px" width="100%">
+                            <af:button text="#{app['botao.limpar']}" id="botaoLimpar" icon="#{res['img.limparOn']}" action="#{pageFlowScope.formularioVinculacaoBean.filtrarEntidade}"/>                   
+                        </af:gridCell>
+                    </af:gridRow>
+                </af:panelGridLayout>
+            </af:panelBox>
+            <af:spacer width="5" height="5" id="s2"/>
+            <af:table var="form" rowBandingInterval="0" id="tabelaResultados" value="#{pageFlowScope.formularioVinculacaoBean.listaMetadadosFormularios}" varStatus="contForm"
+                      partialTriggers="::botaoLimpar ::botaoLimpar ::unidadeInputText" styleClass="AFStretchWidth"
+                      columnStretching="column:c1" autoHeightRows="10" fetchSize="100">
+                <af:column sortable="false" headerText="Formulario" id="c1" width="150" align="center">
+                    <af:panelGroupLayout id="panelDescricaoNome" halign="left" layout="vertical">
+                        <af:selectBooleanCheckbox text="#{form.descricaoNome}" value="#{form}" id="sbFormulario" selected="#{form.marcado}" autoSubmit="true"/>
+                    </af:panelGroupLayout>
+                </af:column>
+                <af:column sortable="false" headerText="Tipo de Regra" id="c2" align="center">
+                    <af:forEach items="#{pageFlowScope.formularioVinculacaoBean.listaMetadadosTiposRegra}" var="tipoRegra" varStatus="contTipoRegra">
+                        <af:column sortable="false" headerText="#{tipoRegra.descricaoNome}" id="sbTipoRegra" noWrap="false" align="center" width="100" >
+                            <af:selectBooleanCheckbox text="" value="#{pageFlowScope.formularioVinculacaoBean.matrizFormularioVsTipoRegra[contForm.index][contTipoRegra.index]}" id="sbcTipoRegra"
+                                                      selected="#{pageFlowScope.formularioVinculacaoBean.matrizFormularioVsTipoRegra[contForm.index][contTipoRegra.index]}"
+                                                      disabled="#{form.marcado ? false : true}" partialTriggers="sbFormulario" autoSubmit="true"/>
+                        </af:column>
+                    </af:forEach>
+                </af:column>
+            </af:table>
+            <af:panelGridLayout id="pgl4">
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr1">
+                    <af:gridCell width="175px" id="gc1" halign="start" columnSpan="1">
+                        <af:outputText value="#{app['msg.formularioVinculacao.qtdeFormulariosEmUso']} : " id="dc_ot1" partialTriggers="botaoLimpar botaoLimpar unidadeInputText" styleClass="paginacaoItensResultado"/>
+                        <af:outputText value="#{pageFlowScope.formularioVinculacaoBean.qtdeMetadadosFormularios}"
+                                       id="dc_ot2"
+                                       partialTriggers="unidadeInputText botaoLimpar botaoLimpar tabelaResultados tabelaResultados:sbFormulario"
+                                       styleClass="paginacaoItensQtdeResultado"/>
+                    </af:gridCell>
+                    <af:gridCell id="gc8" width="50%" marginStart="10px">
+                        <af:outputText value="#{app['msg.formularioVinculacao.qtdeFormulariosSelecionados']} : "
+                                       id="ot1" partialTriggers="botaoLimpar botaoLimpar tabelaResultados"
+                                       styleClass="paginacaoItensResultado"/>
+                        <af:outputText value="#{pageFlowScope.formularioVinculacaoBean.qtdeFormulariosVinculados}"
+                                       id="ot2"
+                                       partialTriggers="unidadeInputText botaoLimpar botaoLimpar tabelaResultados tabelaResultados:sbFormulario"
+                                       styleClass="paginacaoItensQtdeResultado"/>
+                    </af:gridCell>
+                </af:gridRow>
+                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
+                    <af:gridCell width="150px" id="gc6" halign="start" valign="bottom">
+                        <af:button text="#{app['label.formularioVinculacao.liberarFormulariosUnidade']}" id="b1" icon="#{res['img.liberarGeralOn']}"
+                                   disabledIcon="#{res['img.liberarGeralOff']}"
+                                   disabled="#{pageFlowScope.formularioVinculacaoBean.entidadePersistencia.idUnidade == null}"
+                                   partialTriggers="unidadeInputText botaoLimpar botaoLimpar">
+                            <af:showPopupBehavior popupId="confirmarLiberacaoPopUp" triggerType="action"/>
+                        </af:button>
+                                   <af:popup childCreation="deferred" id="confirmarLiberacaoPopUp" contentDelivery="lazyUncached">
+                            <af:dialog id="confirmarLiberacaoDialog" affirmativeTextAndAccessKey="#{app['botao.ok']}" cancelTextAndAccessKey="#{app['botao.cancelar']}" type="okCancel" title="#{app['msg.formularioVinculacao.liberarFormulario']}"
+                                       dialogListener="#{pageFlowScope.formularioVinculacaoBean.liberarFormulariosUnidade}">
+	    
+                                <af:declarativeComponent id="dc3" viewId="/paginas/comum/dialog/dialogNotificacao.jsff" mensagem="#{app['msg.formularioVinculacao.confirmarLiberar']}"
+                                                         tipoNotificacao="confirmacao"
+                                                         infoAdicional="#{af:format(app['msg.formularioVinculacao.confirmarLiberarUnidade'],(empty pageFlowScope.formularioVinculacaoBean.entidadePersistencia.nomeUnidade ? 'Nenhuma Selecionada' : pageFlowScope.formularioVinculacaoBean.entidadePersistencia.nomeUnidade))}"/>
+
+			    </af:dialog>
+                        </af:popup>
+                        <af:popup childCreation="deferred" id="liberadoComSucessoPopUp" contentDelivery="lazyUncached">
+                            <af:dialog id="liberadoComSucessoDialog" affirmativeTextAndAccessKey="#{app['botao.ok']}" type="ok" title="#{app['msg.formularioVinculacao.liberarFormulario']}">
+	    
+                                <af:declarativeComponent id="dc2" viewId="/paginas/comum/dialog/dialogNotificacao.jsff" mensagem="#{app['msg.formularioVinculacao.liberarSucesso']}"
+                                                         tipoNotificacao="sucesso"
+                                                         infoAdicional="#{af:format(app['msg.formularioVinculacao.liberarSucessoUnidade'],pageFlowScope.formularioVinculacaoBean.entidadePersistencia.nomeUnidade)}"/>
+
+			    </af:dialog>
+                        </af:popup>
+                    </af:gridCell>
+                    <af:gridCell marginStart="5px" width="100%" id="gc2" halign="end" valign="bottom">
+                        <af:button text="#{app['botao.salvar']}" id="botaoSalvar" icon="#{res['img.salvarOn']}" action="#{pageFlowScope.formularioVinculacaoBean.persistirEntidade}" disabled="#{pageFlowScope.formularioVinculacaoBean.entidadePersistencia.idUnidade == null}"
+                                   partialTriggers="unidadeInputText botaoLimpar botaoLimpar"></af:button>
+                        <af:spacer width="10" height="10" id="dc_s57" rendered="#{pageFlowScope.controleFluxo == 'GERENCIAR_UNIDADE'}"/>
+                        <af:button text="#{app['botao.cancelar']}" id="botaoCancelar" icon="#{res['img.cancelarOn']}" action="voltar" 
+                                   actionListener="#{pageFlowScope.unidadeBean.pesquisarEntidade}"
+                                   rendered="#{pageFlowScope.controleFluxo == 'GERENCIAR_UNIDADE'}"></af:button>
+                        <af:popup childCreation="deferred" id="salvoComSucessoPopUp" contentDelivery="lazyUncached">
+                            <af:dialog id="salvoComSucessoDialog" affirmativeTextAndAccessKey="#{app['botao.ok']}" type="ok" title="#{app['msg.formularioVinculacao.savlarTitulo']}">
+	    
+                                <af:declarativeComponent id="dc1" viewId="/paginas/comum/dialog/dialogNotificacao.jsff" mensagem="#{app['msg.formularioVinculacao.salvarSucesso']}"
+                                                         tipoNotificacao="vincular"
+                                                         infoAdicional="#{af:format2(app['msg.formularioVinculacao.salvarSucessoAdicional'],pageFlowScope.formularioVinculacaoBean.qtdeFormulariosVinculados, pageFlowScope.formularioVinculacaoBean.entidadePersistencia.nomeUnidade)}"/>
+
+			    </af:dialog>
+                        </af:popup>
+                    </af:gridCell>
+                </af:gridRow>
+            </af:panelGridLayout>
+        </af:panelHeader>
+    </af:panelGroupLayout>
+</jsp:root>    
