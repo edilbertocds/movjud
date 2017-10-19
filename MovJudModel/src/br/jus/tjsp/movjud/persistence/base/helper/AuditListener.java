@@ -7,6 +7,8 @@ import br.jus.tjsp.movjud.persistence.base.dao.PersistenceManager;
 import br.jus.tjsp.movjud.persistence.base.types.AcaoType;
 import br.jus.tjsp.movjud.persistence.entity.Auditoria;
 
+import br.jus.tjsp.movjud.persistence.entity.BaseEntity;
+
 import java.util.Date;
 
 import java.util.List;
@@ -72,8 +74,8 @@ public class AuditListener extends DescriptorEventAdapter implements DescriptorC
             auditoria.setAcao(acaoType.getNomeAcao());
             auditoria.setDataInclusao(new Date());
             auditoria.setDataAtualizacao(new Date());
-            auditoria.setDe(strDe.isEmpty() ? " " : (strDe.length() > 4000 ? strDe.substring(0, 3999) : strDe));
-            auditoria.setPara(strPara.isEmpty() ? " " : (strPara.length() > 4000 ? strPara.substring(0, 3999) : strPara));
+            auditoria.setDe(strDe.isEmpty() ? " " : (strDe.length() > 4000 ? strDe.substring(0, 3996) + "..." : strDe));
+            auditoria.setPara(strPara.isEmpty() ? " " : (strPara.length() > 4000 ? strPara.substring(0, 3996) + "..." : strPara));
             auditoria.setUsuario(getUserName());
             auditoria.setDominio(dominio);
             auditoria.setEntidade(event.getObject()
@@ -107,6 +109,11 @@ public class AuditListener extends DescriptorEventAdapter implements DescriptorC
     
     @Override
     public void aboutToUpdate(DescriptorEvent event) {
+        // <epr 0.7.43+> resolver problema da alteração sem alteração, só pela modificação incondicional da dt_atualizacao.
+        if(event.getObject() instanceof BaseEntity && (event.getRecord() != null)) {
+            event.getRecord().put("DT_ATUALIZACAO", new Date());
+        }
+        // </epr 0.7.43+>
         UpdateObjectQuery updateObjectQuery = (UpdateObjectQuery) event.getQuery();
         if ((updateObjectQuery != null) && (updateObjectQuery.getObjectChangeSet() != null)) {
             List<ChangeRecord> changes = updateObjectQuery.getObjectChangeSet().getChanges();
