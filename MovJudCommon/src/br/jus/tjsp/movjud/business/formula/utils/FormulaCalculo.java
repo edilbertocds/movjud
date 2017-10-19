@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,9 +23,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-//import org.apache.log4j.Logger;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 public class FormulaCalculo {
     private static final String VALOR_DEFAULT = "1";
@@ -46,16 +47,18 @@ public class FormulaCalculo {
     public static final String TIPO_VALIDACAO = "validação";
     
     // <epr>debug logger, introduzido na versão 0.6.4.debug
-    static Log logger = null;
+    static Logger logger = Logger.getLogger(FormulaCalculo.class);// LogFactory.getLog(FormulaCalculo.class);
+
+    /*
     static{
         System.setProperty(LogFactory.FACTORY_PROPERTY,
               "weblogic.logging.commons.LogFactoryImpl");
             logger = LogFactory.getFactory().getInstance(FormulaCalculo.class);
     }
+    */
     // </epr>
     
     private FormulaCalculo() {
-
     }
 
     public static void main(String[] args) {
@@ -84,7 +87,7 @@ public class FormulaCalculo {
 
             status = true;
         } catch (FormulaInvalidaException e) {
-            logger.error("Exceção não tratada", e);
+            loggerError("Exceção não tratada: "+e.toString());
         }
         return status;
     }
@@ -96,7 +99,7 @@ public class FormulaCalculo {
             formula = montarExpressao(formula, formularioDTO, formularioMesAnterior, null, null);
             status = validarExpressao(formula);
         } catch (Exception e) {
-            logger.error("Exceção não tratada", e);
+            loggerError("Exceção não tratada: "+e.toString());
         }
         return status;
     }
@@ -110,7 +113,7 @@ public class FormulaCalculo {
 
             status = true;
         } catch (Exception e) {
-            logger.error("Exceção não tratada", e);
+            loggerError("Exceção não tratada: "+e.toString());
         }
         return status;
     }
@@ -118,19 +121,22 @@ public class FormulaCalculo {
     // <epr> utilidades geração de log
     // introduzidas em 0.6.4.debug
     private static void loggerInfo(String text) {
-        if(logger.isInfoEnabled()) {
+        if(logger == null || text == null || text.isEmpty()) return;
+        if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.INFO.intValue())) {
             logger.info(text);
         }
     }
     
     private static void loggerWarn(String text) {
-        if(logger.isWarnEnabled()) {
+        if(logger == null || text == null || text.isEmpty()) return;
+        if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.WARNING.intValue())) {
             logger.warn(text);
         }
     }
     
     private static void loggerError(String text) {
-        if(logger.isErrorEnabled()) {
+        if(logger == null || text == null || text.isEmpty()) return;
+        if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.SEVERE.intValue())) {
             logger.error(text);
         }
     }
@@ -342,7 +348,7 @@ public class FormulaCalculo {
                         for (int contCampo = 0; contCampo < listaCampos.size(); contCampo++) {
                             CampoDTO campoDTO = listaCampos.get(contCampo);
                             if(campoDTO == null) {
-                                logger.warn("campo " + Integer.toString(contCampo) + "nulo para formularioID " + Long.toString(formularioDTO.getIdFormulario()));
+                                loggerWarn("campo " + Integer.toString(contCampo) + "nulo para formularioID " + Long.toString(formularioDTO.getIdFormulario()));
                                 continue;
                             }
                             loggerInfo("      processando campo: "+campoDTO.getCodigoCampo());
@@ -350,7 +356,7 @@ public class FormulaCalculo {
 
                             if (TipoCampoType.FORMULA.equals(campoDTO.getTipoCampo())) {
                                 if((campoDTO.getFormula() == null) || (campoDTO.getFormula().getExpressao() == null)) {
-                                    logger.warn("campo " + ((campoDTO.getLabelCampo() != null) ? campoDTO.getLabelCampo() : "nulo") + " com formula ou expressao nulo." );
+                                    loggerWarn("campo " + ((campoDTO.getLabelCampo() != null) ? campoDTO.getLabelCampo() : "nulo") + " com formula ou expressao nulo." );
                                     continue;
                                 }
                                 loggerInfo("      expandindo expressao na formula: " + campoDTO.getFormula().getExpressao());
