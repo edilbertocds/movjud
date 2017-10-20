@@ -2,8 +2,6 @@ package br.jus.tjsp.movjud.business.formulario.dto;
 
 import br.jus.tjsp.movjud.business.base.dto.BaseDTO;
 
-import java.time.temporal.Temporal;
-
 import java.util.Date;
 
 public class ReuDTO extends BaseDTO<Long>{
@@ -33,6 +31,8 @@ public class ReuDTO extends BaseDTO<Long>{
     private String sexo;
     
     private Date dataBaixa;
+    
+    private Date dtDataBaixa;
     
     private String descricaoRelatorioCgj;
     
@@ -310,5 +310,13 @@ public class ReuDTO extends BaseDTO<Long>{
 
     public Integer getMes() {
         return mes;
+    }
+
+    public void setDtDataBaixa(Date dtDataBaixa) {
+        this.dtDataBaixa = dtDataBaixa;
+    }
+
+    public Date getDtDataBaixa() {
+        return dtDataBaixa;
     }
 }

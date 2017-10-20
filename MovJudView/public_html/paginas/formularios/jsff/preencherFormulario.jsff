@@ -1617,7 +1617,7 @@
                                                         <af:image source="/resource/images/flagSimOn.png" id="i1" rendered="#{not empty row.idMotivoBaixa}"/>
                                                     </af:column>
                                                     <af:column headerText="Importado do SAJ" id="c20" align="center">
-                                                        <af:image source="/resource/images/flagSimOn.png" id="i42" rendered="#{not empty row.codigoPessoaSaj}"/>
+                                                        <af:image source="/resource/images/flagSimOn.png" id="i42" rendered="#{not empty row.codigoPessoaSaj and row.codigoPessoaSaj gt 0}"/>
                                                     </af:column>
                                                     <af:column headerText="A&#231;&#245;es" id="c5" align="center" width="60">
                                                         <af:panelGroupLayout id="pgl190" layout="horizontal">

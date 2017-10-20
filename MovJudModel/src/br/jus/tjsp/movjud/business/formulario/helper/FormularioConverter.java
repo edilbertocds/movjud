@@ -380,6 +380,7 @@ public class FormularioConverter {
         reuDTO.setNomeMaeReuProvisorio(reuProvisorio.getNomeMaeReuProvisorio());
         reuDTO.setCodigoPessoaSaj(reuProvisorio.getCodigoPessoaSaj());
         reuDTO.setDataBaixa(reuProvisorio.getDataBaixa());
+        reuDTO.setDtDataBaixa(reuProvisorio.getDtDataBaixa());
         reuDTO.setDataLevadoMagistrado(reuProvisorio.getDataLevadoMagistrado());
         reuDTO.setDataPrisao(reuProvisorio.getDataPrisao());
         if (reuProvisorio.getTipoMotivoBaixa() != null) {
@@ -1400,6 +1401,8 @@ public class FormularioConverter {
             reuProvisorio.setDataBaixa(new Date());
         */
         // </epr> (1) 0.7.9 - dataBaixa deve ser informado pelo usuário
+        reuProvisorio.setDataBaixa(reuDTO.getDataBaixa());
+        reuProvisorio.setDtDataBaixa(reuDTO.getDtDataBaixa());
         reuProvisorio.setDataLevadoMagistrado(reuDTO.getDataLevadoMagistrado());
         reuProvisorio.setDataPrisao(reuDTO.getDataPrisao());
         reuProvisorio.setDescricaoRelatorioCgj(reuDTO.getDescricaoRelatorioCgj());
