@@ -7,7 +7,6 @@ import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -74,7 +73,11 @@ public class ReuProvisorio extends BaseEntity<Long> {
     
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DT_BAIXA")
-    private Date dataBaixa;
+    private Date dataBaixa;    
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_DATA_BAIXA")
+    private Date dtDataBaixa;
     
     @Column(name = "DS_RELATORIO_CGJ", length = 100)
     private String descricaoRelatorioCgj;
@@ -402,5 +405,13 @@ public class ReuProvisorio extends BaseEntity<Long> {
         }
         
         return sb.toString();
+    }
+
+    public void setDtDataBaixa(Date dtDataBaixa) {
+        this.dtDataBaixa = dtDataBaixa;
+    }
+
+    public Date getDtDataBaixa() {
+        return dtDataBaixa;
     }
 }

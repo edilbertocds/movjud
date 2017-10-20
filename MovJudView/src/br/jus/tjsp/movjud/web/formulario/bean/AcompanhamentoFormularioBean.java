@@ -2547,8 +2547,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if (camposConsistentes) {
             if (validarUltimoMovimentoNoPeriodoDeNoventaDias(reu, getUltimoDiaMesReferencia())) {
                 if (edicaoReu) {
-                    secaoReus.getListaSubSecoes().get(0).getListaReus().set(secaoReus.getListaSubSecoes().get(0).getListaReus().indexOf(reu),
-                                                                            reu);
+
+                    if(isPreencherDtDataBaixa())
+                        reu.setDtDataBaixa(new Date());
+                        
+                    secaoReus.getListaSubSecoes().get(0).getListaReus().set(secaoReus.getListaSubSecoes().get(0).getListaReus().indexOf(reu), reu);
                     getPopupAlterarReu().hide();
                 } else {
                     reu.setAno(entidadePersistencia.getAno().intValue());
@@ -2664,5 +2667,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public void cancelarRemoverSubSecao(PopupCanceledEvent popupCanceledEvent) {
         // Add event code here...
+    }
+
+    private boolean isPreencherDtDataBaixa() {
+        boolean colocarDtDataBaixa = false;
+        if (reu.getDataBaixa() == null && reuCopia.getDataBaixa() == null) // se os dois forem nulos, não teve alteraçao
+            colocarDtDataBaixa = false;
+        else if (reuCopia.getDataBaixa() == null) // se o nulo for o 'reu.getDataBaixa()' só, é um problema na interface, nao deveria
+            colocarDtDataBaixa = true;
+        else if (reu.getDataBaixa() != null && reuCopia.getDataBaixa() != null) { // se o nulo for o 'reu.getDataBaixa()' só, é um problema na interface, nao deveria
+            if (reu.getDataBaixa().equals(reuCopia.getDataBaixa()))
+                colocarDtDataBaixa = false;
+            else if ((new SimpleDateFormat("dd/MM/yyyy")).format(reu.getDataBaixa()).equalsIgnoreCase((new SimpleDateFormat("dd/MM/yyyy")).format(reuCopia.getDataBaixa())))
+                colocarDtDataBaixa = true;
+            else
+                colocarDtDataBaixa = false;
+        }
+        return colocarDtDataBaixa;
     }
 }
