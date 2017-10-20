@@ -18,8 +18,12 @@ public abstract class BaseEntity<T> extends BaseObject<T> {
         setDataInclusao(new Date());
         </epr> resolver problema de alteração indevida da de dt_inclusao
         */
-        // setDataInclusao(new Date());
+        /*
+        <epr 0.7.43+> resolver o problema da alteração sem alteração pela modificação incondicional de dt-atualizaco
+        A data de atualização passa a ser atualizada pela classe AuditListener, somente para registros efetivamente modificados.
         setDataAtualizacao(new Date());
+        </epr 0.7.43+>
+        */
     }
 
     public abstract void setDataAtualizacao(Date dataAtualizacao);
