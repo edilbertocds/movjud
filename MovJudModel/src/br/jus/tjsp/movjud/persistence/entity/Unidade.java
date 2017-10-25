@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import java.util.stream.Collector;
+
+import java.util.stream.Collectors;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -460,6 +464,15 @@ public class Unidade extends BaseEntity<Long> {
 
     public String getFormulariosPendentes() {
         return formulariosPendentes;
+    }
+    
+    public List<UnidadeEstabelecimentoPrisional> getVinculadosAtivos() {
+        List<UnidadeEstabelecimentoPrisional> result =
+        unidadeEstabelecimentosPrisionais
+            .stream()
+            .filter(e->(e.getDataFim() == null) && e.getFlagTipoSituacao().equals("A"))
+            .collect(Collectors.toList());
+        return result;
     }
     
     @Override

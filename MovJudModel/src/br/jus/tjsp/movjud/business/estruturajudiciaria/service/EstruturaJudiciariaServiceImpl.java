@@ -17,6 +17,7 @@ import br.jus.tjsp.movjud.persistence.entity.TipoEntrancia;
 import br.jus.tjsp.movjud.persistence.entity.TipoLocal;
 import br.jus.tjsp.movjud.persistence.entity.TipoSituacao;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
+import br.jus.tjsp.movjud.persistence.entity.UnidadeEstabelecimentoPrisional;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 import br.jus.tjsp.movjud.persistence.estruturajudiciaria.dao.AcaoDAO;
 import br.jus.tjsp.movjud.persistence.estruturajudiciaria.dao.CircunscricaoDAO;
@@ -376,13 +377,22 @@ public class EstruturaJudiciariaServiceImpl implements EstruturaJudiciariaServic
     public PermissaoUnidadeTemporaria salvarPermissaoUnidadeTemporaria(PermissaoUnidadeTemporaria permissaoUnidadeTemporaria) {
         return permissaoUnidadeTemporariaDAO.salvar(permissaoUnidadeTemporaria);
     }
+    
+    // <edilberto item 199>
+    @Override
+    public UnidadeEstabelecimentoPrisional obterVinculoMaisRecenteComUnidade(EstabelecimentoPrisional estabelecimentoPrisional) {
+        return estabelecimentoPrisionalDAO.obterVinculoMaisRecenteComUnidade(estabelecimentoPrisional);
+    }
+    // </edilberto item 199>
 
     @Override
     public List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisOrdenadoPorNome(EstabelecimentoPrisional estabelecimentoPrisional,
                                                                                           Paginacao paginacao) {
-
+        /*
         return estabelecimentoPrisionalDAO.listarEstabelecimentosPrisionaisOrdenadoPorNome(estabelecimentoPrisional,
                                                                                            paginacao);
+        */
+        return estabelecimentoPrisionalDAO.listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(estabelecimentoPrisional, paginacao);
     }
 
     @Override
