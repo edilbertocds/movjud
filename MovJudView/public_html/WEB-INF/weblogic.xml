@@ -16,5 +16,6 @@
     
     <library-ref>
         <library-name>MovJudLibs</library-name>
+        <exact-match>false</exact-match>
     </library-ref>
 </weblogic-web-app>

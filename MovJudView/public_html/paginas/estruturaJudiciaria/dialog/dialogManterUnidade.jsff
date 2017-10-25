@@ -287,7 +287,8 @@
                                       valueChangeListener="#{pageFlowScope.unidadeBean.alterarNomeEstabelecimentoPrisional}"
                                       maximumLength="100" disabled="#{pageFlowScope.unidadeBean.visualizar}"
                                       autoSubmit="true" partialTriggers="botaoInserirEstabelecimentoEntidade">
-                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarEstabelecimentoPrisional}"/>
+                            <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.unidadeBean.autoCompletarEstabelecimentoPrisional}"
+                                                    maxSuggestedItems="10"/>
                         </af:inputText>
                         <af:button id="botaoInserirEstabelecimentoEntidade"
                                    rendered="#{!pageFlowScope.unidadeBean.visualizar}"
@@ -295,9 +296,10 @@
                                    icon="#{res['img.maisOn']}" partialSubmit="true" immediate="true"/>
                     </af:panelGroupLayout>
                     <af:spacer width="5" height="5" id="s6"/>
+                    <!-- value="#{pageFlowScope.unidadeBean.entidadePersistencia.unidadeEstabelecimentosPrisionais}" -->
                     <af:table var="prisional" rowBandingInterval="0" id="tabelaResultadosEstabelecimentoEntidade"
                               columnStretching="column:colNomePrisional"
-                              value="#{pageFlowScope.unidadeBean.entidadePersistencia.unidadeEstabelecimentosPrisionais}"
+                              value="#{pageFlowScope.unidadeBean.entidadePersistencia.getVinculadosAtivos()}"
                               partialTriggers="::botaoInserirEstabelecimentoEntidade linkLixoEstabelecimentoEntidade"
                               rowSelection="single"
                               selectionListener="#{pageFlowScope.unidadeBean.selecionarEstabelecimentoPrisional}"
@@ -349,7 +351,7 @@
                             <af:panelGroupLayout id="groupAcoesAnexoEstabelecimentoEntidade" layout="horizontal"
                                                  halign="left">
                                 <af:link id="linkLixoEstabelecimentoEntidade" icon="#{res['img.lixeiraOn']}"
-                                         rendered="#{!pageFlowScope.unidadeBean.visualizar}" partialSubmit="true"
+                                         rendered="#{!pageFlowScope.unidadeBean.visualizar and prisional.novo}" partialSubmit="true"
                                          action="#{pageFlowScope.unidadeBean.removerRegistroEstabelecimentoPrisional}"
                                          shortDesc="#{app['label.formulario.removerEstabelecimentoprisional']}"
                                          immediate="true"/>
