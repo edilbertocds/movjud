@@ -18,7 +18,10 @@ import br.jus.tjsp.movjud.persistence.entity.UnidadeEstabelecimentoPrisional;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 import br.jus.tjsp.movjud.web.commons.bean.BaseBean;
 
+import java.time.LocalDateTime;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +68,7 @@ public class UnidadeBean extends BaseBean<Unidade> {
     private Foro foroRecursal;
 
     private UnidadeEstabelecimentoPrisional unidadeEstabelecimentoPrisional;
+    private UnidadeEstabelecimentoPrisional ultimoVinculo;
 
     private EstabelecimentoPrisional estabelecimentoPrisional;
 
@@ -434,6 +438,7 @@ public class UnidadeBean extends BaseBean<Unidade> {
     public List autoCompletarEstabelecimentoPrisional(String parametro) {
         EstabelecimentoPrisional entidadeEstabelecimentoPrisional = new EstabelecimentoPrisional();
         entidadeEstabelecimentoPrisional.setNomeEstabelecimentoPrisional(parametro);
+        entidadeEstabelecimentoPrisional.getUnidadeEstabelecimentosPrisionais().add(unidadeEstabelecimentoPrisional);
         listaParametros =
             estruturaJudiciaria.listarEstabelecimentosPrisionaisOrdenadoPorNome(entidadeEstabelecimentoPrisional,
                                                                                 paginacaoSeguestao);
@@ -444,8 +449,25 @@ public class UnidadeBean extends BaseBean<Unidade> {
         if (estabelecimentoPrisional != null && estabelecimentoPrisional.getIdEstabelecimentoPrisional() != null &&
             !contemEstabelecimentoPrisional(entidadePersistencia.getUnidadeEstabelecimentosPrisionais(),
                                             estabelecimentoPrisional)) {
+            // <edilberto item 199>
+            ultimoVinculo = estruturaJudiciaria.obterVinculoMaisRecenteComUnidade(estabelecimentoPrisional);
+            Date dataInicioDesteVinculo = new Date();
+            if(ultimoVinculo != null && ultimoVinculo.getDataFim() != null) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(ultimoVinculo.getDataFim());
+                c.add(Calendar.DATE, 1);
+                dataInicioDesteVinculo = c.getTime();
+            }
+            // </edilberto item 199>
+            
             unidadeEstabelecimentoPrisional = new UnidadeEstabelecimentoPrisional();
             unidadeEstabelecimentoPrisional.setEstabelecimentoPrisional(estabelecimentoPrisional);
+            
+            // <edilberto item 199>
+            unidadeEstabelecimentoPrisional.setNovo(true);
+            unidadeEstabelecimentoPrisional.setDataFim(dataInicioDesteVinculo);
+            // </edilberto item 199>
+            
             entidadePersistencia.addEstabelecimentoPrisional(unidadeEstabelecimentoPrisional);
 
         }

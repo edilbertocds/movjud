@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @EntityListeners(AuditListener.class)
@@ -57,6 +58,8 @@ public class UnidadeEstabelecimentoPrisional extends BaseEntity<Long> {
     @Column(name = "TP_SITUACAO")
     private String flagTipoSituacao;
 
+    @Transient
+    private Boolean novo = false;
 
     public UnidadeEstabelecimentoPrisional() {
         super();
@@ -197,4 +200,11 @@ public class UnidadeEstabelecimentoPrisional extends BaseEntity<Long> {
 	return sb.toString();
     }
 
+    public void setNovo(Boolean novo) {
+        this.novo = novo;
+    }
+
+    public Boolean getNovo() {
+        return novo;
+    }
 }

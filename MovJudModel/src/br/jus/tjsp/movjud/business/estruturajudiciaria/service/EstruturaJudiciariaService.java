@@ -16,6 +16,7 @@ import br.jus.tjsp.movjud.persistence.entity.TipoEntrancia;
 import br.jus.tjsp.movjud.persistence.entity.TipoLocal;
 import br.jus.tjsp.movjud.persistence.entity.TipoSituacao;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
+import br.jus.tjsp.movjud.persistence.entity.UnidadeEstabelecimentoPrisional;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 
 import java.util.List;
@@ -120,6 +121,10 @@ public interface EstruturaJudiciariaService {
     List<PermissaoUnidadeTemporaria> listarPermissaoUnidadeTemporariaOrdenadaPorNomeComPaginacao(PermissaoUnidadeTemporaria filter, Paginacao paginacao);
     
     PermissaoUnidadeTemporaria salvarPermissaoUnidadeTemporaria(PermissaoUnidadeTemporaria permissaoUnidadeTemporaria); 
+    
+    // <edilberto item 199>
+    UnidadeEstabelecimentoPrisional obterVinculoMaisRecenteComUnidade(EstabelecimentoPrisional estabelecimentoPrisional);
+    // </edilberto item 199>
     
     List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisOrdenadoPorNome(EstabelecimentoPrisional estabelecimentoPrisional, Paginacao paginacao);
     
