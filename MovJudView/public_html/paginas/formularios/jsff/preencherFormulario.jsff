@@ -1328,10 +1328,10 @@
                                                         <af:inputDate id="id22" value="#{row.dataInspecao}" disabled="#{(row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.primeiroDiaMesreferencia}"/>
                                                     </af:column>
                                                     <af:column sortable="false" headerText="Inspe&#231;&#227;o N&#227;o Realizada?" id="c7" width="160" align="center">
-                                                        <af:selectBooleanCheckbox id="sbc1" value="#{row.inspecaoNaoRealizada}" autoSubmit="true" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.inspecaoNaoRealizadaChangeListener}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
+                                                        <af:selectBooleanCheckbox id="sbc1" value="#{row.inspecaoNaoRealizada}" autoSubmit="true" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.inspecaoNaoRealizadaChangeListener}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" required="#{empty(row.dataInspecao)}"/>
                                                     </af:column>
                                                     <af:column sortable="false" headerText="Motivo da n&#227;o realiza&#231;&#227;o da Inspe&#231;&#227;o" id="c17" width="300">
-                                                        <af:inputText id="it28" value="#{row.motivoInspecaoNaoRealizada}" disabled="#{(not row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true"/>
+                                                        <af:inputText id="it28" value="#{row.motivoInspecaoNaoRealizada}" disabled="#{(not row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true" required="#{row.inspecaoNaoRealizada}"/>
                                                     </af:column>
                                                 </af:table>
                                             </af:panelBox>
