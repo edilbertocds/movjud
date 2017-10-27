@@ -38,6 +38,7 @@ import br.jus.tjsp.movjud.persistence.entity.PreCarga;
 import br.jus.tjsp.movjud.persistence.entity.ProcessoConcluso;
 import br.jus.tjsp.movjud.persistence.entity.ReuProvisorio;
 import br.jus.tjsp.movjud.persistence.entity.ReuProvisorioHistorico;
+import br.jus.tjsp.movjud.persistence.entity.TipoConcluso;
 import br.jus.tjsp.movjud.persistence.entity.TipoMotivoBaixa;
 import br.jus.tjsp.movjud.persistence.entity.TipoNaturezaPrisao;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
@@ -572,7 +573,12 @@ public class FormularioServiceImpl implements FormularioService{
     public List<TipoConclusoDTO> listarTipoProcessoConclusoPorDescricao() {
         return FormularioConverter.parseListaTipoConclusoParaListaProcessoConclusoDTO(tipoConclusoDAO.listarTipoConclusoPorDescricao());
     }
-
+    
+    @Override
+    public TipoConclusoDTO obterTipoConclusoPorId(Long Id) {
+        TipoConcluso tipoConcluso = tipoConclusoDAO.procurarPorId(Id);
+        return FormularioConverter.parseTipoConclusoParaProcessoConclusoDTO(tipoConcluso);
+    }
 
     @Override
     public List<FormularioDTO> listarFormulariosGeral(List<String> listaTipoSituacao, FormularioDTO filtro) {
