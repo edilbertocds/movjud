@@ -1420,10 +1420,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public String adicionarProcessoConcluso() {
         // <epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
         if(processoConclusoDTO.getTipoConclusoDTO() == null) {            
-            TipoConclusoDTO tipoConclusoDTO = listaProcessosConclusos.stream()
-                                                                     .filter(c -> c.getId() == -1)
-                                                                     .iterator()
-                                                                     .next();
+            TipoConclusoDTO tipoConclusoDTO = formularioService.obterTipoConclusoPorId(-1L);
             processoConclusoDTO.setTipoConclusoDTO(tipoConclusoDTO);
         }
         // </epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
@@ -1569,7 +1566,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     getPopupDataBaixaRetificar().show(new RichPopup.PopupHints());
                 } else {
                     RichPanelBox subSecao =
-                        (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent().getParent().getParent().getParent();
+                        (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
                     RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
                     this.idMagistrado = (Long) idMagistrado.getValue();
                     // <epr 1)Item 143> mover a exclusÃƒÂ£o para aÃƒÂ§ÃƒÂ£o Salvar/Concluir
