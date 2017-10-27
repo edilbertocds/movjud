@@ -142,7 +142,7 @@
                                                                disabled="#{empty acompanhamentoDevedoresBean.mesReferencia || empty acompanhamentoDevedoresBean.comunicadoCgNumero || empty acompanhamentoDevedoresBean.dataEnvio || empty acompanhamentoDevedoresBean.dataLimite}">
                                                         
                                                         <af:fileDownloadActionListener method="#{acompanhamentoDevedoresBean.emitirRelatorioDevedores}" 
-                                                                                       filename="#{acompanhamentoDevedoresBean.nomeRelatorioDownload}"
+                                                                                       filename="#{acompanhamentoDevedoresBean.nomeRelatorio}"
                                                                                        contentType="#{acompanhamentoDevedoresBean.contentType}"/>
                                                                                                   
                                                                                                                 </af:button>

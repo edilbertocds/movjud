@@ -29,6 +29,7 @@ public class GeracaoRelatorio {
 	super();
     }
 
+  
     public void processarRelatorio(ExtensaoRelatorio extensaoRelatorio, Template template, OutputStream outputStream, FacesContext facesContext, Map<String, Object> parametros,
 				   JRDataSource dataSource) throws JRException, IOException {
 	ServletContext contexto = (ServletContext) facesContext.getExternalContext().getContext();
@@ -57,6 +58,7 @@ public class GeracaoRelatorio {
 	jrExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 	jrExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
 	jrExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+        
 	jrExporter.exportReport();
 	outputStream.flush();
 
