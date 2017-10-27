@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-25T17:00:56 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AcompanhamentoDevedores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43592b45-0b2b-45b9-9fec-889a41508a3a">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -14,26 +16,38 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="112">
+		<band height="85">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="0" y="0" width="555" height="109" uuid="05536205-2da0-4916-be76-c9a53c7ea884"/>
-				<textFieldExpression><![CDATA["COMUNICADO CG Nº "+ $P{comunicadoCgNumero}+"\n\nA CORREGEDORIA GERAL DA JUSTIÇA, à vista do que dispões o artigo 3º do Provimento CG "
+				<reportElement x="74" y="0" width="481" height="80" uuid="05536205-2da0-4916-be76-c9a53c7ea884">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<style  isBold='true'>COMUNICADO CG Nº "+$P{comunicadoCgNumero}+"</style>\n\nA <style  isBold='true'>CORREGEDORIA GERAL DA JUSTIÇA</style>, à vista do que dispões o artigo 3º do Provimento CG nº "
 +$P{comunicadoCgNumero}+", determina aos Exms. Srs. Juízes de Direito das unidades a seguir relacionadas, que não enviaram os formulários até dia "
 +new SimpleDateFormat("dd/MM/yyyy").format($P{dataEnvio})+", providenciem até o dia "
-+new SimpleDateFormat("dd/MM/yyyy").format($P{dataLimite})+" impreterivelmente, a transmissão dos respectivos formulários do Movimento Judiciário.\n\nMês de referência: "+$P{mesReferencia}]]></textFieldExpression>
++new SimpleDateFormat("dd/MM/yyyy").format($P{dataLimite})+" <style  isBold='true'>impreterivelmente</style>, a transmissão dos respectivos formulários do Movimento Judiciário.\n\nMês de referência: "+$P{mesReferencia}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="278" y="0" width="277" height="20" backcolor="#CCCCCC" uuid="4899ce72-6cb9-4a62-a83e-90e78dd0114d"/>
-				<textElement textAlignment="Center"/>
+				<reportElement mode="Opaque" x="315" y="0" width="240" height="20" backcolor="#CCCCCC" uuid="4899ce72-6cb9-4a62-a83e-90e78dd0114d">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
 				<text><![CDATA[Unidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="277" height="20" backcolor="#CCCCCC" uuid="eef0beda-e3d1-4c8a-829b-3b093befde96"/>
-				<textElement textAlignment="Center"/>
+				<reportElement mode="Opaque" x="74" y="0" width="240" height="20" backcolor="#CCCCCC" uuid="eef0beda-e3d1-4c8a-829b-3b093befde96"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
 				<text><![CDATA[Foro]]></text>
 			</staticText>
 		</band>
@@ -41,17 +55,23 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="278" y="0" width="277" height="20" uuid="73708ef3-6fd3-4e93-a7a6-783cdb512b76"/>
-				<textElement textAlignment="Center"/>
+				<reportElement x="315" y="-1" width="240" height="20" uuid="73708ef3-6fd3-4e93-a7a6-783cdb512b76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{unidadeNome}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="277" height="19" uuid="3f2e1686-dd6e-4ea9-b79c-818bfb87f8e3"/>
-				<textElement textAlignment="Center"/>
+				<reportElement x="74" y="0" width="240" height="19" uuid="3f2e1686-dd6e-4ea9-b79c-818bfb87f8e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{foroNome}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="19" width="555" height="1" uuid="d086df3b-5630-41d4-95e5-87abe66d5c0b"/>
+				<reportElement x="74" y="19" width="481" height="1" uuid="d086df3b-5630-41d4-95e5-87abe66d5c0b">
+					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
+				</reportElement>
 			</line>
 		</band>
 	</detail>

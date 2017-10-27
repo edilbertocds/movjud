@@ -30,7 +30,12 @@ public class GeracaoRelatorio {
     }
 
     public void processarRelatorio(ExtensaoRelatorio extensaoRelatorio, Template template, OutputStream outputStream, FacesContext facesContext, Map<String, Object> parametros,
-				   JRDataSource dataSource) throws JRException, IOException {
+                                   JRDataSource dataSource) throws JRException, IOException {
+            processarRelatorio(extensaoRelatorio, template, outputStream, facesContext, parametros, dataSource, null);
+        }
+    
+    public void processarRelatorio(ExtensaoRelatorio extensaoRelatorio, Template template, OutputStream outputStream, FacesContext facesContext, Map<String, Object> parametros,
+				   JRDataSource dataSource, String outputFileName) throws JRException, IOException {
 	ServletContext contexto = (ServletContext) facesContext.getExternalContext().getContext();
 	String relatorioPath = contexto.getRealPath("/") + File.separator + template.getDiretorioRelatorio() + File.separator;
         String arquivoPath = relatorioPath + template.getNomeRelatorioCompilado();
@@ -54,9 +59,16 @@ public class GeracaoRelatorio {
 	}
         parametros.put(SUBREPORT_DIR, relatorioPath);
 	JasperPrint jasperPrint = JasperFillManager.fillReport(arquivoPath, parametros, dataSource);
+        
+        if(outputFileName != null)
+            jasperPrint.setName(outputFileName);
+        
+        if(outputFileName != null)
+            jrExporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFileName);
 	jrExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 	jrExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
 	jrExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+        
 	jrExporter.exportReport();
 	outputStream.flush();
 
