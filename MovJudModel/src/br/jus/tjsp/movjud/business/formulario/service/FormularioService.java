@@ -131,6 +131,8 @@ public interface FormularioService {
     void atualizarMagistradosFormularios(List<FormularioDTO> listaFormularios, Usuario usuario);
     
     List<TipoConclusoDTO> listarTipoProcessoConclusoPorDescricao();
+    
+    TipoConclusoDTO obterTipoConclusoPorId(Long id);
 
     List<FormularioDTO> listarFormulariosGeral(List<String> listaTipoSituacao ,FormularioDTO filtro);
     
