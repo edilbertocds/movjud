@@ -1,5 +1,6 @@
 package br.jus.tjsp.movjud.web.relatorio;
 
+
 public enum Template {
     ACOMPANHAMENTO_DEVEDORES("relatorios", "AcompanhamentoDevedores","Acompanhamento_Devedores"),
     FORMULARIO("relatorios", "Formulario","Formulario");

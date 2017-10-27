@@ -38,6 +38,7 @@ public class AcompanhamentoDevedoresBean extends BaseBean<Unidade> {
     final static Logger logger = Logger.getLogger(AcompanhamentoDevedoresBean.class);
     private Template templateRelatorio;
     private ExtensaoRelatorio extensaoRelatorio;
+    private String nomeRelatorio;
     private transient RelatorioAcompanhamentoDevedores relatorioAcompanhamentoDevedores;
     private transient GeracaoRelatorio gerarRelatorio;
 
@@ -59,6 +60,7 @@ public class AcompanhamentoDevedoresBean extends BaseBean<Unidade> {
         formularioService = getBean(FormularioService.class);
         templateRelatorio = Template.ACOMPANHAMENTO_DEVEDORES;
         extensaoRelatorio = ExtensaoRelatorio.EXTENSAO_RTF;
+        nomeRelatorio = "1BEJH.rtf";
         relatorioAcompanhamentoDevedores = new RelatorioAcompanhamentoDevedores();
         gerarRelatorio = new GeracaoRelatorio();
     }
@@ -104,7 +106,7 @@ public class AcompanhamentoDevedoresBean extends BaseBean<Unidade> {
         Map<String, Object> parametros =
             relatorioAcompanhamentoDevedores.obterParametros(mesReferencia, comunicadoCgNumero, dataEnvio, dataLimite);
         gerarRelatorio.processarRelatorio(extensaoRelatorio, templateRelatorio, outputStream, facesContext, parametros,
-                                          dataSource, "1BEJH");
+                                          dataSource);
 
         // FECHA O POPUP
         // this.getPopUpEmissaoRelatorioDevedores().hide();
@@ -211,5 +213,13 @@ public class AcompanhamentoDevedoresBean extends BaseBean<Unidade> {
         atualizarComponenteDeTela(getPanelSplit());
         //atualizarPagina();
         return null;
+    }
+
+    public void setNomeRelatorio(String nomeRelatorio) {
+        this.nomeRelatorio = nomeRelatorio;
+    }
+
+    public String getNomeRelatorio() {
+        return nomeRelatorio;
     }
 }
