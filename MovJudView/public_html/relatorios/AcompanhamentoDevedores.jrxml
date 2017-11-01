@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-26T11:36:44 -->
+<!-- 2017-10-30T14:51:58 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AcompanhamentoDevedores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43592b45-0b2b-45b9-9fec-889a41508a3a">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -25,8 +25,7 @@
 				<textElement textAlignment="Justified" markup="styled">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["<style  isBold='true'>COMUNICADO CG Nº "+$P{comunicadoCgNumero}+"</style>\n\n<style  isBold='true'>A CORREGEDORIA GERAL DA JUSTIÇA</style>, à vista do que dispões o artigo 3º do Provimento CG nº "
-+$P{comunicadoCgNumero}+", determina aos Exms. Srs. Juízes de Direito das unidades a seguir relacionadas, que não enviaram os formulários até dia "
+				<textFieldExpression><![CDATA["<style  isBold='true'>COMUNICADO CG Nº "+$P{comunicadoCgNumero}+"</style>\n\n<style  isBold='true'>A CORREGEDORIA GERAL DA JUSTIÇA</style>, à vista do que dispões o artigo 3º do Provimento CG nº 05/2013, determina aos Exms. Srs. Juízes de Direito das unidades a seguir relacionadas, que não enviaram os formulários até dia "
 +new SimpleDateFormat("dd/MM/yyyy").format($P{dataEnvio})+", providenciem até o dia "
 +new SimpleDateFormat("dd/MM/yyyy").format($P{dataLimite})+" <style  isBold='true'>impreterivelmente</style>, a transmissão dos respectivos formulários do Movimento Judiciário.\n\nMês de referência: "+$P{mesReferencia}]]></textFieldExpression>
 			</textField>

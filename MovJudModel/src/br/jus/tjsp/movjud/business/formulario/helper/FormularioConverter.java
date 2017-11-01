@@ -127,6 +127,10 @@ public class FormularioConverter {
                     List<TipoRegraDTO> listaTRFV =
                         parseListaMetadadosTipoRegraParaListaTipoRegraDTO(formularioVinculacao.getListaMetadadosTipoRegra());
                     for(TipoRegraDTO tipoRegra : listaTRFV) {
+                        if(tipoRegra.getCodigoTipoRegra().intValue() == 8){//para retirar a regra de primeiro preenchimento caso nao seja o primeiro preenchimento
+                            listaTiposRegraDTO.remove(tipoRegra);
+                            continue;
+                        }
                         if(!listaTiposRegraDTO.stream().anyMatch(r -> (r != null) && (r.getCodigoTipoRegra() != null) && r.getCodigoTipoRegra().equals(tipoRegra.getCodigoTipoRegra()))) {
                             listaTiposRegraDTO.add(tipoRegra);
                         }
@@ -785,7 +789,7 @@ public class FormularioConverter {
     }
 
     public static CampoDTO parseEntidadeGrupoCampoParaCampoDTO(MetadadosGrupoCampo mdGrupoCampo, GrupoDTO grupoDTO) {
-        CampoDTO campoDTO = new CampoDTO();
+        CampoDTO campoDTO = new CampoDTO(); 
         if (mdGrupoCampo != null) {
             campoDTO.setIdMetadadosGrupoCampo(mdGrupoCampo.getIdMetadadosGrupoCampo());
             campoDTO.setIdMetadadosCampo(mdGrupoCampo.getMetadadosCampo().getIdMetadadosCampo());
