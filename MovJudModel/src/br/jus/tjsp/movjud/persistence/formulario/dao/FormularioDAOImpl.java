@@ -78,7 +78,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 jpaQl.append(",");
             }
         }
-        jpaQl.append(")");
+        jpaQl.append(") order by formulario.unidade.foro.nomeForo, formulario.unidade.nomeUnidade ");
         return getPersistenceManager().listarPorJPQL(jpaQl);
     }
 

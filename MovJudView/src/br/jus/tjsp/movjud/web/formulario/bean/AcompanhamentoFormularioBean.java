@@ -219,6 +219,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public AcompanhamentoFormularioBean() {
         formularioService = (FormularioService) getBean(FormularioService.class);
         estruturaJudiciariaService = (EstruturaJudiciariaService) getBean(EstruturaJudiciariaService.class);
+        
         extensaoRelatorio = ExtensaoRelatorio.EXTENSAO_PDF;
         templateRelatorio = Template.FORMULARIO;
         relatorioFormulario = new RelatorioFormulario();

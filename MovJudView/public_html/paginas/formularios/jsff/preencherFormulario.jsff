@@ -154,7 +154,7 @@
                                             <af:forEach items="#{subSecaoDadosUnidade.listaGrupos}" var="grupoAtual">
                                                 <af:panelBox text="#{grupoAtual.labelGrupo}" id="pb7" styleClass="boxSecao" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[grupoAtual.tipoRegraDTO.codigoTipoRegra] eq true) ne grupoAtual.tipoRegraDTO.inverterRegra) }">
                                                     <af:forEach items="#{grupoAtual.sortedListaCampos}" var="campoAtual">
-                                                        <af:panelGroupLayout id="pgl3" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.formularioVisualizarPreenMBAction.bean.mapTipoRegra[row.tipoRegra] eq true) ne row.inverterLogicaTipoRegra)  }">
+                                                        <af:panelGroupLayout id="pgl3" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }">
                                                             <af:panelGroupLayout id="pgl78" layout="horizontal" valign="top">
                                                                 <af:spacer width="50" height="10" id="s32"/>
                                                                 <af:panelGroupLayout id="pgl79" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
@@ -435,7 +435,7 @@
                                                 <af:forEach items="#{subSecaoMateria.listaGrupos}" var="grupoAtual">
                                                     <af:panelBox text="#{grupoAtual.labelGrupo}" id="pb9" styleClass="boxSecao" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[grupoAtual.tipoRegraDTO.codigoTipoRegra] eq true) ne grupoAtual.tipoRegraDTO.inverterRegra) }">
                                                         <af:forEach items="#{grupoAtual.listaCampos}" var="campoAtual">
-                                                            <af:panelGroupLayout id="pgl108" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.formularioVisualizarPreenMBAction.bean.mapTipoRegra[row.tipoRegra] eq true) ne row.inverterLogicaTipoRegra)  }">
+                                                            <af:panelGroupLayout id="pgl108" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }">
                                                                 <af:panelGroupLayout id="pgl109" layout="horizontal" valign="top">
                                                                     <af:spacer width="50" height="10" id="s103"/>
                                                                     <af:panelGroupLayout id="pgl110" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
@@ -710,7 +710,7 @@
                                                 <af:forEach items="#{subSecaoMagistrado.listaGrupos}" var="grupoAtual">
                                                     <af:panelBox text="#{grupoAtual.labelGrupo}" id="pb3" styleClass="boxSecao" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[grupoAtual.tipoRegraDTO.codigoTipoRegra] eq true) ne grupoAtual.tipoRegraDTO.inverterRegra) }">
                                                         <af:forEach items="#{grupoAtual.listaCampos}" var="campoAtual">
-                                                            <af:panelGroupLayout id="pgl1" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.formularioVisualizarPreenMBAction.bean.mapTipoRegra[row.tipoRegra] eq true) ne row.inverterLogicaTipoRegra)  }">
+                                                            <af:panelGroupLayout id="pgl1" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }">
                                                                 <af:panelGroupLayout id="pgl5" layout="horizontal" valign="top">
                                                                     <af:spacer width="50" height="10" id="s1"/>
                                                                     <af:panelGroupLayout id="pgl6" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
@@ -1069,7 +1069,7 @@
                                             <af:forEach items="#{subSecaoEstabelecimento.listaGrupos}" var="grupoAtual">
                                                 <af:panelBox text="#{grupoAtual.labelGrupo}" id="pb5" styleClass="boxSecao" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[grupoAtual.tipoRegraDTO.codigoTipoRegra] eq true) ne grupoAtual.tipoRegraDTO.inverterRegra) }">
                                                     <af:forEach items="#{grupoAtual.listaCampos}" var="campoAtual">
-                                                        <af:panelGroupLayout id="pgl41" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.formularioVisualizarPreenMBAction.bean.mapTipoRegra[row.tipoRegra] eq true) ne row.inverterLogicaTipoRegra)  }">
+                                                        <af:panelGroupLayout id="pgl41" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }">
                                                             <af:panelGroupLayout id="pgl42" layout="horizontal" valign="top">
                                                                 <af:spacer width="50" height="10" id="s37"/>
                                                                 <af:panelGroupLayout id="pgl43" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
@@ -1349,7 +1349,7 @@
                                             <af:forEach items="#{subSecaoReus.listaGrupos}" var="grupoAtual">
                                                 <af:panelBox text="#{grupoAtual.labelGrupo}" id="pb11" styleClass="boxSecao" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[grupoAtual.tipoRegraDTO.codigoTipoRegra] eq true) ne grupoAtual.tipoRegraDTO.inverterRegra) }">
                                                     <af:forEach items="#{grupoAtual.listaCampos}" var="campoAtual">
-                                                        <af:panelGroupLayout id="pgl153" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.formularioVisualizarPreenMBAction.bean.mapTipoRegra[row.tipoRegra] eq true) ne row.inverterLogicaTipoRegra)  }">
+                                                        <af:panelGroupLayout id="pgl153" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }">
                                                             <af:panelGroupLayout id="pgl154" layout="horizontal" valign="top">
                                                                 <af:spacer width="50" height="10" id="s138"/>
                                                                 <af:panelGroupLayout id="pgl155" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
