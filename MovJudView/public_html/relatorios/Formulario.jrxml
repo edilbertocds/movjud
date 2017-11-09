@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-17T16:42:55 -->
+<!-- 2017-11-09T12:04:30 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Formulario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="20c41435-dcc9-4f0b-8a89-623a5f8e21cf">
 	<property name="ireport.zoom" value="1.4641000000000015"/>
 	<property name="ireport.x" value="0"/>
@@ -85,7 +85,7 @@
 				<textFieldExpression><![CDATA[$P{nomeForo}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="94" width="555" height="1" uuid="8d29551d-7713-4400-aa31-79a0726536c2">
+				<reportElement x="0" y="94" width="554" height="1" uuid="8d29551d-7713-4400-aa31-79a0726536c2">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
@@ -162,6 +162,34 @@
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{labelSecao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="305" y="8" width="60" height="15" uuid="0d540fd4-e1ff-47f2-94de-598287138c9e">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Formulario - ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="8" width="60" height="15" uuid="b56c83f7-2106-41fe-875f-4e720a961090">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TipoRegraMap:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="425" y="8" width="35" height="15" uuid="c387c171-7925-417e-9087-91f9591e82e9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tiposRegraFormulario}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

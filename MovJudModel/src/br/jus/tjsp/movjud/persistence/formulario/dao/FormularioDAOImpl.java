@@ -250,7 +250,8 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             jpaQl.append(" and formulario.usuarioAprovacao.idUsuario = " + filtro.getUsuarioAprovacao().getIdUsuario());
         }
 
-        jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, formulario.unidade.nomeUnidade");
+        jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, ");
+        jpaQl.append(" formulario.unidade.nomeUnidade, formulario.metadadosFormulario.descricaoSourceFormulario ");
 
         return jpaQl;
     }
@@ -346,7 +347,8 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             jpaQl.append(" and formulario.usuarioAprovacao.idUsuario = " + filtro.getUsuarioAprovacao().getIdUsuario());
         }
 
-        jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, formulario.unidade.nomeUnidade");
+        jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, ");
+        jpaQl.append(" formulario.unidade.nomeUnidade, formulario.metadadosFormulario.descricaoSourceFormulario ");
 
         return jpaQl;
     }
@@ -430,7 +432,8 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             jpaQl.append(" and formulario.usuarioAprovacao.idUsuario = " + filtro.getUsuarioAprovacao().getIdUsuario());
         }
 
-        jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, formulario.unidade.nomeUnidade");
+        jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, ");
+        jpaQl.append(" formulario.unidade.nomeUnidade, formulario.metadadosFormulario.descricaoSourceFormulario ");
 
         return jpaQl;
     }

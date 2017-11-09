@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-17T16:00:45 -->
+<!-- 2017-11-09T10:45:40 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="2.5937424601000028"/>
 	<property name="ireport.x" value="0"/>
@@ -23,10 +23,20 @@
 	<detail>
 		<band height="15">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<printWhenExpression><![CDATA[new Integer(1).equals($F{nivelCampo})]]></printWhenExpression>
+			<printWhenExpression><![CDATA[new Integer(1).equals($F{nivelCampo}) &&
+
+(
+	$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())
+)]]></printWhenExpression>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Zebra" mode="Opaque" x="455" y="0" width="100" height="15" uuid="c198f104-9d2c-41d8-a176-3a1e23e6bde1">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
@@ -34,8 +44,11 @@
 				<textFieldExpression><![CDATA[$F{valorCampo}==null?"":$F{valorCampo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Zebra" mode="Opaque" x="0" y="0" width="455" height="15" forecolor="#000000" uuid="45bd516b-8b25-401f-bdf9-72b5c5ccc2cc">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+				<reportElement style="Zebra" mode="Opaque" x="0" y="0" width="454" height="15" forecolor="#000000" uuid="45bd516b-8b25-401f-bdf9-72b5c5ccc2cc">
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Top">
 					<font size="8" isStrikeThrough="false"/>
@@ -44,38 +57,128 @@
 				<textFieldExpression><![CDATA[$F{labelCampoFormatado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="176" y="0" width="84" height="15" uuid="142b0836-eca1-4035-a435-af3d1bc3cdfc">
+				<reportElement positionType="Float" x="236" y="0" width="34" height="15" uuid="b0c140e8-dfb0-496e-acf4-196e3c2a3350">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[false]]></printWhenExpression>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["R. E. T.R.: "+($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["$F{tipoRegraDTO}: "+$F{tipoRegraDTO} != null ? $F{tipoRegraDTO}.getCodigoTipoRegra() :"null"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="260" y="0" width="100" height="15" uuid="b0c140e8-dfb0-496e-acf4-196e3c2a3350">
+				<reportElement x="330" y="0" width="125" height="15" uuid="923607f6-7d00-4089-9933-13c805182f82">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[false]]></printWhenExpression>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["T.R.C.: "+$F{tipoRegraDTO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{tiposRegraFormulario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="360" y="0" width="95" height="15" uuid="923607f6-7d00-4089-9933-13c805182f82">
+				<reportElement x="410" y="0" width="45" height="15" uuid="b4766685-caf8-4513-9295-ad46f9436e9f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[false]]></printWhenExpression>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["T.R.Arr.: "+$P{tiposRegraFormulario}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="270" y="0" width="60" height="15" uuid="03ef3e3c-2c1b-43ef-b8f2-659557dabe34">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TipoRegraMap:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="365" y="0" width="45" height="15" uuid="d32d270a-090b-4a2d-af18-dbde1dd6e2dc">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Expressao:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="176" y="0" width="60" height="15" uuid="1c949836-4d2c-4834-a16d-a79dc0637539">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[TipoRegraDTOcampo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="0" width="36" height="15" uuid="3b1b6f83-d287-449a-b1e1-4e0685f7cf0d">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Campo - ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="175" y="0" width="45" height="15" uuid="ec579a42-e735-4796-853d-13cafb16a8ad">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[PegarNoMap]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="220" y="0" width="45" height="15" uuid="93b4d109-df63-4d59-8fda-04d5112c16ab">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="270" y="0" width="45" height="15" uuid="82fcb65c-82f2-4586-a78d-61346bbac2c4">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[isInverterRegra:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="315" y="0" width="45" height="15" uuid="77c53f26-eb53-4d85-84ca-64df88f5f389">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoRegraDTO}.isInverterRegra()]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="15">
-			<printWhenExpression><![CDATA[new Integer(2).equals($F{nivelCampo})]]></printWhenExpression>
+			<printWhenExpression><![CDATA[(new Integer(2).equals($F{nivelCampo})) &&
+
+(
+	$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())
+)]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="Zebra" mode="Opaque" x="0" y="0" width="455" height="15" forecolor="#000000" uuid="7ffa9579-bd41-403e-baed-99526ba6bf28">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement>
 					<font size="8" isStrikeThrough="false"/>
@@ -85,7 +188,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Zebra" mode="Opaque" x="455" y="0" width="100" height="15" uuid="2931d772-fdc7-4111-bf66-07ae0851de1d">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
@@ -94,10 +200,20 @@
 			</textField>
 		</band>
 		<band height="15">
-			<printWhenExpression><![CDATA[new Integer(3).equals($F{nivelCampo})]]></printWhenExpression>
+			<printWhenExpression><![CDATA[new Integer(3).equals($F{nivelCampo}) &&
+
+(
+	$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())
+)]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="Zebra" mode="Opaque" x="0" y="0" width="455" height="15" forecolor="#000000" uuid="7aa846b4-9fb9-4d39-bd9a-0a24b8d75ae5">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement>
 					<font size="8" isStrikeThrough="false"/>
@@ -107,7 +223,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Zebra" mode="Opaque" x="455" y="0" width="100" height="15" uuid="d1b1a6ff-c499-4840-a828-797ac32d74b5">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
@@ -116,10 +235,20 @@
 			</textField>
 		</band>
 		<band height="15">
-			<printWhenExpression><![CDATA[new Integer(4).equals($F{nivelCampo})]]></printWhenExpression>
+			<printWhenExpression><![CDATA[new Integer(4).equals($F{nivelCampo}) &&
+
+(
+	$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())
+)]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="Zebra" mode="Opaque" x="0" y="0" width="455" height="15" forecolor="#000000" uuid="dd8582ff-0a1c-4e0f-a872-1739cb12a136">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement>
 					<font size="8" isStrikeThrough="false"/>
@@ -129,7 +258,10 @@
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement style="Zebra" mode="Opaque" x="455" y="0" width="100" height="15" uuid="2b8ac142-7922-411c-9666-701603b8d384">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$F{tipoRegraDTO} == null || $F{tipoRegraDTO}.isInverterRegra() == null ||
+((($P{tiposRegraFormulario} == null ||  
+(($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) != null &&
+($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())))) == true )  != $F{tipoRegraDTO}.isInverterRegra())]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
 					<font size="8" isBold="true"/>
@@ -140,11 +272,12 @@
 		<band height="15">
 			<printWhenExpression><![CDATA[$F{listaCampos}!=null && !$F{listaCampos}.isEmpty()]]></printWhenExpression>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="0" width="555" height="15" uuid="7d4895a1-1c27-4d3b-9174-70b56c2a50fe">
-					<printWhenExpression><![CDATA[($F{tipoRegraDTO} == null || $P{tiposRegraFormulario} == null || $P{tiposRegraFormulario}.isEmpty() || $F{tipoRegraDTO}.isInverterRegra() == null) || ( ($F{tipoRegraDTO} != null && $P{tiposRegraFormulario} != null && $P{tiposRegraFormulario}.isEmpty() == false && $P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra()) != null) && ( (($P{tiposRegraFormulario}.get($F{tipoRegraDTO}.getCodigoTipoRegra())) == true) != $F{tipoRegraDTO}.isInverterRegra()))]]></printWhenExpression>
-				</reportElement>
+				<reportElement positionType="Float" x="0" y="0" width="555" height="15" uuid="7d4895a1-1c27-4d3b-9174-70b56c2a50fe"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="tiposRegraFormulario">
+					<subreportParameterExpression><![CDATA[$P{tiposRegraFormulario}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaCampos},false)]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportCampo.jasper"]]></subreportExpression>

@@ -6,8 +6,6 @@ import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
-import java.io.Serializable;
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -251,7 +249,7 @@ public class ProcessoGabinete extends BaseEntity<Long> {
 
         if (dataArquivamento != null) {
             sb.append("Data Arquivamento = ");
-            sb.append(ModelUtils.formatarDataToStr(dataAtualizacao));
+            sb.append(ModelUtils.formatarDataToStr(dataArquivamento));
             sb.append("\n");
         }
         if (dataAtualizacao != null) {
