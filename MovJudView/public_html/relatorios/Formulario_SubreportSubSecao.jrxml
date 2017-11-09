@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-18T10:25:17 -->
+<!-- 2017-11-09T11:56:27 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="2.1435888100000025"/>
 	<property name="ireport.x" value="0"/>
@@ -42,7 +42,7 @@
 		<band height="40" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<subreport>
-				<reportElement x="4" y="23" width="546" height="15" uuid="e50eca69-0506-4590-b6e2-99bf824ca465">
+				<reportElement x="0" y="23" width="551" height="15" uuid="e50eca69-0506-4590-b6e2-99bf824ca465">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<subreportParameter name="SUBREPORT_DIR">
@@ -54,8 +54,41 @@
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaGrupos},false)]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportGrupo.jasper"]]></subreportExpression>
 			</subreport>
+			<staticText>
+				<reportElement x="365" y="0" width="60" height="15" uuid="6257aa3c-648a-453e-8d89-e2182941954b">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[TipoRegraMap:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="425" y="0" width="35" height="15" uuid="607e7891-9306-46b8-9c25-64b9f64e064e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tiposRegraFormulario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="305" y="-1" width="60" height="15" uuid="0e778d2c-1f44-4352-aade-d2ec59534fd9">
+					<printWhenExpression><![CDATA[false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[SubSessao - ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="21" width="555" height="2" uuid="2d1ce565-aa9d-47c6-9195-1481ca001250">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="4" y="5" width="546" height="15" backcolor="#FFFFFF" uuid="056899a8-b900-4f6e-8291-c4f3eb556a6c">
+				<reportElement mode="Transparent" x="4" y="5" width="551" height="15" backcolor="#FFFFFF" uuid="056899a8-b900-4f6e-8291-c4f3eb556a6c">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="MA"]]></printWhenExpression>
 				</reportElement>
@@ -66,7 +99,7 @@
 				<textFieldExpression><![CDATA[$F{tipoMateria}.nomeTipoMateria]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Transparent" x="4" y="5" width="546" height="15" backcolor="#FFFFFF" uuid="277fb702-93a3-41b3-9cec-348c6de418a1">
+				<reportElement positionType="Float" mode="Transparent" x="4" y="5" width="551" height="15" backcolor="#FFFFFF" uuid="277fb702-93a3-41b3-9cec-348c6de418a1">
 					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="M"]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -75,11 +108,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeMagistrado}]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement x="1" y="21" width="549" height="1" uuid="2d1ce565-aa9d-47c6-9195-1481ca001250">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-				</reportElement>
-			</line>
 		</band>
 		<band height="40" splitType="Prevent">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
