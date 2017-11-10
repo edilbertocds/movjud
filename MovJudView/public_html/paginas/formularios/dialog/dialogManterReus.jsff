@@ -95,7 +95,7 @@
                 </af:gridCell>
             </af:gridRow>
             <af:gridRow marginTop="5px" height="auto" id="gr5">
-                <af:gridCell marginStart="5px" width="100%" id="gc9" columnSpan="2" >
+                <af:gridCell marginStart="5px" width="100%" id="gc9" columnSpan="3" >
                     <af:panelGroupLayout id="pgl100" layout="horizontal">
                     <!--   inlineStyle="width:900px; column-span:all;" -->
                     <af:panelFormLayout id="pf20" labelAlignment="top">
@@ -108,14 +108,16 @@
                     <!-- af:outputLabel value="#{app['label.formulario.motivoBaixa']}" id="ol42"
                                     rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.nomeReuProvisorio}"/ -->
                     <af:panelFormLayout id="pf201" labelAlignment="top">
-                    <af:selectOneChoice id="soc23"
+                    <af:selectOneChoice id="motivoBaixa"
                                         label="Motivo da Baixa"
                                         value="#{pageFlowScope.acompanhamentoFormularioBean.reu.idMotivoBaixa}"
                                         rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.nomeReuProvisorio}"
                                         unselectedLabel="#{app['label.formulario.reuSemBaixa']}"
                                         contentStyle="width:250px;"
                                         disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"
-                                        required="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.dataBaixa}">
+                                        autoSubmit="true"
+                                        valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.motivoBaixaValueChangeListener}"
+                                        readOnly="#{pageFlowScope.acompanhamentoFormularioBean.motivoBaixaRequired}">
                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listarTipoMotivoBaixa}"
                                     var="motivoBaixa">
                             <af:selectItem label="#{motivoBaixa.descricaoTipoMotivoBaixa}" id="si2"
@@ -124,13 +126,14 @@
                     </af:selectOneChoice>
                     </af:panelFormLayout>
                     <af:panelFormLayout id="pf202" labelAlignment="top">
-                        <af:inputDate label="#{app['label.formulario.dataBaixa']}" id="id231"
+                        <af:inputDate label="#{app['label.formulario.dataBaixa']}" id="dataBaixa"
                                       value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataBaixa}"
-                                      required="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.idMotivoBaixa}"
                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"
                                       minValue="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataPrisao}"
                                       maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}"
-                                      />                    
+                                      autoSubmit="true"
+                                      readOnly="#{pageFlowScope.acompanhamentoFormularioBean.dataBaixaRequired}"
+                                      valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.dataBaixaValueChangeListener}"/>                    
                     </af:panelFormLayout>
                     </af:panelGroupLayout>
                 </af:gridCell>
