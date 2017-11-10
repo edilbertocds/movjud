@@ -74,6 +74,7 @@ import oracle.adf.view.rich.component.rich.data.RichTable;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectBooleanCheckbox;
+import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
 import oracle.adf.view.rich.component.rich.output.RichOutputText;
@@ -1793,6 +1794,56 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             retorno = true;
         }
         return retorno;
+    }
+    
+    public void motivoBaixaValueChangeListener(ValueChangeEvent valueChangeEvent) {
+        RichPopup dialogReu = this.getPopupAlterarReu();
+        if(dialogReu != null) {
+            RichInputDate dataBaixa = (RichInputDate)findComponent(dialogReu, "dataBaixa");
+            if(dataBaixa != null) {
+                Object dataBaixaValue = valueChangeEvent.getNewValue();
+                dataBaixa.setRequired(dataBaixaValue != null);
+                AdfFacesContext.getCurrentInstance().addPartialTarget(dataBaixa);
+            }
+        }
+    }
+    
+    public boolean isDataBaixaRequired() {
+        RichPopup dialogReu = this.getPopupAlterarReu();
+        if(dialogReu != null) {
+            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice)findComponent(dialogReu, "motivoBaixa");
+            RichInputDate dataBaixa = (RichInputDate)findComponent(dialogReu, "dataBaixa");
+            if(motivoBaixa != null && dataBaixa != null) {
+                Object motivoBaixaValue = motivoBaixa.getValue();
+                dataBaixa.setRequired(motivoBaixaValue != null && dataBaixa.getValue() == null);
+            }
+        }
+        return false;
+    }
+    
+    public void dataBaixaValueChangeListener(ValueChangeEvent valueChangeEvent) {
+        RichPopup dialogReu = this.getPopupAlterarReu();
+        if(dialogReu != null) {
+            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice)findComponent(dialogReu, "motivoBaixa");
+            if(motivoBaixa != null) {
+                Object dataBaixaValue = valueChangeEvent.getNewValue();
+                motivoBaixa.setRequired(dataBaixaValue != null);
+                AdfFacesContext.getCurrentInstance().addPartialTarget(motivoBaixa);
+            }
+        }
+    }
+    
+    public boolean isMotivoBaixaRequired() {
+        RichPopup dialogReu = this.getPopupAlterarReu();
+        if(dialogReu != null) {
+            RichInputDate dataBaixa = (RichInputDate)findComponent(dialogReu, "dataBaixa");
+            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice)findComponent(dialogReu, "motivoBaixa");
+            if(dataBaixa != null && motivoBaixa != null) {
+                Object dataBaixaValue = dataBaixa.getValue();
+                motivoBaixa.setRequired(dataBaixaValue != null && motivoBaixa.getValue() == null);
+            }
+        }
+        return false;
     }
 
     public static boolean validarDataConclusaoNoPeriodoDeCemDias(ProcessoConclusoDTO processoConclusoDTO,
