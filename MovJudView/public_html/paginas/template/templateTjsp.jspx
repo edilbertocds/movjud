@@ -122,10 +122,6 @@
                                                      loginBean.permissoesUsuario['GERUSUA'] }"
                                              id="pt_m19">
                                         <af:commandMenuItem immediate="true"
-                                                            text="#{app['menu.estruturaJuridica.gerenciarUnidade']}"
-                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
-                                                            id="pt_cmi3" action="gerenciarUnidade"/>
-                                        <af:commandMenuItem immediate="true"
                                                             text="#{app['menu.estruturaJuridica.gerenciarRegiao']}"
                                                             id="pt_cmi6"
                                                             rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
@@ -145,6 +141,10 @@
                                                             id="pt_cmi9"
                                                             rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
                                                             action="gerenciarForo"/>
+                                        <af:commandMenuItem immediate="true"
+                                                            text="#{app['menu.estruturaJuridica.gerenciarUnidade']}"
+                                                            rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
+                                                            id="pt_cmi3" action="gerenciarUnidade"/>                    
                                         <af:commandMenuItem immediate="true"
                                                             text="#{app['menu.estruturaJuridica.gerenciarEstabelecimentoPrisional']}"
                                                             rendered="#{loginBean.permissoesUsuario['GERFOROUNID']}"
