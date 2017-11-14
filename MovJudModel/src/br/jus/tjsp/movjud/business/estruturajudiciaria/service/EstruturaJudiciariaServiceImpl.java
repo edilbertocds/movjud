@@ -37,7 +37,6 @@ import br.jus.tjsp.movjud.persistence.formulario.dao.TipoSituacaoDAO;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
@@ -208,8 +207,10 @@ public class EstruturaJudiciariaServiceImpl implements EstruturaJudiciariaServic
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Unidade> listarUnidadesComFiltroPaginacao(Unidade unidade, Paginacao paginacao) {
+        String[] campoOrdenacao = {"foro.comarca.circunscricao.regiao.nomeRegiao","foro.comarca.circunscricao.nomeCircunscricao","foro.comarca.nomeComarca","foro.nomeForo","nomeUnidade"};
+        Boolean[] ascOrdenacao = {true,true,true,true,true};
         return //unidadeDAO.listarComFiltro(unidade, paginacao);
-            unidadeDAO.listarComFiltroOrdenacao(unidade, "foro.comarca.circunscricao.regiao.nomeRegiao", true, paginacao);
+            unidadeDAO.listarComFiltroOrdenacao(unidade, campoOrdenacao, ascOrdenacao, paginacao);
     }
 
     @Override
@@ -313,22 +314,28 @@ public class EstruturaJudiciariaServiceImpl implements EstruturaJudiciariaServic
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Circunscricao> listarCircunscricoesComFiltroPaginacao(Circunscricao circunscricao,
                                                                       Paginacao paginacao) {
+        String[] campoOrdenacao = {"regiao.nomeRegiao","nomeCircunscricao"};
+        Boolean[] ascOrdenacao = {true,true};
         return //circunscricaoDAO.listarCircunscricaoOrdenadoPorNome(circunscricao, paginacao);
-        circunscricaoDAO.listarComFiltroOrdenacao(circunscricao, "regiao.nomeRegiao", true, paginacao);
+        circunscricaoDAO.listarComFiltroOrdenacao(circunscricao, campoOrdenacao, ascOrdenacao, paginacao);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Comarca> listarComarcaComFiltroPaginacao(Comarca comarca, Paginacao paginacao) {
+        String[] campoOrdenacao = {"circunscricao.regiao.nomeRegiao","circunscricao.nomeCircunscricao","nomeComarca"};
+        Boolean[] ascOrdenacao = {true,true,true};
         return //comarcaDAO.listarComarcaOrdenadoPorNome(comarca, paginacao);
-        comarcaDAO.listarComFiltroOrdenacao(comarca, "circunscricao.regiao.nomeRegiao", true, paginacao);
+        comarcaDAO.listarComFiltroOrdenacao(comarca, campoOrdenacao, ascOrdenacao, paginacao);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Foro> listarForoComFiltroPaginacao(Foro foro, Paginacao paginacao) {
+        String[] campoOrdenacao = {"comarca.circunscricao.regiao.nomeRegiao","comarca.circunscricao.nomeCircunscricao","comarca.nomeComarca","nomeForo"};
+        Boolean[] ascOrdenacao = {true,true,true,true};
         return //foroDAO.listarForoOrdenadoPorNome(foro, paginacao);
-        foroDAO.listarComFiltroOrdenacao(foro, "comarca.circunscricao.regiao.nomeRegiao", true, paginacao);
+        foroDAO.listarComFiltroOrdenacao(foro, campoOrdenacao, ascOrdenacao, paginacao);
     }
 
     @Override
