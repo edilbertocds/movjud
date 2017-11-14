@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-11-09T11:56:27 -->
+<!-- 2017-11-14T16:17:29 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="2.1435888100000025"/>
 	<property name="ireport.x" value="0"/>
@@ -156,18 +156,18 @@
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportForosOrigem.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="40" splitType="Prevent">
+		<band height="45" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="R"&&$F{listaReus}!=null && !$F{listaReus}.isEmpty()]]></printWhenExpression>
 			<staticText>
-				<reportElement positionType="Float" mode="Transparent" x="4" y="1" width="546" height="15" backcolor="#FFFFFF" uuid="e82be57e-9e32-4710-9263-9149010c4765"/>
+				<reportElement positionType="Float" mode="Transparent" x="4" y="3" width="546" height="15" backcolor="#FFFFFF" uuid="e82be57e-9e32-4710-9263-9149010c4765"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dados Réus]]></text>
 			</staticText>
 			<subreport>
-				<reportElement x="4" y="19" width="545" height="20" uuid="f7bd0d74-5b1c-47a5-81a8-24261c5a8b2e">
+				<reportElement x="4" y="22" width="545" height="20" uuid="f7bd0d74-5b1c-47a5-81a8-24261c5a8b2e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<subreportParameter name="SUBREPORT_DIR">
