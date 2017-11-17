@@ -61,6 +61,9 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         super.initDialogAlterar(popupFetchEvent);
         List<ProcessoGabinete> listaProcesso =
             processoGabineteService.listarProcessosGabineteDoMagistrado(getEntidadePersistencia().getUsuario());
+        if(listaProcesso == null) {
+            listaProcesso = new ArrayList<ProcessoGabinete>();
+        }
         temProcessoNaoArquivado = listaProcesso.stream().anyMatch(p->p.getFlagArquivado().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
         entidadePersistencia.getUsuario().setProcessosGabinete(listaProcesso);
         popularListaAno();

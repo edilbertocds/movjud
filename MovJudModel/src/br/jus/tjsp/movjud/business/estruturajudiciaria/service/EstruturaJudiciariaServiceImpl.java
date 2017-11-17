@@ -395,10 +395,17 @@ public class EstruturaJudiciariaServiceImpl implements EstruturaJudiciariaServic
     @Override
     public List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisOrdenadoPorNome(EstabelecimentoPrisional estabelecimentoPrisional,
                                                                                           Paginacao paginacao) {
-        /*
+        
         return estabelecimentoPrisionalDAO.listarEstabelecimentosPrisionaisOrdenadoPorNome(estabelecimentoPrisional,
                                                                                            paginacao);
+        /*
+        return estabelecimentoPrisionalDAO.listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(estabelecimentoPrisional, paginacao);
         */
+    }
+    
+    @Override 
+    public List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(EstabelecimentoPrisional estabelecimentoPrisional,
+                                                                                                            Paginacao paginacao) {
         return estabelecimentoPrisionalDAO.listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(estabelecimentoPrisional, paginacao);
     }
 

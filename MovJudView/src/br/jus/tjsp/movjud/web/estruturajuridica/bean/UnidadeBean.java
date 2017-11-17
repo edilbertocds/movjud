@@ -440,7 +440,7 @@ public class UnidadeBean extends BaseBean<Unidade> {
         entidadeEstabelecimentoPrisional.setNomeEstabelecimentoPrisional(parametro);
         entidadeEstabelecimentoPrisional.getUnidadeEstabelecimentosPrisionais().add(unidadeEstabelecimentoPrisional);
         listaParametros =
-            estruturaJudiciaria.listarEstabelecimentosPrisionaisOrdenadoPorNome(entidadeEstabelecimentoPrisional,
+            estruturaJudiciaria.listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(entidadeEstabelecimentoPrisional,
                                                                                 paginacaoSeguestao);
         return montarSelectItemEtidades(listaParametros, EstabelecimentoPrisional.class);
     }

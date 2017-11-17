@@ -127,6 +127,8 @@ public interface EstruturaJudiciariaService {
     // </edilberto item 199>
     
     List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisOrdenadoPorNome(EstabelecimentoPrisional estabelecimentoPrisional, Paginacao paginacao);
+    List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(EstabelecimentoPrisional estabelecimentoPrisional,
+                                                                                                                Paginacao paginacao);
     
     List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisComFiltro(EstabelecimentoPrisional estabelecimentoPrisional);
     
