@@ -93,11 +93,9 @@
                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
                     </af:panelFormLayout>
                 </af:gridCell>
-            </af:gridRow>
+            </af:gridRow>            
             <af:gridRow marginTop="5px" height="auto" id="gr5">
-                <af:gridCell marginStart="5px" width="100%" id="gc9" columnSpan="3" >
-                    <af:panelGroupLayout id="pgl100" layout="horizontal">
-                    <!--   inlineStyle="width:900px; column-span:all;" -->
+                <af:gridCell marginStart="5px" width="50%" id="gc9">
                     <af:panelFormLayout id="pf20" labelAlignment="top">
                         <af:inputDate label="#{app['label.formulario.dataUltimoMovProcessural']}" id="id23"
                                       value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataUltimoMovimento}"
@@ -105,9 +103,9 @@
                                       maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}"
                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
                     </af:panelFormLayout>
-                    <!-- af:outputLabel value="#{app['label.formulario.motivoBaixa']}" id="ol42"
-                                    rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.reu.nomeReuProvisorio}"/ -->
-                    <af:panelFormLayout id="pf201" labelAlignment="top">
+                </af:gridCell>
+                <af:gridCell marginStart="5px" width="50%" id="gc10" valign="bottom">
+                   <af:panelFormLayout id="pf201" labelAlignment="top">
                     <af:selectOneChoice id="motivoBaixa"
                                         label="Motivo da Baixa"
                                         value="#{pageFlowScope.acompanhamentoFormularioBean.reu.idMotivoBaixa}"
@@ -125,6 +123,10 @@
                         </af:forEach>
                     </af:selectOneChoice>
                     </af:panelFormLayout>
+                </af:gridCell>
+            </af:gridRow>
+            <af:gridRow marginTop="5px" height="auto" id="gr9">
+                <af:gridCell marginStart="5px" width="50%" id="gc12">
                     <af:panelFormLayout id="pf202" labelAlignment="top">
                         <af:inputDate label="#{app['label.formulario.dataBaixa']}" id="dataBaixa"
                                       value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataBaixa}"
@@ -135,9 +137,9 @@
                                       readOnly="#{pageFlowScope.acompanhamentoFormularioBean.dataBaixaRequired}"
                                       valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.dataBaixaValueChangeListener}"/>                    
                     </af:panelFormLayout>
-                    </af:panelGroupLayout>
                 </af:gridCell>
             </af:gridRow>
+            
             <af:gridRow marginTop="5px" height="auto" id="gr6" marginBottom="5px">
                 <af:gridCell marginStart="5px" width="50%" id="gc11" columnSpan="2">
                     <af:panelFormLayout id="pf21" labelAlignment="top">
