@@ -145,7 +145,7 @@
                     <af:panelFormLayout id="pf21" labelAlignment="top">
                         <af:inputText label="#{app['label.formulario.conteudoUltimoMovProcessural']}" id="it34" rows="2"
                                       value="#{pageFlowScope.acompanhamentoFormularioBean.reu.conteudoUltimoMovimento}"
-                                      required="true" columns="75" contentStyle="width:525px;"
+                                      required="true" columns="75" contentStyle="width:525px;height:2em"
                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
                     </af:panelFormLayout>
                 </af:gridCell>
@@ -182,7 +182,7 @@
                                       rows="2"
                                       value="#{pageFlowScope.acompanhamentoFormularioBean.reu.descricaoRelatorioCgj}"
                                       partialTriggers="dataFeitoLevadoAoMagistrado" autoSubmit="true" columns="75"
-                                      contentStyle="width:525px;"
+                                      contentStyle="width:525px;height:2em;"
                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
                     </af:panelFormLayout>
                     <af:spacer width="10" height="10" id="s1"/>

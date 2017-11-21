@@ -23,6 +23,10 @@ body {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
+
+textarea {
+    resize: none;
+}
 /* ==========================================
  Global 
 ========================================== */
@@ -403,6 +407,10 @@ body.loginPage {
 .dialogManterReus {
     width: 550px;
     height: 550px;
+}
+
+.dialogManterReus > textarea {
+    height:2em;
 }
 /* ==========================================
  Dialog Usuario
