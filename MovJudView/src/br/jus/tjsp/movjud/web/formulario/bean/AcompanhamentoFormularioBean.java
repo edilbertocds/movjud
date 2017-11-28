@@ -135,6 +135,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private EstabelecimentoEntidadeDTO estabelecimentoEntidadeDTO;
     private String filtroReuProvisorio;
     private List<ReuDTO> listaReusProvisoriosFiltrada;
+    private boolean funcaoRetificacao;
 
     //Componentes de telas de Consultas
     private Foro foro;
@@ -1161,6 +1162,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String initPreencherFormulario() {
+        
+        if(ORIGEM_TELA_RETIFICAR.equals(action))
+            funcaoRetificacao = true;
+        else
+            funcaoRetificacao = false;
+    
+        
         resetSecoes();
         sugestao = "";
         filtroReuProvisorio = "";
@@ -2733,5 +2741,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 colocarDtDataBaixa = false;
         }
         return colocarDtDataBaixa;
+    }
+
+    public void setFuncaoRetificacao(boolean funcaoRetificacao) {
+        this.funcaoRetificacao = funcaoRetificacao;
+    }
+
+    public boolean isFuncaoRetificacao() {
+        return funcaoRetificacao;
     }
 }

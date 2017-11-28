@@ -1339,7 +1339,7 @@
                                     </af:panelBox>
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoReus.labelSecao}" id="painelSecaoReus" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoReus}">
                                         <f:facet name="toolbar">
-                                            <af:panelGroupLayout id="pgl189" layout="horizontal">
+                                            <af:panelGroupLayout id="pgl189" layout="horizontal" rendered="#{pageFlowScope.acompanhamentoFormularioBean.funcaoRetificacao ? false : true}" > 
                                                 <af:button text="Adicionar" id="b4" icon="/resource/images/adicionarOn.png" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true">
                                                     <af:showPopupBehavior popupId="popupIncluirReus"/>
                                                 </af:button>
@@ -1619,7 +1619,7 @@
                                                     <af:column headerText="Importado do SAJ" id="c20" align="center">
                                                         <af:image source="/resource/images/flagSimOn.png" id="i42" rendered="#{not empty row.codigoPessoaSaj and row.codigoPessoaSaj gt 0}"/>
                                                     </af:column>
-                                                    <af:column headerText="A&#231;&#245;es" id="c5" align="center" width="60">
+                                                    <af:column headerText="A&#231;&#245;es" id="c5" align="center" width="60" rendered="#{pageFlowScope.acompanhamentoFormularioBean.funcaoRetificacao ? false : true}">
                                                         <af:panelGroupLayout id="pgl190" layout="horizontal">
                                                             <!-- atributos removidos para teste (epr 0.7.9):   disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/editarOff.png"-->
                                                             <af:link id="l5" icon="/resource/images/editarOn.png" partialSubmit="true" immediate="true">
