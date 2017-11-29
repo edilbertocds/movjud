@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.0.31" id="DataBindings" SeparateXMLFiles="false" Package="movjudview" ClientType="Generic" dlerClass="br.jus.tjsp.movjud.core.exception.MovjudModelExceptionHandler">
+<Application xmlns="http://xmlns.oracle.com/adfm/application" version="12.2.1.0.31" id="DataBindings" SeparateXMLFiles="false" Package="movjudview" ClientType="Generic" ErrorHandlerClass="br.jus.tjsp.movjud.core.exception.MovjudModelExceptionHandler">
   <definitionFactories>
     <factory nameSpace="http://xmlns.oracle.com/adf/controller/binding" className="oracle.adf.controller.internal.binding.TaskFlowBindingDefFactoryImpl"/>
     <dtfactory className="oracle.adf.controller.internal.dtrt.binding.BindingDTObjectFactory"/>

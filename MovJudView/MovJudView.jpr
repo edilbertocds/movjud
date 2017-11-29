@@ -418,10 +418,6 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Log4j-1.2.17.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="ADF Common Web Runtime"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -431,26 +427,6 @@
          </hash>
          <hash>
             <value n="id" v="ADF Faces Databinding Runtime"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Jcommon-1.0.23.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Jfreechart-1.0.19.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Commons-beanutils-1.8.0.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Commons-digester-2.1.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Itext-2.1.7.js5.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
@@ -465,63 +441,33 @@
             <value n="id" v="Org.mozilla.javascript-1.7.2.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="Log4j-1.2.17.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Jcommon-1.0.23.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Jfreechart-1.0.19.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons-beanutils-1.8.0.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons-digester-2.1.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Itext-2.1.7.js5.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/log4j-1.2.17.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Log4j-1.2.17.jar"/>
-               <value n="id" v="Log4j-1.2.17.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/jcommon-1.0.23.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Jcommon-1.0.23.jar"/>
-               <value n="id" v="Jcommon-1.0.23.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/jfreechart-1.0.19.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Jfreechart-1.0.19.jar"/>
-               <value n="id" v="Jfreechart-1.0.19.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/commons-beanutils-1.8.0.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Commons-beanutils-1.8.0.jar"/>
-               <value n="id" v="Commons-beanutils-1.8.0.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/commons-digester-2.1.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Commons-digester-2.1.jar"/>
-               <value n="id" v="Commons-digester-2.1.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/itext-2.1.7.js5.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Itext-2.1.7.js5.jar"/>
-               <value n="id" v="Itext-2.1.7.js5.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
             <hash>
                <list n="classPath">
                   <url path="../MovJudLibs/public_html/WEB-INF/lib/jasperreports-6.3.1.jar" jar-entry=""/>
@@ -547,6 +493,60 @@
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Org.mozilla.javascript-1.7.2.jar"/>
                <value n="id" v="Org.mozilla.javascript-1.7.2.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/log4j-1.2.17.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Log4j-1.2.17.jar1"/>
+               <value n="id" v="Log4j-1.2.17.jar1"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/jcommon-1.0.23.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Jcommon-1.0.23.jar1"/>
+               <value n="id" v="Jcommon-1.0.23.jar1"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/jfreechart-1.0.19.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Jfreechart-1.0.19.jar1"/>
+               <value n="id" v="Jfreechart-1.0.19.jar1"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/commons-beanutils-1.8.0.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Commons-beanutils-1.8.0.jar1"/>
+               <value n="id" v="Commons-beanutils-1.8.0.jar1"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/commons-digester-2.1.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Commons-digester-2.1.jar1"/>
+               <value n="id" v="Commons-digester-2.1.jar1"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/itext-2.1.7.js5.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Itext-2.1.7.js5.jar1"/>
+               <value n="id" v="Itext-2.1.7.js5.jar1"/>
                <value n="locked" v="true"/>
             </hash>
          </list>
@@ -637,10 +637,6 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Log4j-1.2.17.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Oracle JEWT"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -665,26 +661,6 @@
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
-            <value n="id" v="Jcommon-1.0.23.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Jfreechart-1.0.19.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Commons-beanutils-1.8.0.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Commons-digester-2.1.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
-            <value n="id" v="Itext-2.1.7.js5.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Jasperreports-6.3.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -694,6 +670,30 @@
          </hash>
          <hash>
             <value n="id" v="Org.mozilla.javascript-1.7.2.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Log4j-1.2.17.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Jcommon-1.0.23.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Jfreechart-1.0.19.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons-beanutils-1.8.0.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Commons-digester-2.1.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Itext-2.1.7.js5.jar1"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>

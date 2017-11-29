@@ -168,10 +168,6 @@
    <hash n="oracle.jdevimpl.config.JProjectLibraries">
       <list n="exportedReferences">
          <hash>
-            <value n="id" v="Log4j-1.2.17.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
-         <hash>
             <value n="id" v="Org.apache.commons.logging_1.1.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
@@ -179,18 +175,13 @@
             <value n="id" v="Com.bea.core.weblogic.commons.logging.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
+         <hash>
+            <value n="id" v="Log4j-1.2.17.jar1"/>
+            <value n="isJDK" v="false"/>
+         </hash>
       </list>
       <hash n="internalDefinitions">
          <list n="libraryDefinitions">
-            <hash>
-               <list n="classPath">
-                  <url path="../libs/log4j-1.2.17.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Log4j-1.2.17.jar"/>
-               <value n="id" v="Log4j-1.2.17.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
             <hash>
                <list n="classPath">
                   <url path="../MovJudLibs/public_html/WEB-INF/lib/org.apache.commons.logging_1.1.1.jar" jar-entry=""/>
@@ -209,19 +200,28 @@
                <value n="id" v="Com.bea.core.weblogic.commons.logging.jar"/>
                <value n="locked" v="true"/>
             </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/log4j-1.2.17.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Log4j-1.2.17.jar1"/>
+               <value n="id" v="Log4j-1.2.17.jar1"/>
+               <value n="locked" v="true"/>
+            </hash>
          </list>
       </hash>
       <list n="libraryReferences">
-         <hash>
-            <value n="id" v="Log4j-1.2.17.jar"/>
-            <value n="isJDK" v="false"/>
-         </hash>
          <hash>
             <value n="id" v="Org.apache.commons.logging_1.1.1.jar"/>
             <value n="isJDK" v="false"/>
          </hash>
          <hash>
             <value n="id" v="Com.bea.core.weblogic.commons.logging.jar"/>
+            <value n="isJDK" v="false"/>
+         </hash>
+         <hash>
+            <value n="id" v="Log4j-1.2.17.jar1"/>
             <value n="isJDK" v="false"/>
          </hash>
       </list>
