@@ -77,7 +77,7 @@ public class MetadadosFormulario extends BaseEntity<Long> {
     @OneToMany(mappedBy = "metadadosFormulario", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<MetadadosSecao> metadadosSecoes;
     
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "MD_FORMULARIO_COMPETENCIA",
                joinColumns = { @JoinColumn(name = "FK_MD_FORMULARIO",
                                            referencedColumnName =

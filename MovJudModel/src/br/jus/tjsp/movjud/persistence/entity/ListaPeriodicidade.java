@@ -34,7 +34,7 @@ public class ListaPeriodicidade extends BaseEntity<Long> {
     @SequenceGenerator(name = "SEQ_CAD_LISTA_PERIODICIDADE", sequenceName = "SEQ_CAD_LISTA_PERIODICIDADE", allocationSize = 1)
     private Long idListaPeriodicidade;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_CAD_CONFIG_AVISO")
     private ConfiguracaoAviso configuracaoAviso;
     

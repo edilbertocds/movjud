@@ -44,6 +44,7 @@ import br.jus.tjsp.movjud.web.relatorio.Template;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -1558,10 +1559,18 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void removerProcessoConcluso(ActionEvent actionEvent) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date dtConclusao = null;
+                try {
+                    dtConclusao = sdf.parse(sdf.format(processoConclusoDTO.getDataConclusao()));
+                } catch (ParseException e) {
+                    System.out.println(e.getStackTrace());
+                }
+        
         PeriodoProcessoConcluso periodo =
-            formularioService.recuperarAnoMesPorPeriodoProcessoConcluso(new PeriodoProcessoConcluso(null, null, null,
-                                                                                                    null,
-                                                                                                    processoConclusoDTO.getDataConclusao()));
+                    formularioService.recuperarAnoMesPorPeriodoProcessoConcluso(new PeriodoProcessoConcluso(null, null, null,
+                                                                                                            null,
+                                                                                                            dtConclusao));
         if (periodo != null) {
             if ((entidadePersistencia.getAno().equals(periodo.getAno().longValue()) &&
                  entidadePersistencia.getMes().equals(periodo.getMes().longValue())) || formularioMesAnterior == null) {

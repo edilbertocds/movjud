@@ -158,9 +158,9 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
     }
 
     @Override
-    public List<Formulario> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao,
+    public List<Object[]> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao,
                                                               List<String> listaTipoSituacao) {
-        List<Formulario> lista = new ArrayList<>();
+        List<Object[]> lista = new ArrayList<Object[]>();
         lista.addAll(getPersistenceManager().listarPorJPQL(gerarQueryFormularios(filtro, listaTipoSituacao),
                                                            paginacao).getLista());
         return lista;
@@ -195,7 +195,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
 
     private StringBuilder gerarQueryFormularios(Formulario filtro, List<String> listaTipoSituacao) {
         StringBuilder jpaQl = new StringBuilder();
-        jpaQl.append("select formulario from Formulario formulario where 1=1 ");
+        /* jpaQl.append("select formulario from Formulario formulario where 1=1 ");
         if (filtro.getMetadadosFormulario() != null && filtro.getMetadadosFormulario().getDescricaoNome() != null) {
             jpaQl.append(" and UPPER(formulario.metadadosFormulario.descricaoNome) like UPPER('%" +
                          filtro.getMetadadosFormulario().getDescricaoNome() + "%')");
@@ -248,8 +248,14 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
         if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getIdUsuario() != null &&
             !new Long(0).equals(filtro.getUsuarioAprovacao().getIdUsuario())) {
             jpaQl.append(" and formulario.usuarioAprovacao.idUsuario = " + filtro.getUsuarioAprovacao().getIdUsuario());
-        }
+        }*/
 
+        jpaQl.append("select formulario.unidade.foro.nomeForo,  formulario.unidade.nomeUnidade, formulario.unidade.foro.nomeForo, ");
+        jpaQl.append(" formulario.unidade.nomeUnidade, formulario.mes , ");
+        jpaQl.append(" formulario.dataFechamento,       formulario.usuarioAprovacao.nome,      formulario.usuarioPreenchimento.nome    ");
+        jpaQl.append(" , formulario.ano from Formulario formulario where 1=1 ");
+               //"situacaoFormularioDTO.identificadorSituacaoFormulario  'nomeFormulario' 'labelSituacaoFormulario' ";
+        
         jpaQl.append(" order by formulario.ano DESC, formulario.mes DESC, formulario.unidade.foro.nomeForo, ");
         jpaQl.append(" formulario.unidade.nomeUnidade, formulario.metadadosFormulario.descricaoSourceFormulario ");
 

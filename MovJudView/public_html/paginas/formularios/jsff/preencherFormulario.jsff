@@ -1604,6 +1604,9 @@
                                                 </af:panelGroupLayout>
                                                 <af:spacer width="10" height="10" id="s188"/>
                                                 <af:table var="row" rowBandingInterval="0" id="tabelaDeReus" value="#{pageFlowScope.acompanhamentoFormularioBean.listaReusProvisoriosFiltrada}" columnStretching="column:c1" autoHeightRows="0" fetchSize="5" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarReuEmTabela}" filterVisible="true" columnBandingInterval="0" partialTriggers="::b20">
+                                                    <af:column headerText="#{app['label.formulario.numeroProcesso']}" id="c21" filterable="true" width="180">
+                                                        <af:outputText value="#{row.numeroProcesso}" id="ot7"/>
+                                                    </af:column>
                                                     <af:column headerText="#{app['label.formulario.nomeReu']}" id="c1" filterable="true" width="250">
                                                         <af:outputText value="#{row.nomeReuProvisorio}" id="ot27"/>
                                                     </af:column>

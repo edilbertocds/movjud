@@ -7,8 +7,6 @@ import br.jus.tjsp.movjud.persistence.entity.PermissaoUnidadeTemporaria;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 
-
-
 import java.util.List;
 
 import javax.ejb.Local;
@@ -28,7 +26,7 @@ public interface FormularioDAO extends BaseDAO<Formulario>{
     
     List<Formulario> listarFormularioGeral(Formulario filtro, List<String> listaTipoSituacao, List<PermissaoUnidadeTemporaria> listaPermissao);
     
-    List<Formulario> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao, List<String> listaTipoSituacao);
+    List<Object[]> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao, List<String> listaTipoSituacao);
     
     List<Formulario> listarFormularioGeralComPaginacaoPermissao(Formulario filtro, Paginacao paginacao, List<String> listaTipoSituacao, List<PermissaoUnidadeTemporaria> listaPermissao);
     

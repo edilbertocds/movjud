@@ -336,6 +336,7 @@
       <hash n="runConfigurationDefinitions">
          <hash n="Default">
             <value n="custom" v="false"/>
+            <list n="EnvironmentVariables"/>
             <value n="name" v="Default"/>
             <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
                <value n="promptForRemoteDebugging" v="false"/>
@@ -347,6 +348,7 @@
          </hash>
          <hash n="Remote Debug">
             <value n="custom" v="false"/>
+            <list n="EnvironmentVariables"/>
             <value n="name" v="Remote Debug"/>
             <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
                <value n="promptForRemoteDebugging" v="false"/>

@@ -34,7 +34,7 @@ public class ListaAbrangencia extends BaseEntity<Long> {
     @SequenceGenerator(name = "SEQ_CAD_LISTA_ABRANGENCIA", sequenceName = "SEQ_CAD_LISTA_ABRANGENCIA", allocationSize = 1)
     private Long idListaAbrangencia;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_CAD_CONFIG_AVISO")
     private ConfiguracaoAviso configuracaoAviso;
     

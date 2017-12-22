@@ -85,10 +85,10 @@ public class MetadadosCampo extends BaseEntity<Long> {
     @OneToMany(mappedBy = "metadadosCampo", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<MetadadosValidacaoCampo> metadadosValidacaoCampo;
 
-    @OneToMany(mappedBy = "metadadosCampoFilho", cascade = { CascadeType.ALL } , fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "metadadosCampoFilho", cascade = { CascadeType.ALL } , fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MetadadosCampoCampo> metadadosCamposFilho;
     
-    @OneToMany(mappedBy = "metadadosCampoPai", cascade = { CascadeType.ALL } , fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "metadadosCampoPai", cascade = { CascadeType.ALL } , fetch = FetchType.LAZY, orphanRemoval = true)
     private List<MetadadosCampoCampo> metadadosCamposPai;
     
     @ManyToOne

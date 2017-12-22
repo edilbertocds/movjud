@@ -1,7 +1,6 @@
 package br.jus.tjsp.movjud.business.formulario.service;
 
 import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
-import br.jus.tjsp.movjud.business.estruturajudiciaria.service.EstruturaJudiciariaServiceImpl;
 import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.CompetenciaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
@@ -69,14 +68,11 @@ import br.jus.tjsp.movjud.persistence.formulario.dao.TipoNaturezaPrisaoDAO;
 import br.jus.tjsp.movjud.persistence.formulario.dao.TipoSegmentoDAO;
 import br.jus.tjsp.movjud.persistence.formulario.dao.TipoSituacaoDAO;
 
-
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
-
 import java.util.Optional;
 
 import javax.ejb.EJB;
@@ -608,8 +604,9 @@ public class FormularioServiceImpl implements FormularioService{
     public List<FormularioDTO> listarFormulariosGeralComPaginacao(List<String> listaTipoSituacao, FormularioDTO filtro,
                                                                   Paginacao paginacao, Usuario usuarioLogado) {
         // RECUPERA OS FORMULARIOS
-        List<Formulario> listaFormularios = new ArrayList<Formulario>();
-        if (ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+        List<Object[]> listaFormularios = new ArrayList<Object[]>();
+        List<FormularioDTO> listaFormularioDTO = new ArrayList<FormularioDTO>();
+        /*if (ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
             PermissaoUnidadeTemporaria permissao = new PermissaoUnidadeTemporaria();
             permissao.setUsuario(usuarioLogado);
             List<PermissaoUnidadeTemporaria> listaPermissoes =
@@ -636,8 +633,35 @@ public class FormularioServiceImpl implements FormularioService{
                 formularioDAO.listarFormularioGeralComPaginacao(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
                                                                                                                      false),
                                                                 paginacao, listaTipoSituacao);
+        }*/
+        
+        listaFormularios =
+            formularioDAO.listarFormularioGeralComPaginacao(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
+                                                                                                                 false),
+                                                            paginacao, listaTipoSituacao);
+        
+        for(int i = 0; i <  listaFormularios.size(); i++  ){
+            FormularioDTO fDTO = new FormularioDTO();
+            /*
+            formulario.unidade.foro.nomeForo,  formulario.unidade.nomeUnidade, formulario.unidade.foro.nomeForo, ");
+                    jpaQl.append(" formulario.unidade.nomeUnidade, formulario.mes , ");
+                    jpaQl.append(" formulario.dataFechamento,       formulario.usuarioAprovacao.nome,      formulario.usuarioPreenchimento.nome
+             * */
+            fDTO.setNomeForo((((Object[])listaFormularios.get(i))[2]).toString());
+            fDTO.setNomeUnidade((((Object[])listaFormularios.get(i))[3]).toString());
+            fDTO.setAno(new Long((((Object[])listaFormularios.get(i))[8]).toString()));
+            fDTO.setMes(new Long((((Object[])listaFormularios.get(i))[4]).toString()));
+            fDTO.setDataConclusao((java.util.Date)(((Object[])listaFormularios.get(i))[5]));
+            fDTO.setNomeMagistrado((((Object[])listaFormularios.get(i))[6]).toString());
+            fDTO.setNomeUsuarioPreenchimento((((Object[])listaFormularios.get(i))[7]).toString());
+            SituacaoFormularioDTO sfdto = new SituacaoFormularioDTO();
+            sfdto.setIdentificadorSituacaoFormulario(TipoSituacaoType.ABERTO.getCodigo());
+            fDTO.setNomeFormulario("Teste JPA");
+            fDTO.setSituacaoFormularioDTO(sfdto);
+            listaFormularioDTO.add(fDTO);
         }
-        return FormularioConverter.parseListaFormularioParaListaFormularioDTO(listaFormularios);
+        
+        return listaFormularioDTO;//FormularioConverter.parseListaFormularioParaListaFormularioDTO(listaFormularios);
     }
 
 

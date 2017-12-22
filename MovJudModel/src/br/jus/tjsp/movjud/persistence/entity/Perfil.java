@@ -55,7 +55,7 @@ public class Perfil extends BaseEntity<Long> {
     @Column(name = "DT_INCLUSAO", insertable = false, updatable = false)
     private Date dataInclusao;    
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "CAD_PERFIL_ACAO",
                joinColumns = { @JoinColumn(name = "FK_CAD_PERFIL",
                                            referencedColumnName =

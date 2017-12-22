@@ -94,7 +94,7 @@ public class MetadadosSecao extends BaseEntity<Long> {
     @OneToMany(mappedBy = "metadadosSecao", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<MetadadosGrupo> metadadosGrupos;
     
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "MD_SECAO_MATERIA",
                joinColumns = { @JoinColumn(name = "FK_MD_SECAO",
                                            referencedColumnName =
