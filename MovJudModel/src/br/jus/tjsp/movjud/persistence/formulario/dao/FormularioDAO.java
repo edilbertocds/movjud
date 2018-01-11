@@ -26,7 +26,7 @@ public interface FormularioDAO extends BaseDAO<Formulario>{
     
     List<Formulario> listarFormularioGeral(Formulario filtro, List<String> listaTipoSituacao, List<PermissaoUnidadeTemporaria> listaPermissao);
     
-    List<Object[]> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao, List<String> listaTipoSituacao);
+    List<Formulario> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao, List<String> listaTipoSituacao);
     
     List<Formulario> listarFormularioGeralComPaginacaoPermissao(Formulario filtro, Paginacao paginacao, List<String> listaTipoSituacao, List<PermissaoUnidadeTemporaria> listaPermissao);
     
