@@ -302,8 +302,8 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 calcularDatasReferencia(inicio);
                 calcularDatasReferencia(fim);
                 parameter.append(" (formulario.unidade.idUnidade = " + permissao.getUnidade().getIdUnidade());
-                parameter.append(" and formulario.mes between " + inicio.get(Calendar.MONTH) + " and " +
-                                 fim.get(Calendar.MONTH));
+                parameter.append(" and formulario.mes between " + (inicio.get(Calendar.MONTH)+1) + " and " +
+                                 (fim.get(Calendar.MONTH)+1));
                 parameter.append(" and formulario.ano between " + inicio.get(Calendar.YEAR) + " and " +
                                  fim.get(Calendar.YEAR));
 
