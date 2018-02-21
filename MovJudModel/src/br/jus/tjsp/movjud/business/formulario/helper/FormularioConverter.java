@@ -157,20 +157,22 @@ public class FormularioConverter {
         FormularioDTO formularioDTO = null;
         if (formulario != null) {
             List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
-            for (Secao secao : formulario.getSecoes()) {
+            /*for (Secao secao : formulario.getSecoes()) {
                 if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
                     listaSecoesPrincipais.add(secao);
                 }
-            }
+            }*/
             formulario.setSecoes(listaSecoesPrincipais);
             formularioDTO = parseMetadadosFormularioParaFormularioDTO(formulario.getMetadadosFormulario());
             formularioDTO.setIdFormulario(formulario.getIdFormulario());
             formularioDTO.setNomeUnidade(formulario.getUnidade().getNomeUnidade());
             formularioDTO.setIdUnidade(formulario.getUnidade().getIdUnidade());
             formularioDTO.setListaTipoRegrasFormulario(parseFormularioParaListaTipoRegraDTO(formulario));
+            /* 
             formularioDTO.setListaSecoes(parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(),
                                                                             formularioDTO.getListaSecoes(),
                                                                             formularioDTO));
+            */
             if (formulario.getAno() != null) {
                 formularioDTO.setAno(formulario.getAno());
             } else {
@@ -197,7 +199,7 @@ public class FormularioConverter {
                 formularioDTO.setDataConclusao(formulario.getDataFechamento());
             }
             formularioDTO.setSituacaoFormularioDTO(parseTipoSituacaoParaSituacaoFormularioDTO(formulario.getTipoSituacao()));
-            formularioDTO.setListaHistoricoFormulario(parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));
+            /*formularioDTO.setListaHistoricoFormulario(parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));*/
         }
         return formularioDTO;
     }
@@ -587,9 +589,9 @@ public class FormularioConverter {
         formularioDTO.setSituacao(metadadosFormulario.getFlagTipoSituacao());
         formularioDTO.setVersao(metadadosFormulario.getNumeroVersao());
         formularioDTO.setMetadadoSituacaoFormularioDTO(parseMetadadoTipoSituacaoParaMetadadoSituacaoFormularioDTO(metadadosFormulario.getMetadadosTipoSituacao()));
-        if (metadadosFormulario.getMetadadosSecoes() != null)
+        /* if (metadadosFormulario.getMetadadosSecoes() != null)
             formularioDTO.setListaSecoes(parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
-                                                                                   formularioDTO));
+                                                                                   formularioDTO));*/
         return formularioDTO;
     }
 

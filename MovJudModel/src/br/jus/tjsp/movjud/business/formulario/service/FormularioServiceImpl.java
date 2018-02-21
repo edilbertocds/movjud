@@ -5,6 +5,7 @@ import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.CompetenciaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.GrupoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.HistoricoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.LiberacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MateriaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MetadadoSituacaoFormularioDTO;
@@ -37,6 +38,7 @@ import br.jus.tjsp.movjud.persistence.entity.PreCarga;
 import br.jus.tjsp.movjud.persistence.entity.ProcessoConcluso;
 import br.jus.tjsp.movjud.persistence.entity.ReuProvisorio;
 import br.jus.tjsp.movjud.persistence.entity.ReuProvisorioHistorico;
+import br.jus.tjsp.movjud.persistence.entity.Secao;
 import br.jus.tjsp.movjud.persistence.entity.TipoConcluso;
 import br.jus.tjsp.movjud.persistence.entity.TipoMotivoBaixa;
 import br.jus.tjsp.movjud.persistence.entity.TipoNaturezaPrisao;
@@ -74,7 +76,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -977,5 +982,36 @@ public class FormularioServiceImpl implements FormularioService{
     @Override
     public void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo) {
         formularioDAO.updateSituacaoFormulario(idFormulario, idSituacaoAntiga, idSituacaoNova, idUsuario, motivo);
+    }
+
+    @Asynchronous
+    public Future<List<SecaoDTO>> asyncCompleteFormularioDTO(FormularioDTO formularioDTO) {
+        List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
+        Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+        for (Secao secao : formulario.getSecoes()) {
+            if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
+                listaSecoesPrincipais.add(secao);
+            }
+        }
+        formulario.setSecoes(listaSecoesPrincipais);
+
+        List<SecaoDTO> result = new ArrayList<SecaoDTO>();
+        MetadadosFormulario metadadosFormulario = formulario.getMetadadosFormulario();
+
+        if (metadadosFormulario.getMetadadosSecoes() != null)
+            result =
+                FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
+                                                                              formularioDTO);
+        result = FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(), result, formularioDTO);
+        return new AsyncResult<List<SecaoDTO>>(result);
+    }
+
+    @Asynchronous
+    public Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO) {
+        Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+        if (formulario != null) {
+            return new AsyncResult<List<HistoricoFormularioDTO>>(FormularioConverter.parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));
+        }
+        return new AsyncResult<List<HistoricoFormularioDTO>>(new ArrayList<HistoricoFormularioDTO>());
     }
 }

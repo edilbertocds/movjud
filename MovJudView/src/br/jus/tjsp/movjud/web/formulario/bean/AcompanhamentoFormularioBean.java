@@ -58,8 +58,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.PostConstruct;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -230,7 +228,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     /* PostConstruct executa logo apos o managedBean ser instanciado  */
-    @PostConstruct
+    //@PostConstruct
     @Override
     public void init() {
         super.initDefault();
@@ -290,7 +288,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             popularListaAno();
             popularListaSituacao();
         }
-        pesquisarEntidadeConsultarGeral();
+        if(listaEntidade == null) pesquisarEntidadeConsultarGeral();
     }
 
     private void inicializarVariaveisConsulta() {
@@ -528,6 +526,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             listaEntidade =
                 formularioService.listarFormulariosGeralComPaginacao(listaTipoSituacaoConsulta, entidadeFiltro,
                                                                      paginacao, usuarioLogado);
+
+            // <epr-desempenho> teste lista
+            for (FormularioDTO formularioDTO : listaEntidade) {
+                formularioDTO.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(formularioDTO));
+                formularioDTO.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(formularioDTO));
+            }
+            // </epr-desempenho> teste lista
+            
             atualizarListasPreenchimentoMagistrado();
         } else {
             listaEntidade = new ArrayList<>();
