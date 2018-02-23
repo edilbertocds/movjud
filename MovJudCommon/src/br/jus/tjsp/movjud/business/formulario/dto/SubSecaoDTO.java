@@ -47,6 +47,33 @@ public class SubSecaoDTO extends BaseDTO<Long> implements Comparable<SubSecaoDTO
     private String filtroProcessoConcluso;
     private List<ProcessoConclusoDTO> listaFiltradaProcessosConclusos;
     
+    // POCK CPC
+    /*
+        Total de processos que se encontram há mais de 60 dias úteis sem movimentação: 0
+        
+        Inicial aguardando análise de cartório: 2
+        Petições ag. cadastro/juntada: 0
+        Petição juntada ag. Análise: 1
+        Aguardando minuta: 0
+        Aguardando análise de cartório: 0
+        Ag. análise do subfluxo despacho: 0
+        Ag. análise do subfluxo decisão: 0
+        Ag. análise do subfluxo sentança: 0
+        Decurso de Prazo - Documentos: 0
+     */
+    private Integer ttProcessosSemMovimentacao = 0;
+    
+    private Integer inicialAguardandoAnaliseDeCartorio = 0;
+    private Integer peticoesAgCadastroJuntada = 0;
+    private Integer peticaoJuntadaAgAnalise = 0;
+    private Integer aguardandoMinuta = 0;
+    private Integer aguardandoAnaliseDeCartorio = 0;
+    private Integer agAnaliseDoSubfluxoDespacho = 0;
+    private Integer agAnaliseDoSubfluxoDecisao = 0;
+    private Integer agAnaliseDoSubfluxoSentanca = 0;
+    private Integer decursoDePrazoDocumentos = 0;
+    // FIM - POCK CPC
+    
     @Override
     public int compareTo(SubSecaoDTO o) {
         // <epr> 0.7.6 - correção para ordenamento problema em formulário cível 05/17
@@ -545,5 +572,85 @@ public class SubSecaoDTO extends BaseDTO<Long> implements Comparable<SubSecaoDTO
             return listaFiltradaProcessosConclusos;
         else
             return listaProcessosConclusos;
+    }
+
+    public void setTtProcessosSemMovimentacao(Integer ttProcessosSemMovimentacao) {
+        this.ttProcessosSemMovimentacao = ttProcessosSemMovimentacao;
+    }
+
+    public Integer getTtProcessosSemMovimentacao() {
+        return ttProcessosSemMovimentacao;
+    }
+
+    public void setInicialAguardandoAnaliseDeCartorio(Integer inicialAguardandoAnaliseDeCartorio) {
+        this.inicialAguardandoAnaliseDeCartorio = inicialAguardandoAnaliseDeCartorio;
+    }
+
+    public Integer getInicialAguardandoAnaliseDeCartorio() {
+        return inicialAguardandoAnaliseDeCartorio;
+    }
+
+    public void setPeticoesAgCadastroJuntada(Integer peticoesAgCadastroJuntada) {
+        this.peticoesAgCadastroJuntada = peticoesAgCadastroJuntada;
+    }
+
+    public Integer getPeticoesAgCadastroJuntada() {
+        return peticoesAgCadastroJuntada;
+    }
+
+    public void setPeticaoJuntadaAgAnalise(Integer peticaoJuntadaAgAnalise) {
+        this.peticaoJuntadaAgAnalise = peticaoJuntadaAgAnalise;
+    }
+
+    public Integer getPeticaoJuntadaAgAnalise() {
+        return peticaoJuntadaAgAnalise;
+    }
+
+    public void setAguardandoMinuta(Integer aguardandoMinuta) {
+        this.aguardandoMinuta = aguardandoMinuta;
+    }
+
+    public Integer getAguardandoMinuta() {
+        return aguardandoMinuta;
+    }
+
+    public void setAguardandoAnaliseDeCartorio(Integer aguardandoAnaliseDeCartorio) {
+        this.aguardandoAnaliseDeCartorio = aguardandoAnaliseDeCartorio;
+    }
+
+    public Integer getAguardandoAnaliseDeCartorio() {
+        return aguardandoAnaliseDeCartorio;
+    }
+
+    public void setAgAnaliseDoSubfluxoDespacho(Integer agAnaliseDoSubfluxoDespacho) {
+        this.agAnaliseDoSubfluxoDespacho = agAnaliseDoSubfluxoDespacho;
+    }
+
+    public Integer getAgAnaliseDoSubfluxoDespacho() {
+        return agAnaliseDoSubfluxoDespacho;
+    }
+
+    public void setAgAnaliseDoSubfluxoDecisao(Integer agAnaliseDoSubfluxoDecisao) {
+        this.agAnaliseDoSubfluxoDecisao = agAnaliseDoSubfluxoDecisao;
+    }
+
+    public Integer getAgAnaliseDoSubfluxoDecisao() {
+        return agAnaliseDoSubfluxoDecisao;
+    }
+
+    public void setAgAnaliseDoSubfluxoSentanca(Integer agAnaliseDoSubfluxoSentanca) {
+        this.agAnaliseDoSubfluxoSentanca = agAnaliseDoSubfluxoSentanca;
+    }
+
+    public Integer getAgAnaliseDoSubfluxoSentanca() {
+        return agAnaliseDoSubfluxoSentanca;
+    }
+
+    public void setDecursoDePrazoDocumentos(Integer decursoDePrazoDocumentos) {
+        this.decursoDePrazoDocumentos = decursoDePrazoDocumentos;
+    }
+
+    public Integer getDecursoDePrazoDocumentos() {
+        return decursoDePrazoDocumentos;
     }
 }

@@ -104,6 +104,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private String inconsistenciaRemoverProcessoConcluso;
     private String periodoProcessoConclusoInicio;
     private String periodoProcessoConclusoFim;
+    private List<ProcessoConclusoDTO> listaProcessosConclusosUnidade = new ArrayList<ProcessoConclusoDTO>();
+    private SubSecaoDTO subSecaoProcessoConclusoDTO;
 
     private boolean mostrarAviso;
     private Usuario magistrado;
@@ -1219,16 +1221,21 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mostrarAviso = true;
         }
 
+        listaProcessosConclusosUnidade.clear();
         for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
             if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
                 secaoDadosUnidade = secao;
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
                 for (SubSecaoDTO subSecaoDTO : secao.getListaSubSecoes()) {
-                    subSecaoDTO.setListaProcessosConclusos(formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
+                    List<ProcessoConclusoDTO> listaProcessosConclusos = formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
                                                                                                                                                   entidadePersistencia.getMes().intValue(),
                                                                                                                                                   entidadePersistencia.getIdUnidade(),
                                                                                                                                                   subSecaoDTO.getIdMagistrado(),
-                                                                                                                                                  entidadePersistencia.getCodigoFormulario())));
+                                                                                                                                                  entidadePersistencia.getCodigoFormulario()));
+                    listaProcessosConclusosUnidade.addAll(listaProcessosConclusos);
+                    subSecaoDTO.setListaProcessosConclusos(listaProcessosConclusos);
+                    if(!subSecaoDTO.getListaProcessosConclusos().isEmpty())
+                        subSecaoProcessoConclusoDTO = subSecaoDTO;
                 }
                 secaoMagistrado = secao;
             } else if (secao.getCodigoSecao().equals(SecaoType.ESTABELECIMENTOS_PRISIONAIS.getCodigoSecao())) {
@@ -2764,5 +2771,21 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public boolean isFuncaoRetificacao() {
         return funcaoRetificacao;
+    }
+
+    public void setListaProcessosConclusosUnidade(List<ProcessoConclusoDTO> listaProcessosConclusosUnidade) {
+        this.listaProcessosConclusosUnidade = listaProcessosConclusosUnidade;
+    }
+
+    public List<ProcessoConclusoDTO> getListaProcessosConclusosUnidade() {
+        return listaProcessosConclusosUnidade;
+    }
+
+    public void setSubSecaoProcessoConclusoDTO(SubSecaoDTO subSecaoProcessoConclusoDTO) {
+        this.subSecaoProcessoConclusoDTO = subSecaoProcessoConclusoDTO;
+    }
+
+    public SubSecaoDTO getSubSecaoProcessoConclusoDTO() {
+        return subSecaoProcessoConclusoDTO;
     }
 }
