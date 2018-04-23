@@ -101,7 +101,10 @@ public class FormularioUtils {
             }
             i++;
         }
-        return secaoMagistrado.getListaSubSecoes().get(i);
+        if(i < secaoMagistrado.getListaSubSecoes().size())
+            return secaoMagistrado.getListaSubSecoes().get(i);
+        else
+            return null;
     }
 
     public static List<CampoDTO> recuperarCamposFormulario(FormularioDTO formulario) {

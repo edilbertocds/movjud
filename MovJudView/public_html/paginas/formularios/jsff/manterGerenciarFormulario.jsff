@@ -88,6 +88,19 @@
                                              id="dc7"/>
                 </af:dialog>
             </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="dialogConfigSecaoProdutividadeUnidade"
+                      contentDelivery="lazyUncached"
+                      popupFetchListener="#{pageFlowScope.configuracaoFormularioBean.initDialogSecaoDadosUnidade}">
+                <af:dialog id="d1" title="#{app['label.formulario.configurarsecaoProdutividadeUnidade']}"
+                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                           cancelTextAndAccessKey="#{pageFlowScope.configuracaoFormularioBean.visualizar ? app['botao.voltar'] : app['botao.cancelar']}"
+                           dialogListener="#{pageFlowScope.configuracaoFormularioBean.adicionarConfiguracaoSecaoDadosUnidade}"
+                           type="#{pageFlowScope.configuracaoFormularioBean.visualizar ? 'cancel' : 'okCancel'}">
+                    <f:facet name="buttonBar"/>
+                    <af:declarativeComponent viewId="/paginas/formularios/dialog/dialogConfiguracaoSecaoProdutividadeUnidade.jsff"
+                                             id="dc10"/>
+                </af:dialog>
+            </af:popup>
             <af:popup childCreation="deferred" autoCancel="disabled" id="dialogConfigSecaoMaterias"
                       contentDelivery="lazyUncached"
                       popupFetchListener="#{pageFlowScope.configuracaoFormularioBean.initDialogConfigurarSecaoMaterias}">

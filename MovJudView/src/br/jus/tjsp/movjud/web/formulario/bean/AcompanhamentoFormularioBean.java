@@ -7,6 +7,7 @@ import br.jus.tjsp.movjud.business.formula.utils.FormulaCalculo;
 import br.jus.tjsp.movjud.business.formulario.dto.EstabelecimentoEntidadeDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ProcessoConclusoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.ProcessosConclusosCpcDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ReuDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SecaoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SituacaoFormularioDTO;
@@ -104,7 +105,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private String inconsistenciaRemoverProcessoConcluso;
     private String periodoProcessoConclusoInicio;
     private String periodoProcessoConclusoFim;
-    private List<ProcessoConclusoDTO> listaProcessosConclusosUnidade = new ArrayList<ProcessoConclusoDTO>();
     private SubSecaoDTO subSecaoProcessoConclusoDTO;
 
     private boolean mostrarAviso;
@@ -120,7 +120,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     private boolean controleValidacaoAviso;
     private ProcessoConclusoDTO processoConclusoDTO;
-    private List<ProcessoConclusoDTO> listaRemoverProcessoConclusoDTO;
+    private Map<Long, ProcessoConclusoDTO> listaRemoverProcessoConclusoDTO;
     private Long idMagistrado;
     private TipoMateriaDTO materiaSubSecao;
     private SubSecaoDTO subSecaoMateriaRemover;
@@ -219,6 +219,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     private boolean atualizarPainelPrincipal = false;
     
+    private boolean processoConclusoUnidadeBoolean = false;
+    
     public AcompanhamentoFormularioBean() {
         formularioService = (FormularioService) getBean(FormularioService.class);
         estruturaJudiciariaService = (EstruturaJudiciariaService) getBean(EstruturaJudiciariaService.class);
@@ -240,7 +242,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         listaTipoSituacaoCadForm = formularioService.listarTipoSituacao();
         listaTipoJuiz = Arrays.asList(TipoJuizType.values());
         listaProcessosConclusos = formularioService.listarTipoProcessoConclusoPorDescricao();
-        listaRemoverProcessoConclusoDTO = new ArrayList<ProcessoConclusoDTO>();
+        listaRemoverProcessoConclusoDTO = new HashMap<Long, ProcessoConclusoDTO>();
         usuarioLogado = getLoginBean().getUsuarioSessao();
         //mockUser();
         action = acaoPageFlow();
@@ -522,6 +524,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void filtrarProcessoConcluso(ActionEvent actionEvent){
         atualizarComponenteDeTela("painelSecaoMagistrado");
     }
+    
+    public void filtrarProcessoConclusoUnidade(ActionEvent actionEvent){
+        atualizarComponenteDeTela("painelProcessoConclusoUnidade");
+    }
 
     private void pesquisarEntidadeConsultarGeral() {
         if (verificarPerfilUsuario() != null) {
@@ -530,10 +536,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                      paginacao, usuarioLogado);
 
             // <epr-desempenho> teste lista
-            for (FormularioDTO formularioDTO : listaEntidade) {
+            /*for (FormularioDTO formularioDTO : listaEntidade) {
                 formularioDTO.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(formularioDTO));
                 formularioDTO.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(formularioDTO));
-            }
+            }*/
             // </epr-desempenho> teste lista
             
             atualizarListasPreenchimentoMagistrado();
@@ -664,7 +670,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                         form.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                              TipoSituacaoType.ENVIADO_CGJ));
                         form.setIdUsuarioAlteracao(usuarioLogado.getId());
-                        formularioService.salvarFormulario(form, null, null);
+                        formularioService.salvarFormulario(form, null, null, null);
                     }
                 }
                 //zerarEntidadeFiltro();
@@ -674,7 +680,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                                      TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ));
                 entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
-                formularioService.salvarFormulario(entidadePersistencia, null, null);
+                formularioService.salvarFormulario(entidadePersistencia, null, null, null);
             }
             pesquisarEntidade();
         }
@@ -690,7 +696,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             form.setObservacaoHistorico(motivoDevolucao);
             //Preencher histórico
             form.setIdUsuarioAlteracao(usuarioLogado.getId());
-            formularioService.salvarFormulario(form, null, null);
+            formularioService.salvarFormulario(form, null, null, null);
         }
         listaFormulariosRetificacao.clear();
         zerarCamposRodape();
@@ -1078,9 +1084,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if(listaRemoverProcessoConclusoDTO != null && !listaRemoverProcessoConclusoDTO.isEmpty()) {
             SubSecaoDTO subSecaoMagistrado = FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado);
             if(subSecaoMagistrado != null) {
-                subSecaoMagistrado.getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO);
-                listaRemoverProcessoConclusoDTO.clear();
+                subSecaoMagistrado.getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
             }
+            if(subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getProcessosConclusosCpc() != null && subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos() != null && !subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos().isEmpty()){
+                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
+                subSecaoProcessoConclusoDTO.getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
+                //secaoDadosUnidade.getListaSubSecoes().add(subSecaoProcessoConclusoDTO); // TESTAR (E ACHAR O PONTO DO DATA BAIXA)
+            }
+            listaRemoverProcessoConclusoDTO.clear();
         }
         // </epr 3) Item 143>
         return persistirEntidade();
@@ -1115,7 +1126,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
-        formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus);
+        formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus, subSecaoProcessoConclusoDTO);
         painelPrincipal = new RichPanelGroupLayout();
         return "voltar";
     }
@@ -1171,6 +1182,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String initPreencherFormulario() {
+        //Formulario f = formularioService.recuperarFormularioPorIdFormulario(entidadePersistencia.getIdFormulario());
+        entidadePersistencia = formularioService.recuperarFormularioDTOPorIdFormulario(entidadePersistencia.getIdFormulario());
+        entidadePersistencia.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(entidadePersistencia));
+        entidadePersistencia.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(entidadePersistencia));
         
         if(ORIGEM_TELA_RETIFICAR.equals(action))
             funcaoRetificacao = true;
@@ -1221,10 +1236,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mostrarAviso = true;
         }
 
-        listaProcessosConclusosUnidade.clear();
         for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
             if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
                 secaoDadosUnidade = secao;
+                ProcessosConclusosCpcDTO processosConclusosCpcDTO = formularioService.listarProcessosConclusosPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
+                                                                                                                                              entidadePersistencia.getMes().intValue(),
+                                                                                                                                              entidadePersistencia.getIdUnidade(),
+                                                                                                                                              null,
+                                                                                                                                              entidadePersistencia.getCodigoFormulario()));
+                if(!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()){
+                    subSecaoProcessoConclusoDTO = new SubSecaoDTO();
+                    subSecaoProcessoConclusoDTO.setProcessosConclusosCpc(processosConclusosCpcDTO);
+                    //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
+                    //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcesso(processosConclusosCpcDTO.getListaTipoFilaProcesso());
+                    subSecaoProcessoConclusoDTO.setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
+                    //secaoDadosUnidade.getListaSubSecoes().add(subSecaoProcessoConclusoDTO);
+                }
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
                 for (SubSecaoDTO subSecaoDTO : secao.getListaSubSecoes()) {
                     List<ProcessoConclusoDTO> listaProcessosConclusos = formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
@@ -1232,10 +1259,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                                                   entidadePersistencia.getIdUnidade(),
                                                                                                                                                   subSecaoDTO.getIdMagistrado(),
                                                                                                                                                   entidadePersistencia.getCodigoFormulario()));
-                    listaProcessosConclusosUnidade.addAll(listaProcessosConclusos);
+                    /*listaProcessosConclusosUnidade.addAll(listaProcessosConclusos);*/
                     subSecaoDTO.setListaProcessosConclusos(listaProcessosConclusos);
-                    if(!subSecaoDTO.getListaProcessosConclusos().isEmpty())
-                        subSecaoProcessoConclusoDTO = subSecaoDTO;
+                    /*if(!subSecaoDTO.getListaProcessosConclusos().isEmpty())
+                        subSecaoProcessoConclusoDTO = subSecaoDTO;*/
                 }
                 secaoMagistrado = secao;
             } else if (secao.getCodigoSecao().equals(SecaoType.ESTABELECIMENTOS_PRISIONAIS.getCodigoSecao())) {
@@ -1430,15 +1457,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
     }
 
+    public void initDialogProcessoConclusoUnidade(ActionEvent actionEvent) {
+        processoConclusoUnidadeBoolean = true;
+        initDialogProcessoConcluso(actionEvent);
+    }
 
     public void initDialogProcessoConcluso(ActionEvent actionEvent) {
         processoConclusoDTO = new ProcessoConclusoDTO();
-        RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent();
-        RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
-        this.idMagistrado = (Long) idMagistrado.getValue();
+        if(!processoConclusoUnidadeBoolean){
+            RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent();
+            RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
+            this.idMagistrado = (Long) idMagistrado.getValue();
+        }
         RichPopup.PopupHints hint = new RichPopup.PopupHints();
         RichPopup popupProcessoConcluso = (RichPopup) findComponent("popupAdicionarProcessoConcluso");
         popupProcessoConcluso.show(hint);
+        //processoConclusoUnidadeBoolean = false;
     }
 
     public String adicionarProcessoConcluso() {
@@ -1459,21 +1493,33 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     getPopupMensagemRetificarProcessoConcluso().show(new RichPopup.PopupHints());
                 }else{
                     adicionarProcessoConclusoDTO();
-                    FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                                   secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                    if(processoConclusoUnidadeBoolean){
+                        subSecaoProcessoConclusoDTO.getListaProcessosConclusos().add(processoConclusoDTO);
+                    }else{
+                        verificaProcessoConclusoUnidade();
+                        FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
+                                                                       secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                    }
                     processoConclusoDTO =
                         new ProcessoConclusoDTO(processoConclusoDTO.getDataConclusao(),
-                                                (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar());
+                                                (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar(),
+                                                processoConclusoDTO.getTipoFilaProcessoDTO());
                 }
             //Regra Nova    
             }else{
                 if (validarPeriodoProcessoConcluso()) {
                     adicionarProcessoConclusoDTO();
-                    FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                                   secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                    if(processoConclusoUnidadeBoolean || this.idMagistrado == null || this.idMagistrado.longValue() < 1 || secaoMagistrado == null ){
+                        subSecaoProcessoConclusoDTO.getListaProcessosConclusos().add(processoConclusoDTO);
+                    }else{
+                        verificaProcessoConclusoUnidade();
+                        FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
+                                                                       secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                    }
                     processoConclusoDTO =
                         new ProcessoConclusoDTO(processoConclusoDTO.getDataConclusao(),
-                                                (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar());
+                                                (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar(),
+                                                processoConclusoDTO.getTipoFilaProcessoDTO());
                 } else {
                     getPopupMensagemRetificarProcessoConcluso().show(new RichPopup.PopupHints());
                 }
@@ -1481,15 +1527,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         } else {
             if (validarDataConclusaoNoPeriodoDeCemDias(processoConclusoDTO, getUltimoDiaMesReferencia())) {
                 adicionarProcessoConclusoDTO();
-                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                               secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                if(processoConclusoUnidadeBoolean){
+                    subSecaoProcessoConclusoDTO.getListaProcessosConclusos().add(processoConclusoDTO);
+                }else{
+                    verificaProcessoConclusoUnidade();
+                    FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
+                                                                   secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                }
                 processoConclusoDTO =
                     new ProcessoConclusoDTO(processoConclusoDTO.getDataConclusao(),
-                                            (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar());
+                                            (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar(),
+                                                processoConclusoDTO.getTipoFilaProcessoDTO());
             } else {
                 getPopupInconsistenciaProcessoCemDias().show(new RichPopup.PopupHints());
             }
         }
+        processoConclusoUnidadeBoolean = false;
         return null;
     }
 
@@ -1497,6 +1550,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if (formularioMesAnterior != null) {
             if (validarPeriodoProcessoConcluso()) {
                 adicionarProcessoConclusoDTO();
+                verificaProcessoConclusoUnidade();
                 FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
                                                                secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
                 getPopupAdicionarProcessoConcluso().hide();
@@ -1506,6 +1560,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         } else {
             if (validarDataConclusaoNoPeriodoDeCemDias(processoConclusoDTO, getUltimoDiaMesReferencia())) {
                 adicionarProcessoConclusoDTO();
+                verificaProcessoConclusoUnidade();
                 FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
                                                                secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
                 getPopupAdicionarProcessoConcluso().hide();
@@ -1537,11 +1592,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void adicionarProcessoConclusoDTO() {
-        processoConclusoDTO.setIdMagistradoProcesso(this.idMagistrado);
+        if(!processoConclusoUnidadeBoolean)
+            processoConclusoDTO.setIdMagistradoProcesso(this.idMagistrado);
         processoConclusoDTO.setAno(entidadePersistencia.getAno().intValue());
         processoConclusoDTO.setMes(entidadePersistencia.getMes().intValue());
         processoConclusoDTO.setIdUnidadeProcesso(entidadePersistencia.getIdUnidade());
-        processoConclusoDTO.setIdMagistradoProcesso(this.idMagistrado);
         processoConclusoDTO.setSrcFormulario(entidadePersistencia.getCodigoFormulario());
     }
 
@@ -1549,6 +1604,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         processoConclusoDTO = new ProcessoConclusoDTO();
         ResetUtils.reset(getPopupAdicionarProcessoConcluso());
         getPopupAdicionarProcessoConcluso().hide();
+        processoConclusoUnidadeBoolean = false;
         return null;
     }
 
@@ -1571,6 +1627,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         tabelaProcessosConclusos.getSelectedRowKeys().clear();
     }
 
+    public void removerProcessoConclusoUnidade(ActionEvent actionEvent) {
+        this.processoConclusoUnidadeBoolean = true;
+        removerProcessoConcluso(actionEvent);
+    }
     public void removerProcessoConcluso(ActionEvent actionEvent) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date dtConclusao = null;
@@ -1597,10 +1657,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     }
                     getPopupDataBaixaRetificar().show(new RichPopup.PopupHints());
                 } else {
-                    RichPanelBox subSecao =
-                        (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
-                    RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
-                    this.idMagistrado = (Long) idMagistrado.getValue();
+                    if (processoConclusoUnidadeBoolean == false){
+                        RichPanelBox subSecao =
+                            (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+                        RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
+                        this.idMagistrado = (Long) idMagistrado.getValue();
+                    }
                     // <epr 1)Item 143> mover a exclusÃƒÂ£o para aÃƒÂ§ÃƒÂ£o Salvar/Concluir
                     /*
                     FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
@@ -1609,7 +1671,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     // </epr 1)Item 143>
                     // <epr 2)Item 143>
                     processoConclusoDTO.setMarcadoExclusao(true);
-                    listaRemoverProcessoConclusoDTO.add(processoConclusoDTO);
+                    listaRemoverProcessoConclusoDTO.put(processoConclusoDTO.getId(),processoConclusoDTO);
                     // </epr 2)Item 143>
                     atualizarComponenteDeTela(actionEvent.getComponent().getParent().getParent().getParent().getParent());
                 }
@@ -1641,9 +1703,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             inconsistenciaRemoverProcessoConcluso = entidadePersistencia.getNomeFormulario();
             getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
         }
+        processoConclusoUnidadeBoolean = false;
     }
 
     public List<FormularioDTO> validarRetificacoesFormularioEmProcessosConclusos(boolean acaoDeletar) {
+        return validarRetificacoesFormularioEmProcessosConclusos(acaoDeletar, false);
+    }
+    public List<FormularioDTO> validarRetificacoesFormularioEmProcessosConclusos(boolean acaoDeletar, boolean acaoDeletarNaUnidade) {
         List<FormularioDTO> listaFormulariosNecessarioRetificar = null;
         List<ProcessoConclusoDTO> listaProcessosConclusosSubsequentes =
             formularioService.listarProcessosConclusosMesesSubsequentes(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
@@ -1668,11 +1734,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     !formularioDTO.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ.getCodigo()) &&
                     !formularioDTO.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.RETIFICACAO_REPROVADA.getCodigo())) {
                     if (acaoDeletar) {
-                        FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
-                                                                       secaoMagistrado).getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+                        if(processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null){
+                            subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+                        }else{
+                            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
+                                                                           secaoMagistrado).getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+                        }
                     } else {
-                        FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
+                        if(processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null){
+                            subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarSubsequentes().add(processoConclusoDTO);
+                        }else{
+                            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
                                                                        secaoMagistrado).getListaProcessosConclusosDeletarSubsequentes().add(processoConclusoDTO);
+                        }
                     }
                 } else {
                     if (listaFormulariosNecessarioRetificar == null) {
@@ -1682,20 +1756,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 }
             }
         } else {
-            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
+            if(processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null){
+                subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+            }else{
+                FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
                                                            secaoMagistrado).getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+            }
         }
         return listaFormulariosNecessarioRetificar;
     }
 
     public String baixarProcessoConcluso() {
-        List<FormularioDTO> listaFormulariosNecessarioRetificar =
-            validarRetificacoesFormularioEmProcessosConclusos(false);
+        List<FormularioDTO> listaFormulariosNecessarioRetificar = validarRetificacoesFormularioEmProcessosConclusos(false);
         if (listaFormulariosNecessarioRetificar != null && !listaFormulariosNecessarioRetificar.isEmpty()) {
             inconsistenciaDataBaixa = new StringBuilder();
             for (FormularioDTO formularioDTO : listaFormulariosNecessarioRetificar) {
-                inconsistenciaDataBaixa.append("<li>" + formularioDTO.getNomeFormulario() + " - " +
-                                               formularioDTO.getMes() + "/" + formularioDTO.getAno() + "</li>");
+                inconsistenciaDataBaixa.append("<li>" + formularioDTO.getNomeFormulario() + " - " + formularioDTO.getMes() + "/" + formularioDTO.getAno() + "</li>");
             }
             getPopupDataBaixaRetificar().show(new RichPopup.PopupHints());
         } else {
@@ -1960,7 +2036,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     form.setNomeMagistrado(usuarioMagistrado.getNome());
                     form.setIdMagistrado(usuarioMagistrado.getIdUsuario());
                     form.setIdUsuarioAlteracao(usuarioLogado.getId());
-                    formularioService.salvarFormulario(form, null, null);
+                    formularioService.salvarFormulario(form, null, null, null);
                 }
             }
         } else if (ORIGEM_TELA_PREENCHER.equals(acaoPageFlow())) {
@@ -1970,7 +2046,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     form.setNomeMagistrado(usuarioMagistrado.getNome());
                     form.setIdMagistrado(usuarioMagistrado.getIdUsuario());
                     form.setIdUsuarioAlteracao(usuarioLogado.getId());
-                    formularioService.salvarFormulario(form, null, null);
+                    formularioService.salvarFormulario(form, null, null, null);
                 }
             }
         }
@@ -2773,19 +2849,36 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return funcaoRetificacao;
     }
 
-    public void setListaProcessosConclusosUnidade(List<ProcessoConclusoDTO> listaProcessosConclusosUnidade) {
-        this.listaProcessosConclusosUnidade = listaProcessosConclusosUnidade;
-    }
-
-    public List<ProcessoConclusoDTO> getListaProcessosConclusosUnidade() {
-        return listaProcessosConclusosUnidade;
-    }
-
     public void setSubSecaoProcessoConclusoDTO(SubSecaoDTO subSecaoProcessoConclusoDTO) {
         this.subSecaoProcessoConclusoDTO = subSecaoProcessoConclusoDTO;
     }
 
     public SubSecaoDTO getSubSecaoProcessoConclusoDTO() {
         return subSecaoProcessoConclusoDTO;
+    }
+
+    private void verificaProcessoConclusoUnidade() {
+        ProcessoConclusoDTO processoJaNaUnidade = null;
+        if(subSecaoProcessoConclusoDTO.getListaProcessosConclusos() != null && !subSecaoProcessoConclusoDTO.getListaProcessosConclusos().isEmpty()){
+            for(ProcessoConclusoDTO pcNaUnidade : subSecaoProcessoConclusoDTO.getListaProcessosConclusos()){
+                if(pcNaUnidade.getNumeroProcesso().longValue() == processoConclusoDTO.getNumeroProcesso().longValue()){
+                    processoJaNaUnidade = pcNaUnidade;
+                }
+            }
+        }
+                                                                                    
+        if (processoJaNaUnidade != null) {
+            processoJaNaUnidade.setIdMagistradoProcesso(this.idMagistrado);
+            processoJaNaUnidade.setDataBaixa(processoConclusoDTO.getDataBaixa());
+            processoConclusoDTO.setId(((ProcessoConclusoDTO) processoJaNaUnidade).getId());
+        }
+    }
+
+    public void setProcessoConclusoUnidadeBoolean(boolean processoConclusoUnidadeBoolean) {
+        this.processoConclusoUnidadeBoolean = processoConclusoUnidadeBoolean;
+    }
+
+    public boolean isProcessoConclusoUnidadeBoolean() {
+        return processoConclusoUnidadeBoolean;
     }
 }

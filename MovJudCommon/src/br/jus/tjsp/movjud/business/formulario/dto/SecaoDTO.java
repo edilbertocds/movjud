@@ -85,6 +85,12 @@ public class SecaoDTO extends BaseDTO<String> implements Comparable<SecaoDTO>{
         this.tabelaProcessos = secao.tabelaProcessos;
     }
     
+    public void setValuesSecaoDadosUnidade(SecaoDTO secao) {
+        this.conclusos = secao.conclusos;
+        this.totalizadores = secao.totalizadores;
+        this.tabelaProcessos = secao.tabelaProcessos;
+    }
+    
     public void setValuesSecaoEstabelecimentoPrisional(SecaoDTO secao) {
         this.tipoInternacao = secao.tipoInternacao;
         this.tipoPrisional = secao.tipoPrisional;

@@ -31,7 +31,6 @@ import javax.faces.model.SelectItem;
 
 import oracle.adf.view.rich.component.rich.data.RichColumn;
 import oracle.adf.view.rich.component.rich.data.RichTreeTable;
-import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
 import oracle.adf.view.rich.component.rich.layout.RichPanelBox;
 import oracle.adf.view.rich.component.rich.layout.RichPanelGroupLayout;
@@ -233,7 +232,8 @@ public class ComponentesHelper {
         layoutBotoesSecao.getChildren().add(removerSecao);
         if (secaoType.equals(SecaoType.DADOS_UNIDADES)) {
             removerSecao.setDisabled(true);
-            configuracao.setDisabled(true);
+            //configuracao.setDisabled(true);
+            configuracao = adicionarShowPopUpEmLink(configuracao, "dialogConfigSecaoProdutividadeUnidade");
         } else if (secaoType.equals(SecaoType.ESTABELECIMENTOS_PRISIONAIS)) {
             configuracao = adicionarShowPopUpEmLink(configuracao, "dialogConfigSecaoEstabelecimentoPrisional");
         } else if (secaoType.equals(SecaoType.MAGISTRADO)) {

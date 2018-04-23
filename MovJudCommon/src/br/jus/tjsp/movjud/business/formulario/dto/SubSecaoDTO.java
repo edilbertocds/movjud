@@ -12,6 +12,9 @@ public class SubSecaoDTO extends BaseDTO<Long> implements Comparable<SubSecaoDTO
     @SuppressWarnings("compatibility:3824523259394202894")
     private static final long serialVersionUID = -5970542879714251546L;
 
+    /* CPC Pock */
+    private ProcessosConclusosCpcDTO processosConclusosCpc = new ProcessosConclusosCpcDTO();
+
     private String codigoSubSecao;
     private Long idMetadadosSecao;
     private Long idSecao;
@@ -652,5 +655,13 @@ public class SubSecaoDTO extends BaseDTO<Long> implements Comparable<SubSecaoDTO
 
     public Integer getDecursoDePrazoDocumentos() {
         return decursoDePrazoDocumentos;
+    }
+
+    public void setProcessosConclusosCpc(ProcessosConclusosCpcDTO processosConclusosCpc) {
+        this.processosConclusosCpc = processosConclusosCpc;
+    }
+
+    public ProcessosConclusosCpcDTO getProcessosConclusosCpc() {
+        return processosConclusosCpc;
     }
 }

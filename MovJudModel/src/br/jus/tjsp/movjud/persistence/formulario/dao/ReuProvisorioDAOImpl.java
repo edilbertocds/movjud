@@ -23,9 +23,11 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
     public List<ParametroOperacao> parametrosFiltroByEntity(ReuProvisorio filter) {
         List<ParametroOperacao> parametros = new ArrayList<ParametroOperacao>();
 
-        parametros.add(new ParametroOperacao("dataBaixa",
-                                             filter.getDataBaixa(),
+        if(!filter.getHistoricosReuProvisorio().isEmpty()){
+        parametros.add(new ParametroOperacao("reuProvisorio.dataBaixa",
+                                             filter.getHistoricosReuProvisorio().get(0).getDataBaixa(),
                                              SQLOperatorType.IsNull));
+        }
         if(filter.getUnidade()!=null){
             parametros.add(new ParametroOperacao("unidade.idUnidade",
                                                  filter.getUnidade().getIdUnidade(),

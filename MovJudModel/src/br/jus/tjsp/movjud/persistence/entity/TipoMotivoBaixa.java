@@ -6,7 +6,6 @@ import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
 import java.util.Date;
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -53,7 +52,7 @@ public class TipoMotivoBaixa extends BaseEntity<Long> {
     private Date dataAtualizacao;
     
     @OneToMany(mappedBy = "tipoMotivoBaixa", cascade = { CascadeType.PERSIST, CascadeType.MERGE } ) 
-    private List<ReuProvisorio> reusProvisorios;
+    private List<ReuProvisorioHistorico> reusProvisorios;
 
     public TipoMotivoBaixa() {
     }
@@ -121,11 +120,11 @@ public class TipoMotivoBaixa extends BaseEntity<Long> {
         return dataAtualizacao;
     }
 
-    public void setReusProvisorios(List<ReuProvisorio> reusProvisorios) {
+    public void setReusProvisorios(List<ReuProvisorioHistorico> reusProvisorios) {
         this.reusProvisorios = reusProvisorios;
     }
 
-    public List<ReuProvisorio> getReusProvisorios() {
+    public List<ReuProvisorioHistorico> getReusProvisorios() {
         return reusProvisorios;
     }
 

@@ -9,6 +9,7 @@ import br.jus.tjsp.movjud.business.formulario.dto.LiberacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MateriaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MetadadoSituacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ProcessoConclusoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.ProcessosConclusosCpcDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ReuDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SecaoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SegmentoDTO;
@@ -120,7 +121,7 @@ public interface FormularioService {
    
     List<Unidade> carregarUnidadesDevedoras();
    
-    FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus);
+    FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus, SubSecaoDTO subsecaoCpcDTO);
     
     // <epr> Parâmetro para passar situacaoFormularioDTO
     void liberarFormulariosParaUnidade(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO);
@@ -143,6 +144,8 @@ public interface FormularioService {
     List<PreCarga> listarCamposPreCarga(PreCarga preCarga);    
     
     LiberacaoFormularioDTO countFormulariosLiberados();
+    
+    ProcessosConclusosCpcDTO listarProcessosConclusosPorUnidade(ProcessoConclusoDTO processoConclusoDTO);
     
     List<ProcessoConclusoDTO> listarProcessosConclusosMagistradoPorUnidade(ProcessoConclusoDTO processoConclusoDTO);
 
@@ -176,6 +179,8 @@ public interface FormularioService {
     
     Formulario recuperarFormularioPorIdFormulario(Long idFormulario);
     
+    FormularioDTO recuperarFormularioDTOPorIdFormulario(Long idFormulario);
+    
     void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo);
     
     @Asynchronous
@@ -183,4 +188,6 @@ public interface FormularioService {
     
     @Asynchronous
     Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO);
+    
+    FormularioDTO recuperarMetadadosFormulario(FormularioDTO formularioDTO);
 }

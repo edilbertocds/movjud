@@ -24,7 +24,6 @@ import br.jus.tjsp.movjud.core.exception.MovJudErrorMessage;
 import br.jus.tjsp.movjud.core.util.AppBundleProperties;
 import br.jus.tjsp.movjud.persistence.base.types.MetadadosTipoSituacaoType;
 import br.jus.tjsp.movjud.web.commons.bean.BaseBean;
-import br.jus.tjsp.movjud.web.estruturajuridica.bean.UsuarioBean;
 import br.jus.tjsp.movjud.web.formulario.helper.ComponentesHelper;
 
 import java.util.ArrayList;
@@ -79,6 +78,7 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
     private FormularioDTO formularioHistorico;
     private SecaoDTO secaoMagistrado;
     private SecaoDTO secaoEstabelecimentoPrisional;
+    private SecaoDTO secaoDadosUnidade;
 
     private CampoDTO campoSugerido;
     private ValidacaoDTO validacao;
@@ -201,6 +201,8 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
         tipoSecao = new RichSelectOneChoice();
         formulario = entidadePersistencia;
         formularioHistorico = formularioService.criarCopiaFomularioDTO(entidadePersistencia);
+        //formulario = formularioService.recuperarMetadadosFormulario(formulario);
+        formularioHistorico = formularioService.recuperarMetadadosFormulario(formularioHistorico);
         listaCamposFormularioFull = FormularioUtils.recuperarMetadadosCampoFormulario(formulario);
         List<SecaoDTO> listaSecoes = new ArrayList<SecaoDTO>();
         listaSecoes.addAll(formulario.getListaSecoes());
@@ -347,6 +349,16 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
                                                 SecaoType.MAGISTRADO.getCodigoSecao()).setValuesSecaoMagistrado(secaoMagistrado);
     }
     //Fim Dialog Secao Magistrado
+
+    //inicio Dialog Secao Dados Unidade
+    public void initDialogSecaoDadosUnidade(PopupFetchEvent popupFetchEvent) {
+        secaoDadosUnidade = FormularioUtils.encontrarSecaoPorCodigo(formulario, SecaoType.DADOS_UNIDADES.getCodigoSecao());
+    }
+    public void adicionarConfiguracaoSecaoDadosUnidade(DialogEvent dialogEvent) {
+        FormularioUtils.encontrarSecaoPorCodigo(formulario,
+                                                SecaoType.DADOS_UNIDADES.getCodigoSecao()).setValuesSecaoDadosUnidade(secaoDadosUnidade);
+    }
+    //fim Dialog Secao Dados Unidade
 
     //inicio Dialog Secao Estabelecimentos Prisionais
     public void initDialogSecaoEstabelecimentoPrisional(PopupFetchEvent popupFetchEvent) {
@@ -662,8 +674,16 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
 
     //Metodos tela de consulta
     @Override
+    /*public String pesquisarEntidade() {
+        listaEntidade = formularioService.listarMetadadosFormulariosComFiltro(entidadeFiltro, paginacao);
+        return null;
+    }*/
     public String pesquisarEntidade() {
         listaEntidade = formularioService.listarMetadadosFormulariosComFiltro(entidadeFiltro, paginacao);
+        if(listaEntidade != null && !listaEntidade.isEmpty()){
+        for (FormularioDTO formularioDTO : listaEntidade) {
+            formularioService.recuperarMetadadosFormulario(formularioDTO);
+        }}
         return null;
     }
     //Fim tela de consulta
@@ -1674,5 +1694,13 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
     public void validarDominioBIGrupo(ValueChangeEvent valueChangeEvent) {
         grupoSelecionado.setDominioBI(valueChangeEvent.getNewValue().toString());
         validarDominioBIGrupo(valueChangeEvent.getComponent(), grupoSelecionado);
+    }
+
+    public void setSecaoDadosUnidade(SecaoDTO secaoDadosUnidade) {
+        this.secaoDadosUnidade = secaoDadosUnidade;
+    }
+
+    public SecaoDTO getSecaoDadosUnidade() {
+        return secaoDadosUnidade;
     }
 }
