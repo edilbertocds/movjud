@@ -5,6 +5,8 @@ import br.jus.tjsp.movjud.business.base.dto.BaseDTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class FormularioDTO extends BaseDTO<String>{
     @SuppressWarnings("compatibility:8925175784384573926")
@@ -45,6 +47,9 @@ public class FormularioDTO extends BaseDTO<String>{
     private boolean flagRetificacao;// N�o precisa preencher
     private String perfilConsulta;// N�o precisa preencher
     private Long idUsuarioAlteracao;
+
+    private transient Future<List<SecaoDTO>> futureListaSecoes;
+    private transient Future<List<HistoricoFormularioDTO>> futureListaHistoricoFormulario;
         
     public FormularioDTO() {
     }
@@ -129,8 +134,16 @@ public class FormularioDTO extends BaseDTO<String>{
     }
 
     public List<HistoricoFormularioDTO> getListaHistoricoFormulario() {
-        if(listaHistoricoFormulario==null){
-            listaHistoricoFormulario = new ArrayList<HistoricoFormularioDTO>();
+        if (listaHistoricoFormulario == null) {
+            if (futureListaHistoricoFormulario == null) {
+                listaHistoricoFormulario = new ArrayList<HistoricoFormularioDTO>();
+            } else {
+                try {
+                    listaHistoricoFormulario = futureListaHistoricoFormulario.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    return null;
+                }
+            }
         }
         return listaHistoricoFormulario;
     }
@@ -199,8 +212,16 @@ public class FormularioDTO extends BaseDTO<String>{
     }
 
     public List<SecaoDTO> getListaSecoes() {
-        if(listaSecoes==null){
-            listaSecoes = new ArrayList<SecaoDTO>();
+        if (listaSecoes == null) {
+            if (futureListaSecoes == null) {
+                listaSecoes = new ArrayList<SecaoDTO>();
+            } else {
+                try {
+                    listaSecoes = futureListaSecoes.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    listaSecoes = null;
+                }
+            }
         }
         return listaSecoes;
     }
@@ -373,5 +394,13 @@ public class FormularioDTO extends BaseDTO<String>{
 
     public Long getIdUsuarioAlteracao() {
         return idUsuarioAlteracao;
+    }
+
+    public void setFutureListaSecoes(Future<List<SecaoDTO>> listaSecoes) {
+        this.futureListaSecoes = listaSecoes;
+    }
+    
+    public void setFutureListaHistoricoFormulario(Future<List<HistoricoFormularioDTO>> listaHistoricoFormulario) {
+        this.futureListaHistoricoFormulario = listaHistoricoFormulario;
     }
 }

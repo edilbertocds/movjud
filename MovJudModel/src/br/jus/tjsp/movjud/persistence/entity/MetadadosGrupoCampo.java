@@ -35,11 +35,11 @@ public class MetadadosGrupoCampo extends BaseEntity<Long> {
     @SequenceGenerator(name = "SEQ_MD_GRUPO_CAMPO", sequenceName = "SEQ_MD_GRUPO_CAMPO", allocationSize = 1)    
     private Long idMetadadosGrupoCampo;
     
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE } , fetch = FetchType.EAGER)
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE } , fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_MD_CAMPO")
     private MetadadosCampo metadadosCampo;
     
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE } , fetch = FetchType.EAGER)
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE } , fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_MD_GRUPO")
     private MetadadosGrupo metadadosGrupo;
     

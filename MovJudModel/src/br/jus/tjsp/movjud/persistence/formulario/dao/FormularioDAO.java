@@ -7,8 +7,6 @@ import br.jus.tjsp.movjud.persistence.entity.PermissaoUnidadeTemporaria;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 
-
-
 import java.util.List;
 
 import javax.ejb.Local;

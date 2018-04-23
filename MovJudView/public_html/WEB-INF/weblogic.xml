@@ -4,6 +4,7 @@
                   xmlns="http://www.bea.com/ns/weblogic/weblogic-web-app">
     <session-descriptor>
         <timeout-secs>7200</timeout-secs>
+        <max-save-post-size>10240</max-save-post-size>
     </session-descriptor>
     <container-descriptor>
         <show-archived-real-path-enabled>true</show-archived-real-path-enabled>

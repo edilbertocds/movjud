@@ -19,6 +19,7 @@ import br.jus.tjsp.movjud.business.formulario.dto.SegmentoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SituacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SubSecaoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.TipoConclusoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.TipoFilaProcessoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.TipoMateriaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.TipoRegraDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ValidacaoDTO;
@@ -54,8 +55,8 @@ import br.jus.tjsp.movjud.persistence.entity.Secao;
 import br.jus.tjsp.movjud.persistence.entity.TipoArea;
 import br.jus.tjsp.movjud.persistence.entity.TipoCompetencia;
 import br.jus.tjsp.movjud.persistence.entity.TipoConcluso;
+import br.jus.tjsp.movjud.persistence.entity.TipoFilaProcesso;
 import br.jus.tjsp.movjud.persistence.entity.TipoMateria;
-import br.jus.tjsp.movjud.persistence.entity.TipoMotivoBaixa;
 import br.jus.tjsp.movjud.persistence.entity.TipoNaturezaPrisao;
 import br.jus.tjsp.movjud.persistence.entity.TipoSegmento;
 import br.jus.tjsp.movjud.persistence.entity.TipoSituacao;
@@ -142,35 +143,44 @@ public class FormularioConverter {
     }    
     // </epr> (1) correçao tipo regra
 
-    public static List<FormularioDTO> parseListaFormularioParaListaFormularioDTO(List<Formulario> listaFormularios) {
+    public static List<FormularioDTO> parseListaFormularioParaListaFormularioDTO(List<Formulario> listaFormularios, Boolean paraPaginacao) {
         List<FormularioDTO> listaFormularioDTO = null;
         if (listaFormularios != null && !listaFormularios.isEmpty()) {
             listaFormularioDTO = new ArrayList<FormularioDTO>();
             for (Formulario formulario : listaFormularios) {
-                listaFormularioDTO.add(parseFormularioParaFormularioDTO(formulario));
+                if(paraPaginacao)
+                    listaFormularioDTO.add(parseFormularioParaFormularioDTOParaPaginacao(formulario));
+                else
+                    listaFormularioDTO.add(parseFormularioParaFormularioDTO(formulario));
             }
         }
         return listaFormularioDTO;
+    }
+
+    public static List<FormularioDTO> parseListaFormularioParaListaFormularioDTO(List<Formulario> listaFormularios) {
+        return parseListaFormularioParaListaFormularioDTO(listaFormularios, false);
     }
 
     public static FormularioDTO parseFormularioParaFormularioDTO(Formulario formulario) {
         FormularioDTO formularioDTO = null;
         if (formulario != null) {
             List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
-            for (Secao secao : formulario.getSecoes()) {
+            /*for (Secao secao : formulario.getSecoes()) {
                 if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
                     listaSecoesPrincipais.add(secao);
                 }
-            }
+            }*/
             formulario.setSecoes(listaSecoesPrincipais);
             formularioDTO = parseMetadadosFormularioParaFormularioDTO(formulario.getMetadadosFormulario());
             formularioDTO.setIdFormulario(formulario.getIdFormulario());
             formularioDTO.setNomeUnidade(formulario.getUnidade().getNomeUnidade());
             formularioDTO.setIdUnidade(formulario.getUnidade().getIdUnidade());
             formularioDTO.setListaTipoRegrasFormulario(parseFormularioParaListaTipoRegraDTO(formulario));
+            /* 
             formularioDTO.setListaSecoes(parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(),
                                                                             formularioDTO.getListaSecoes(),
                                                                             formularioDTO));
+            */
             if (formulario.getAno() != null) {
                 formularioDTO.setAno(formulario.getAno());
             } else {
@@ -197,7 +207,65 @@ public class FormularioConverter {
                 formularioDTO.setDataConclusao(formulario.getDataFechamento());
             }
             formularioDTO.setSituacaoFormularioDTO(parseTipoSituacaoParaSituacaoFormularioDTO(formulario.getTipoSituacao()));
-            formularioDTO.setListaHistoricoFormulario(parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));
+            /*formularioDTO.setListaHistoricoFormulario(parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));*/
+        }
+        return formularioDTO;
+    }
+        
+    public static FormularioDTO parseFormularioParaFormularioDTOParaPaginacao(Formulario formulario) {
+        FormularioDTO formularioDTO = null;
+        if (formulario != null) {
+            
+            //Formulário
+            formularioDTO = parseMetadadosFormularioParaFormularioDTOParaPaginacao(formulario.getMetadadosFormulario());
+            formularioDTO.setIdFormulario(formulario.getIdFormulario());
+            
+            //Foro
+            if (formulario.getUnidade().getForo() != null) {
+                formularioDTO.setNomeForo(formulario.getUnidade().getForo().getNomeForo());
+                //formularioDTO.setIdForo(formulario.getUnidade().getForo().getIdForo());
+            }
+            
+            //Unidade
+            formularioDTO.setNomeUnidade(formulario.getUnidade().getNomeUnidade());
+             
+            //Ano
+            if (formulario.getAno() != null) {
+                formularioDTO.setAno(formulario.getAno());
+            } else {
+                formularioDTO.setAno(anoCorrente());
+            }
+           
+            //Mês
+            if (formulario.getMes() != null) {
+                formularioDTO.setMes(formulario.getMes());
+            } else {
+                formularioDTO.setMes(mesAnterior());
+            }
+            
+            //Situação
+            formularioDTO.setSituacaoFormularioDTO(parseTipoSituacaoParaSituacaoFormularioDTOParaPaginacao(formulario.getTipoSituacao()));
+            
+            //Concluído
+            if (formulario.getDataFechamento() != null) {
+                formularioDTO.setDataConclusao(formulario.getDataFechamento());
+            }
+            
+            //Magistrado
+            if (formulario.getUsuarioAprovacao() != null) {
+                //formularioDTO.setIdMagistrado(formulario.getUsuarioAprovacao().getIdUsuario());
+                formularioDTO.setNomeMagistrado(formulario.getUsuarioAprovacao().getNome());
+            }
+            
+            //Usuário
+            if (formulario.getUsuarioPreenchimento() != null) {
+                //formularioDTO.setIdUsuarioPreenchimento(formulario.getUsuarioPreenchimento().getIdUsuario());
+                formularioDTO.setNomeUsuarioPreenchimento(formulario.getUsuarioPreenchimento().getNome());
+            }
+            
+            //formularioDTO.setIdUnidade(formulario.getUnidade().getIdUnidade());
+            //formularioDTO.setListaTipoRegrasFormulario(parseFormularioParaListaTipoRegraDTO(formulario));
+            
         }
         return formularioDTO;
     }
@@ -338,6 +406,16 @@ public class FormularioConverter {
         return retorno;
     }
 
+    public static List<TipoFilaProcessoDTO> parseListaTipoFilaProcessoParaListaTipoFilaProcessoDTO(List<TipoFilaProcesso> listaTipoFilaProcesso) {
+        List<TipoFilaProcessoDTO> listaTipoFilaProcessoDTO = new ArrayList<TipoFilaProcessoDTO>();
+        if (listaTipoFilaProcesso != null) {
+            for (TipoFilaProcesso tipoFilaProcesso : listaTipoFilaProcesso) {
+                listaTipoFilaProcessoDTO.add(parseTipoFilaProcessoParaTipoFilaProcessoDTO(tipoFilaProcesso));
+            }
+        }
+        return listaTipoFilaProcessoDTO;
+    }
+
     public static List<ProcessoConclusoDTO> parseListaProcessosConclusosParaListaProcessosConclusosDTO(List<ProcessoConcluso> listaProcessosConclusos) {
         List<ProcessoConclusoDTO> listaProcessosConclusosDTO = new ArrayList<ProcessoConclusoDTO>();
         if (listaProcessosConclusos != null) {
@@ -354,6 +432,7 @@ public class FormularioConverter {
         processoConclusoDTO.setAnoProcesso(processoConcluso.getAnoProcesso());
         processoConclusoDTO.setCodigoProcessoSaj(processoConcluso.getCodigoProcessoSaj());
         processoConclusoDTO.setDataBaixa(processoConcluso.getDataBaixa());
+        processoConclusoDTO.setDtDataBaixa(processoConcluso.getDtDataBaixa());
         processoConclusoDTO.setDataConclusao(processoConcluso.getDataConclusao());
         processoConclusoDTO.setIdBaseOrigemSaj(processoConcluso.getIdBaseOrigemSaj());
         processoConclusoDTO.setIdEntidadeProcessoConcluso(processoConcluso.getIdProcessoConcluso());
@@ -366,6 +445,8 @@ public class FormularioConverter {
             processoConclusoDTO.setIdMagistradoProcesso(processoConcluso.getUsuario().getIdUsuario());
         if (processoConcluso.getTipoConcluso() != null)
             processoConclusoDTO.setTipoConclusoDTO(parseTipoConclusoParaProcessoConclusoDTO(processoConcluso.getTipoConcluso()));
+        if (processoConcluso.getTipoFilaProcesso() != null)
+            processoConclusoDTO.setTipoFilaProcessoDTO(parseTipoFilaProcessoParaTipoFilaProcessoDTO(processoConcluso.getTipoFilaProcesso()));            
         return processoConclusoDTO;
     }
 
@@ -383,28 +464,31 @@ public class FormularioConverter {
         reuDTO.setNomeReuProvisorio(reuProvisorio.getNomeReuProvisorio());
         reuDTO.setNomeMaeReuProvisorio(reuProvisorio.getNomeMaeReuProvisorio());
         reuDTO.setCodigoPessoaSaj(reuProvisorio.getCodigoPessoaSaj());
-        reuDTO.setDataBaixa(reuProvisorio.getDataBaixa());
-        reuDTO.setDtDataBaixa(reuProvisorio.getDtDataBaixa());
-        reuDTO.setDataLevadoMagistrado(reuProvisorio.getDataLevadoMagistrado());
-        reuDTO.setDataPrisao(reuProvisorio.getDataPrisao());
-        if (reuProvisorio.getTipoMotivoBaixa() != null) {
-            reuDTO.setDescricaoMotivoBaixa(reuProvisorio.getTipoMotivoBaixa().getDescricaoTipoMotivoBaixa());
-            reuDTO.setIdMotivoBaixa(reuProvisorio.getTipoMotivoBaixa().getIdTipoMotivoBaixa());
-        }
-        reuDTO.setDescricaoRelatorioCgj(reuProvisorio.getDescricaoRelatorioCgj());
         reuDTO.setIdBaseOrigemSaj(reuProvisorio.getIdBaseOrigemSaj());
-        if (reuProvisorio.getUsuario() != null) {
-            reuDTO.setIdMagistrado(reuProvisorio.getUsuario().getIdUsuario());
-            reuDTO.setNomeMagistrado(reuProvisorio.getUsuario().getNome());
-        }
         if (reuProvisorio.getUnidade() != null) {
             reuDTO.setIdUnidade(reuProvisorio.getUnidade().getIdUnidade());
         }
-        if (reuProvisorio.getEstabelecimentoPrisional() != null) {
-            reuDTO.setIdEstabelecimentoPrisional(reuProvisorio.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional());
-            reuDTO.setNomeEstabelecimentoPrisional(reuProvisorio.getEstabelecimentoPrisional().getNomeEstabelecimentoPrisional());
-        }
         reuDTO.setSexo(reuProvisorio.getSexo());
+        
+        if(!reuProvisorio.getHistoricosReuProvisorio().isEmpty()){
+            reuDTO.setDataBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getDataBaixa());
+            reuDTO.setDtDataBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getDtDataBaixa());
+            reuDTO.setDataLevadoMagistrado(reuProvisorio.getHistoricosReuProvisorio().get(0).getDataLevadoMagistrado());
+            reuDTO.setDataPrisao(reuProvisorio.getHistoricosReuProvisorio().get(0).getDataPrisao());
+            if (reuProvisorio.getHistoricosReuProvisorio().get(0).getTipoMotivoBaixa() != null) {
+                reuDTO.setDescricaoMotivoBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getTipoMotivoBaixa().getDescricaoTipoMotivoBaixa());
+                reuDTO.setIdMotivoBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getTipoMotivoBaixa().getIdTipoMotivoBaixa());
+            }
+            reuDTO.setDescricaoRelatorioCgj(reuProvisorio.getHistoricosReuProvisorio().get(0).getDescricaoRelatorioCgj());
+            if (reuProvisorio.getHistoricosReuProvisorio().get(0).getUsuario() != null) {
+                reuDTO.setIdMagistrado(reuProvisorio.getHistoricosReuProvisorio().get(0).getUsuario().getIdUsuario());
+                reuDTO.setNomeMagistrado(reuProvisorio.getHistoricosReuProvisorio().get(0).getUsuario().getNome());
+            }
+            if (reuProvisorio.getHistoricosReuProvisorio().get(0).getEstabelecimentoPrisional() != null) {
+                reuDTO.setIdEstabelecimentoPrisional(reuProvisorio.getHistoricosReuProvisorio().get(0).getEstabelecimentoPrisional().getIdEstabelecimentoPrisional());
+                reuDTO.setNomeEstabelecimentoPrisional(reuProvisorio.getHistoricosReuProvisorio().get(0).getEstabelecimentoPrisional().getNomeEstabelecimentoPrisional());
+            }
+        }
         reuDTO = parseListaReuProvisoriosParaReuDTOMesAnoReferencia(reuDTO, reuProvisorio.getHistoricosReuProvisorio());
         return reuDTO;
     }
@@ -587,9 +671,31 @@ public class FormularioConverter {
         formularioDTO.setSituacao(metadadosFormulario.getFlagTipoSituacao());
         formularioDTO.setVersao(metadadosFormulario.getNumeroVersao());
         formularioDTO.setMetadadoSituacaoFormularioDTO(parseMetadadoTipoSituacaoParaMetadadoSituacaoFormularioDTO(metadadosFormulario.getMetadadosTipoSituacao()));
-        if (metadadosFormulario.getMetadadosSecoes() != null)
+        /*if (metadadosFormulario.getMetadadosSecoes() != null)
             formularioDTO.setListaSecoes(parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
-                                                                                   formularioDTO));
+                                                                                   formularioDTO));*/ 
+        return formularioDTO;
+    }
+    
+    public static FormularioDTO parseMetadadosFormularioParaFormularioDTOParaPaginacao(MetadadosFormulario metadadosFormulario) {
+        FormularioDTO formularioDTO = new FormularioDTO();
+        //formularioDTO.setIdMetadadosFormulario(metadadosFormulario.getIdMetadadosFormulario());
+        formularioDTO.setNomeFormulario(metadadosFormulario.getDescricaoNome());
+        /*formularioDTO.setCodigoFormulario(metadadosFormulario.getDescricaoSourceFormulario());
+        formularioDTO.setAviso(metadadosFormulario.getDescricaoTextoInformativo());
+        formularioDTO.setDataCriacao(metadadosFormulario.getDataInclusao());
+        formularioDTO.setDataInclusao(metadadosFormulario.getDataInclusao());
+        formularioDTO.setInstancia(String.valueOf(metadadosFormulario.getNumeroInstancia()));
+        if (metadadosFormulario.getTipoArea() != null)
+            formularioDTO.setArea(parseTipoAreaParaAreaDTO(metadadosFormulario.getTipoArea()));
+        if (metadadosFormulario.getTipoSegmento() != null)
+            formularioDTO.setSegmento(parseTipoSegmentoParaSegmentoDTO(metadadosFormulario.getTipoSegmento()));
+        if (metadadosFormulario.getTiposCompetencia() != null && !metadadosFormulario.getTiposCompetencia().isEmpty())
+            formularioDTO.setListaCompetencias(parseListaTipoCompetenciaParaListaCompetenciaDTO(metadadosFormulario.getTiposCompetencia()));
+        formularioDTO.setSituacao(metadadosFormulario.getFlagTipoSituacao());
+        formularioDTO.setVersao(metadadosFormulario.getNumeroVersao());
+        formularioDTO.setMetadadoSituacaoFormularioDTO(parseMetadadoTipoSituacaoParaMetadadoSituacaoFormularioDTO(metadadosFormulario.getMetadadosTipoSituacao()));*/
+ 
         return formularioDTO;
     }
 
@@ -634,6 +740,19 @@ public class FormularioConverter {
             situacaoFormularioDTO.setIdentificadorSituacaoFormulario(tipoSituacao.getCodigoSituacao());
             situacaoFormularioDTO.setSituacao(tipoSituacao.getTipoSituacao());
             situacaoFormularioDTO.setDataInclusao(tipoSituacao.getDataInclusao());
+        }
+        return situacaoFormularioDTO;
+    }
+    
+    public static SituacaoFormularioDTO parseTipoSituacaoParaSituacaoFormularioDTOParaPaginacao(TipoSituacao tipoSituacao) {
+        SituacaoFormularioDTO situacaoFormularioDTO = null;
+        if (tipoSituacao != null) {
+            situacaoFormularioDTO = new SituacaoFormularioDTO();
+            //situacaoFormularioDTO.setCodigoSituacaoFormulario(tipoSituacao.getIdTipoSituacao());
+            situacaoFormularioDTO.setLabelSituacaoFormulario(tipoSituacao.getDescricaoSituacao());
+            //situacaoFormularioDTO.setIdentificadorSituacaoFormulario(tipoSituacao.getCodigoSituacao());
+            //situacaoFormularioDTO.setSituacao(tipoSituacao.getTipoSituacao());
+            //situacaoFormularioDTO.setDataInclusao(tipoSituacao.getDataInclusao());
         }
         return situacaoFormularioDTO;
     }
@@ -1361,6 +1480,8 @@ public class FormularioConverter {
         processoConcluso.setNumeroProcesso(processoConclusoDTO.getNumeroProcesso());
         if (processoConclusoDTO.getTipoConclusoDTO() != null)
             processoConcluso.setTipoConcluso(new TipoConcluso(processoConclusoDTO.getTipoConclusoDTO().getIdTipoProcessoConcluso()));
+        if (processoConclusoDTO.getTipoFilaProcessoDTO() != null)
+            processoConcluso.setTipoFilaProcesso(new TipoFilaProcesso(processoConclusoDTO.getTipoFilaProcessoDTO().getId()));
         processoConcluso.setUnidade(new Unidade(processoConclusoDTO.getIdUnidadeProcesso()));
         processoConcluso.setUsuario(new Usuario(processoConclusoDTO.getIdMagistradoProcesso()));
         return processoConcluso;
@@ -1386,6 +1507,16 @@ public class FormularioConverter {
         tipoConclusoDTO.setTipoProcessoConcluso(ProcessoConclusoType.recuperarTipoProcessoConclusoPorCodigo(tipoConcluso.getCodigoTipoConcluso()));
         return tipoConclusoDTO;
     }
+    
+    public static TipoFilaProcessoDTO parseTipoFilaProcessoParaTipoFilaProcessoDTO(TipoFilaProcesso tipoFilaProcesso) {
+        TipoFilaProcessoDTO tipoFilaProcessoDTO = new TipoFilaProcessoDTO();
+        tipoFilaProcessoDTO.setDtInclusao(tipoFilaProcesso.getDtInclusao());
+        tipoFilaProcessoDTO.setDtAtualizacao(tipoFilaProcesso.getDtAtualizacao());
+        tipoFilaProcessoDTO.setDsTipoFilaProcesso(tipoFilaProcesso.getDsTipoFilaProcesso());
+        tipoFilaProcessoDTO.setId(tipoFilaProcesso.getId());
+        tipoFilaProcessoDTO.setTpSituacao(tipoFilaProcesso.getTpSituacao());
+        return tipoFilaProcessoDTO;
+    }
 
     public static List<ReuProvisorio> parseListaReuDTOParaListaReuProvisorio(List<ReuDTO> listaReuDTO) {
         List<ReuProvisorio> listaReusProvisorios = new ArrayList<ReuProvisorio>();
@@ -1405,23 +1536,16 @@ public class FormularioConverter {
             reuProvisorio.setDataBaixa(new Date());
         */
         // </epr> (1) 0.7.9 - dataBaixa deve ser informado pelo usuário
-        reuProvisorio.setDataBaixa(reuDTO.getDataBaixa());
-        reuProvisorio.setDtDataBaixa(reuDTO.getDtDataBaixa());
-        reuProvisorio.setDataLevadoMagistrado(reuDTO.getDataLevadoMagistrado());
-        reuProvisorio.setDataPrisao(reuDTO.getDataPrisao());
-        reuProvisorio.setDescricaoRelatorioCgj(reuDTO.getDescricaoRelatorioCgj());
-        reuProvisorio.setEstabelecimentoPrisional(new EstabelecimentoPrisional(reuDTO.getIdEstabelecimentoPrisional()));
+        
         reuProvisorio.setFlagTipoSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
         reuProvisorio.setIdBaseOrigemSaj(reuDTO.getIdBaseOrigemSaj());
         reuProvisorio.setNomeMaeReuProvisorio(reuDTO.getNomeMaeReuProvisorio());
         reuProvisorio.setNomeReuProvisorio(reuDTO.getNomeReuProvisorio());
         reuProvisorio.setSexo(reuDTO.getSexo());
-        if (reuDTO.getIdMotivoBaixa() != null)
-            reuProvisorio.setTipoMotivoBaixa(new TipoMotivoBaixa(reuDTO.getIdMotivoBaixa()));
-        if (reuDTO.getIdMagistrado() != null)
-            reuProvisorio.setUsuario(new Usuario(reuDTO.getIdMagistrado()));
         if (reuDTO.getIdUnidade() != null)
             reuProvisorio.setUnidade(new Unidade(reuDTO.getIdUnidade()));
+
+        
         if (reuDTO.getIdNaturezaPrisao() != null) {
             reuProvisorio.getHistoricosReuProvisorio().add(new ReuProvisorioHistorico(reuDTO.getIdReuHistorico(),
                                                                                       new TipoNaturezaPrisao(reuDTO.getIdNaturezaPrisao()),
@@ -1431,7 +1555,7 @@ public class FormularioConverter {
                                                                                       reuDTO.getDataUltimoMovimento(),
                                                                                       reuDTO.getConteudoUltimoMovimento(),
                                                                                       ConstantesMovjud.FLAG_SITUACAO_ATIVA,
-                                                                                      reuProvisorio));
+                                                                                      reuProvisorio, reuDTO));
         }
         return reuProvisorio;
     }

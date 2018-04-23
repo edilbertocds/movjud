@@ -39,7 +39,7 @@ public class Foro extends BaseEntity<Long> {
     @SequenceGenerator(name = "SEQ_CAD_FORO", sequenceName = "SEQ_CAD_FORO", allocationSize = 1)     
     private Long idForo;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_CAD_COMARCA", nullable = false)
     private Comarca comarca;
     
@@ -65,7 +65,7 @@ public class Foro extends BaseEntity<Long> {
     @Column(name = "DT_FIM")
     private Date dataFim;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_TIPO_ENTRANCIA")
     private TipoEntrancia tipoEntrancia;
     

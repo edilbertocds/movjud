@@ -133,7 +133,7 @@ public class UnidadeDAOImpl extends BaseDAOImpl<Unidade> implements UnidadeDAO {
         jpaQl.append("select u.foro.nomeForo, " +
                         "u.idUnidade, " +
                         "u.nomeUnidade " +
-                        "from Unidade u " +
+                        "from Unidade u where u.dataFim is null " +
                         "order by u.foro.nomeForo, u.nomeUnidade"); 
         TypedQuery<Object[]> query = getPersistenceManager().getManager().createQuery(jpaQl.toString(), Object[].class);
         

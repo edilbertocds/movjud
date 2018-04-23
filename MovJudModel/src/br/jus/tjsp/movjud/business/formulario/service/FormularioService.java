@@ -4,10 +4,12 @@ import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.CompetenciaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.GrupoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.HistoricoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.LiberacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MateriaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MetadadoSituacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ProcessoConclusoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.ProcessosConclusosCpcDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ReuDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SecaoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SegmentoDTO;
@@ -34,11 +36,12 @@ import br.jus.tjsp.movjud.persistence.entity.TipoNaturezaPrisao;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 
-
 import java.math.BigDecimal;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
+import javax.ejb.Asynchronous;
 import javax.ejb.Local;
 
 @Local
@@ -118,7 +121,7 @@ public interface FormularioService {
    
     List<Unidade> carregarUnidadesDevedoras();
    
-    FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus);
+    FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus, SubSecaoDTO subsecaoCpcDTO);
     
     // <epr> Parâmetro para passar situacaoFormularioDTO
     void liberarFormulariosParaUnidade(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO);
@@ -141,6 +144,8 @@ public interface FormularioService {
     List<PreCarga> listarCamposPreCarga(PreCarga preCarga);    
     
     LiberacaoFormularioDTO countFormulariosLiberados();
+    
+    ProcessosConclusosCpcDTO listarProcessosConclusosPorUnidade(ProcessoConclusoDTO processoConclusoDTO);
     
     List<ProcessoConclusoDTO> listarProcessosConclusosMagistradoPorUnidade(ProcessoConclusoDTO processoConclusoDTO);
 
@@ -174,5 +179,15 @@ public interface FormularioService {
     
     Formulario recuperarFormularioPorIdFormulario(Long idFormulario);
     
+    FormularioDTO recuperarFormularioDTOPorIdFormulario(Long idFormulario);
+    
     void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo);
+    
+    @Asynchronous
+    Future<List<SecaoDTO>> asyncCompleteFormularioDTO(FormularioDTO formularioDTO);
+    
+    @Asynchronous
+    Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO);
+    
+    FormularioDTO recuperarMetadadosFormulario(FormularioDTO formularioDTO);
 }

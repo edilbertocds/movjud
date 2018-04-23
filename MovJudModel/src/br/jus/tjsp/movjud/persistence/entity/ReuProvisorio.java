@@ -39,24 +39,12 @@ public class ReuProvisorio extends BaseEntity<Long> {
     private Long idReuProvisorio;
     
     @ManyToOne
-    @JoinColumn(name = "FK_TIPO_MOTIVO_BAIXA")
-    private TipoMotivoBaixa tipoMotivoBaixa;
-    
-    @ManyToOne
     @JoinColumn(name = "FK_CAD_UNIDADE")
     private Unidade unidade;
-    
-    @ManyToOne
-    @JoinColumn(name = "FK_CAD_ESTAB_PRISIONAL")
-    private EstabelecimentoPrisional estabelecimentoPrisional;
     
     //@ManyToOne
     //@JoinColumn(name = "FK_CAD_SECAO")
    // private Secao secao;
-    
-    @ManyToOne
-    @JoinColumn(name = "FK_CAD_USUARIO")
-    private Usuario usuario;
     
     @Column(name = "NM_REU_PROV", length = 100)
     private String nomeReuProvisorio;
@@ -64,27 +52,8 @@ public class ReuProvisorio extends BaseEntity<Long> {
     @Column(name = "NM_MAE_REU_PROV", length = 100)
     private String nomeMaeReuProvisorio;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_PRISAO")
-    private Date dataPrisao;
-    
     @Column(name = "TP_SEXO")
     private String sexo;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_BAIXA")
-    private Date dataBaixa;    
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_DATA_BAIXA")
-    private Date dtDataBaixa;
-    
-    @Column(name = "DS_RELATORIO_CGJ", length = 100)
-    private String descricaoRelatorioCgj;
-            
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_LEVADO_MAGISTRADO")
-    private Date dataLevadoMagistrado;
     
     @Column(name = "SAJPG_CD_PESSOA_ID")
     private Long codigoPessoaSaj;
@@ -129,22 +98,23 @@ public class ReuProvisorio extends BaseEntity<Long> {
                          Date dataAtualizacao) {
         super();
         this.idReuProvisorio = idReuProvisorio;
-        this.tipoMotivoBaixa = tipoMotivoBaixa;
-        this.unidade = unidade;
-        this.estabelecimentoPrisional = estabelecimentoPrisional;
-        this.usuario = usuario;
-        this.nomeReuProvisorio = nomeReuProvisorio;
-        this.nomeMaeReuProvisorio = nomeMaeReuProvisorio;
-        this.dataPrisao = dataPrisao;
-        this.sexo = sexo;
-        this.dataBaixa = dataBaixa;
-        this.descricaoRelatorioCgj = descricaoRelatorioCgj;
-        this.dataLevadoMagistrado = dataLevadoMagistrado;
         this.codigoPessoaSaj = codigoPessoaSaj;
         this.idBaseOrigemSaj = idBaseOrigemSaj;
         this.flagTipoSituacao = flagTipoSituacao;
         this.dataInclusao = dataInclusao;
         this.dataAtualizacao = dataAtualizacao;
+        this.unidade = unidade;
+        this.sexo = sexo;
+        this.nomeReuProvisorio = nomeReuProvisorio;
+        this.nomeMaeReuProvisorio = nomeMaeReuProvisorio;
+        /*this.dataPrisao = dataPrisao;
+        this.estabelecimentoPrisional = estabelecimentoPrisional;
+        this.tipoMotivoBaixa = tipoMotivoBaixa;
+        this.usuario = usuario;
+        this.dataBaixa = dataBaixa;
+        this.descricaoRelatorioCgj = descricaoRelatorioCgj;
+        this.dataLevadoMagistrado = dataLevadoMagistrado;*/
+        
     }
 
     public void setIdReuProvisorio(Long idReuProvisorio) {
@@ -155,13 +125,7 @@ public class ReuProvisorio extends BaseEntity<Long> {
         return idReuProvisorio;
     }
 
-    public void setTipoMotivoBaixa(TipoMotivoBaixa tipoMotivoBaixa) {
-        this.tipoMotivoBaixa = tipoMotivoBaixa;
-    }
 
-    public TipoMotivoBaixa getTipoMotivoBaixa() {
-        return tipoMotivoBaixa;
-    }
 
     public void setUnidade(Unidade unidade) {
         this.unidade = unidade;
@@ -169,23 +133,6 @@ public class ReuProvisorio extends BaseEntity<Long> {
 
     public Unidade getUnidade() {
         return unidade;
-    }
-
-
-    public void setEstabelecimentoPrisional(EstabelecimentoPrisional estabelecimentoPrisional) {
-        this.estabelecimentoPrisional = estabelecimentoPrisional;
-    }
-
-    public EstabelecimentoPrisional getEstabelecimentoPrisional() {
-        return estabelecimentoPrisional;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
     }
 
     public void setNomeReuProvisorio(String nomeReuProvisorio) {
@@ -204,44 +151,12 @@ public class ReuProvisorio extends BaseEntity<Long> {
         return nomeMaeReuProvisorio;
     }
 
-    public void setDataPrisao(Date dataPrisao) {
-        this.dataPrisao = dataPrisao;
-    }
-
-    public Date getDataPrisao() {
-        return dataPrisao;
-    }
-
     public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
     public String getSexo() {
         return sexo;
-    }
-
-    public void setDataBaixa(Date dataBaixa) {
-        this.dataBaixa = dataBaixa;
-    }
-
-    public Date getDataBaixa() {
-        return dataBaixa;
-    }
-
-    public void setDescricaoRelatorioCgj(String descricaoRelatorioCgj) {
-        this.descricaoRelatorioCgj = descricaoRelatorioCgj;
-    }
-
-    public String getDescricaoRelatorioCgj() {
-        return descricaoRelatorioCgj;
-    }
-
-    public void setDataLevadoMagistrado(Date dataLevadoMagistrado) {
-        this.dataLevadoMagistrado = dataLevadoMagistrado;
-    }
-
-    public Date getDataLevadoMagistrado() {
-        return dataLevadoMagistrado;
     }
 
     public void setCodigoPessoaSaj(Long codigoPessoaSaj) {
@@ -317,6 +232,69 @@ public class ReuProvisorio extends BaseEntity<Long> {
         setIdReuProvisorio(id);
     }
     
+    /*public void setDataBaixa(Date dataBaixa) {
+        this.dataBaixa = dataBaixa;
+    }
+
+    public Date getDataBaixa() {
+        return dataBaixa;
+    }
+
+    public void setDescricaoRelatorioCgj(String descricaoRelatorioCgj) {
+        this.descricaoRelatorioCgj = descricaoRelatorioCgj;
+    }
+
+    public String getDescricaoRelatorioCgj() {
+        return descricaoRelatorioCgj;
+    }
+
+    public void setDataLevadoMagistrado(Date dataLevadoMagistrado) {
+        this.dataLevadoMagistrado = dataLevadoMagistrado;
+    }
+
+    public Date getDataLevadoMagistrado() {
+        return dataLevadoMagistrado;
+    }
+    public void setDataPrisao(Date dataPrisao) {
+        this.dataPrisao = dataPrisao;
+    }
+
+    public Date getDataPrisao() {
+        return dataPrisao;
+    }
+    
+    public void setTipoMotivoBaixa(TipoMotivoBaixa tipoMotivoBaixa) {
+        this.tipoMotivoBaixa = tipoMotivoBaixa;
+    }
+
+    public TipoMotivoBaixa getTipoMotivoBaixa() {
+        return tipoMotivoBaixa;
+    }
+
+    public void setEstabelecimentoPrisional(EstabelecimentoPrisional estabelecimentoPrisional) {
+        this.estabelecimentoPrisional = estabelecimentoPrisional;
+    }
+
+    public EstabelecimentoPrisional getEstabelecimentoPrisional() {
+        return estabelecimentoPrisional;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setDtDataBaixa(Date dtDataBaixa) {
+        this.dtDataBaixa = dtDataBaixa;
+    }
+
+    public Date getDtDataBaixa() {
+        return dtDataBaixa;
+    }*/
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -325,27 +303,9 @@ public class ReuProvisorio extends BaseEntity<Long> {
         sb.append(idReuProvisorio);
         sb.append("\n");
         
-        if (tipoMotivoBaixa != null) {
-            sb.append("Tipo Motivo Baixa = ");
-            sb.append(tipoMotivoBaixa.getDescricaoTipoMotivoBaixa());
-            sb.append("\n");
-        }
         
-        if (unidade != null) {
-            sb.append("Unidade = ");
-            sb.append(unidade.getNomeUnidade());
-            sb.append("\n");
-        }
         
-        sb.append("Estabelecimento Prisional = ");
-        sb.append(estabelecimentoPrisional);
-        sb.append("\n");
-        
-        if (usuario != null) {
-            sb.append("Usuario = ");
-            sb.append(usuario.getNome());
-            sb.append("\n");
-        }
+       
         
         sb.append("Nome Reu Provisorio = ");
         sb.append(nomeReuProvisorio);
@@ -355,31 +315,9 @@ public class ReuProvisorio extends BaseEntity<Long> {
         sb.append(nomeMaeReuProvisorio);
         sb.append("\n");
         
-        if (dataPrisao != null) {
-            sb.append("Data Prisao = ");
-            sb.append(ModelUtils.formatarDataToStr(dataPrisao));
-            sb.append("\n");
-        }
-        
         sb.append("Sexo = ");
         sb.append(sexo);
         sb.append("\n");
-        
-        if (dataBaixa != null) {
-            sb.append("Data Baixa = ");
-            sb.append(ModelUtils.formatarDataToStr(dataBaixa));
-            sb.append("\n");
-        }
-        
-        sb.append("Descricao Relatorio CGJ = ");
-        sb.append(descricaoRelatorioCgj);
-        sb.append("\n");
-        
-        if (dataLevadoMagistrado != null) {
-            sb.append("Data Levado Magistrado = ");
-            sb.append(ModelUtils.formatarDataToStr(dataLevadoMagistrado));
-            sb.append("\n");
-        }
         
         sb.append("Codigo Pessoa SAJ = ");
         sb.append(codigoPessoaSaj);
@@ -404,14 +342,54 @@ public class ReuProvisorio extends BaseEntity<Long> {
             sb.append(ModelUtils.formatarDataToStr(dataInclusao));
         }
         
+        /*
+         
+        if (dataBaixa != null) {
+            sb.append("Data Baixa = ");
+            sb.append(ModelUtils.formatarDataToStr(dataBaixa));
+            sb.append("\n");
+        }
+        
+        sb.append("Descricao Relatorio CGJ = ");
+        sb.append(descricaoRelatorioCgj);
+        sb.append("\n");
+        
+        if (dataLevadoMagistrado != null) {
+            sb.append("Data Levado Magistrado = ");
+            sb.append(ModelUtils.formatarDataToStr(dataLevadoMagistrado));
+            sb.append("\n");
+        }
+        
+        if (dataPrisao != null) {
+            sb.append("Data Prisao = ");
+            sb.append(ModelUtils.formatarDataToStr(dataPrisao));
+            sb.append("\n");
+        }
+        
+        if (unidade != null) {
+            sb.append("Unidade = ");
+            sb.append(unidade.getNomeUnidade());
+            sb.append("\n");
+        }
+        
+        sb.append("Estabelecimento Prisional = ");
+        sb.append(estabelecimentoPrisional);
+        sb.append("\n");
+        
+        if (tipoMotivoBaixa != null) {
+            sb.append("Tipo Motivo Baixa = ");
+            sb.append(tipoMotivoBaixa.getDescricaoTipoMotivoBaixa());
+            sb.append("\n");
+        }
+        
+        if (usuario != null) {
+            sb.append("Usuario = ");
+            sb.append(usuario.getNome());
+            sb.append("\n");
+        }
+         
+         */
+        
         return sb.toString();
-    }
-
-    public void setDtDataBaixa(Date dtDataBaixa) {
-        this.dtDataBaixa = dtDataBaixa;
-    }
-
-    public Date getDtDataBaixa() {
-        return dtDataBaixa;
     }
 }

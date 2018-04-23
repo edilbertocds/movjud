@@ -23,9 +23,11 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
     public List<ParametroOperacao> parametrosFiltroByEntity(ReuProvisorio filter) {
         List<ParametroOperacao> parametros = new ArrayList<ParametroOperacao>();
 
-        parametros.add(new ParametroOperacao("dataBaixa",
-                                             filter.getDataBaixa(),
+        if(!filter.getHistoricosReuProvisorio().isEmpty()){
+        parametros.add(new ParametroOperacao("reuProvisorio.dataBaixa",
+                                             filter.getHistoricosReuProvisorio().get(0).getDataBaixa(),
                                              SQLOperatorType.IsNull));
+        }
         if(filter.getUnidade()!=null){
             parametros.add(new ParametroOperacao("unidade.idUnidade",
                                                  filter.getUnidade().getIdUnidade(),
@@ -74,13 +76,20 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
         //jpaNQ.append("                                        h2.NR_ANO <= ? and ");
         //jpaNQ.append("                                        h2.NR_MES <= ?) ");
         
-        jpaNQ.append("select r.* ");
+        /*jpaNQ.append("select r.* ");
         jpaNQ.append("from CAD_REU_PROVISORIO r ");
         jpaNQ.append("inner join CAD_REU_PROVISORIO_HIST h on h.ID_REU_PROVISORIO=r.ID_CAD_REU_PROVISORIO ");
         jpaNQ.append("where r.FK_CAD_UNIDADE = ? and ");  
         jpaNQ.append(" (r.DT_DATA_BAIXA is null or (EXTRACT(YEAR FROM r.DT_DATA_BAIXA) >= ? and EXTRACT(MONTH FROM r.DT_DATA_BAIXA) >= ?)) and ");
         jpaNQ.append(" h.ID_REU_PROVISORIO_HIST = (select MAX(h2.ID_REU_PROVISORIO_HIST)    from CAD_REU_PROVISORIO_HIST h2    ");   
-        jpaNQ.append(" where h2.ID_REU_PROVISORIO=r.ID_CAD_REU_PROVISORIO and h2.NR_ANO <= ? and h2.NR_MES <= ?)  ");
+        jpaNQ.append(" where h2.ID_REU_PROVISORIO=r.ID_CAD_REU_PROVISORIO and h2.NR_ANO <= ? and h2.NR_MES <= ?)  ");*/
+        
+        // 2017.12.05 - 18:00 - Tirar o filtro de data da data da baixa
+        jpaNQ.append(" select r.* ");
+        jpaNQ.append(" from CAD_REU_PROVISORIO r inner join  ");
+        jpaNQ.append(" CAD_REU_PROVISORIO_HIST h on h.ID_REU_PROVISORIO=r.ID_CAD_REU_PROVISORIO ");
+        jpaNQ.append(" where  ");
+        jpaNQ.append(" r.FK_CAD_UNIDADE = ? and h.NR_ANO = ? and h.NR_MES = ?  ");
         
         Query query = null;
         if(reuProvisorio.getNomeReuProvisorio() != null && !reuProvisorio.getNomeReuProvisorio().isEmpty()) {
@@ -90,9 +99,9 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
             query.setParameter(1, reuProvisorio.getUnidade().getIdUnidade());
             query.setParameter(2, ano);
             query.setParameter(3, mes);
-            query.setParameter(4, ano);
-            query.setParameter(5, mes);
-            query.setParameter(6, "%"+reuProvisorio.getNomeReuProvisorio()+"%");
+            //query.setParameter(4, ano);
+            //query.setParameter(5, mes);
+            query.setParameter(4, "%"+reuProvisorio.getNomeReuProvisorio()+"%");
             lista = (List<ReuProvisorio>)query.getResultList();
         } else  {
             jpaNQ.append(" order by r.NM_REU_PROV asc, h.DT_ATUALIZACAO desc");
@@ -100,8 +109,8 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
             query.setParameter(1, reuProvisorio.getUnidade().getIdUnidade());
             query.setParameter(2, ano);
             query.setParameter(3, mes);
-            query.setParameter(4, ano);
-            query.setParameter(5, mes);
+            //query.setParameter(4, ano);
+            //query.setParameter(5, mes);
             lista = (List<ReuProvisorio>)query.getResultList();
         }
         /*

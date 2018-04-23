@@ -1,5 +1,6 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.formulario.dto.ReuDTO;
 import br.jus.tjsp.movjud.business.utils.helper.ModelUtils;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
@@ -13,6 +14,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -66,6 +68,46 @@ public class ReuProvisorioHistorico extends BaseEntity<Long> {
     @JoinColumn(name = "ID_REU_PROVISORIO", nullable = false)
     private ReuProvisorio reuProvisorio;
     
+    // 20.04.2018
+    
+    @Column(name = "DS_RELATORIO_CGJ", length = 100)
+    private String descricaoRelatorioCgj;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_BAIXA")
+    private Date dataBaixa;    
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_DATA_BAIXA")
+    private Date dtDataBaixa;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_LEVADO_MAGISTRADO")
+    private Date dataLevadoMagistrado;
+    
+    // DT_LEVADO_MAGISTRADO ?
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_PRISAO")
+    private Date dataPrisao;
+    
+    @ManyToOne
+    @JoinColumn(name = "FK_CAD_ESTAB_PRISIONAL")
+    private EstabelecimentoPrisional estabelecimentoPrisional;
+    
+    @ManyToOne
+    @JoinColumn(name = "FK_CAD_USUARIO")
+    private Usuario usuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "FK_TIPO_MOTIVO_BAIXA")
+    private TipoMotivoBaixa tipoMotivoBaixa;
+    
+    @ManyToOne
+    @JoinColumn(name = "FK_CAD_UNIDADE")
+    private Unidade unidade;
+
+    
     public ReuProvisorioHistorico() {
     }
 
@@ -73,7 +115,7 @@ public class ReuProvisorioHistorico extends BaseEntity<Long> {
                                   Integer ano, String numeroProcesso, String numeroControleOrdem,
                                   Date dataUltimaMovimentacao, String descricaoConteudoUltimaMovimentacao,
                                   String flagTipoSituacao,
-                                  ReuProvisorio reuProvisorio) {
+                                  ReuProvisorio reuProvisorio, ReuDTO reuDTO) {
         super();
         this.idReuProvisorioHistorico = idReuProvisorioHistorico;
         this.tipoNaturezaPrisao = tipoNaturezaPrisao;
@@ -85,6 +127,18 @@ public class ReuProvisorioHistorico extends BaseEntity<Long> {
         this.descricaoConteudoUltimaMovimentacao = descricaoConteudoUltimaMovimentacao;
         this.flagTipoSituacao = flagTipoSituacao;
         this.reuProvisorio = reuProvisorio;
+        
+        // 20.04.2018
+        if (reuDTO.getIdMotivoBaixa() != null)
+            setTipoMotivoBaixa(new TipoMotivoBaixa(reuDTO.getIdMotivoBaixa()));
+        if (reuDTO.getIdMagistrado() != null)
+            setUsuario(new Usuario(reuDTO.getIdMagistrado()));
+        setDataBaixa(reuDTO.getDataBaixa());
+        setDtDataBaixa(reuDTO.getDtDataBaixa());
+        setDataLevadoMagistrado(reuDTO.getDataLevadoMagistrado());
+        setDataPrisao(reuDTO.getDataPrisao());
+        setDescricaoRelatorioCgj(reuDTO.getDescricaoRelatorioCgj());
+        setEstabelecimentoPrisional(new EstabelecimentoPrisional(reuDTO.getIdEstabelecimentoPrisional()));
     }
     
     public ReuProvisorioHistorico(Integer mes,
@@ -270,5 +324,77 @@ public class ReuProvisorioHistorico extends BaseEntity<Long> {
         }
         
         return sb.toString();
+    }
+
+    public void setDescricaoRelatorioCgj(String descricaoRelatorioCgj) {
+        this.descricaoRelatorioCgj = descricaoRelatorioCgj;
+    }
+
+    public String getDescricaoRelatorioCgj() {
+        return descricaoRelatorioCgj;
+    }
+
+    public void setDataBaixa(Date dataBaixa) {
+        this.dataBaixa = dataBaixa;
+    }
+
+    public Date getDataBaixa() {
+        return dataBaixa;
+    }
+
+    public void setDtDataBaixa(Date dtDataBaixa) {
+        this.dtDataBaixa = dtDataBaixa;
+    }
+
+    public Date getDtDataBaixa() {
+        return dtDataBaixa;
+    }
+
+    public void setDataLevadoMagistrado(Date dataLevadoMagistrado) {
+        this.dataLevadoMagistrado = dataLevadoMagistrado;
+    }
+
+    public Date getDataLevadoMagistrado() {
+        return dataLevadoMagistrado;
+    }
+
+    public void setDataPrisao(Date dataPrisao) {
+        this.dataPrisao = dataPrisao;
+    }
+
+    public Date getDataPrisao() {
+        return dataPrisao;
+    }
+
+    public void setEstabelecimentoPrisional(EstabelecimentoPrisional estabelecimentoPrisional) {
+        this.estabelecimentoPrisional = estabelecimentoPrisional;
+    }
+
+    public EstabelecimentoPrisional getEstabelecimentoPrisional() {
+        return estabelecimentoPrisional;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setTipoMotivoBaixa(TipoMotivoBaixa tipoMotivoBaixa) {
+        this.tipoMotivoBaixa = tipoMotivoBaixa;
+    }
+
+    public TipoMotivoBaixa getTipoMotivoBaixa() {
+        return tipoMotivoBaixa;
+    }
+
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
+    }
+
+    public Unidade getUnidade() {
+        return unidade;
     }
 }

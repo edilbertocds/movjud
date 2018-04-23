@@ -1,15 +1,16 @@
 package br.jus.tjsp.movjud.business.formulario.service;
 
 import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
-import br.jus.tjsp.movjud.business.estruturajudiciaria.service.EstruturaJudiciariaServiceImpl;
 import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.CompetenciaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.GrupoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.HistoricoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.LiberacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MateriaDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.MetadadoSituacaoFormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ProcessoConclusoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.ProcessosConclusosCpcDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ReuDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SecaoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.SegmentoDTO;
@@ -38,7 +39,9 @@ import br.jus.tjsp.movjud.persistence.entity.PreCarga;
 import br.jus.tjsp.movjud.persistence.entity.ProcessoConcluso;
 import br.jus.tjsp.movjud.persistence.entity.ReuProvisorio;
 import br.jus.tjsp.movjud.persistence.entity.ReuProvisorioHistorico;
+import br.jus.tjsp.movjud.persistence.entity.Secao;
 import br.jus.tjsp.movjud.persistence.entity.TipoConcluso;
+import br.jus.tjsp.movjud.persistence.entity.TipoFilaProcesso;
 import br.jus.tjsp.movjud.persistence.entity.TipoMotivoBaixa;
 import br.jus.tjsp.movjud.persistence.entity.TipoNaturezaPrisao;
 import br.jus.tjsp.movjud.persistence.entity.Unidade;
@@ -69,16 +72,18 @@ import br.jus.tjsp.movjud.persistence.formulario.dao.TipoNaturezaPrisaoDAO;
 import br.jus.tjsp.movjud.persistence.formulario.dao.TipoSegmentoDAO;
 import br.jus.tjsp.movjud.persistence.formulario.dao.TipoSituacaoDAO;
 
-
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
+import javax.ejb.AsyncResult;
+import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -524,9 +529,17 @@ public class FormularioServiceImpl implements FormularioService{
     }
 
     @Override
-    public FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus) {     
-        if(secaoMagistrado!=null){
-            for(SubSecaoDTO subsecaoDTO : secaoMagistrado.getListaSubSecoes()){
+    public FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus, SubSecaoDTO subsecaoCpcDTO) {
+        
+        Map<Long,ProcessoConclusoDTO> processoConclusoDTOMap = new HashMap<Long,ProcessoConclusoDTO>();
+        List<SubSecaoDTO> subSecaoDTOList = new ArrayList<SubSecaoDTO>();
+        if(subsecaoCpcDTO!=null)
+            subSecaoDTOList.add(subsecaoCpcDTO);
+        if(secaoMagistrado!=null && secaoMagistrado.getListaSubSecoes()!= null && !secaoMagistrado.getListaSubSecoes().isEmpty())
+            subSecaoDTOList.addAll(secaoMagistrado.getListaSubSecoes());
+        
+        if(subSecaoDTOList!=null && !subSecaoDTOList.isEmpty()){
+            for(SubSecaoDTO subsecaoDTO : subSecaoDTOList){
                 for(ProcessoConclusoDTO processoConclusoDTO : subsecaoDTO.getListaProcessosConclusosDeletarSubsequentes()){
                     processoConclusoDAO.deletarProcessosConclusosSubsequentes(new ProcessoConcluso(new Unidade(formularioDTO.getIdUnidade()), 
                                                                                                    new Usuario(subsecaoDTO.getIdMagistrado()), 
@@ -542,10 +555,28 @@ public class FormularioServiceImpl implements FormularioService{
                                                                                                    processoConclusoDTO.getSrcFormulario()));
                 }
                 for(ProcessoConclusoDTO processoConclusoDTO : subsecaoDTO.getListaProcessosConclusos()){
-                    processoConclusoDAO.salvar(FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO));
+                    processoConclusoDTOMap.put(processoConclusoDTO.getId(), processoConclusoDTO);
+                    /*ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
+                    if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
+                        pc.setUsuario(null);
+                    if(processoConclusoDTO.getDataBaixa() != null && processoConclusoDTO.getDtDataBaixa() == null)
+                        pc.setDtDataBaixa(Calendar.getInstance().getTime());
+                    processoConclusoDAO.salvar(pc);*/
                 }
             }
         }
+        
+        if(processoConclusoDTOMap != null && !processoConclusoDTOMap.isEmpty()){
+            for(ProcessoConclusoDTO processoConclusoDTO : processoConclusoDTOMap.values()){
+                ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
+                if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
+                    pc.setUsuario(null);
+                if(processoConclusoDTO.getDataBaixa() != null && processoConclusoDTO.getDtDataBaixa() == null)
+                    pc.setDtDataBaixa(Calendar.getInstance().getTime());
+                processoConclusoDAO.salvar(pc);
+            }
+        }
+        
         if(secaoReus!=null){
             for(SubSecaoDTO subsecaoDTO : secaoReus.getListaSubSecoes()){
                 for(ReuDTO reuDTO : subsecaoDTO.getListaReusHistoricoDeletar()){ 
@@ -564,7 +595,7 @@ public class FormularioServiceImpl implements FormularioService{
         for(FormularioDTO form:listaFormularios){
             form.setIdMagistrado(usuario.getIdUsuario());
             form.setNomeMagistrado(usuario.getNome());
-            salvarFormulario(form, null, null);
+            salvarFormulario(form, null, null, null);
         }
     }
 
@@ -605,40 +636,40 @@ public class FormularioServiceImpl implements FormularioService{
     }
 
     @Override
-    public List<FormularioDTO> listarFormulariosGeralComPaginacao(List<String> listaTipoSituacao, FormularioDTO filtro,
-                                                                  Paginacao paginacao, Usuario usuarioLogado) {
-        // RECUPERA OS FORMULARIOS
-        List<Formulario> listaFormularios = new ArrayList<Formulario>();
-        if (ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
-            PermissaoUnidadeTemporaria permissao = new PermissaoUnidadeTemporaria();
-            permissao.setUsuario(usuarioLogado);
-            List<PermissaoUnidadeTemporaria> listaPermissoes =
-                permissaoUnidadeTemporariaDAO.listarPermissaoUnidadeTemporariaPorUsuarioEDataAtual(permissao);
-            if (listaPermissoes != null && listaPermissoes.size() > 0) {
+        public List<FormularioDTO> listarFormulariosGeralComPaginacao(List<String> listaTipoSituacao, FormularioDTO filtro,
+                                                                      Paginacao paginacao, Usuario usuarioLogado) {
+            // RECUPERA OS FORMULARIOS
+            List<Formulario> listaFormularios = new ArrayList<Formulario>();
+            if (ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+                PermissaoUnidadeTemporaria permissao = new PermissaoUnidadeTemporaria();
+                permissao.setUsuario(usuarioLogado);
+                List<PermissaoUnidadeTemporaria> listaPermissoes =
+                    permissaoUnidadeTemporariaDAO.listarPermissaoUnidadeTemporariaPorUsuarioEDataAtual(permissao);
+                if (listaPermissoes != null && listaPermissoes.size() > 0) {
+                    listaFormularios =
+                        formularioDAO.listarFormularioGeralComPaginacaoPermissao(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
+                                                                                                                             false),
+                                                                        paginacao, listaTipoSituacao, listaPermissoes);
+                }
+            } else if (ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+                Unidade unidade = new Unidade();
+                unidade.setUsuario(usuarioLogado);
+                List<Unidade> listaUnidade = unidadeDAO.listarComFiltro(unidade);
+                    
+                if (listaUnidade != null && listaUnidade.size() > 0) {
+                    listaFormularios =
+                        formularioDAO.listarFormularioGeralComPaginacaoUnidade(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
+                                                                                                                             false),
+                                                                        paginacao, listaTipoSituacao, listaUnidade);
+                }
+            } else {
                 listaFormularios =
-                    formularioDAO.listarFormularioGeralComPaginacaoPermissao(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
+                    formularioDAO.listarFormularioGeralComPaginacao(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
                                                                                                                          false),
-                                                                    paginacao, listaTipoSituacao, listaPermissoes);
+                                                                    paginacao, listaTipoSituacao);
             }
-        } else if (ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
-            Unidade unidade = new Unidade();
-            unidade.setUsuario(usuarioLogado);
-            List<Unidade> listaUnidade = unidadeDAO.listarComFiltro(unidade);
-                
-            if (listaUnidade != null && listaUnidade.size() > 0) {
-                listaFormularios =
-                    formularioDAO.listarFormularioGeralComPaginacaoUnidade(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
-                                                                                                                         false),
-                                                                    paginacao, listaTipoSituacao, listaUnidade);
-            }
-        } else {
-            listaFormularios =
-                formularioDAO.listarFormularioGeralComPaginacao(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
-                                                                                                                     false),
-                                                                paginacao, listaTipoSituacao);
+            return FormularioConverter.parseListaFormularioParaListaFormularioDTO(listaFormularios, true);
         }
-        return FormularioConverter.parseListaFormularioParaListaFormularioDTO(listaFormularios);
-    }
 
 
     @Override
@@ -797,7 +828,44 @@ public class FormularioServiceImpl implements FormularioService{
         return FormularioConverter.parseListaProcessosConclusosParaListaProcessosConclusosDTO(listaProcessosConclusosCompleta);
     }
 
-
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public ProcessosConclusosCpcDTO listarProcessosConclusosPorUnidade(ProcessoConclusoDTO processoConclusoDTO) {
+        List<ProcessoConcluso> listaProcessosConclusosCompletaUnidade = new ArrayList<ProcessoConcluso>();
+        List<BigDecimal> listaNumeroProcessos = null;
+        ProcessoConcluso filtroProcesso = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
+        List<ProcessoConcluso> processosConclusosMesAtualUnidade = processoConclusoDAO.listarProcessosConclusosAnoMesReferenciaUnidade(filtroProcesso);
+        
+        if(processosConclusosMesAtualUnidade!=null){
+            listaNumeroProcessos = new ArrayList<BigDecimal>();
+            for(ProcessoConcluso processoConclusoMesAtualUnidade : processosConclusosMesAtualUnidade){
+                listaNumeroProcessos.add(processoConclusoMesAtualUnidade.getNumeroProcesso());
+            }
+            listaProcessosConclusosCompletaUnidade.addAll(processosConclusosMesAtualUnidade);
+        }
+        List<ProcessoConcluso> processosConclusosMesAnteriorUnidade = processoConclusoDAO.listarProcessosConclusosMesAnteriorUnidade(filtroProcesso, listaNumeroProcessos);
+        
+        HashMap <String, Integer> countProcessosConclusosAnoMesReferenciaUnidade = processoConclusoDAO.countProcessosConclusosAnoMesReferenciaUnidade(filtroProcesso, listaNumeroProcessos);
+        List<TipoFilaProcesso> listaTipoFilaProcesso = processoConclusoDAO.listarTipoFilaProcesso();
+        
+        if(processosConclusosMesAnteriorUnidade != null){
+            for(ProcessoConcluso processoConclusoMesAnteriorUnidade : processosConclusosMesAnteriorUnidade){
+                processoConclusoMesAnteriorUnidade.setMes(processoConclusoDTO.getMes());
+                processoConclusoMesAnteriorUnidade.setIdProcessoConcluso(null);
+                listaProcessosConclusosCompletaUnidade.add(processoConclusoMesAnteriorUnidade);
+            }
+        }
+        
+        List<ProcessoConclusoDTO> processoConclusoDTOList = FormularioConverter.parseListaProcessosConclusosParaListaProcessosConclusosDTO(listaProcessosConclusosCompletaUnidade);
+        
+        ProcessosConclusosCpcDTO pcCpc = new ProcessosConclusosCpcDTO();
+        pcCpc.setListaProcessosConclusos(processoConclusoDTOList);
+        pcCpc.setListaTipoFilaProcesso(countProcessosConclusosAnoMesReferenciaUnidade);
+        pcCpc.setListaTipoFilaProcessoDTO(FormularioConverter.parseListaTipoFilaProcessoParaListaTipoFilaProcessoDTO(listaTipoFilaProcesso));
+        
+        return pcCpc;
+    }
+    
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<ProcessoConclusoDTO> listarProcessosConclusosMesAnterior(ProcessoConclusoDTO filtroProcesso,
@@ -930,6 +998,13 @@ public class FormularioServiceImpl implements FormularioService{
     public Formulario recuperarFormularioPorIdFormulario(Long idFormulario) {
         return formularioDAO.recuperarFormularioPorIdFormulario(idFormulario);
     }
+    
+    @Override
+    public FormularioDTO recuperarFormularioDTOPorIdFormulario(Long idFormulario) {
+        Formulario formulario = recuperarFormularioPorIdFormulario(idFormulario);
+        FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
+        return formularioDTO;
+    }
 
     @Override
     public boolean dominioBIExistente(CampoDTO dominioBI) {
@@ -981,5 +1056,50 @@ public class FormularioServiceImpl implements FormularioService{
     @Override
     public void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo) {
         formularioDAO.updateSituacaoFormulario(idFormulario, idSituacaoAntiga, idSituacaoNova, idUsuario, motivo);
+    }
+
+    @Asynchronous
+    public Future<List<SecaoDTO>> asyncCompleteFormularioDTO(FormularioDTO formularioDTO) {
+        List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
+        Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+        for (Secao secao : formulario.getSecoes()) {
+            if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
+                listaSecoesPrincipais.add(secao);
+            }
+        }
+        formulario.setSecoes(listaSecoesPrincipais);
+
+        List<SecaoDTO> result = new ArrayList<SecaoDTO>();
+        MetadadosFormulario metadadosFormulario = formulario.getMetadadosFormulario();
+
+        if (metadadosFormulario.getMetadadosSecoes() != null)
+            result =
+                FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
+                                                                              formularioDTO);
+        result = FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(), result, formularioDTO);
+        return new AsyncResult<List<SecaoDTO>>(result);
+    }
+
+    @Asynchronous
+    public Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO) {
+        Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+        if (formulario != null) {
+            return new AsyncResult<List<HistoricoFormularioDTO>>(FormularioConverter.parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));
+        }
+        return new AsyncResult<List<HistoricoFormularioDTO>>(new ArrayList<HistoricoFormularioDTO>());
+    }
+
+    public FormularioDTO recuperarMetadadosFormulario(FormularioDTO formularioDTO) {
+        List<SecaoDTO> secoes = new ArrayList<SecaoDTO>();
+        MetadadosFormulario metadadosFormulario =
+            metadadosFormularioDAO.procurarPorId(formularioDTO.getIdMetadadosFormulario());
+        List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
+        if (metadadosFormulario.getMetadadosSecoes() != null) {
+            secoes =
+                FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
+                                                                              formularioDTO);
+            formularioDTO.getListaSecoes().addAll(secoes);
+        }
+        return formularioDTO;
     }
 }

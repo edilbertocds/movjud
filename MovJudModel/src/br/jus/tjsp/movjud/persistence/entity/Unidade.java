@@ -45,7 +45,7 @@ public class Unidade extends BaseEntity<Long> {
     @SequenceGenerator(name = "SEQ_CAD_UNIDADE", sequenceName = "SEQ_CAD_UNIDADE", allocationSize = 1)
     private Long idUnidade;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_CAD_FORO", nullable = false)
     private Foro foro;
 

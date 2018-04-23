@@ -336,6 +336,7 @@
       <hash n="runConfigurationDefinitions">
          <hash n="Default">
             <value n="custom" v="false"/>
+            <list n="EnvironmentVariables"/>
             <value n="name" v="Default"/>
             <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
                <value n="promptForRemoteDebugging" v="false"/>
@@ -343,10 +344,11 @@
             </hash>
             <value n="remoteDebuggingProfiling" v="true"/>
             <url n="runDirectoryURL" path="."/>
-            <value n="targetURL"/>
+            <url n="targetURL" path="MovJudView.jpr"/>
          </hash>
          <hash n="Remote Debug">
             <value n="custom" v="false"/>
+            <list n="EnvironmentVariables"/>
             <value n="name" v="Remote Debug"/>
             <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
                <value n="promptForRemoteDebugging" v="false"/>

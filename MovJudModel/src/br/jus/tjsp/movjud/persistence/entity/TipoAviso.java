@@ -51,7 +51,7 @@ public class TipoAviso extends BaseEntity<Long> {
     @Column(name = "DT_ATUALIZACAO")
     private Date dataAtualizacao;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "CAD_VARIAVEL_TIPO_AVISO",               
                joinColumns = {@JoinColumn(name = "FK_TIPO_AVISO", referencedColumnName = "ID_TIPO_AVISO")},
                inverseJoinColumns = {@JoinColumn(name = "FK_CAD_VARIAVEL", referencedColumnName = "ID_CAD_VARIAVEL")})

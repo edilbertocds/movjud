@@ -5,7 +5,6 @@ import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
-
 import java.math.BigDecimal;
 
 import java.util.Date;
@@ -44,7 +43,7 @@ public class ProcessoConcluso extends BaseEntity<Long> {
    // @JoinColumn(name = "FK_CAD_SECAO")
    // private Secao secao;
     
-    @ManyToOne
+    @ManyToOne //(cascade = { CascadeType.ALL})
     @JoinColumn(name = "FK_CAD_USUARIO")
     private Usuario usuario;
     
@@ -55,6 +54,10 @@ public class ProcessoConcluso extends BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "FK_TIPO_CONCLUSO")
     private TipoConcluso tipoConcluso;
+    
+    @ManyToOne
+    @JoinColumn(name = "FK_TIPO_FILA_PROCESSO")
+    private TipoFilaProcesso tipoFilaProcesso;
     
     @Column(name = "DS_SRC_FORMULARIO")
     private String sourceFormulario;
@@ -74,6 +77,10 @@ public class ProcessoConcluso extends BaseEntity<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DT_BAIXA")
     private Date dataBaixa;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DT_DATA_BAIXA")
+    private Date dtDataBaixa;
     
     @Column(name = "SAJPG_CDPROCESSO", length = 20)
     private String codigoProcessoSaj;
@@ -356,5 +363,21 @@ public class ProcessoConcluso extends BaseEntity<Long> {
         }
         
         return sb.toString();
+    }
+
+    public void setTipoFilaProcesso(TipoFilaProcesso tipoFilaProcesso) {
+        this.tipoFilaProcesso = tipoFilaProcesso;
+    }
+
+    public TipoFilaProcesso getTipoFilaProcesso() {
+        return tipoFilaProcesso;
+    }
+
+    public void setDtDataBaixa(Date dtDataBaixa) {
+        this.dtDataBaixa = dtDataBaixa;
+    }
+
+    public Date getDtDataBaixa() {
+        return dtDataBaixa;
     }
 }

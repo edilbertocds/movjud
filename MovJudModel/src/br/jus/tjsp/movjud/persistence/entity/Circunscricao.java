@@ -37,7 +37,7 @@ public class Circunscricao extends BaseEntity<Long> {
     @SequenceGenerator(name = "SEQ_CAD_CIRCUNSCRICAO", sequenceName = "SEQ_CAD_CIRCUNSCRICAO", allocationSize = 1)
     private Long idCircunscricao;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_CAD_REGIAO", nullable = false)
     private Regiao regiao;
     
