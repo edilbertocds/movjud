@@ -105,6 +105,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private String inconsistenciaRemoverProcessoConcluso;
     private String periodoProcessoConclusoInicio;
     private String periodoProcessoConclusoFim;
+    private Calendar periodoProcessoConclusoInicioCalendar = Calendar.getInstance(); // ultimoDiaMesReferenciaAnteriorCemDias.setTime(periodo.getDataInicio());
+    private Calendar periodoProcessoConclusoFimCalendar = Calendar.getInstance(); // ultimoDiaMesReferenciaMenosCemDias.setTime(periodo.getDataFim());
+    /*
+    private Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
+    private Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
+    */
+    
     private SubSecaoDTO subSecaoProcessoConclusoDTO;
 
     private boolean mostrarAviso;
@@ -199,6 +206,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private RichPopup popupMensagemRetificarProcessoConcluso;
     private RichPopup popupConsistencias;
     private RichPopup popupBaixaProcessoConcluso;
+    private RichPopup popupDataFimDesignacao;
     private RichPopup popupDataBaixaRetificar;
     private ProcessoConclusoDTO processoConclusoClone;
     private RichPopup popupInconsistenciasReus;
@@ -1174,12 +1182,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return null;
     }
     
-    public Calendar getUltimoDiaMesReferenciaMenosCemDias(){
-        Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
-        ultimoDiaMesReferenciaMenosCemDias.setTime(getUltimoDiaMesReferencia());
-        ultimoDiaMesReferenciaMenosCemDias.add(Calendar.DATE, -100);
-        return ultimoDiaMesReferenciaMenosCemDias;
-    }
+    /*public Calendar getUltimoDiaMesReferenciaMenosCemDias(){
+        --Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
+        --ultimoDiaMesReferenciaMenosCemDias.setTime(getUltimoDiaMesReferencia());
+        --ultimoDiaMesReferenciaMenosCemDias.add(Calendar.DATE, -100);
+        return this.ultimoDiaMesReferenciaMenosCemDias;
+    }*/
 
     public String initPreencherFormulario() {
         //Formulario f = formularioService.recuperarFormularioPorIdFormulario(entidadePersistencia.getIdFormulario());
@@ -1204,23 +1212,16 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         entidadePersistencia.setIdUsuarioPreenchimento(getLoginBean().getUsuarioSessao().getIdUsuario());
         entidadePersistencia.setNomeUsuarioPreenchimento(getLoginBean().getUsuarioSessao().getNome());
         logger.info(AppBundleProperties.getString("msg.formulario.logAlteracaoFormulario") + entidadePersistencia.getNomeFormulario() + " Por: "+ entidadePersistencia.getNomeUsuarioPreenchimento());
-        PeriodoProcessoConcluso periodo =
-            formularioService.recuperarPeriodoProcessoConclusoPorAnoMes(new PeriodoProcessoConcluso(entidadePersistencia.getAno().intValue(),
+        
+        PeriodoProcessoConcluso periodo = formularioService.recuperarPeriodoProcessoConclusoPorAnoMes(new PeriodoProcessoConcluso(entidadePersistencia.getAno().intValue(),
                                                                                                     null, null,
                                                                                                     entidadePersistencia.getMes().intValue(),
                                                                                                     null));
-        if(entidadePersistencia.getAno().intValue() == ANO_REGRA_PROCESSO_CONCLUSO){
-            Calendar ultimoDiaMesReferenciaMenosCemDias = getUltimoDiaMesReferenciaMenosCemDias();
-            Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
-            ultimoDiaMesReferenciaAnteriorCemDias.setTime(ultimoDiaMesReferenciaMenosCemDias.getTime());
-            ultimoDiaMesReferenciaAnteriorCemDias.add(Calendar.DATE, -30);
-            periodoProcessoConclusoInicio = new SimpleDateFormat("dd/MM/yyyy").format(ultimoDiaMesReferenciaAnteriorCemDias.getTime());
-            periodoProcessoConclusoFim = new SimpleDateFormat("dd/MM/yyyy").format(ultimoDiaMesReferenciaMenosCemDias.getTime());
-        }else{
-            if (periodo != null) {
-                periodoProcessoConclusoInicio = new SimpleDateFormat("dd/MM/yyyy").format(periodo.getDataInicio());
-                periodoProcessoConclusoFim = new SimpleDateFormat("dd/MM/yyyy").format(periodo.getDataFim());
-            }
+        if (periodo != null) {
+            periodoProcessoConclusoInicio = new SimpleDateFormat("dd/MM/yyyy").format(periodo.getDataInicio());
+            periodoProcessoConclusoFim = new SimpleDateFormat("dd/MM/yyyy").format(periodo.getDataFim());
+            periodoProcessoConclusoInicioCalendar.setTime(periodo.getDataInicio());
+            periodoProcessoConclusoFimCalendar.setTime(periodo.getDataFim());
         }
     
         tiposRegraFormulario = new HashMap<Long, Boolean>();
@@ -1250,6 +1251,21 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
                     //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcesso(processosConclusosCpcDTO.getListaTipoFilaProcesso());
                     subSecaoProcessoConclusoDTO.setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
+                    
+                    for (SecaoDTO ss : entidadePersistencia.getListaSecoes()) {
+                        if (ss.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
+                            for(ProcessoConclusoDTO pcDTO : processosConclusosCpcDTO.getListaProcessosConclusos()){
+                                for(SubSecaoDTO ssDTO : ss.getListaSubSecoes()){
+                                    if((pcDTO.getIdMagistradoProcesso() != null && ssDTO.getIdMagistrado() != null) && pcDTO.getIdMagistradoProcesso().intValue() == ssDTO.getIdMagistrado().intValue()){
+                                        pcDTO.setNomeMagistrado(ssDTO.getNomeMagistrado());
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                    
                     //secaoDadosUnidade.getListaSubSecoes().add(subSecaoProcessoConclusoDTO);
                 }
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
@@ -1460,6 +1476,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void initDialogProcessoConclusoUnidade(ActionEvent actionEvent) {
         processoConclusoUnidadeBoolean = true;
         initDialogProcessoConcluso(actionEvent);
+        processoConclusoUnidadeBoolean = true;
     }
 
     public void initDialogProcessoConcluso(ActionEvent actionEvent) {
@@ -1472,7 +1489,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         RichPopup.PopupHints hint = new RichPopup.PopupHints();
         RichPopup popupProcessoConcluso = (RichPopup) findComponent("popupAdicionarProcessoConcluso");
         popupProcessoConcluso.show(hint);
-        //processoConclusoUnidadeBoolean = false;
+        processoConclusoUnidadeBoolean = false;
     }
 
     public String adicionarProcessoConcluso() {
@@ -1485,11 +1502,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if (formularioMesAnterior != null) {
             //Regra Antiga
             if(entidadePersistencia.getAno().intValue() == ANO_REGRA_PROCESSO_CONCLUSO){
-                Calendar ultimoDiaMesReferenciaMenosCemDias = getUltimoDiaMesReferenciaMenosCemDias();
+                /*Calendar ultimoDiaMesReferenciaMenosCemDias = getUltimoDiaMesReferenciaMenosCemDias();
                 Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
                 ultimoDiaMesReferenciaAnteriorCemDias.setTime(ultimoDiaMesReferenciaMenosCemDias.getTime());
-                ultimoDiaMesReferenciaAnteriorCemDias.add(Calendar.DATE, -30);
-                if(processoConclusoDTO.getDataConclusao().before(ultimoDiaMesReferenciaAnteriorCemDias.getTime()) || processoConclusoDTO.getDataConclusao().after(ultimoDiaMesReferenciaMenosCemDias.getTime())){
+                ultimoDiaMesReferenciaAnteriorCemDias.add(Calendar.DATE, -30);*/
+                if(processoConclusoDTO.getDataConclusao().before(periodoProcessoConclusoInicioCalendar.getTime()) || processoConclusoDTO.getDataConclusao().after(periodoProcessoConclusoFimCalendar.getTime())){
                     getPopupMensagemRetificarProcessoConcluso().show(new RichPopup.PopupHints());
                 }else{
                     adicionarProcessoConclusoDTO();
@@ -1586,6 +1603,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                    entidadePersistencia.getMes().intValue(),
                                                                                                    processoConclusoDTO.getDataConclusao())) ||
             contemProcessoNoMesAnterior(listaProcessosConclusosMesAnterior, processoConclusoDTO)) {
+            //Esse if está estranho, pois esse "validarPeriodoConclusoNoMesAnoReferencia" sempre vai retornar como TRUE, uma vez que exista o periodo para o mes e ano do formulario, e só
             retorno = true;
         }
         return retorno;
@@ -1786,6 +1804,17 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return null;
     }
 
+    public String inserirDataFimDesignacao() {
+        getPopupDataFimDesignacao().hide();
+        return null;
+    }
+
+    public String cancelarInserirDataFimDesignacao() {
+        processoConclusoDTO.setDtDesignacaoFim(processoConclusoClone.getDtDesignacaoFim());
+        getPopupDataFimDesignacao().hide();
+        return null;
+    }
+
     public void removerSubSecaoTipoMagistrado(ActionEvent actionEvent) {
         RichOutputText tipoMagistradoExcluir =
             (RichOutputText) actionEvent.getComponent().getParent().getChildren().get(1);
@@ -1952,14 +1981,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return false;
     }
 
-    public static boolean validarDataConclusaoNoPeriodoDeCemDias(ProcessoConclusoDTO processoConclusoDTO,
-                                                                 Date ultimoDiaMesReferencia) {
+    public boolean validarDataConclusaoNoPeriodoDeCemDias(ProcessoConclusoDTO processoConclusoDTO, Date ultimoDiaMesReferencia) {
         boolean retorno = false;
-        Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
+        /*Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
         ultimoDiaMesReferenciaMenosCemDias.setTime(ultimoDiaMesReferencia);
-        ultimoDiaMesReferenciaMenosCemDias.add(Calendar.DATE, -100);
+        ultimoDiaMesReferenciaMenosCemDias.add(Calendar.DATE, -100);*/
         if ((processoConclusoDTO.getDataConclusao() != null &&
-             !ultimoDiaMesReferenciaMenosCemDias.getTime().before(processoConclusoDTO.getDataConclusao()))) {
+             !periodoProcessoConclusoFimCalendar.getTime().before(processoConclusoDTO.getDataConclusao()))) {
             retorno = true;
         }
         return retorno;
@@ -2859,7 +2887,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     private void verificaProcessoConclusoUnidade() {
         ProcessoConclusoDTO processoJaNaUnidade = null;
-        if(subSecaoProcessoConclusoDTO.getListaProcessosConclusos() != null && !subSecaoProcessoConclusoDTO.getListaProcessosConclusos().isEmpty()){
+        if(subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getListaProcessosConclusos() != null && !subSecaoProcessoConclusoDTO.getListaProcessosConclusos().isEmpty()){
             for(ProcessoConclusoDTO pcNaUnidade : subSecaoProcessoConclusoDTO.getListaProcessosConclusos()){
                 if(pcNaUnidade.getNumeroProcesso().longValue() == processoConclusoDTO.getNumeroProcesso().longValue()){
                     processoJaNaUnidade = pcNaUnidade;
@@ -2880,5 +2908,37 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public boolean isProcessoConclusoUnidadeBoolean() {
         return processoConclusoUnidadeBoolean;
+    }
+
+    public void setPopupDataFimDesignacao(RichPopup popupDataFimDesignacao) {
+        this.popupDataFimDesignacao = popupDataFimDesignacao;
+    }
+
+    public RichPopup getPopupDataFimDesignacao() {
+        return popupDataFimDesignacao;
+    }
+
+    /*public void setUltimoDiaMesReferenciaAnteriorCemDias(Calendar ultimoDiaMesReferenciaAnteriorCemDias) {
+        this.ultimoDiaMesReferenciaAnteriorCemDias = ultimoDiaMesReferenciaAnteriorCemDias;
+    }
+
+    public Calendar getUltimoDiaMesReferenciaAnteriorCemDias() {
+        return ultimoDiaMesReferenciaAnteriorCemDias;
+    }*/
+
+    public void setPeriodoProcessoConclusoInicioCalendar(Calendar periodoProcessoConclusoInicioCalendar) {
+        this.periodoProcessoConclusoInicioCalendar = periodoProcessoConclusoInicioCalendar;
+    }
+
+    public Date getPeriodoProcessoConclusoInicioCalendar() {
+        return periodoProcessoConclusoInicioCalendar.getTime();
+    }
+
+    public void setPeriodoProcessoConclusoFimCalendar(Calendar periodoProcessoConclusoFimCalendar) {
+        this.periodoProcessoConclusoFimCalendar = periodoProcessoConclusoFimCalendar;
+    }
+
+    public Date getPeriodoProcessoConclusoFimCalendar() {
+        return periodoProcessoConclusoFimCalendar.getTime();
     }
 }

@@ -4,8 +4,6 @@ import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
-import java.io.Serializable;
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -28,6 +26,9 @@ import javax.persistence.Transient;
 @Table(name = "CAD_PERIODO_PROCESSO_CONCLUSO")
 public class PeriodoProcessoConcluso extends BaseEntity<Long> {
     private static final long serialVersionUID = -2534621936970525084L;
+    
+    public static final Integer NUMERO_DIAS_PERIODO = 60;
+    
     @Id
     @Column(name = "NR_ANO", nullable = false)
     private Integer ano;

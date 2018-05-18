@@ -56,7 +56,8 @@
                                     <f:facet name="footer"/>
                                     <af:inputText label="N&#250;mero do processo" id="inputNumeroProcesso" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.numeroProcesso}" required="true" partialTriggers="b16"/>
                                     <af:inputNumberSpinbox label="Ano " id="inputAnoProcesso" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.anoProcesso}" required="true" minimum="1890" maximum="#{pageFlowScope.acompanhamentoFormularioBean.entidadePersistencia.ano}" stepSize="1" partialTriggers="b16"/>
-                                    <af:inputDate label="Data para conclus&#227;o" id="id5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dataConclusao}" required="true" partialTriggers="b16"/>
+                                    <af:inputDate label="Data para conclus&#227;o" id="id5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dataConclusao}" required="true" partialTriggers="b16" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoFimCalendar}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoInicioCalendar}"/>
+                                    <af:inputDate label="Data Inicio Designa&#231;&#227;o" id="id23" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dtDesignacaoInicio}" required="true" rendered="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean eq false}" partialTriggers="b16" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoFimCalendar}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoInicioCalendar}"/>
                                     <!-- <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.conclusos and (pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean == false)}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}"> -->
                                     <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.conclusos}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaProcessosConclusos}" var="processoConcluso">
@@ -82,6 +83,20 @@
                                 <af:panelFormLayout id="pfl2" labelAlignment="top">
                                     <f:facet name="footer"/>
                                     <af:inputDate label="Data Baixa" id="it26" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dataBaixa}" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.primeiroDiaMesreferencia}"/>
+                                </af:panelFormLayout>
+                            </af:dialog>
+                        </af:popup>
+                        <af:popup childCreation="deferred" id="popupDataFimDesignacao" contentDelivery="lazyUncached" binding="#{pageFlowScope.acompanhamentoFormularioBean.popupDataFimDesignacao}">
+                            <af:dialog id="d6" title="#{app['label.formulario.dataFimDesignacao']}" type="none">
+                                <f:facet name="buttonBar">
+                                    <af:panelGroupLayout id="pgl193" layout="horizontal" halign="right">
+                                        <af:button text="#{app['botao.salvar']}" id="b24" action="#{pageFlowScope.acompanhamentoFormularioBean.inserirDataFimDesignacao}"/>
+                                        <af:button text="#{app['botao.cancelar']}" id="b25" action="#{pageFlowScope.acompanhamentoFormularioBean.cancelarInserirDataFimDesignacao}"/>
+                                    </af:panelGroupLayout>
+                                </f:facet>
+                                <af:panelFormLayout id="pfl5" labelAlignment="top">
+                                    <f:facet name="footer"/>
+                                    <af:inputDate label="Data Fim Designa&#231;&#227;o" id="id25" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dtDesignacaoFim}" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.primeiroDiaMesreferencia}"/>
                                 </af:panelFormLayout>
                             </af:dialog>
                         </af:popup>
@@ -435,7 +450,7 @@
                                             </af:forEach> -->
                                         </af:panelGroupLayout>
                                         
-                                        <af:panelGroupLayout id="pgl208" layout="vertical" partialTriggers="b21">
+                                        <af:panelGroupLayout id="pgl208" layout="vertical" partialTriggers="b21 b3 b10 b16">
                                             <af:panelGroupLayout id="pgl209" layout="horizontal">
                                                 <af:inputText label="N&#250;mero Processo Concluso:" id="it63" autoSubmit="true" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.filtroProcessoConcluso}"/>
                                                 <af:button text="Filtrar" id="b21" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
@@ -462,6 +477,18 @@
                                                 <af:column sortable="false" headerText="Origem" id="c25">
                                                     <af:outputText value="#{empty row.codigoProcessoSaj ? 'MovJud' : 'SAJ'}" id="ot18"/>
                                                 </af:column>
+                                                
+                                                <af:column sortable="false" headerText="Magistrado" id="c34">
+                                                    <af:outputText value="#{row.nomeMagistrado}" id="ot40"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Data Inicio Designa&#231;&#227;o" id="c31">
+                                                    <af:outputText value="#{row.dtDesignacaoInicio}" id="ot36"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Data Fim Designa&#231;&#227;o" id="c32">
+                                                    <af:outputText value="#{row.dtDesignacaoFim}" id="ot37"/>
+                                                </af:column>
+                                                
+                                                
                                                 <af:column sortable="false" headerText="A&#231;&#245;es" id="c22" align="center"> 
                                                     <af:panelGroupLayout id="pgl185" layout="horizontal"> 
                                                         <af:link id="l3" icon="/resource/images/downloadOn.png" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">  
@@ -1049,7 +1076,7 @@
                                                                                id="ot17" partialTriggers="d1"/>
                                                             </af:panelGroupLayout>
                                                         </af:panelGroupLayout>
-                                                        <af:panelGroupLayout id="pgl216" layout="vertical" partialTriggers="b21">
+                                                        <af:panelGroupLayout id="pgl216" layout="vertical" partialTriggers="b23 b24">
                                                             <af:panelGroupLayout id="pgl214" layout="horizontal">
                                                                 <af:inputText label="N&#250;mero Processo Concluso:"
                                                                               id="it64" autoSubmit="true" value="#{subSecaoMagistrado.filtroProcessoConcluso}"/>
@@ -1077,12 +1104,21 @@
                                                                 <af:column sortable="false" headerText="Origem" id="c14">
                                                                     <af:outputText value="#{empty row.codigoProcessoSaj ? 'MovJud' : 'SAJ'}" id="ot29"/>
                                                                 </af:column>
+                                                                <af:column sortable="false" headerText="Data Inicio Designa&#231;&#227;o" id="c33">
+                                                                    <af:outputText value="#{row.dtDesignacaoInicio}" id="ot38"/>
+                                                                </af:column>
+                                                                <af:column sortable="false" headerText="Data Fim Designa&#231;&#227;o" id="c35">
+                                                                    <af:outputText value="#{row.dtDesignacaoFim}" id="ot41"/>
+                                                                </af:column>
                                                                 <af:column sortable="false" headerText="A&#231;&#245;es" id="c24" align="center">
                                                                     <af:panelGroupLayout id="pgl217" layout="horizontal">
-                                                                        <af:link id="l9" icon="/resource/images/downloadOn.png" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">
+                                                                        <af:link id="l9" icon="/resource/images/downloadOn.png" shortDesc="Informar Data Baixa" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">
                                                                             <af:showPopupBehavior popupId="::popupBaixaProcessoConcluso"/>
                                                                         </af:link>
-                                                                        <af:link id="l8" icon="/resource/images/lixeiraOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.removerProcessoConcluso}" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar or row.marcadoExclusao}" disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/>
+                                                                        <af:link id="l8" icon="/resource/images/lixeiraOn.png" shortDesc="Remover Processo Concluso" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.removerProcessoConcluso}" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar or row.marcadoExclusao}" disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/>
+                                                                        <af:link id="l10" icon="/resource/images/downloadOn.png" shortDesc="Informar Data Fim Designa&#231;&#227;o" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">
+                                                                            <af:showPopupBehavior popupId="::popupDataFimDesignacao"/>
+                                                                        </af:link>
                                                                     </af:panelGroupLayout>
                                                                 </af:column>
                                                             </af:table>

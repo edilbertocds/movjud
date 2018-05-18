@@ -432,7 +432,6 @@ public class FormularioConverter {
         processoConclusoDTO.setAnoProcesso(processoConcluso.getAnoProcesso());
         processoConclusoDTO.setCodigoProcessoSaj(processoConcluso.getCodigoProcessoSaj());
         processoConclusoDTO.setDataBaixa(processoConcluso.getDataBaixa());
-        processoConclusoDTO.setDtDataBaixa(processoConcluso.getDtDataBaixa());
         processoConclusoDTO.setDataConclusao(processoConcluso.getDataConclusao());
         processoConclusoDTO.setIdBaseOrigemSaj(processoConcluso.getIdBaseOrigemSaj());
         processoConclusoDTO.setIdEntidadeProcessoConcluso(processoConcluso.getIdProcessoConcluso());
@@ -447,6 +446,15 @@ public class FormularioConverter {
             processoConclusoDTO.setTipoConclusoDTO(parseTipoConclusoParaProcessoConclusoDTO(processoConcluso.getTipoConcluso()));
         if (processoConcluso.getTipoFilaProcesso() != null)
             processoConclusoDTO.setTipoFilaProcessoDTO(parseTipoFilaProcessoParaTipoFilaProcessoDTO(processoConcluso.getTipoFilaProcesso()));            
+        
+        // 03.05.2018
+        processoConclusoDTO.setDsAssunto(processoConcluso.getDsAssunto());
+        processoConclusoDTO.setDsMovimentacao(processoConcluso.getDsMovimentacao());
+        processoConclusoDTO.setFkCadUsuarioManutencao(processoConcluso.getFkCadUsuarioManutencao());
+        processoConclusoDTO.setDtDesignacaoInicio(processoConcluso.getDtDesignacaoInicio());
+        processoConclusoDTO.setDtDesignacaoFim(processoConcluso.getDtDesignacaoFim());
+        // FIM - 03.05.2018
+        
         return processoConclusoDTO;
     }
 
@@ -1484,6 +1492,15 @@ public class FormularioConverter {
             processoConcluso.setTipoFilaProcesso(new TipoFilaProcesso(processoConclusoDTO.getTipoFilaProcessoDTO().getId()));
         processoConcluso.setUnidade(new Unidade(processoConclusoDTO.getIdUnidadeProcesso()));
         processoConcluso.setUsuario(new Usuario(processoConclusoDTO.getIdMagistradoProcesso()));
+        
+        // 03.05.2018
+        processoConcluso.setDsAssunto(processoConclusoDTO.getDsAssunto());
+        processoConcluso.setDsMovimentacao(processoConclusoDTO.getDsMovimentacao());
+        processoConcluso.setFkCadUsuarioManutencao(processoConclusoDTO.getFkCadUsuarioManutencao());
+        processoConcluso.setDtDesignacaoInicio(processoConclusoDTO.getDtDesignacaoInicio());
+        processoConcluso.setDtDesignacaoFim(processoConclusoDTO.getDtDesignacaoFim());
+        // FIM - 03.05.2018
+        
         return processoConcluso;
     }
 
