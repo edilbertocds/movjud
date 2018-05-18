@@ -30,6 +30,7 @@ public class ProcessoConclusoDTO extends BaseDTO<Long>{
     }
     
     private Long idMagistradoProcesso;
+    private String nomeMagistrado;
     
     private TipoConclusoDTO tipoConclusoDTO;
     
@@ -47,8 +48,6 @@ public class ProcessoConclusoDTO extends BaseDTO<Long>{
     
     private Date dataBaixa;
     
-    private Date dtDataBaixa;
-    
     private Date dataConclusao;
     
     private String codigoProcessoSaj;
@@ -56,6 +55,20 @@ public class ProcessoConclusoDTO extends BaseDTO<Long>{
     private String idBaseOrigemSaj;
     
     private Boolean marcadoExclusao;
+    
+    // 03.05.2018
+    
+    private String dsAssunto;
+             
+    private String dsMovimentacao;
+    
+    private Integer fkCadUsuarioManutencao;
+    
+    private Date dtDesignacaoInicio;
+
+    private Date dtDesignacaoFim;
+    
+    // FIM - 03.05.2018
     
     public ProcessoConclusoDTO() {
         super();
@@ -225,11 +238,51 @@ public class ProcessoConclusoDTO extends BaseDTO<Long>{
         return tipoFilaProcessoDTO;
     }
 
-    public void setDtDataBaixa(Date dtDataBaixa) {
-        this.dtDataBaixa = dtDataBaixa;
+    public void setDsAssunto(String dsAssunto) {
+        this.dsAssunto = dsAssunto;
     }
 
-    public Date getDtDataBaixa() {
-        return dtDataBaixa;
+    public String getDsAssunto() {
+        return dsAssunto;
+    }
+
+    public void setDsMovimentacao(String dsMovimentacao) {
+        this.dsMovimentacao = dsMovimentacao;
+    }
+
+    public String getDsMovimentacao() {
+        return dsMovimentacao;
+    }
+
+    public void setFkCadUsuarioManutencao(Integer fkCadUsuarioManutencao) {
+        this.fkCadUsuarioManutencao = fkCadUsuarioManutencao;
+    }
+
+    public Integer getFkCadUsuarioManutencao() {
+        return fkCadUsuarioManutencao;
+    }
+
+    public void setDtDesignacaoInicio(Date dtDesignacaoInicio) {
+        this.dtDesignacaoInicio = dtDesignacaoInicio;
+    }
+
+    public Date getDtDesignacaoInicio() {
+        return dtDesignacaoInicio;
+    }
+
+    public void setDtDesignacaoFim(Date dtDesignacaoFim) {
+        this.dtDesignacaoFim = dtDesignacaoFim;
+    }
+
+    public Date getDtDesignacaoFim() {
+        return dtDesignacaoFim;
+    }
+
+    public void setNomeMagistrado(String nomeMagistrado) {
+        this.nomeMagistrado = nomeMagistrado;
+    }
+
+    public String getNomeMagistrado() {
+        return nomeMagistrado;
     }
 }

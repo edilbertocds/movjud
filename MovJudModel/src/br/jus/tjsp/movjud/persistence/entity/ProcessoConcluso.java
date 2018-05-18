@@ -78,10 +78,6 @@ public class ProcessoConcluso extends BaseEntity<Long> {
     @Column(name = "DT_BAIXA")
     private Date dataBaixa;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DT_DATA_BAIXA")
-    private Date dtDataBaixa;
-    
     @Column(name = "SAJPG_CDPROCESSO", length = 20)
     private String codigoProcessoSaj;
     
@@ -102,6 +98,28 @@ public class ProcessoConcluso extends BaseEntity<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DT_CONCLUSAO")
     private Date dataConclusao;
+    
+    // 03.05.2018
+    
+    @Column(name = "DS_ASSUNTO", length = 255)
+    private String dsAssunto;
+             
+    @Column(name = "DS_MOVIMENTACAO", length = 255)
+    private String dsMovimentacao;
+    
+    @Column(name = "FK_CAD_USUARIO_MANUTENCAO")
+    private Integer fkCadUsuarioManutencao;
+    
+    @Temporal(TemporalType.DATE)    
+    @Column(name = "DT_DESIGNACAO_INICIO")
+    private Date dtDesignacaoInicio;
+
+    @Temporal(TemporalType.DATE)        
+    @Column(name = "DT_DESIGNACAO_FIM")
+    private Date dtDesignacaoFim;
+
+    // FIM - 03.05.2018
+
     
     public ProcessoConcluso() {
     }
@@ -372,12 +390,44 @@ public class ProcessoConcluso extends BaseEntity<Long> {
     public TipoFilaProcesso getTipoFilaProcesso() {
         return tipoFilaProcesso;
     }
-
-    public void setDtDataBaixa(Date dtDataBaixa) {
-        this.dtDataBaixa = dtDataBaixa;
+    
+    public void setDsAssunto(String dsAssunto) {
+        this.dsAssunto = dsAssunto;
     }
 
-    public Date getDtDataBaixa() {
-        return dtDataBaixa;
+    public String getDsAssunto() {
+        return dsAssunto;
+    }
+
+    public void setDsMovimentacao(String dsMovimentacao) {
+        this.dsMovimentacao = dsMovimentacao;
+    }
+
+    public String getDsMovimentacao() {
+        return dsMovimentacao;
+    }
+
+    public void setFkCadUsuarioManutencao(Integer fkCadUsuarioManutencao) {
+        this.fkCadUsuarioManutencao = fkCadUsuarioManutencao;
+    }
+
+    public Integer getFkCadUsuarioManutencao() {
+        return fkCadUsuarioManutencao;
+    }
+
+    public void setDtDesignacaoInicio(Date dtDesignacaoInicio) {
+        this.dtDesignacaoInicio = dtDesignacaoInicio;
+    }
+
+    public Date getDtDesignacaoInicio() {
+        return dtDesignacaoInicio;
+    }
+
+    public void setDtDesignacaoFim(Date dtDesignacaoFim) {
+        this.dtDesignacaoFim = dtDesignacaoFim;
+    }
+
+    public Date getDtDesignacaoFim() {
+        return dtDesignacaoFim;
     }
 }

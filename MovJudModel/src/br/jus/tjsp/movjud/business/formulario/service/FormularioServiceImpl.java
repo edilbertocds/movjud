@@ -571,8 +571,6 @@ public class FormularioServiceImpl implements FormularioService{
                 ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
                 if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
                     pc.setUsuario(null);
-                if(processoConclusoDTO.getDataBaixa() != null && processoConclusoDTO.getDtDataBaixa() == null)
-                    pc.setDtDataBaixa(Calendar.getInstance().getTime());
                 processoConclusoDAO.salvar(pc);
             }
         }
