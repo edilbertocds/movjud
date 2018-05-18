@@ -1191,9 +1191,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public String initPreencherFormulario() {
         //Formulario f = formularioService.recuperarFormularioPorIdFormulario(entidadePersistencia.getIdFormulario());
-        entidadePersistencia = formularioService.recuperarFormularioDTOPorIdFormulario(entidadePersistencia.getIdFormulario());
+        /** recupera Formulário */
+        entidadePersistencia = recuperarFormulario(entidadePersistencia);
+        /*entidadePersistencia = formularioService.recuperarFormularioDTOPorIdFormulario(entidadePersistencia.getIdFormulario());
         entidadePersistencia.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(entidadePersistencia));
-        entidadePersistencia.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(entidadePersistencia));
+        entidadePersistencia.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(entidadePersistencia));*/
+        /** FIM -  recupera Formulário */
         
         if(ORIGEM_TELA_RETIFICAR.equals(action))
             funcaoRetificacao = true;
@@ -2061,6 +2064,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 if(form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_APROVADA.toString()) ||
                     form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_EM_PREENCHIMENTO.toString()) ||
                     form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_CONCLUIDA.toString())){
+                    /** recupera Formulário Antes de Salvar */
+                    form = recuperarFormulario(form);
+                    /** FIM -  recupera Formulário Antes de Salvar */
                     form.setNomeMagistrado(usuarioMagistrado.getNome());
                     form.setIdMagistrado(usuarioMagistrado.getIdUsuario());
                     form.setIdUsuarioAlteracao(usuarioLogado.getId());
@@ -2071,6 +2077,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             for (FormularioDTO form : listaEntidade) {
                 if (anoReferencia.equals(form.getAno()) && mesReferencia.equals(form.getMes()) &&
                     unidadeFormularioMagistrado.equals(form.getNomeUnidade())) {
+                    /** recupera Formulário Antes de Salvar */
+                    form = recuperarFormulario(form);
+                    /** FIM -  recupera Formulário Antes de Salvar */
                     form.setNomeMagistrado(usuarioMagistrado.getNome());
                     form.setIdMagistrado(usuarioMagistrado.getIdUsuario());
                     form.setIdUsuarioAlteracao(usuarioLogado.getId());
@@ -2940,5 +2949,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public Date getPeriodoProcessoConclusoFimCalendar() {
         return periodoProcessoConclusoFimCalendar.getTime();
+    }
+
+    private FormularioDTO recuperarFormulario(FormularioDTO form) {
+        form = formularioService.recuperarFormularioDTOPorIdFormulario(form.getIdFormulario());
+        form.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(form));
+        form.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(form));
+        return form;
     }
 }
