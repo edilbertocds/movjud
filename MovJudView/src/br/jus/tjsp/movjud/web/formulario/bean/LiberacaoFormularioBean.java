@@ -67,6 +67,7 @@ public class LiberacaoFormularioBean extends BaseBean<LiberacaoFormularioDTO> im
         
         } catch (Exception ex) {
             indicadorProgresso.setErroProcessamento(true);
+            ex.printStackTrace();
             System.out.println("Erro Liberação: "+ex.getMessage() +" - " + ex.getCause() != null ? ex.getCause().getMessage() : "cause null");
         }
         indicadorProgresso.setFinalizouProcessamento(true);
