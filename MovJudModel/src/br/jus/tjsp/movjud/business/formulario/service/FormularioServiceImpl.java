@@ -710,12 +710,20 @@ public class FormularioServiceImpl implements FormularioService{
                         if(formulario.getMetadadosFormulario().getDescricaoSourceFormulario().equals(formularioVinculacao.getMetadadosFormulario().getDescricaoSourceFormulario())) {
                             novo = false;
                             novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
+                            // <epr> desempenho
+                            novoFormulario.setFutureListaSecoes(asyncCompleteFormularioDTO(novoFormulario));
+                            novoFormulario.setFutureListaHistoricoFormulario(asyncCompleteHistoricoFormularioDTO(novoFormulario));                            
+                            // </epr> desempenho
                             break;
                         }
                     }
                 }
                 if(novo){
                     novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(new Formulario(formularioVinculacao.getMetadadosFormulario(), unidade));
+                    // <epr> desempenho
+                    novoFormulario.setFutureListaSecoes(asyncCompleteFormularioDTO(novoFormulario));
+                    novoFormulario.setFutureListaHistoricoFormulario(asyncCompleteHistoricoFormularioDTO(novoFormulario));
+                    // </epr> desempenho
                     if(situacaoFormularioDTO == null) {
                         novoFormulario.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(
                                                             listarTipoSituacao(), TipoSituacaoType.ABERTO));
@@ -977,19 +985,24 @@ public class FormularioServiceImpl implements FormularioService{
     public FormularioDTO recuperarFormularioMesAnterior(FormularioDTO formularioAtualDTO) {
         Formulario formularioAtual = FormularioConverter.parseFormularioDTOParaFormulario(formularioAtualDTO, false);
         FormularioDTO formularioMesAnterior = FormularioConverter.parseFormularioParaFormularioDTO(formularioDAO.recuperarFormularioMesAnterior(formularioAtual));
+        formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
         return formularioMesAnterior;
     }
 
     @Override
     public FormularioDTO recuperarFormularioMesAnoReferencia(FormularioDTO filtro) {
         Formulario filtroFormulario = formularioDAO.recuperarFormularioAnoMesReferencia(FormularioConverter.parseFormularioDTOParaFormulario(filtro, false));
-        return FormularioConverter.parseFormularioParaFormularioDTO(filtroFormulario);
+        FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(filtroFormulario);
+        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
+        return formularioDTO;
     }
 
     @Override
     public FormularioDTO recuperarPrimeiroFormularioUnidade(FormularioDTO filtro) {
         Formulario filtroFormulario = formularioDAO.recuperarPrimeiroFormularioUnidade(FormularioConverter.parseFormularioDTOParaFormulario(filtro, false));
-        return FormularioConverter.parseFormularioParaFormularioDTO(filtroFormulario);
+        FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(filtroFormulario);
+        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
+        return formularioDTO;
     }
     
     @Override
@@ -1001,6 +1014,7 @@ public class FormularioServiceImpl implements FormularioService{
     public FormularioDTO recuperarFormularioDTOPorIdFormulario(Long idFormulario) {
         Formulario formulario = recuperarFormularioPorIdFormulario(idFormulario);
         FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
+        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
         return formularioDTO;
     }
 
