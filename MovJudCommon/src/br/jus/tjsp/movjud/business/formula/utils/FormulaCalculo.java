@@ -23,7 +23,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-//import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 
@@ -45,19 +44,20 @@ public class FormulaCalculo {
     private static final String ERRO_FORMULA = "Erro na fómula";
     public static final String TIPO_FORMULA = "fórmula";
     public static final String TIPO_VALIDACAO = "validação";
+  
     
     // <epr>debug logger, introduzido na versão 0.6.4.debug
-    static Logger logger = Logger.getLogger(FormulaCalculo.class);// LogFactory.getLog(FormulaCalculo.class);
+    static Logger logger = null;//Logger.getLogger(FormulaCalculo.class);// LogFactory.getLog(FormulaCalculo.class);
 
-    /*
+/*    
     static{
         System.setProperty(LogFactory.FACTORY_PROPERTY,
               "weblogic.logging.commons.LogFactoryImpl");
-            logger = LogFactory.getFactory().getInstance(FormulaCalculo.class);
+            logger = Logger.getLogger(FormulaCalculo.class); //LogFactory.getFactory().getInstance(FormulaCalculo.class);
     }
-    */
-    // </epr>
     
+    // </epr>
+*/    
     private FormulaCalculo() {
     }
 
@@ -121,6 +121,7 @@ public class FormulaCalculo {
     // <epr> utilidades geração de log
     // introduzidas em 0.6.4.debug
     private static void loggerInfo(String text) {
+        //System.out.println("INFO: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.INFO.intValue())) {
             logger.info(text);
@@ -128,6 +129,7 @@ public class FormulaCalculo {
     }
     
     private static void loggerWarn(String text) {
+        //System.out.println("WARN: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.WARNING.intValue())) {
             logger.warn(text);
@@ -135,6 +137,7 @@ public class FormulaCalculo {
     }
     
     private static void loggerError(String text) {
+        //System.out.println("ERROR: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.SEVERE.intValue())) {
             logger.error(text);
@@ -209,11 +212,14 @@ public class FormulaCalculo {
                     if (subSecao != null) {
                         loggerInfo("      procurar em subSecao: " + subSecao.getCodigoSubSecao());
                         campoDTO = FormularioUtils.encontrarCampo(subSecao, campoId);
-                        loggerInfo("        campo: " + ((campoDTO != null) ? ((campoDTO.getLabelCampo() != null) ? "["+campoDTO.getLabelCampo()+"]" : "[]") : "nulo"));
                     } else {
                         loggerInfo("      procurar em cad_campo: ");
                         campoDTO = FormularioUtils.encontrarCadCampo(formularioDTO, campoId);
-                        loggerInfo("        campo: " + ((campoDTO != null) ? ((campoDTO.getLabelCampo() != null) ? "["+campoDTO.getLabelCampo()+"]" : "[]") : "nulo"));
+                    }
+                    if(campoDTO != null) {
+                        loggerInfo("        campo: " + ((campoDTO.getLabelCampo() != null) ? "["+campoDTO.getLabelCampo()+"]" : "nulo"));
+                        loggerInfo("           id: " + campoDTO.getIdCampo() != null ? campoDTO.getIdCampo().toString() : "nulo");
+                        loggerInfo("           md: " + campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo");
                     }
                     logValidacao(campoDTO);
                     
@@ -259,7 +265,7 @@ public class FormulaCalculo {
     }
 
     private static String funcaoValorMesAnterior(String formula, FormularioDTO formularioDTO, SubSecaoDTO subSecaoDTO) {
-        logger.info("    inicio funcaoValorMesAnterior");
+        loggerInfo("    inicio funcaoValorMesAnterior");
         Pattern pattern = Pattern.compile(PATTNER_FORMULA, Pattern.MULTILINE);
         Pattern patternValor = Pattern.compile(FuncaoCalculoType.VALOR_CAMPO_MES_ANTERIOR.getNomeFuncao() + PATTNER_FUNCAO_SUFIXO, Pattern.MULTILINE);
         Matcher matcherFormula = pattern.matcher(formula);
