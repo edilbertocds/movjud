@@ -211,6 +211,58 @@ public class FormularioConverter {
         }
         return formularioDTO;
     }
+    
+    public static FormularioDTO parseFormularioParaFormularioDTOliberacao(Formulario formulario) {
+        FormularioDTO formularioDTO = null;
+        
+        if (formulario != null) {
+            /*List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
+            for (Secao secao : formulario.getSecoes()) {
+                if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
+                    listaSecoesPrincipais.add(secao);
+                }
+            }
+            formulario.setSecoes(listaSecoesPrincipais);*/
+            formularioDTO = parseMetadadosFormularioParaFormularioDTOliberacao(formulario.getMetadadosFormulario());
+            formularioDTO.setIdFormulario(formulario.getIdFormulario());
+            formularioDTO.setNomeUnidade(formulario.getUnidade().getNomeUnidade());
+            formularioDTO.setIdUnidade(formulario.getUnidade().getIdUnidade());
+            formularioDTO.setListaTipoRegrasFormulario(parseFormularioParaListaTipoRegraDTO(formulario));
+            
+            /*formularioDTO.setListaSecoes(parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(),
+                                                                            formularioDTO.getListaSecoes(),
+                                                                            formularioDTO));*/
+            
+            if (formulario.getAno() != null) {
+                formularioDTO.setAno(formulario.getAno());
+            } else {
+                formularioDTO.setAno(anoCorrente());
+            }
+            if (formulario.getMes() != null) {
+                formularioDTO.setMes(formulario.getMes());
+            } else {
+                formularioDTO.setMes(mesAnterior());
+            }
+            if (formulario.getUnidade().getForo() != null) {
+                formularioDTO.setNomeForo(formulario.getUnidade().getForo().getNomeForo());
+                formularioDTO.setIdForo(formulario.getUnidade().getForo().getIdForo());
+            }
+            if (formulario.getUsuarioAprovacao() != null) {
+                formularioDTO.setIdMagistrado(formulario.getUsuarioAprovacao().getIdUsuario());
+                formularioDTO.setNomeMagistrado(formulario.getUsuarioAprovacao().getNome());
+            }
+            if (formulario.getUsuarioPreenchimento() != null) {
+                formularioDTO.setIdUsuarioPreenchimento(formulario.getUsuarioPreenchimento().getIdUsuario());
+                formularioDTO.setNomeUsuarioPreenchimento(formulario.getUsuarioPreenchimento().getNome());
+            }
+            if (formulario.getDataFechamento() != null) {
+                formularioDTO.setDataConclusao(formulario.getDataFechamento());
+            }
+            formularioDTO.setSituacaoFormularioDTO(parseTipoSituacaoParaSituacaoFormularioDTO(formulario.getTipoSituacao()));
+            formularioDTO.setListaHistoricoFormulario(parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));
+        }
+        return formularioDTO;
+    }
         
     public static FormularioDTO parseFormularioParaFormularioDTOParaPaginacao(Formulario formulario) {
         FormularioDTO formularioDTO = null;
@@ -682,6 +734,30 @@ public class FormularioConverter {
         /*if (metadadosFormulario.getMetadadosSecoes() != null)
             formularioDTO.setListaSecoes(parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
                                                                                    formularioDTO));*/ 
+        return formularioDTO;
+    }
+    
+    public static FormularioDTO parseMetadadosFormularioParaFormularioDTOliberacao(MetadadosFormulario metadadosFormulario) {
+        FormularioDTO formularioDTO = new FormularioDTO();
+        formularioDTO.setIdMetadadosFormulario(metadadosFormulario.getIdMetadadosFormulario());
+        formularioDTO.setNomeFormulario(metadadosFormulario.getDescricaoNome());
+        formularioDTO.setCodigoFormulario(metadadosFormulario.getDescricaoSourceFormulario());
+        formularioDTO.setAviso(metadadosFormulario.getDescricaoTextoInformativo());
+        formularioDTO.setDataCriacao(metadadosFormulario.getDataInclusao());
+        formularioDTO.setDataInclusao(metadadosFormulario.getDataInclusao());
+        formularioDTO.setInstancia(String.valueOf(metadadosFormulario.getNumeroInstancia()));
+        if (metadadosFormulario.getTipoArea() != null)
+            formularioDTO.setArea(parseTipoAreaParaAreaDTO(metadadosFormulario.getTipoArea()));
+        if (metadadosFormulario.getTipoSegmento() != null)
+            formularioDTO.setSegmento(parseTipoSegmentoParaSegmentoDTO(metadadosFormulario.getTipoSegmento()));
+        if (metadadosFormulario.getTiposCompetencia() != null && !metadadosFormulario.getTiposCompetencia().isEmpty())
+            formularioDTO.setListaCompetencias(parseListaTipoCompetenciaParaListaCompetenciaDTO(metadadosFormulario.getTiposCompetencia()));
+        formularioDTO.setSituacao(metadadosFormulario.getFlagTipoSituacao());
+        formularioDTO.setVersao(metadadosFormulario.getNumeroVersao());
+        formularioDTO.setMetadadoSituacaoFormularioDTO(parseMetadadoTipoSituacaoParaMetadadoSituacaoFormularioDTO(metadadosFormulario.getMetadadosTipoSituacao()));
+        if (metadadosFormulario.getMetadadosSecoes() != null)
+            formularioDTO.setListaSecoes(parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
+                                                                                   formularioDTO));
         return formularioDTO;
     }
     
