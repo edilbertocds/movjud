@@ -702,6 +702,8 @@ public class FormularioServiceImpl implements FormularioService{
     public void liberarFormulariosParaUnidade(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO) {
         List<Formulario> listaFormulariosUnidade = listarFormulariosMesAnoReferenciaDaUnidade(unidade);
         FormularioDTO novoFormulario = null;
+        int numForms = unidade.getFormularios() == null ? 0 : unidade.getFormularios().size();
+        int numFormsVinc = unidade.getFormulariosVinculacao() == null ? 0 : unidade.getFormulariosVinculacao().size();
         for(FormularioVinculacao formularioVinculacao : unidade.getFormulariosVinculacao()){
             if(formularioVinculacao.getMetadadosFormulario().getMetadadosTipoSituacao().getTipoSituacao().equals(MetadadosTipoSituacaoType.EM_USO.getCodigo())){
                 boolean novo = true;
@@ -709,21 +711,51 @@ public class FormularioServiceImpl implements FormularioService{
                     for(Formulario formulario : listaFormulariosUnidade){
                         if(formulario.getMetadadosFormulario().getDescricaoSourceFormulario().equals(formularioVinculacao.getMetadadosFormulario().getDescricaoSourceFormulario())) {
                             novo = false;
-                            novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
-                            // <epr> desempenho
-                            novoFormulario.setFutureListaSecoes(asyncCompleteFormularioDTO(novoFormulario));
-                            novoFormulario.setFutureListaHistoricoFormulario(asyncCompleteHistoricoFormularioDTO(novoFormulario));                            
-                            // </epr> desempenho
+                            
+                            // 20180524-1
+                            /*List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
+                            for (Secao secao : formulario.getSecoes()) {
+                                if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
+                                    listaSecoesPrincipais.add(secao);
+                                }
+                            }
+                            formulario.setSecoes(listaSecoesPrincipais);*/
+                            // /20180524-1
+                            
+                            //novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
+                            novoFormulario = FormularioConverter.parseFormularioParaFormularioDTOliberacao(formulario);
+                            
+                            // 20180524-2
+                            /*novoFormulario.setListaSecoes(FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(),
+                                                                                            novoFormulario.getListaSecoes(),
+                                                                                            novoFormulario));
+                            // /20180524-2*/
                             break;
                         }
                     }
                 }
                 if(novo){
-                    novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(new Formulario(formularioVinculacao.getMetadadosFormulario(), unidade));
-                    // <epr> desempenho
-                    novoFormulario.setFutureListaSecoes(asyncCompleteFormularioDTO(novoFormulario));
-                    novoFormulario.setFutureListaHistoricoFormulario(asyncCompleteHistoricoFormularioDTO(novoFormulario));
-                    // </epr> desempenho
+                    Formulario formulario = new Formulario(formularioVinculacao.getMetadadosFormulario(), unidade);
+                    
+                    // 20180524-3
+                    /*List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
+                    for (Secao secao : formulario.getSecoes()) {
+                        if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
+                            listaSecoesPrincipais.add(secao);
+                        }
+                    }
+                    formulario.setSecoes(listaSecoesPrincipais);*/
+                    // /20180524-3
+                    
+                    //novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
+                    novoFormulario = FormularioConverter.parseFormularioParaFormularioDTOliberacao(formulario);
+                    
+                    // 20180524-4
+                    /*novoFormulario.setListaSecoes(FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(),
+                                                                                    novoFormulario.getListaSecoes(),
+                                                                                    novoFormulario));*/
+                    // /20180524-4
+                    
                     if(situacaoFormularioDTO == null) {
                         novoFormulario.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(
                                                             listarTipoSituacao(), TipoSituacaoType.ABERTO));
@@ -985,7 +1017,8 @@ public class FormularioServiceImpl implements FormularioService{
     public FormularioDTO recuperarFormularioMesAnterior(FormularioDTO formularioAtualDTO) {
         Formulario formularioAtual = FormularioConverter.parseFormularioDTOParaFormulario(formularioAtualDTO, false);
         FormularioDTO formularioMesAnterior = FormularioConverter.parseFormularioParaFormularioDTO(formularioDAO.recuperarFormularioMesAnterior(formularioAtual));
-        formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
+        if(formularioMesAnterior != null)
+            formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
         return formularioMesAnterior;
     }
 
