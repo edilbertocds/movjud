@@ -300,7 +300,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             popularListaAno();
             popularListaSituacao();
         }
-        if(listaEntidade == null) pesquisarEntidadeConsultarGeral();
+        //if(listaEntidade == null) -- não realizar a consulta mesmo que não estiver nulo, não funciona a paginação. 01.06.2018
+            pesquisarEntidadeConsultarGeral();
     }
 
     private void inicializarVariaveisConsulta() {
