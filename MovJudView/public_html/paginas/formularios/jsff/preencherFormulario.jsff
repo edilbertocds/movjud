@@ -432,7 +432,69 @@
                                             </af:panelBox>
                                         </af:forEach>
                                         
+                                    <af:panelBox text="Processos Conclusos da Unidade" id="painelProcessoConclusoUnidade" styleClass="boxSecao" partialTriggers="t2:l2 b21" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.tabelaProcessos}"> 
+                                        <f:facet name="toolbar">
+                                            <af:button text="Adicionar" id="b3" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.initDialogProcessoConclusoUnidade}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true"/>
+                                        </f:facet>
+                                        <af:panelGroupLayout id="pgl188" layout="vertical" partialTriggers="b10 b16 t2:l2" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.totalizadores}" >
+                                            <af:panelGroupLayout id="pgl192" layout="horizontal">
+                                                <af:outputLabel value="#{app['cpc.ttProcessosSemMovimentacao']}" id="ot22"/>
+                                                <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.listaFiltradaProcessosConclusos.size()}" id="ot39" partialTriggers="d1"/>
+                                            </af:panelGroupLayout>
+                                            <br/>
+                                            <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcesso.keySet().toArray()}" var="key" >
+                                                <af:panelGroupLayout layout="horizontal" id="pgl194">
+                                                    <af:outputLabel value="#{key}" id="ol42"/>
+                                                    <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcesso[key]}" partialTriggers="d1" id="ot36"/>
+                                                </af:panelGroupLayout>
+                                            </af:forEach> 
+                                        </af:panelGroupLayout>
+                                        
+                                        <af:panelGroupLayout id="pgl208" layout="vertical" partialTriggers="b21 b3 b10 b16">
+                                            <af:panelGroupLayout id="pgl209" layout="horizontal">
+                                                <af:inputText label="N&#250;mero Processo Concluso:" id="it63" autoSubmit="true" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.filtroProcessoConcluso}"/>
+                                                <af:button text="Filtrar" id="b21" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
+                                            </af:panelGroupLayout>
+                                            <af:table var="row" rowBandingInterval="0" id="t2" styleClass="AFStretchWidth formularioTabela" fetchSize="25" autoHeightRows="5" columnStretching="column:c22" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.listaFiltradaProcessosConclusos}" partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 l2 ::b21" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
+                                                    <af:column sortable="false" headerText="N&#250;mero do processo" id="c23" filterable="true">
+                                                    <af:outputText value="#{row.numeroProcesso}" id="ot43" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Ano" id="c30">
+                                                    <af:outputText value="#{row.anoProcesso}" id="ot32" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Data Conclus&#227;o" id="c29">
+                                                    <af:outputText value="#{row.dataConclusao}" id="ot31" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Concluso para" id="c28" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.conclusos}">
+                                                    <af:outputText value="#{row.tipoConclusoDTO.descricaoTipoProcessoConcluso}" id="ot21" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Situa&#231;&#227;o" id="c27">
+                                                    <af:outputText value="#{empty row.dataBaixa ? 'Ativo' : 'Inativo'}" id="ot20" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Data Baixa" id="c26">
+                                                    <af:outputText value="#{row.dataBaixa}" id="ot19" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
+                                                </af:column>
+                                                <af:column sortable="false" headerText="Origem" id="c25">
+                                                    <af:outputText value="#{empty row.codigoProcessoSaj ? 'MovJud' : 'SAJ'}" id="ot18"/>
+                                                </af:column>
+                                                
+                                                <af:column sortable="false" headerText="T. Fila Proc." id="c34">
+                                                    <af:outputText value="#{row.tipoFilaProcessoDTO.dsTipoFilaProcesso}" id="ot40"/>
+                                                </af:column>
 
+                                                
+                                                
+                                                <af:column sortable="false" headerText="A&#231;&#245;es" id="c22" align="center"> 
+                                                    <af:panelGroupLayout id="pgl185" layout="horizontal"> 
+                                                        <af:link id="l3" icon="/resource/images/downloadOn.png" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">  
+                                                            <af:showPopupBehavior popupId="::popupBaixaProcessoConcluso"/>  
+                                                        </af:link> 
+                                                       <af:link id="l2" icon="/resource/images/lixeiraOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.removerProcessoConclusoUnidade}" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar or row.marcadoExclusao}" disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/> 
+                                                    </af:panelGroupLayout> 
+                                                </af:column> 
+                                            </af:table>
+                                        </af:panelGroupLayout>
+                                    </af:panelBox>
                                     
                                     </af:panelBox>
                                     
