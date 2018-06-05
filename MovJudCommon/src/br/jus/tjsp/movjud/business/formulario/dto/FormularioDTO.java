@@ -212,7 +212,7 @@ public class FormularioDTO extends BaseDTO<String>{
     }
 
     public List<SecaoDTO> getListaSecoes() {
-        if (listaSecoes == null) {
+        if ((listaSecoes == null) || (listaSecoes.isEmpty())) {
             if (futureListaSecoes == null) {
                 listaSecoes = new ArrayList<SecaoDTO>();
             } else {
