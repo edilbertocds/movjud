@@ -1302,7 +1302,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 secaoReus = secao;
             }
         }
-        Collections.sort(entidadePersistencia.getListaHistoricoFormulario(), Collections.reverseOrder());
+        
+        if(entidadePersistencia != null && entidadePersistencia.getListaHistoricoFormulario() != null)
+            Collections.sort(entidadePersistencia.getListaHistoricoFormulario(), Collections.reverseOrder());
         
         if(visualizar == false){
             formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
