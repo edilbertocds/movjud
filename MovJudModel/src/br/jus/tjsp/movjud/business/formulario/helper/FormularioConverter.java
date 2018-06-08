@@ -387,6 +387,7 @@ public class FormularioConverter {
                             if (contemTipoRegra(parseFormularioParaListaTipoRegraDTO(secao.getFormulario()))) {
                                 List<EstabelecimentoEntidadeDTO> listaEstabelecimentosDTO =
                                     parseListaUnidadeEstabelecimentosPrisionaisParaListaEstabelecimentoEntidadeDTO(secao.getFormulario().getUnidade().getUnidadeEstabelecimentosPrisionais(), secao.getFormulario().getAno(), secao.getFormulario().getMes());
+                                    
                                 if (listaEstabelecimentosDTO != null) {
                                     subSecaoDTO.setListaEstabelecimentosEntidade(filtrarTipoInternacaoPrisional(listaEstabelecimentosDTO,
                                                                                                                 subSecaoDTO));
@@ -729,12 +730,10 @@ public class FormularioConverter {
     public static List<EstabelecimentoEntidadeDTO> parseListaUnidadeEstabelecimentosPrisionaisParaListaEstabelecimentoEntidadeDTO(List<UnidadeEstabelecimentoPrisional> listaUnidadeEstabelecimentosPrisionais, Long ano, Long mes) {
         // <epr> 0.7.10 (*)
         Calendar dataInicio = new java.util.GregorianCalendar(ano.intValue(), mes.intValue()-1, 1);
-        Calendar dataFim = new GregorianCalendar(ano.intValue(), mes.intValue()-1, dataInicio.getActualMaximum(Calendar.DAY_OF_MONTH));
+        //Calendar dataFim = new GregorianCalendar(ano.intValue(), mes.intValue()-1, dataInicio.getActualMaximum(Calendar.DAY_OF_MONTH));
         List<EstabelecimentoEntidadeDTO> listaEstabelecimentoEntidadeDTO = new ArrayList<EstabelecimentoEntidadeDTO>();
         // </epr> 0.7.10 (*)
-        
-        System.out.println(listaUnidadeEstabelecimentosPrisionais.size());
-        
+        boolean adiciona = false;      
         for (UnidadeEstabelecimentoPrisional unidadeEstabelecimentoPrisional : listaUnidadeEstabelecimentosPrisionais) {
             // <epr> 0.7.10 e 0.7.11 (*) if seguinte
             // alteracao para tratar dataFim como nao nula, caso seja nao entrara no formulario - 8/6/18 - Luis Ramalho
@@ -743,12 +742,15 @@ public class FormularioConverter {
                 (unidadeEstabelecimentoPrisional.getDataInicio() == null) || 
                 (unidadeEstabelecimentoPrisional.getDataInicio().compareTo(dataInicio.getTime()) <= 0)
                ) && 
-               (
                 (unidadeEstabelecimentoPrisional.getDataFim() == null)
-                //(unidadeEstabelecimentoPrisional.getDataFim() == null) ||
-                //(unidadeEstabelecimentoPrisional.getDataFim().compareTo(dataFim.getTime()) >= 0) retirado pois estava apresentando mais registros do esperado
-               )
             ) {
+                //(unidadeEstabelecimentoPrisional.getDataFim().compareTo(dataFim.getTime()) >= 0) retirado pois estava apresentando mais registros do esperado
+                    adiciona = true;
+            } else {
+                adiciona = (unidadeEstabelecimentoPrisional.getDataInicio().getMonth() == mes && unidadeEstabelecimentoPrisional.getDataInicio().getYear() == ano);
+            }
+            
+            if (adiciona) {
                 // </epr> 0.7.10 e 0.7.11 (*)
                 EstabelecimentoEntidadeDTO estabelecimentoEntidadeDTO = new EstabelecimentoEntidadeDTO();
                 estabelecimentoEntidadeDTO.setIdEstabelecimentoEntidade(unidadeEstabelecimentoPrisional.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional());
@@ -758,7 +760,9 @@ public class FormularioConverter {
                                                               true : false));
                 estabelecimentoEntidadeDTO.setTipoPrisional((unidadeEstabelecimentoPrisional.getEstabelecimentoPrisional().getFlagPrisional().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ?
                                                              true : false));
-                listaEstabelecimentoEntidadeDTO.add(estabelecimentoEntidadeDTO);
+                listaEstabelecimentoEntidadeDTO.add(estabelecimentoEntidadeDTO);                
+
+                adiciona = false;
             }
         }
         return listaEstabelecimentoEntidadeDTO;
