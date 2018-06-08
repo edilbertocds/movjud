@@ -470,6 +470,7 @@ public class FormularioConverter {
             for (TipoRegraDTO tipoRegraDTO : listaTipoRegraDTO) {
                 if (tipoRegraDTO.getDescricaoTipoRegra().equals("VISITESTAB")) {
                     retorno = true;
+                    break;
                 }
             }
         }
@@ -731,16 +732,21 @@ public class FormularioConverter {
         Calendar dataFim = new GregorianCalendar(ano.intValue(), mes.intValue()-1, dataInicio.getActualMaximum(Calendar.DAY_OF_MONTH));
         List<EstabelecimentoEntidadeDTO> listaEstabelecimentoEntidadeDTO = new ArrayList<EstabelecimentoEntidadeDTO>();
         // </epr> 0.7.10 (*)
+        
+        System.out.println(listaUnidadeEstabelecimentosPrisionais.size());
+        
         for (UnidadeEstabelecimentoPrisional unidadeEstabelecimentoPrisional : listaUnidadeEstabelecimentosPrisionais) {
             // <epr> 0.7.10 e 0.7.11 (*) if seguinte
+            // alteracao para tratar dataFim como nao nula, caso seja nao entrara no formulario - 8/6/18 - Luis Ramalho
             if(
                (
                 (unidadeEstabelecimentoPrisional.getDataInicio() == null) || 
                 (unidadeEstabelecimentoPrisional.getDataInicio().compareTo(dataInicio.getTime()) <= 0)
                ) && 
                (
-                (unidadeEstabelecimentoPrisional.getDataFim() == null) || 
-                (unidadeEstabelecimentoPrisional.getDataFim().compareTo(dataFim.getTime()) >= 0)
+                (unidadeEstabelecimentoPrisional.getDataFim() == null)
+                //(unidadeEstabelecimentoPrisional.getDataFim() == null) ||
+                //(unidadeEstabelecimentoPrisional.getDataFim().compareTo(dataFim.getTime()) >= 0) retirado pois estava apresentando mais registros do esperado
                )
             ) {
                 // </epr> 0.7.10 e 0.7.11 (*)
