@@ -17,11 +17,11 @@ public class ProcessosConclusosCpcDTO implements Serializable{
     
     private List<ProcessoConclusoDTO> listaProcessosConclusos = new ArrayList<ProcessoConclusoDTO>();
     private List<TipoFilaProcessoDTO> listaTipoFilaProcessoDTO = new ArrayList<TipoFilaProcessoDTO>();
-    private Map<String, Integer> listaTipoFilaProcesso = new HashMap<String, Integer>();{{
+    private Map<String, Integer> listaTipoFilaProcesso = new HashMap<String, Integer>();/*{{
         listaTipoFilaProcesso.put("teste01", 12);                                                                         
         listaTipoFilaProcesso.put("teste02", 14);
         listaTipoFilaProcesso.put("teste03", 16);
-    }}
+    }}*/
 
     // POCK CPC
     /*

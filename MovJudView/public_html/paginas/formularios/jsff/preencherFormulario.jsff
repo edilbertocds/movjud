@@ -64,7 +64,7 @@
                                             <af:selectItem label="#{processoConcluso.descricaoTipoProcessoConcluso}" id="si9" value="#{processoConcluso}"/>
                                         </af:forEach>
                                     </af:selectOneChoice>
-                                    <af:selectOneChoice id="soc24" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoFilaProcessoDTO}" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.conclusos and false}" required="true" label="Fila" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
+                                    <af:selectOneChoice id="soc24" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoFilaProcessoDTO}" required="true" label="Fila" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcessoDTO}" var="tipoFilaProcessoDTO">
                                             <af:selectItem label="#{tipoFilaProcessoDTO.dsTipoFilaProcesso}" id="si48" value="#{tipoFilaProcessoDTO}"/>
                                         </af:forEach>
