@@ -112,7 +112,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
     */
     
-    private SubSecaoDTO subSecaoProcessoConclusoDTO;
+    private SubSecaoDTO subSecaoProcessoConclusoDTO = new SubSecaoDTO();;
 
     private boolean mostrarAviso;
     private Usuario magistrado;
@@ -641,6 +641,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     /** Ações dos botões */
     public String enviarFormulario(DialogEvent dialogEvent) {
+
+        entidadePersistencia = recuperarFormulario(entidadePersistencia);
 
         if (dialogEvent.getOutcome() ==
             DialogEvent.Outcome.ok) {
@@ -1249,11 +1251,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                                               entidadePersistencia.getIdUnidade(),
                                                                                                                                               null,
                                                                                                                                               entidadePersistencia.getCodigoFormulario()));
+                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcessoDTO(processosConclusosCpcDTO.getListaTipoFilaProcessoDTO());
                 if(!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()){
-                    subSecaoProcessoConclusoDTO = new SubSecaoDTO();
+                    // <epr> subSecaoProcessoConclusoDTO = new SubSecaoDTO();
                     subSecaoProcessoConclusoDTO.setProcessosConclusosCpc(processosConclusosCpcDTO);
                     //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
-                    //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcesso(processosConclusosCpcDTO.getListaTipoFilaProcesso());
                     subSecaoProcessoConclusoDTO.setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
                     
                     for (SecaoDTO ss : entidadePersistencia.getListaSecoes()) {
