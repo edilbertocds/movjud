@@ -57,7 +57,7 @@
                                           summary="#{app['msg.dominioBI.resultadoBusca']}" var="row" rows="0"
                                           emptyText="#{app['msg.resultado.nenhumRegistroEncontrado']}"
                                           autoHeightRows="10" disableColumnReordering="true"
-                                          columnStretching="column:tbDesricao" rowBandingInterval="0"
+                                          columnStretching="column:tbCodigo" rowBandingInterval="0"
                                           partialTriggers="::botaoBuscar ::botaoLimpar dialogAlterarDominioBI ::primeiraPagina ::paginaAnterior ::proximaPagina ::ultimaPagina ::dialogIncluirDominioBI dialogExcluir"
                                           value="#{dominioBIBean.listaEntidade}"
                                           selectionListener="#{dominioBIBean.selecionarEntidadeEmTabela}"
