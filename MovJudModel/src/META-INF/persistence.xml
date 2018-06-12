@@ -70,7 +70,6 @@
     <class>br.jus.tjsp.movjud.persistence.entity.PreCarga</class>
     <class>br.jus.tjsp.movjud.persistence.entity.PeriodoProcessoConcluso</class>
     <class>br.jus.tjsp.movjud.persistence.entity.FormularioForoOrigem</class>
-    <class>br.jus.tjsp.movjud.persistence.entity.DominioBI</class>
     <class>br.jus.tjsp.movjud.persistence.entity.TipoFilaProcesso</class>
     <properties>
       <property name="eclipselink.target-server" value="WebLogic_12"/>
