@@ -281,13 +281,24 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                                  sdf.format(filtro.getDataFechamento()) + "', 'dd/MM/YYYY')");
         }
 
+        //Alteracao utilizar a unidade e nao o foro no filtro que o usuario tenha acesso
+        //Luis Ramalho - 11/06/2018
         if (filtro.getUnidade() != null) {
+            /*
             if (filtro.getUnidade().getForo() != null && filtro.getUnidade().getForo().getIdForo() != null) {
                 jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade().getForo().getIdForo());
             } else {
                 if (filtro.getUnidade().getIdUnidade() != null &&
                     !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
                     jpaQl.append(" and formulario.unidade.idUnidade = " + filtro.getUnidade().getIdUnidade());
+                }
+            }*/
+            if (filtro.getUnidade().getIdUnidade() != null &&
+                !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
+                jpaQl.append(" and formulario.unidade.idUnidade = " + filtro.getUnidade().getIdUnidade());
+            } else {
+                for (PermissaoUnidadeTemporaria permissao : listaPermissao) {
+                    jpaQl.append(" and formulario.unidade.idUnidade = " + permissao.getUnidade().getIdUnidade());
                 }
             }
         } else {
@@ -302,11 +313,25 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 calcularDatasReferencia(inicio);
                 calcularDatasReferencia(fim);
                 parameter.append(" (formulario.unidade.idUnidade = " + permissao.getUnidade().getIdUnidade());
+                
+                //Alteracao para suprir o between e obter o penultimo mes valido e o ano corrente valido
+                //ou todos os registros que satisfacao o tipo de situacao devem ser apresentados
+                //aplicando a concatenacao para que o where funcione
+                //Luis Ramalho - 11/06/2018
+                /*
                 parameter.append(" and formulario.mes between " + (inicio.get(Calendar.MONTH)+1) + " and " +
                                  (fim.get(Calendar.MONTH)+1));
                 parameter.append(" and formulario.ano between " + inicio.get(Calendar.YEAR) + " and " +
                                  fim.get(Calendar.YEAR));
-
+                */
+                String dataInicio = String.format("%02d", inicio.get(Calendar.YEAR)) + 
+                                    String.format("%02d", inicio.get(Calendar.MONTH));
+                String dataFim = String.format("%02d", fim.get(Calendar.YEAR)) + 
+                                    String.format("%02d", fim.get(Calendar.MONTH));
+                
+                parameter.append(" and CONCAT(formulario.ano, formulario.mes) >= " + dataInicio);
+                parameter.append(" and CONCAT(formulario.ano, formulario.mes)  <= " + dataFim);
+                
                 parameter.append(") or");
             }
             if (parameter.length() > 0) {
