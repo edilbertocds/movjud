@@ -1,25 +1,19 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
-import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
-
-import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
-import br.jus.tjsp.movjud.persistence.base.types.DominioType;
-
-import java.io.Serializable;
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+/*
 @EntityListeners(AuditListener.class)
 @Audit(dominio=DominioType.ESTRUTURA_JUDICIARIA)
+*/
 @Table(name="DOMINIO_BI")
 @SuppressWarnings("oracle.jdeveloper.ejb.entity-class-auto-id-gen")
 public class DominioBI extends BaseEntity<String> {
