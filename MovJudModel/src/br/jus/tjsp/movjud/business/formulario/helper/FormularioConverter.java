@@ -528,47 +528,70 @@ public class FormularioConverter {
         // FIM - 03.05.2018
         
         return processoConclusoDTO;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     }
 
-    public static List<ReuDTO> parseListaReusProvisoriosParaListaReusDTO(List<ReuProvisorio> listaReusProvisorios) {
+    public static List<ReuDTO> parseListaReusProvisoriosParaListaReusDTO(List<ReuProvisorio> listaReusProvisorios, Integer ano, Integer mes) {
         List<ReuDTO> listaReusDTO = new ArrayList<ReuDTO>();
         for (ReuProvisorio reuProvisorio : listaReusProvisorios) {
-            listaReusDTO.add(parseReuProvisorioParaReuDTO(reuProvisorio));
+            listaReusDTO.add(parseReuProvisorioParaReuDTO(reuProvisorio, ano, mes));
         }
         return listaReusDTO;
     }
 
-    public static ReuDTO parseReuProvisorioParaReuDTO(ReuProvisorio reuProvisorio) {
+    public static ReuDTO parseReuProvisorioParaReuDTO(ReuProvisorio reuProvisorio, Integer ano, Integer mes) {
         ReuDTO reuDTO = new ReuDTO();
         reuDTO.setIdReuProvisorio(reuProvisorio.getIdReuProvisorio());
         reuDTO.setNomeReuProvisorio(reuProvisorio.getNomeReuProvisorio());
         reuDTO.setNomeMaeReuProvisorio(reuProvisorio.getNomeMaeReuProvisorio());
         reuDTO.setCodigoPessoaSaj(reuProvisorio.getCodigoPessoaSaj());
         reuDTO.setIdBaseOrigemSaj(reuProvisorio.getIdBaseOrigemSaj());
+        reuDTO.setAno(ano);
+        reuDTO.setMes(mes);
         if (reuProvisorio.getUnidade() != null) {
             reuDTO.setIdUnidade(reuProvisorio.getUnidade().getIdUnidade());
         }
         reuDTO.setSexo(reuProvisorio.getSexo());
         
         if(!reuProvisorio.getHistoricosReuProvisorio().isEmpty()){
-            reuDTO.setDataBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getDataBaixa());
-            reuDTO.setDtDataBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getDtDataBaixa());
-            reuDTO.setDataLevadoMagistrado(reuProvisorio.getHistoricosReuProvisorio().get(0).getDataLevadoMagistrado());
-            reuDTO.setDataPrisao(reuProvisorio.getHistoricosReuProvisorio().get(0).getDataPrisao());
-            if (reuProvisorio.getHistoricosReuProvisorio().get(0).getTipoMotivoBaixa() != null) {
-                reuDTO.setDescricaoMotivoBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getTipoMotivoBaixa().getDescricaoTipoMotivoBaixa());
-                reuDTO.setIdMotivoBaixa(reuProvisorio.getHistoricosReuProvisorio().get(0).getTipoMotivoBaixa().getIdTipoMotivoBaixa());
-            }
-            reuDTO.setDescricaoRelatorioCgj(reuProvisorio.getHistoricosReuProvisorio().get(0).getDescricaoRelatorioCgj());
-            if (reuProvisorio.getHistoricosReuProvisorio().get(0).getUsuario() != null) {
-                reuDTO.setIdMagistrado(reuProvisorio.getHistoricosReuProvisorio().get(0).getUsuario().getIdUsuario());
-                reuDTO.setNomeMagistrado(reuProvisorio.getHistoricosReuProvisorio().get(0).getUsuario().getNome());
-            }
-            if (reuProvisorio.getHistoricosReuProvisorio().get(0).getEstabelecimentoPrisional() != null) {
-                reuDTO.setIdEstabelecimentoPrisional(reuProvisorio.getHistoricosReuProvisorio().get(0).getEstabelecimentoPrisional().getIdEstabelecimentoPrisional());
-                reuDTO.setNomeEstabelecimentoPrisional(reuProvisorio.getHistoricosReuProvisorio().get(0).getEstabelecimentoPrisional().getNomeEstabelecimentoPrisional());
+            for (ReuProvisorioHistorico reuProvisorioHistorico : reuProvisorio.getHistoricosReuProvisorio()) {
+                if (reuProvisorioHistorico.getAno().equals(reuDTO.getAno()) && 
+                    reuProvisorioHistorico.getMes().equals(reuDTO.getMes())) {
+                        reuDTO.setDataBaixa(reuProvisorioHistorico.getDataBaixa());
+                        reuDTO.setDtDataBaixa(reuProvisorioHistorico.getDtDataBaixa());
+                        reuDTO.setDataLevadoMagistrado(reuProvisorioHistorico.getDataLevadoMagistrado());
+                        reuDTO.setDataPrisao(reuProvisorioHistorico.getDataPrisao());
+                        if (reuProvisorioHistorico.getTipoMotivoBaixa() != null) {
+                            reuDTO.setDescricaoMotivoBaixa(reuProvisorioHistorico.getTipoMotivoBaixa().getDescricaoTipoMotivoBaixa());
+                            reuDTO.setIdMotivoBaixa(reuProvisorioHistorico.getTipoMotivoBaixa().getIdTipoMotivoBaixa());
+                        }
+                        reuDTO.setDescricaoRelatorioCgj(reuProvisorioHistorico.getDescricaoRelatorioCgj());
+                        
+                        if (reuProvisorioHistorico.getUsuario() != null) {
+                            reuDTO.setIdMagistrado(reuProvisorioHistorico.getUsuario().getIdUsuario());
+                            reuDTO.setNomeMagistrado(reuProvisorioHistorico.getUsuario().getNome());
+                        }
+                        if (reuProvisorioHistorico.getEstabelecimentoPrisional() != null) {
+                            reuDTO.setIdEstabelecimentoPrisional(reuProvisorioHistorico.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional());
+                            reuDTO.setNomeEstabelecimentoPrisional(reuProvisorioHistorico.getEstabelecimentoPrisional().getNomeEstabelecimentoPrisional());
+                        }
+                    
+                        break;
+                }
             }
         }
+        
         reuDTO = parseListaReuProvisoriosParaReuDTOMesAnoReferencia(reuDTO, reuProvisorio.getHistoricosReuProvisorio());
         return reuDTO;
     }
@@ -577,16 +600,21 @@ public class FormularioConverter {
                                                                             List<ReuProvisorioHistorico> listaReuProvisorioHistorico) {
         if (listaReuProvisorioHistorico != null) {
             for (ReuProvisorioHistorico reuProvisorioHistorico : listaReuProvisorioHistorico) {
-                reuDTO.setIdReuHistorico(reuProvisorioHistorico.getIdReuProvisorioHistorico());
-                reuDTO.setDataUltimoMovimento(reuProvisorioHistorico.getDataUltimaMovimentacao());
-                reuDTO.setConteudoUltimoMovimento(reuProvisorioHistorico.getDescricaoConteudoUltimaMovimentacao());
-                reuDTO.setNumeroControle(reuProvisorioHistorico.getNumeroControleOrdem());
-                reuDTO.setNumeroProcesso(reuProvisorioHistorico.getNumeroProcesso());
-                reuDTO.setAno(reuProvisorioHistorico.getAno());
-                reuDTO.setMes(reuProvisorioHistorico.getMes());
-                if (reuProvisorioHistorico.getTipoNaturezaPrisao() != null) {
-                    reuDTO.setDescricaoNaturezaPrisao(reuProvisorioHistorico.getTipoNaturezaPrisao().getDescricaoTipoNatureza());
-                    reuDTO.setIdNaturezaPrisao(reuProvisorioHistorico.getTipoNaturezaPrisao().getIdTipoNaturezaPrisao());
+                if (reuProvisorioHistorico.getAno().equals(reuDTO.getAno()) && 
+                    reuProvisorioHistorico.getMes().equals(reuDTO.getMes())) {
+                        reuDTO.setIdReuHistorico(reuProvisorioHistorico.getIdReuProvisorioHistorico());
+                        reuDTO.setDataUltimoMovimento(reuProvisorioHistorico.getDataUltimaMovimentacao());
+                        reuDTO.setConteudoUltimoMovimento(reuProvisorioHistorico.getDescricaoConteudoUltimaMovimentacao());
+                        reuDTO.setNumeroControle(reuProvisorioHistorico.getNumeroControleOrdem());
+                        reuDTO.setNumeroProcesso(reuProvisorioHistorico.getNumeroProcesso());
+                        reuDTO.setAno(reuProvisorioHistorico.getAno());
+                        reuDTO.setMes(reuProvisorioHistorico.getMes());
+                        if (reuProvisorioHistorico.getTipoNaturezaPrisao() != null) {
+                            reuDTO.setDescricaoNaturezaPrisao(reuProvisorioHistorico.getTipoNaturezaPrisao().getDescricaoTipoNatureza());
+                            reuDTO.setIdNaturezaPrisao(reuProvisorioHistorico.getTipoNaturezaPrisao().getIdTipoNaturezaPrisao());
+                        }
+                        
+                        break;
                 }
             }
         }
@@ -1696,7 +1724,6 @@ public class FormularioConverter {
             reuProvisorio.setDataBaixa(new Date());
         */
         // </epr> (1) 0.7.9 - dataBaixa deve ser informado pelo usuário
-        
         reuProvisorio.setFlagTipoSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
         reuProvisorio.setIdBaseOrigemSaj(reuDTO.getIdBaseOrigemSaj());
         reuProvisorio.setNomeMaeReuProvisorio(reuDTO.getNomeMaeReuProvisorio());
@@ -1705,7 +1732,6 @@ public class FormularioConverter {
         if (reuDTO.getIdUnidade() != null)
             reuProvisorio.setUnidade(new Unidade(reuDTO.getIdUnidade()));
 
-        
         if (reuDTO.getIdNaturezaPrisao() != null) {
             reuProvisorio.getHistoricosReuProvisorio().add(new ReuProvisorioHistorico(reuDTO.getIdReuHistorico(),
                                                                                       new TipoNaturezaPrisao(reuDTO.getIdNaturezaPrisao()),
