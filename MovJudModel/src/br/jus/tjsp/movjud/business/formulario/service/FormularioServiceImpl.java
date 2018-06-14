@@ -1007,9 +1007,9 @@ public class FormularioServiceImpl implements FormularioService{
     
     @Override
     public List<ReuDTO> listarReusProvisorioUnidade(ReuProvisorio filtro, Integer ano, Integer mes){
-        return FormularioConverter.parseListaReusProvisoriosParaListaReusDTO(reuProvisorioDAO.listarReusProvisoriosUnidade(filtro, ano, mes));
+        return FormularioConverter.parseListaReusProvisoriosParaListaReusDTO(reuProvisorioDAO.listarReusProvisoriosUnidade(filtro, ano, mes),
+                                                                             ano, mes);
     }
-
 
     @Override
     public Long countUtilizacaoCampo(CampoDTO filtro) {
