@@ -2972,15 +2972,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
         
+        boolean retorno = true;
+        
         for (Map.Entry<Long, Boolean> entry : tiposRegrasFomrulario.entrySet()) {
             if (campo.getTipoRegraDTO() == null) break;
             
             if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
                 return !campo.getTipoRegraDTO().isInverterRegra();
+            } else {
+                retorno = false;
             }
         }
         
-        return true;
+        return retorno;
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
