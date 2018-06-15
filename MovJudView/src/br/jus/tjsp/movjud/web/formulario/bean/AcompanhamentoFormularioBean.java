@@ -2980,7 +2980,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
         
-        return false;
+        return true;
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
