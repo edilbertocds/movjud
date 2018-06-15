@@ -175,7 +175,8 @@
                                             <af:forEach items="#{subSecaoDadosUnidade.listaGrupos}" var="grupoAtual">
                                                 <af:panelBox text="#{grupoAtual.labelGrupo}" id="pb7" styleClass="boxSecao" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[grupoAtual.tipoRegraDTO.codigoTipoRegra] eq true) ne grupoAtual.tipoRegraDTO.inverterRegra) }">
                                                     <af:forEach items="#{grupoAtual.sortedListaCampos}" var="campoAtual">
-                                                        <af:panelGroupLayout id="pgl3" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }">
+                                                        <!--<af:panelGroupLayout id="pgl3" layout="vertical" styleClass="formularioListaTipos" rendered="#{((pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[campoAtual.tipoRegraDTO.inverterRegra] eq true) ne campoAtual.tipoRegraDTO.inverterRegra)  }"> -->
+                                                        <af:panelGroupLayout id="pgl3" layout="vertical" styleClass="formularioListaTipos" rendered="#{pageFlowScope.acompanhamentoFormularioBean.isVisivelConformeTipoRegra(campoAtual)}" >
                                                             <af:panelGroupLayout id="pgl78" layout="horizontal" valign="top">
                                                                 <af:spacer width="50" height="10" id="s32"/>
                                                                 <af:panelGroupLayout id="pgl79" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
@@ -199,7 +200,7 @@
                                                                             </af:panelGroupLayout>
                                                                         </f:facet>
                                                                         <f:facet name="LABEL"/>
-                                                                        <f:facet name="TITULO"/>
+                                                                        <f:facet name="TITULO" />
                                                                         <f:facet name="NUMERO">
                                                                             <af:panelGroupLayout id="pgl83" layout="horizontal">
                                                                                 <af:spacer width="11" height="10" id="s67" rendered="#{pageFlowScope.acompanhamentoFormularioBean.visualizar ? true : campoAtual.requerido ? false : true}"/>
@@ -234,7 +235,8 @@
                                                             </af:panelGroupLayout>
                                                         </af:panelGroupLayout>
                                                         <af:forEach items="#{campoAtual.sortedListaCampos}" var="subCampo1">
-                                                            <af:panelGroupLayout id="pgl86" layout="vertical" styleClass="formularioListaTipos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo1.tipoRegraDTO.codigoTipoRegra] || (empty subCampo1.tipoRegraDTO)) ? (subCampo1.tipoRegraDTO.inverterRegra ? false : true) : (subCampo1.tipoRegraDTO.inverterRegra ? true : false)  }">
+                                                            <!-- <af:panelGroupLayout id="pgl86" layout="vertical" styleClass="formularioListaTipos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo1.tipoRegraDTO.codigoTipoRegra] || (empty subCampo1.tipoRegraDTO)) ? (subCampo1.tipoRegraDTO.inverterRegra ? false : true) : (subCampo1.tipoRegraDTO.inverterRegra ? true : false)  }"> -->
+                                                            <af:panelGroupLayout id="pgl86" layout="vertical" styleClass="formularioListaTipos" rendered="#{pageFlowScope.acompanhamentoFormularioBean.isVisivelConformeTipoRegra(subCampo1)}">
                                                                 <af:panelGroupLayout id="pgl87" layout="horizontal" valign="top">
                                                                     <af:spacer width="50" height="10" id="s70"/>
                                                                     <af:panelGroupLayout id="pgl88" layout="horizontal" styleClass="formularioPanelLabel">
@@ -294,7 +296,8 @@
                                                                 </af:panelGroupLayout>
                                                             </af:panelGroupLayout>
                                                             <af:forEach items="#{subCampo1.sortedListaCampos}" var="subCampo2">
-                                                                <af:panelGroupLayout id="pgl95" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo2.tipoRegraDTO.codigoTipoRegra] || (empty subCampo2.tipoRegraDTO)) ? (subCampo2.tipoRegraDTO.inverterRegra ? false : true) : (subCampo2.tipoRegraDTO.inverterRegra ? true : false)  }">
+                                                                <!-- <af:panelGroupLayout id="pgl95" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo2.tipoRegraDTO.codigoTipoRegra] || (empty subCampo2.tipoRegraDTO)) ? (subCampo2.tipoRegraDTO.inverterRegra ? false : true) : (subCampo2.tipoRegraDTO.inverterRegra ? true : false)  }"> -->
+                                                                <af:panelGroupLayout id="pgl95" layout="vertical" styleClass="formularioBoxCampos" rendered="#{pageFlowScope.acompanhamentoFormularioBean.isVisivelConformeTipoRegra(subCampo2) }">                                                                
                                                                     <af:panelGroupLayout id="pgl96" layout="horizontal" valign="top">
                                                                         <af:spacer width="50" height="10" id="s78"/>
                                                                         <af:panelGroupLayout id="pgl97" layout="horizontal" styleClass="formularioPanelLabel">

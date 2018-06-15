@@ -4,6 +4,7 @@ import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
 import br.jus.tjsp.movjud.business.base.dto.BaseObject;
 import br.jus.tjsp.movjud.business.estruturajudiciaria.service.EstruturaJudiciariaService;
 import br.jus.tjsp.movjud.business.formula.utils.FormulaCalculo;
+import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.EstabelecimentoEntidadeDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.ProcessoConclusoDTO;
@@ -19,6 +20,7 @@ import br.jus.tjsp.movjud.business.formulario.dto.ValidacaoDTO;
 import br.jus.tjsp.movjud.business.formulario.helper.FormularioUtils;
 import br.jus.tjsp.movjud.business.formulario.service.FormularioService;
 import br.jus.tjsp.movjud.business.formulario.types.SecaoType;
+import br.jus.tjsp.movjud.business.formulario.types.TipoCampoType;
 import br.jus.tjsp.movjud.business.formulario.types.TipoJuizType;
 import br.jus.tjsp.movjud.business.formulario.types.TipoValidacaoType;
 import br.jus.tjsp.movjud.core.util.AppBundleProperties;
@@ -2954,6 +2956,31 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public Date getPeriodoProcessoConclusoFimCalendar() {
         return periodoProcessoConclusoFimCalendar.getTime();
+    }
+
+    public boolean isVisivelConformeTipoRegra(CampoDTO campo) {
+        Map<Long, Boolean> tiposRegrasFomrulario = getTiposRegraFormulario();
+        
+        if (campo == null || tiposRegrasFomrulario == null || 
+            tiposRegrasFomrulario.size() == 0) return true;
+        
+        //Verifica se possui campos filhos e suas visibilidades
+        //caso o campo filho seja visivel o pai tb deve ser (Geralmente casos de campos titulo)
+        if (campo.getListaCampos() != null && campo.getListaCampos().size() > 0) {
+            for (CampoDTO campoFilho : campo.getListaCampos()) {
+                if (isVisivelConformeTipoRegra(campoFilho)) return true;
+            }
+        }
+        
+        for (Map.Entry<Long, Boolean> entry : tiposRegrasFomrulario.entrySet()) {
+            if (campo.getTipoRegraDTO() == null) break;
+            
+            if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
+                return !campo.getTipoRegraDTO().isInverterRegra();
+            }
+        }
+        
+        return false;
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
