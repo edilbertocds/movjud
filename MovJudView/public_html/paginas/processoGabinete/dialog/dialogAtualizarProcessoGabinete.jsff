@@ -26,11 +26,11 @@
                               selectionListener="#{processoGabineteBean.selecionarProcessoGabinete}"
                               columnStretching="column:tbTipoProcesso">
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
-                                   id="tbTipoProcesso" width="100" align="center">
+                                   id="tbTipoProcesso" width="80" align="center">
                             <af:inputText id="it2" value="#{row.tipoProcesso}" maximumLength="10" required="true"/>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.numeroProcesso']}" id="c2"
-                                   width="100" align="center">
+                                   width="90" align="center">
                             <af:inputText id="it3" value="#{row.numeroProcessoGabinete}" maximumLength="10"
                                           required="true"/>
                         </af:column>
@@ -56,7 +56,7 @@
                             </af:selectOneRadio>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.dataArquivamento']}"
-                                   id="c5" width="143" align="center">
+                                   id="c5" width="133" align="center">
                             <af:inputDate id="id2"
                                           value="#{row.flagArquivado ne app['flag.statusNao']? row.dataArquivamento:''}"
                                           maxValue="#{processoGabineteBean.dataAtual}" columns="15"
@@ -65,7 +65,7 @@
                                           contentStyle="width:120.0px;" label="Data Arquivamento"/>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.caixa']}" id="c6"
-                                   width="91" align="center">
+                                   width="81" align="center">
                             <af:inputText id="it5" partialTriggers="sorArquivado"
                                           value="#{row.flagArquivado ne app['flag.statusNao']?row.numeroCaixa:''}"
                                           validator="#{processoGabineteBean.validate}"
@@ -84,6 +84,11 @@
                                 <f:selectItems value="#{processoGabineteBean.listaAno}" id="si6"/>
                             </af:selectOneChoice>
                         </af:column>
+                        <!-- <af:column sortable="false" headerText=" " id="tbAcao" width="40" align="center">
+                            <af:panelGroupLayout id="pgl217" layout="horizontal" rendered="#{row.idProcessoGabinete == null}" >
+                                <af:link id="l2" icon="/resource/images/lixeiraOn.png" actionListener="#{processoGabineteBean.excluirProcessoGabinete}" partialSubmit="true" disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/> 
+                            </af:panelGroupLayout>
+                        </af:column> -->
                     </af:table>
                 </af:panelHeader>
             </af:panelGroupLayout>

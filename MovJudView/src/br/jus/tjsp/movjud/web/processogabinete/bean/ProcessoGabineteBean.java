@@ -8,8 +8,6 @@ import br.jus.tjsp.movjud.persistence.entity.ProcessoGabinete;
 import br.jus.tjsp.movjud.persistence.entity.UsuarioProcessoGabinete;
 import br.jus.tjsp.movjud.web.commons.bean.BaseBean;
 
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 
@@ -136,9 +135,19 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     }
 
     public String incluirProcessoGabinete() {
-        entidadePersistencia.addProcessoGabinete(new ProcessoGabinete());
+        ProcessoGabinete novoProcessoGabinete = new ProcessoGabinete();
+        /*novoProcessoGabinete.setTipoProcesso("GAB");
+        novoProcessoGabinete.setNumeroProcessoGabinete(new Long(0));
+        novoProcessoGabinete.setAnoProcessoGabinete(new Integer((new SimpleDateFormat("yyyy")).format(new Date())));
+        novoProcessoGabinete.setFlagArquivado("N");*/
+        entidadePersistencia.addProcessoGabinete(novoProcessoGabinete);
         processoGabinete = null;
         return null;
+    }
+    
+    public void excluirProcessoGabinete(ActionEvent actionEvent) {
+        entidadePersistencia.removeProcessoGabinete(processoGabinete);
+        processoGabinete = null;
     }
 
     public void selecionarProcessoGabinete(org.apache.myfaces.trinidad.event.SelectionEvent selectionEvent) {
