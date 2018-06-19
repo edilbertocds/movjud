@@ -225,8 +225,8 @@ public class FormulaCalculo {
                     }
                     if(campoDTO != null) {
                         loggerInfo("        campo: " + ((campoDTO.getLabelCampo() != null) ? "["+campoDTO.getLabelCampo()+"]" : "nulo"));
-                        loggerInfo("           id: " + (campoDTO.getIdCampo() != null ? campoDTO.getIdCampo().toString() : "nulo"));
-                        loggerInfo("           md: " + (campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo"));
+                        loggerInfo("           id: " + ((campoDTO.getIdCampo() != null) ? campoDTO.getIdCampo().toString() : "nulo"));
+                        loggerInfo("           md: " + ((campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo")));
                     }
                     logValidacao(campoDTO);
                     
