@@ -21,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
+import javax.faces.event.ActionEvent;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
@@ -28,6 +29,8 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneRadio;
 import oracle.adf.view.rich.context.AdfFacesContext;
 import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.event.PopupFetchEvent;
+
+import org.apache.myfaces.trinidad.event.SelectionEvent;
 
 
 @ManagedBean(name = "processoGabineteBean")
@@ -59,8 +62,10 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     @Override
     public void initDialogAlterar(PopupFetchEvent popupFetchEvent) {
         super.initDialogAlterar(popupFetchEvent);
+        
         List<ProcessoGabinete> listaProcesso =
             processoGabineteService.listarProcessosGabineteDoMagistrado(getEntidadePersistencia().getUsuario());
+        
         if(listaProcesso == null) {
             listaProcesso = new ArrayList<ProcessoGabinete>();
         }
@@ -99,6 +104,30 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return null;
     }
 
+    
+    public boolean isUltimoRegistro(Long idProcessoGabinete) {
+        
+        if (entidadePersistencia != null &&
+            entidadePersistencia.getUsuario() != null &&
+            entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
+            entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
+        
+                if (idProcessoGabinete == null || idProcessoGabinete.equals(0)) {
+                    return true;                    
+                } else {
+                    if (entidadePersistencia.getUsuario().getProcessosGabinete().get(
+                                                          entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1
+                                                          ).getIdProcessoGabinete() == null) return false;
+                    
+                    return entidadePersistencia.getUsuario().getProcessosGabinete().get(
+                                                          entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1
+                                                    ).getIdProcessoGabinete().equals(idProcessoGabinete);
+                }
+            }
+        
+        return false;
+    }
+
 
     @Override
     public String excluirEntidade() {
@@ -135,16 +164,14 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return valido;
     }
 
-    public String incluirProcessoGabinete() {
+    public void incluirProcessoGabinete(ActionEvent event) {
         entidadePersistencia.addProcessoGabinete(new ProcessoGabinete());
         processoGabinete = null;
-        return null;
     }
-
-    public void selecionarProcessoGabinete(org.apache.myfaces.trinidad.event.SelectionEvent selectionEvent) {
-        RichTable richTable = (RichTable) selectionEvent.getSource();
-        processoGabinete = (ProcessoGabinete) richTable.getSelectedRowData();
-        richTable.getSelectedRowKeys().clear();
+    
+    public void removerProcessoGabinete(ProcessoGabinete registro) {
+        entidadePersistencia.removeProcessoGabinete(registro);
+        processoGabinete = null;
     }
 
     public String salvarPopup() {
