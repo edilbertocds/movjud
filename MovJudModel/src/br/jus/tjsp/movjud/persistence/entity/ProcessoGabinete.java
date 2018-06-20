@@ -20,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @EntityListeners(AuditListener.class)
@@ -60,7 +61,7 @@ public class ProcessoGabinete extends BaseEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "FK_USUARIO_MAGISTRADO")
     private Usuario usuarioMagistrado;
-
+    
     public ProcessoGabinete() {
         super();
         setFlagSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
@@ -261,6 +262,7 @@ public class ProcessoGabinete extends BaseEntity<Long> {
         if (dataInclusao != null) {
             sb.append("Data Inclusao = ");
             sb.append(ModelUtils.formatarDataToStr(dataInclusao));
+            sb.append("\n");
         }
 
         return sb.toString();
