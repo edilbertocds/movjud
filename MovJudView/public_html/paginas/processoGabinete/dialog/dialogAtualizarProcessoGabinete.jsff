@@ -30,7 +30,7 @@
                                 required="true" />
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.numeroProcesso']}" id="c2"
-                                   width="100" align="center">
+                                   width="90" align="center">
                             <af:inputText id="it3" value="#{row.numeroProcessoGabinete}" maximumLength="10"
                                   required="true" />
                         </af:column>
@@ -55,7 +55,7 @@
                             </af:selectOneRadio>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.dataArquivamento']}"
-                                   id="c5" width="143" align="center">
+                                   id="c5" width="133" align="center">
                             <af:inputDate id="id2"
                                           value="#{row.flagArquivado ne app['flag.statusNao']? row.dataArquivamento:''}"
                                           maxValue="#{processoGabineteBean.dataAtual}" columns="15"
@@ -64,7 +64,7 @@
                                           contentStyle="width:120.0px;" label="Data Arquivamento"/>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.caixa']}" id="c6"
-                                   width="91" align="center">
+                                   width="81" align="center">
                             <af:inputText id="it5" partialTriggers="sorArquivado"
                                           value="#{row.flagArquivado ne app['flag.statusNao']?row.numeroCaixa:''}"
                                           validator="#{processoGabineteBean.validate}"

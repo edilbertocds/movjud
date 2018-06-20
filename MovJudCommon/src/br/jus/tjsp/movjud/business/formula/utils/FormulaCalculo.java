@@ -27,6 +27,7 @@ import javax.script.ScriptException;
 import org.apache.log4j.Logger;
 
 public class FormulaCalculo {
+    private static final boolean LOG_TO_CONSOLE = true;
     private static final String VALOR_DEFAULT = "1";
     private static final String VALOR_ZERO = "0";
     private static final String VALOR_VAZIO = "";
@@ -44,6 +45,7 @@ public class FormulaCalculo {
     private static final String ERRO_FORMULA = "Erro na fómula";
     public static final String TIPO_FORMULA = "fórmula";
     public static final String TIPO_VALIDACAO = "validação";
+    
   
     
     // <epr>debug logger, introduzido na versão 0.6.4.debug
@@ -120,24 +122,27 @@ public class FormulaCalculo {
     
     // <epr> utilidades geração de log
     // introduzidas em 0.6.4.debug
+    @SuppressWarnings("org.adfemg.audits.java.system-out-usage")
     private static void loggerInfo(String text) {
-        //System.out.println("INFO: " + text);
+        if (LOG_TO_CONSOLE) System.out.println("INFO: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.INFO.intValue())) {
             logger.info(text);
         }
     }
-    
+
+    @SuppressWarnings("org.adfemg.audits.java.system-out-usage")
     private static void loggerWarn(String text) {
-        //System.out.println("WARN: " + text);
+        if (LOG_TO_CONSOLE) System.out.println("WARN: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.WARNING.intValue())) {
             logger.warn(text);
         }
     }
-    
+
+    @SuppressWarnings("org.adfemg.audits.java.system-out-usage")
     private static void loggerError(String text) {
-        //System.out.println("ERROR: " + text);
+        if (LOG_TO_CONSOLE) System.out.println("ERROR: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.SEVERE.intValue())) {
             logger.error(text);
@@ -160,22 +165,24 @@ public class FormulaCalculo {
     }
     // </epr> utilidades geração de logs
     
-    public static String montarExpressao(String formula, FormularioDTO formularioDTO, FormularioDTO formularioMesAnteriorDTO, SubSecaoDTO subSecaoDTO, String campoIdAtual) {
+    public static String montarExpressao(String formula, final FormularioDTO formularioDTO, final FormularioDTO formularioMesAnteriorDTO, SubSecaoDTO subSecaoDTO, String campoIdAtual) {
+        assert (formularioDTO.getMes() != formularioMesAnteriorDTO.getMes());
         try {
-        loggerInfo("inicio montarExpressao:");
-        loggerInfo("  formula: " + ((formula != null) ? formula : "null"));
-        loggerInfo("  formulario: " + ((formularioDTO != null) ? Long.toString(formularioDTO.getIdFormulario()) : "nulo"));
-        loggerInfo("  formularioMesAnterior: " + ((formularioMesAnteriorDTO != null) ? Long.toString(formularioMesAnteriorDTO.getIdFormulario()) : "nulo"));
-        loggerInfo("  subSecao: " + ((subSecaoDTO != null) ? Long.toString(subSecaoDTO.getId()): "nulo"));
-        loggerInfo("  idCampoAtual: " + ((campoIdAtual != null) ? campoIdAtual : "nulo"));
-        }catch(Exception e) {
+            loggerInfo("inicio montarExpressao:");
+            loggerInfo("  formula: " + ((formula != null) ? formula : "null"));
+            loggerInfo("  formulario: " + ((formularioDTO != null) ? Long.toString(formularioDTO.getIdFormulario()) : "nulo"));
+            loggerInfo("  formularioMesAnterior: " + ((formularioMesAnteriorDTO != null) ? Long.toString(formularioMesAnteriorDTO.getIdFormulario()) : "nulo"));
+            loggerInfo("  subSecao: " + ((subSecaoDTO != null) ? Long.toString(subSecaoDTO.getId()): "nulo"));
+            loggerInfo("  idCampoAtual: " + ((campoIdAtual != null) ? campoIdAtual : "nulo"));
+        } catch(Exception e) {
             loggerError("Erro gerando informações de montarExpressao formula: "+e.toString());
         }
         try {
-        formula = funcaoValorMesAnterior(formula, formularioMesAnteriorDTO, subSecaoDTO);
-        formula = funcaoValor(formula, formularioDTO, formularioMesAnteriorDTO, subSecaoDTO, campoIdAtual);
-        formula = funcaoSomaSecao(formula, formularioDTO);
-        }catch(Exception e) {
+            assert (formularioDTO.getMes() != formularioMesAnteriorDTO.getMes());
+            formula = funcaoValorMesAnterior(formula, formularioMesAnteriorDTO, subSecaoDTO);
+            formula = funcaoValor(formula, formularioDTO, formularioMesAnteriorDTO, subSecaoDTO, campoIdAtual);
+            formula = funcaoSomaSecao(formula, formularioDTO);
+        } catch(Exception e) {
             loggerError("Erro gerando informações de montarExpressao formula: "+e.toString());
         }
         loggerInfo("  formula: " + ((formula != null) ? formula : "nulo"));        
@@ -186,7 +193,7 @@ public class FormulaCalculo {
 
     private static String funcaoValor(String formula, FormularioDTO formularioDTO, 
                                       // <epr> (1. inclusão do parâmetro) 0.7.7.debug transferência de formularioMesAnteriorDTO
-                                      FormularioDTO formularioMesAnteriorDTO, 
+                                      final FormularioDTO formularioMesAnteriorDTO, 
                                       // </epr> (1. inclusão do parâmetro) 0.7.7.debug transferência de formularioMesAnteriorDTO
                                       SubSecaoDTO subSecaoDTO, String campoIdAtual) {
         loggerInfo("    inicio funcaoValor:");
@@ -218,8 +225,8 @@ public class FormulaCalculo {
                     }
                     if(campoDTO != null) {
                         loggerInfo("        campo: " + ((campoDTO.getLabelCampo() != null) ? "["+campoDTO.getLabelCampo()+"]" : "nulo"));
-                        loggerInfo("           id: " + campoDTO.getIdCampo() != null ? campoDTO.getIdCampo().toString() : "nulo");
-                        loggerInfo("           md: " + campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo");
+                        loggerInfo("           id: " + ((campoDTO.getIdCampo() != null) ? campoDTO.getIdCampo().toString() : "nulo"));
+                        loggerInfo("           md: " + ((campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo")));
                     }
                     logValidacao(campoDTO);
                     
@@ -264,7 +271,7 @@ public class FormulaCalculo {
         return formula;
     }
 
-    private static String funcaoValorMesAnterior(String formula, FormularioDTO formularioDTO, SubSecaoDTO subSecaoDTO) {
+    private static String funcaoValorMesAnterior(String formula, final FormularioDTO formularioDTO, SubSecaoDTO subSecaoDTO) {
         loggerInfo("    inicio funcaoValorMesAnterior");
         Pattern pattern = Pattern.compile(PATTNER_FORMULA, Pattern.MULTILINE);
         Pattern patternValor = Pattern.compile(FuncaoCalculoType.VALOR_CAMPO_MES_ANTERIOR.getNomeFuncao() + PATTNER_FUNCAO_SUFIXO, Pattern.MULTILINE);
@@ -283,6 +290,7 @@ public class FormulaCalculo {
             if (campoId != null) {
                 loggerInfo("    campoId: " + campoId);
                 if (formularioDTO != null) {
+                    loggerInfo("    subSecao: " + (subSecaoDTO == null ? "null" : subSecaoDTO.getCodigoSubSecao()));
                     SubSecaoDTO subSecaoMesAnterior = FormularioUtils.encontrarSubSecao(formularioDTO, subSecaoDTO);
                     CampoDTO campoDTO = null;
                     if (subSecaoMesAnterior != null) {
@@ -323,7 +331,7 @@ public class FormulaCalculo {
     }
 
 
-    private static String funcaoSomaSecao(String formula, FormularioDTO formularioDTO) {
+    private static String funcaoSomaSecao(String formula, final FormularioDTO formularioDTO) {
         loggerInfo("    inicio funcaoSomaSecao");
         Pattern pattern = Pattern.compile(PATTNER_FORMULA, Pattern.MULTILINE);
         Pattern patternValor = Pattern.compile(FuncaoCalculoType.SOMA_SECAO.getNomeFuncao() + PATTNER_FUNCAO_SUFIXO, Pattern.MULTILINE);
@@ -454,7 +462,7 @@ public class FormulaCalculo {
                            ((campoDTO.getFormula() != null && campoDTO.getFormula().getExpressao() != null) ?
                             campoDTO.getFormula().getExpressao() : "nulo") + ", id_campo: " +
                            ((campoDTO.getIdCampo() != null) ? Long.toString(campoDTO.getIdCampo()) : "nulo"));
-                logValidacao(campoDTO); 
+                logValidacao(campoDTO);
                 campoDTO.getFormula()
                     .setResultadoExpressao(executarFormula(campoDTO.getFormula().getExpressao(), formularioDTO,
                                                            formularioMesAnteriorDTO,

@@ -8,8 +8,6 @@ import br.jus.tjsp.movjud.persistence.entity.ProcessoGabinete;
 import br.jus.tjsp.movjud.persistence.entity.UsuarioProcessoGabinete;
 import br.jus.tjsp.movjud.web.commons.bean.BaseBean;
 
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import javax.faces.event.ActionEvent;
