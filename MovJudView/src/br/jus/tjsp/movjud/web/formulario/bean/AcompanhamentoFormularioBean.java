@@ -125,6 +125,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private SecaoDTO secaoMateria;
     private SecaoDTO secaoReus;
 
+    private ArrayList<SecaoDTO> secoes;
+
     private Map<Long, Boolean> tiposRegraFormulario;
 
     private boolean controleValidacaoAviso;
@@ -253,7 +255,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         listaTipoJuiz = Arrays.asList(TipoJuizType.values());
         listaProcessosConclusos = formularioService.listarTipoProcessoConclusoPorDescricao();
         listaRemoverProcessoConclusoDTO = new HashMap<Long, ProcessoConclusoDTO>();
-        usuarioLogado = getLoginBean().getUsuarioSessao();
+        usuarioLogado = getLoginBean().getUsuarioSessao();            
         //mockUser();
         action = acaoPageFlow();
         //throw new MovJudViewException("DEU RUIM");
@@ -1245,6 +1247,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mostrarAviso = true;
         }
 
+        if (secoes == null) 
+            secoes = new ArrayList<SecaoDTO>();
+        else 
+            secoes.clear();
+
         for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
             if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
                 secaoDadosUnidade = secao;
@@ -1305,6 +1312,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 }
                 secaoReus = secao;
             }
+            
+            secoes.add(secao);
         }
         
         if(entidadePersistencia != null && entidadePersistencia.getListaHistoricoFormulario() != null)
@@ -2233,6 +2242,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public SecaoDTO getSecaoReus() {
         return secaoReus;
+    }
+
+    public List<SecaoDTO> getSecoes() {
+        return secoes;
     }
 
     public void setMostrarAviso(boolean mostrarAviso) {
