@@ -231,6 +231,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     
     private boolean processoConclusoUnidadeBoolean = false;
     
+    private boolean existeFormularioPreenchidoAnteriormente = false;
+    
     public AcompanhamentoFormularioBean() {
         formularioService = (FormularioService) getBean(FormularioService.class);
         estruturaJudiciariaService = (EstruturaJudiciariaService) getBean(EstruturaJudiciariaService.class);
@@ -253,7 +255,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         listaTipoJuiz = Arrays.asList(TipoJuizType.values());
         listaProcessosConclusos = formularioService.listarTipoProcessoConclusoPorDescricao();
         listaRemoverProcessoConclusoDTO = new HashMap<Long, ProcessoConclusoDTO>();
-        usuarioLogado = getLoginBean().getUsuarioSessao();
+        usuarioLogado = getLoginBean().getUsuarioSessao();            
         //mockUser();
         action = acaoPageFlow();
         //throw new MovJudViewException("DEU RUIM");
@@ -2235,6 +2237,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return secaoReus;
     }
 
+    public List<SecaoDTO> getSecoes() {
+        return entidadePersistencia.getListaSecoes();
+    }
+
     public void setMostrarAviso(boolean mostrarAviso) {
         this.mostrarAviso = mostrarAviso;
     }
@@ -2978,7 +2984,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             if (campo.getTipoRegraDTO() == null) break;
             
             if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
-                return !campo.getTipoRegraDTO().isInverterRegra();
+                if (campo.getTipoRegraDTO().getId() != 8) { // diferente de primeiro preenchimento
+                    retorno = !campo.getTipoRegraDTO().isInverterRegra();
+                } else {
+                    retorno = true;
+                }
+                
+                break;
             } else {
                 retorno = false;
             }
@@ -2988,6 +3000,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
+        this.existeFormularioPreenchidoAnteriormente = formularioService.existeFomrularioMesAnterior(form.getIdMetadadosFormulario(), form.getMes(), form.getAno());
         form = formularioService.recuperarFormularioDTOPorIdFormulario(form.getIdFormulario());
         form.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(form));
         form.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(form));
