@@ -125,8 +125,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private SecaoDTO secaoMateria;
     private SecaoDTO secaoReus;
 
-    private ArrayList<SecaoDTO> secoes;
-
     private Map<Long, Boolean> tiposRegraFormulario;
 
     private boolean controleValidacaoAviso;
@@ -232,6 +230,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private boolean atualizarPainelPrincipal = false;
     
     private boolean processoConclusoUnidadeBoolean = false;
+    
+    private boolean existeFormularioPreenchidoAnteriormente = false;
     
     public AcompanhamentoFormularioBean() {
         formularioService = (FormularioService) getBean(FormularioService.class);
@@ -1247,11 +1247,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mostrarAviso = true;
         }
 
-        if (secoes == null) 
-            secoes = new ArrayList<SecaoDTO>();
-        else 
-            secoes.clear();
-
         for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
             if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
                 secaoDadosUnidade = secao;
@@ -1312,8 +1307,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 }
                 secaoReus = secao;
             }
-            
-            secoes.add(secao);
         }
         
         if(entidadePersistencia != null && entidadePersistencia.getListaHistoricoFormulario() != null)
@@ -2245,7 +2238,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public List<SecaoDTO> getSecoes() {
-        return secoes;
+        return entidadePersistencia.getListaSecoes();
     }
 
     public void setMostrarAviso(boolean mostrarAviso) {
@@ -2991,7 +2984,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             if (campo.getTipoRegraDTO() == null) break;
             
             if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
-                return !campo.getTipoRegraDTO().isInverterRegra();
+                if (campo.getTipoRegraDTO().getId() != 8) { // diferente de primeiro preenchimento
+                    retorno = !campo.getTipoRegraDTO().isInverterRegra();
+                } else {
+                    retorno = true;
+                }
+                
+                break;
             } else {
                 retorno = false;
             }
@@ -3001,6 +3000,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
+        this.existeFormularioPreenchidoAnteriormente = formularioService.existeFomrularioMesAnterior(form.getIdMetadadosFormulario(), form.getMes(), form.getAno());
         form = formularioService.recuperarFormularioDTOPorIdFormulario(form.getIdFormulario());
         form.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(form));
         form.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(form));
