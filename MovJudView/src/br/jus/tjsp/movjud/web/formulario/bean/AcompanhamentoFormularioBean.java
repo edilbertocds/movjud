@@ -1313,8 +1313,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             Collections.sort(entidadePersistencia.getListaHistoricoFormulario(), Collections.reverseOrder());
         
         if(visualizar == false){
-            formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
-            entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);                   
+            formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);            
+            entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
+            existeFormularioPreenchidoAnteriormente = (formularioMesAnterior != null);
         }
         
         // Erro 116 - SÃƒÂ³ atualiza na tela apÃƒÂ³s a existencia do componente "RichPanelGroupLayout painelPrincipal" existir para ser atualizado.
@@ -2553,9 +2554,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         JRDataSource dataSource = relatorioFormulario.obterDataSourceColecao(entidadePersistencia);        
         Map<String, Object> parametros = relatorioFormulario.obterParametros(entidadePersistencia);
         parametros.put("tiposRegraFormulario", tiposRegraFormulario);
-        System.out.println("tiposRegraFormulario 6 "+tiposRegraFormulario.get(6l));
-        System.out.println("tiposRegraFormulario 0 "+tiposRegraFormulario.get(0));
-        System.out.println("tiposRegraFormulario 1234567890 "+tiposRegraFormulario.get(1234567890));
+        //System.out.println("tiposRegraFormulario 6 "+tiposRegraFormulario.get(6l));
+        //System.out.println("tiposRegraFormulario 0 "+tiposRegraFormulario.get(0));
+        //System.out.println("tiposRegraFormulario 1234567890 "+tiposRegraFormulario.get(1234567890));
         gerarRelatorio.processarRelatorio(extensaoRelatorio, templateRelatorio, outputStream, facesContext, parametros,
                                           dataSource);
     }
@@ -2969,30 +2970,25 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         
         if (campo == null || tiposRegrasFomrulario == null || 
             tiposRegrasFomrulario.size() == 0) return true;
-        
-        //Verifica se possui campos filhos e suas visibilidades
-        //caso o campo filho seja visivel o pai tb deve ser (Geralmente casos de campos titulo)
-        if (campo.getListaCampos() != null && campo.getListaCampos().size() > 0) {
-            for (CampoDTO campoFilho : campo.getListaCampos()) {
-                if (isVisivelConformeTipoRegra(campoFilho)) return true;
-            }
-        }
-        
-        boolean retorno = true;
-        
-        for (Map.Entry<Long, Boolean> entry : tiposRegrasFomrulario.entrySet()) {
-            if (campo.getTipoRegraDTO() == null) break;
-            
-            if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
-                if (campo.getTipoRegraDTO().getId() != 8) { // diferente de primeiro preenchimento
-                    retorno = !campo.getTipoRegraDTO().isInverterRegra();
-                } else {
-                    retorno = true;
-                }
                 
-                break;
-            } else {
-                retorno = false;
+        boolean retorno = isVisivelConformeTipoRegra(campo.getCampoPai());
+        
+        if (retorno) {        
+            for (Map.Entry<Long, Boolean> entry : tiposRegrasFomrulario.entrySet()) {
+                if (campo.getTipoRegraDTO() == null) break;
+                
+                if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
+                    if (campo.getTipoRegraDTO().getId() != 8) { // diferente da regra primeiro preenchimento
+                        retorno = !campo.getTipoRegraDTO().isInverterRegra();
+                    } else {
+                        retorno = (!existeFormularioPreenchidoAnteriormente && 
+                            !campo.getTipoRegraDTO().isInverterRegra());
+                    }
+                    
+                    break;
+                } else {
+                    retorno = false;
+                }
             }
         }
         
@@ -3000,10 +2996,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
-        this.existeFormularioPreenchidoAnteriormente = formularioService.existeFomrularioMesAnterior(form.getIdMetadadosFormulario(), form.getMes(), form.getAno());
         form = formularioService.recuperarFormularioDTOPorIdFormulario(form.getIdFormulario());
-        form.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(form));
-        form.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(form));
         return form;
     }
 }

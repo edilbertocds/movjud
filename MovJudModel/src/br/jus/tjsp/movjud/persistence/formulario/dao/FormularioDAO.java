@@ -38,11 +38,13 @@ public interface FormularioDAO extends BaseDAO<Formulario>{
 
     Formulario recuperarFormularioMesAnterior(Formulario formularioAtual);
     
+    Formulario recuperarFormularioMesAnterior(String descricao, Long unidade, Long mes, Long ano);
+    
     Formulario recuperarFormularioAnoMesReferencia(Formulario filtro);
     
     Formulario recuperarPrimeiroFormularioUnidade(Formulario filtro);
     
     Formulario recuperarFormularioPorIdFormulario(Long idFormulario);
     
-    void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo);
+    void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo);    
 }

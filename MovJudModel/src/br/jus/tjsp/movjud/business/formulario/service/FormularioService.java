@@ -189,5 +189,5 @@ public interface FormularioService {
     @Asynchronous
     Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO);
     
-    FormularioDTO recuperarMetadadosFormulario(FormularioDTO formularioDTO);
+    FormularioDTO recuperarMetadadosFormulario(FormularioDTO formularioDTO);    
 }

@@ -1019,10 +1019,23 @@ public class FormularioServiceImpl implements FormularioService{
 
     @Override
     public FormularioDTO recuperarFormularioMesAnterior(FormularioDTO formularioAtualDTO) {
+        /*
         Formulario formularioAtual = FormularioConverter.parseFormularioDTOParaFormulario(formularioAtualDTO, false);
         FormularioDTO formularioMesAnterior = FormularioConverter.parseFormularioParaFormularioDTO(formularioDAO.recuperarFormularioMesAnterior(formularioAtual));
         if(formularioMesAnterior != null)
             formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
+        return formularioMesAnterior;
+        */
+        FormularioDTO formularioMesAnterior = FormularioConverter.parseFormularioParaFormularioDTO(
+            formularioDAO.recuperarFormularioMesAnterior(formularioAtualDTO.getCodigoFormulario(), 
+                                                         formularioAtualDTO.getIdUnidade(),
+                                                         formularioAtualDTO.getMes(),
+                                                         formularioAtualDTO.getAno())
+        );
+
+        if(formularioMesAnterior != null)
+            formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
+
         return formularioMesAnterior;
     }
 
@@ -1051,7 +1064,9 @@ public class FormularioServiceImpl implements FormularioService{
     public FormularioDTO recuperarFormularioDTOPorIdFormulario(Long idFormulario) {
         Formulario formulario = recuperarFormularioPorIdFormulario(idFormulario);
         FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
-        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
+        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));        
+        formularioDTO.setFutureListaHistoricoFormulario(asyncCompleteHistoricoFormularioDTO(formularioDTO));
+
         return formularioDTO;
     }
 
@@ -1111,21 +1126,25 @@ public class FormularioServiceImpl implements FormularioService{
     public Future<List<SecaoDTO>> asyncCompleteFormularioDTO(FormularioDTO formularioDTO) {
         List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
         Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+        List<SecaoDTO> result = new ArrayList<SecaoDTO>();
+        
         for (Secao secao : formulario.getSecoes()) {
             if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
                 listaSecoesPrincipais.add(secao);
             }
         }
+        
         formulario.setSecoes(listaSecoesPrincipais);
 
-        List<SecaoDTO> result = new ArrayList<SecaoDTO>();
         MetadadosFormulario metadadosFormulario = formulario.getMetadadosFormulario();
 
-        if (metadadosFormulario.getMetadadosSecoes() != null)
-            result =
-                FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
-                                                                              formularioDTO);
+        if (metadadosFormulario.getMetadadosSecoes() != null) {
+            result = FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
+                            formularioDTO);
+        }
+
         result = FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(), result, formularioDTO);
+        
         return new AsyncResult<List<SecaoDTO>>(result);
     }
 
@@ -1150,5 +1169,5 @@ public class FormularioServiceImpl implements FormularioService{
             formularioDTO.getListaSecoes().addAll(secoes);
         }
         return formularioDTO;
-    }
+    }    
 }

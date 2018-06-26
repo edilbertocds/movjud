@@ -123,6 +123,8 @@ public class FormularioConverter {
     }*/
     public static List<TipoRegraDTO> parseFormularioParaListaTipoRegraDTO(Formulario formulario) {
         List<TipoRegraDTO> listaTiposRegraDTO = parseListaMetadadosTipoRegraParaListaTipoRegraDTO(formulario.getListaMetadadosTipoRegra());
+        
+        /*
         if (formulario.getUnidade() != null && formulario.getUnidade().getFormulariosVinculacao() != null) {
             for (FormularioVinculacao formularioVinculacao : formulario.getUnidade().getFormulariosVinculacao()) {
                 if (formularioVinculacao.getMetadadosFormulario().equals(formulario.getMetadadosFormulario())) {
@@ -140,6 +142,8 @@ public class FormularioConverter {
                 }
             }
         }
+        */
+        
         return listaTiposRegraDTO;
     }    
     // </epr> (1) correçao tipo regra
@@ -329,9 +333,6 @@ public class FormularioConverter {
     public static List<SecaoDTO> parseListaSecoesParaListaSecoesDTO(List<Secao> listaSecoes,
                                                                     List<SecaoDTO> listaSecoesDTO,
                                                                     FormularioDTO formularioDTO) {
-        if(listaSecoes.size() != listaSecoesDTO.size()) {
-            System.out.println("Tamanho de listaSecoes != listaSecoesDTO");
-        }
         for (Secao secao : listaSecoes) {
             List<SecaoDTO> smss = listaSecoesDTO.stream()
                 .filter(s -> s.getIdMetadadosSecao().equals(secao.getMetadadosSecao().getIdMetadadosSessao()))
@@ -344,13 +345,7 @@ public class FormularioConverter {
                     secaoDTO.setIdSecao(secao.getIdSecao());
                     secaoDTO.setFormulario(formularioDTO);
                     secaoDTO.setListaSubSecoes(parseListaSubSecoesParaListaSubSecoesDTO(secao, secaoDTO));
-                } else {
-                    System.out.println("ID_METADADOS não coincidentes: secao=" + 
-                        (secao.getMetadadosSecao().getIdMetadadosSessao() != null ? secao.getMetadadosSecao().getIdMetadadosSessao().toString() : "nulo") +
-                                       ", secaoDTO=" + (secaoDTO.getIdMetadadosSecao() != null ? secaoDTO.getIdMetadadosSecao().toString() : "nulo"));
                 }
-            } else {
-                System.out.println("ID_MEDATADADOS não encontrado secao=" + (secao.getMetadadosSecao().getIdMetadadosSessao() != null ? secao.getMetadadosSecao().getIdMetadadosSessao().toString() : "nulo"));
             }
         }
         return listaSecoesDTO;
@@ -654,9 +649,6 @@ public class FormularioConverter {
     public static List<GrupoDTO> parseListaGrupoParaListaGrupoDTO(List<Grupo> listaGrupos,
                                                                   List<GrupoDTO> listaGruposDTO,
                                                                   SubSecaoDTO subSecaoDTO) {
-        if(listaGrupos.size() != listaGruposDTO.size()) {
-            System.out.println("Tamanho listaGrupos != listaGruposDTO");
-        }
         for (Grupo grupo : listaGrupos) {
             List<GrupoDTO> gmgs = listaGruposDTO.stream()
                 .filter(g -> g.getIdMetadadosGrupo().equals(grupo.getMetadadosGrupo().getIdMetadadosGrupo()))
@@ -669,14 +661,7 @@ public class FormularioConverter {
                     grupoDTO.setSubSecao(subSecaoDTO);
                     grupoDTO.setListaCampos(parseListaCamposParaListaCamposDTO(grupo.getCampos(),
                                                                                grupoDTO.getListaCampos(), grupoDTO));
-                } else {
-                    System.out.println("ID_METADADOS não coincidentes: grupo=" + 
-                                       (grupo.getMetadadosGrupo().getIdMetadadosGrupo() != null ? grupo.getMetadadosGrupo().getIdMetadadosGrupo().toString() : "nulo") +
-                                       ", grupoDTO=" +
-                                       (grupoDTO.getIdMetadadosGrupo() != null ? grupoDTO.getIdMetadadosGrupo().toString() : "nulo"));
                 }
-            } else {
-                System.out.println("ID_METADADOS não encontrado: " + (grupo.getMetadadosGrupo().getIdMetadadosGrupo() != null ? grupo.getMetadadosGrupo().getIdMetadadosGrupo().toString() : "nulo"));
             }
         }
         return listaGruposDTO;
@@ -684,9 +669,6 @@ public class FormularioConverter {
 
     public static List<CampoDTO> parseListaCamposParaListaCamposDTO(List<Campo> listaCampos,
                                                                     List<CampoDTO> listaCamposDTO, GrupoDTO grupoDTO) {
-        if(listaCampos.size() != listaCamposDTO.size()) {
-            System.out.println("(1) Tamanho de listaCampos != listaCamposDTO");
-        }
         for (Campo campo : listaCampos) {
             List<CampoDTO> cmcs = listaCamposDTO.stream()
                 .filter(g -> g.getIdMetadadosCampo().equals(campo.getMetadadosCampo().getIdMetadadosCampo()))
@@ -707,22 +689,16 @@ public class FormularioConverter {
                     campoDTO.setListaCampos(parseListaCamposParaListaCamposDTO(campo.getCampos(),
                                                                                campoDTO.getListaCampos(), campoDTO,
                                                                                campoDTO.getNivelCampo() + 1));
-                } else {
-                    System.out.println("(1) ID_METADADOS não coincidentes: campoDTO="+ (campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo") + ", campo=" + (campo.getMetadadosCampo().getIdMetadadosCampo() != null ? campo.getMetadadosCampo().getIdMetadadosCampo().toString() : "nulo"));
                 }
-            } else {
-                System.out.println("(1) ID_METADADOS não encontrado campo=" + (campo.getMetadadosCampo().getIdMetadadosCampo() != null ? campo.getMetadadosCampo().getIdMetadadosCampo().toString() : "nulo"));
             }
         }
+        
         return listaCamposDTO;
     }
 
     public static List<CampoDTO> parseListaCamposParaListaCamposDTO(List<Campo> listaCampos,
                                                                     List<CampoDTO> listaCamposDTO, CampoDTO campoPaiDTO,
                                                                     Integer nivelCampo) {
-        if(listaCampos.size() != listaCamposDTO.size()) {
-            System.out.println("(2) Tamanho de listaCampos != listaCamposDTO");
-        }
         for (Campo campo : listaCampos) {
             List<CampoDTO> cmcs = listaCamposDTO.stream()
                 .filter(g -> g.getIdMetadadosCampo().equals(campo.getMetadadosCampo().getIdMetadadosCampo()))
@@ -743,13 +719,10 @@ public class FormularioConverter {
                     campoDTO.setListaCampos(parseListaCamposParaListaCamposDTO(campo.getCampos(),
                                                                                campoDTO.getListaCampos(), campoPaiDTO,
                                                                                campoDTO.getNivelCampo() + 1));
-                } else {
-                    System.out.println("(2) ID_METADADOS não coincidentes: campoDTO="+ (campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo") + ", campo=" + (campo.getMetadadosCampo().getIdMetadadosCampo() != null ? campo.getMetadadosCampo().getIdMetadadosCampo().toString() : "nulo"));
                 }
-            } else {
-                System.out.println("(2) ID_METADADOS não encontrado campo=" + (campo.getMetadadosCampo().getIdMetadadosCampo() != null ? campo.getMetadadosCampo().getIdMetadadosCampo().toString() : "nulo"));
             }
         }
+        
         return listaCamposDTO;
     }
 
