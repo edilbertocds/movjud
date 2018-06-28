@@ -239,7 +239,7 @@ public class FormulaCalculo {
                                                           // null,
                                                           formularioMesAnteriorDTO, 
                                                           // </epr> (2. transferência do parâmetro) 0.7.7.debug transferência de formularioMesAnteriorDTO
-                                                          null, null);
+                                                          /*null: CEJUSC*/subSecaoDTO, null);
                                 loggerInfo("      formula expandida: " + ((formula != null) ? formula : "nulo"));
                             } else {
                                 loggerInfo("      substitui valor: " + ((formula != null) ? formula : "nulo"));
