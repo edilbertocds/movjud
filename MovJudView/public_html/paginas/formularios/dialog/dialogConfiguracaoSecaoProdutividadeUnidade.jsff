@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich">
+        <af:panelGroupLayout id="pgl2" layout="vertical">
+            <af:panelFormLayout id="pfl1">
+                <af:panelGroupLayout id="pgl6" layout="horizontal">
+                    <af:panelFormLayout id="pfl5" labelAlignment="top">
+                        <af:selectBooleanCheckbox text="#{app['label.formulario.tabelaprocessos']}" id="sbc1"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.secaoDadosUnidade.tabelaProcessos}"
+                                                  autoSubmit="true"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"/>
+                    </af:panelFormLayout>
+                </af:panelGroupLayout>
+                <af:panelGroupLayout id="pgl9" layout="horizontal">
+                    <af:panelFormLayout id="pfl8" labelAlignment="top">
+                        <af:selectBooleanCheckbox text="#{app['label.formulario.totalizadores']}" id="sbc3"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.secaoDadosUnidade.totalizadores}"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.secaoDadosUnidade.tabelaProcessos ? false : true}"
+                                                  partialTriggers="sbc1"/>
+                        <af:selectBooleanCheckbox text="#{app['label.formulario.conclusos']}" id="sbc2"
+                                                  value="#{pageFlowScope.configuracaoFormularioBean.secaoDadosUnidade.conclusos}"
+                                                  disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar ? true : pageFlowScope.configuracaoFormularioBean.secaoDadosUnidade.tabelaProcessos ? false : true}"
+                                                  partialTriggers="sbc1"/>
+                    </af:panelFormLayout>
+                </af:panelGroupLayout>
+            </af:panelFormLayout>
+        </af:panelGroupLayout>
+</jsp:root>
