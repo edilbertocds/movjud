@@ -525,6 +525,28 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
     }
 
     @Override
+    public Formulario recuperarFormularioMesAnterior(String descricao, Long unidade, Long mes, Long ano) {
+        StringBuilder jpaQl = new StringBuilder();
+        jpaQl.append("select formulario from Formulario formulario where ");
+        jpaQl.append("formulario.metadadosFormulario.descricaoSourceFormulario = ?1 and");
+        jpaQl.append(" formulario.unidade.idUnidade = ?2 and");
+        jpaQl.append(" formulario.ano = ?3 and");
+        jpaQl.append(" formulario.mes = ?4");
+
+        if (mes.intValue() == 1) {
+            ano--;
+            mes = 12L;
+        } else {
+            mes--;
+        }
+        return getPersistenceManager().procurarPorJPQLSingleResult(jpaQl,
+                                                                   descricao,
+                                                                   unidade, 
+                                                                   ano,
+                                                                   mes);
+    }
+
+    @Override
     public Formulario recuperarFormularioAnoMesReferencia(Formulario filtro) {
         StringBuilder jpaQl = new StringBuilder();
         jpaQl.append("select formulario from Formulario formulario where ");
