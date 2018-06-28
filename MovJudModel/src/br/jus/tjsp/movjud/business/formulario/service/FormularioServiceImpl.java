@@ -1135,14 +1135,21 @@ public class FormularioServiceImpl implements FormularioService{
         }
         
         formulario.setSecoes(listaSecoesPrincipais);
-
         MetadadosFormulario metadadosFormulario = formulario.getMetadadosFormulario();
 
+        /*
         if (metadadosFormulario.getMetadadosSecoes() != null) {
             result = FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
                             formularioDTO);
-        }
+        }*/
 
+        if (metadadosFormulario.getMetadadosSecoes() != null) {
+            int size = metadadosFormulario.getMetadadosSecoes().size();
+            for(int j = 0; j < size ; j++) {
+                result.add(metadadosFormulario.getMetadadosSecoes().get(j).createSecaoDTO(formularioDTO));
+            }           
+        }     
+        
         result = FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(), result, formularioDTO);
         
         return new AsyncResult<List<SecaoDTO>>(result);

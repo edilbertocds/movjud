@@ -1,5 +1,8 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.formulario.dto.FormulaDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.ValidacaoDTO;
+import br.jus.tjsp.movjud.business.formulario.types.TipoValidacaoType;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
@@ -145,5 +148,18 @@ public class MetadadosValidacaoCampo extends BaseEntity<Long> implements Seriali
     @Override
     public Long getId() {
         return getIdMetadadosValidacaoCampo();
+    }
+    
+    public ValidacaoDTO createValidacaoDTO(){
+        
+        ValidacaoDTO result = new ValidacaoDTO();
+        result.setCodigoValidacao(this.getIdMetadadosValidacaoCampo());
+        result.setMensagem(this.getDescricaoMensagem());
+        result.setSituacao(this.getFlagTipoSituacao());
+        result.setTipoValidacao(TipoValidacaoType.getTipoValidacaoByCodigo(this.getFlagTipoValidacao()));
+        result.setFormula(new FormulaDTO(this.getDescricaoFormula()));
+        result.setDataInclusao(this.getDataInclusao());
+        result.setSituacao(this.getFlagTipoSituacao());
+        return result;  
     }
 }

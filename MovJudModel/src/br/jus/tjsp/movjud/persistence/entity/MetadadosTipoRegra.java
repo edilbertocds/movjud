@@ -1,5 +1,6 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.formulario.dto.TipoRegraDTO;
 import br.jus.tjsp.movjud.business.utils.helper.ModelUtils;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
@@ -170,5 +171,16 @@ public class MetadadosTipoRegra extends BaseEntity<Long> {
         }
         
         return sb.toString();
+    }
+    
+    public TipoRegraDTO createTipoRegraDTO(){
+       
+        TipoRegraDTO result = new TipoRegraDTO();
+        result.setCodigoTipoRegra(this.getIdMetadadosTipoRegra());
+        result.setDescricaoTipoRegra(this.getDescricaoTipoRegra());
+        result.setNomeTipoRegra(this.getDescricaoNome());
+        result.setSituacao(this.getFlagTipoSituacao());
+        result.setDataInclusao(this.getDataInclusao());
+        return result;
     }
 }

@@ -2971,7 +2971,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if (campo == null || tiposRegrasFomrulario == null || 
             tiposRegrasFomrulario.size() == 0) return true;
                 
-        boolean retorno = isVisivelConformeTipoRegra(campo.getCampoPai());
+        //boolean retorno = isVisivelConformeTipoRegra(campo.getCampoPai());
+        boolean retorno = true;
         
         if (retorno) {        
             for (Map.Entry<Long, Boolean> entry : tiposRegrasFomrulario.entrySet()) {
