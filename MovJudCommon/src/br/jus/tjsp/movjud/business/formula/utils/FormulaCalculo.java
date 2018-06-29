@@ -125,7 +125,7 @@ public class FormulaCalculo {
         //System.out.println("INFO: " + text);
         
         if (!loggerInfoHabilitado) return;
-        
+        //System.out.println("INFO: " + text);
         if(logger == null || text == null || text.isEmpty()) return;
         if((logger.getLevel() == null) || (logger.getLevel().toInt() >= Level.INFO.intValue())) {
             logger.info(text);
@@ -222,8 +222,8 @@ public class FormulaCalculo {
                     }
                     if(campoDTO != null) {
                         loggerInfo("        campo: " + ((campoDTO.getLabelCampo() != null) ? "["+campoDTO.getLabelCampo()+"]" : "nulo"));
-                        loggerInfo("           id: " + campoDTO.getIdCampo() != null ? campoDTO.getIdCampo().toString() : "nulo");
-                        loggerInfo("           md: " + campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo");
+                        loggerInfo("           id: " + (campoDTO.getIdCampo() != null ? campoDTO.getIdCampo().toString() : "nulo"));
+                        loggerInfo("           md: " + (campoDTO.getIdMetadadosCampo() != null ? campoDTO.getIdMetadadosCampo().toString() : "nulo"));
                     }
                     logValidacao(campoDTO);
                     
