@@ -1127,7 +1127,7 @@ public class FormularioServiceImpl implements FormularioService{
     public Future<List<SecaoDTO>> asyncCompleteFormularioDTO(FormularioDTO formularioDTO) {
         List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
         Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
-        List<SecaoDTO> result = new ArrayList<SecaoDTO>();
+        List<SecaoDTO> result = null; //new ArrayList<SecaoDTO>();
         
         for (Secao secao : formulario.getSecoes()) {
             if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
@@ -1140,7 +1140,7 @@ public class FormularioServiceImpl implements FormularioService{
 
         //Verifica se o metadados do formulario esta em cache, caso esteja o utiliza para nao refazer uma 
         //nova consulta ao banco de dados
-        result = FormularioCache.obtemSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario());
+        //result = FormularioCache.obtemSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario());
         
         if (result == null && metadadosFormulario.getMetadadosSecoes() != null) {
             result = FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
@@ -1148,7 +1148,7 @@ public class FormularioServiceImpl implements FormularioService{
 
             //Adiciona metadados do formulario em cache para melhor performance na proxima consulta ao mesmo, ressaltando
             //que um metadado de um formulario nao sofre alteracao constante
-            FormularioCache.adicionaSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario(), result);
+            //FormularioCache.adicionaSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario(), result);
         }
 
         /*
@@ -1172,14 +1172,15 @@ public class FormularioServiceImpl implements FormularioService{
     @Asynchronous
     public Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO) {
         
-        List<HistoricoFormularioDTO> historicos = FormularioCache.obtemHistoricoAlteracoesEmCache(formularioDTO.getIdFormulario());
+        //List<HistoricoFormularioDTO> historicos = FormularioCache.obtemHistoricoAlteracoesEmCache(formularioDTO.getIdFormulario());
+        List<HistoricoFormularioDTO> historicos = null;
         
         if (historicos == null) {
             Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
             if (formulario != null) {
                 historicos = FormularioConverter.parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico());
                 
-                FormularioCache.adicionaHistoricoAlteracoesEmCache(formularioDTO.getIdFormulario(), historicos);
+                //FormularioCache.adicionaHistoricoAlteracoesEmCache(formularioDTO.getIdFormulario(), historicos);
             }
         }
         
