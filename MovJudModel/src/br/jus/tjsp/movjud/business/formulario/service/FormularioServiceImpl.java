@@ -1,5 +1,6 @@
 package br.jus.tjsp.movjud.business.formulario.service;
 
+import br.jus.tjsp.movjud.business.cache.FormularioCache;
 import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
 import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
 import br.jus.tjsp.movjud.business.formulario.dto.CompetenciaDTO;
@@ -1019,10 +1020,23 @@ public class FormularioServiceImpl implements FormularioService{
 
     @Override
     public FormularioDTO recuperarFormularioMesAnterior(FormularioDTO formularioAtualDTO) {
+        /*
         Formulario formularioAtual = FormularioConverter.parseFormularioDTOParaFormulario(formularioAtualDTO, false);
         FormularioDTO formularioMesAnterior = FormularioConverter.parseFormularioParaFormularioDTO(formularioDAO.recuperarFormularioMesAnterior(formularioAtual));
         if(formularioMesAnterior != null)
             formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
+        return formularioMesAnterior;
+        */
+        FormularioDTO formularioMesAnterior = FormularioConverter.parseFormularioParaFormularioDTO(
+            formularioDAO.recuperarFormularioMesAnterior(formularioAtualDTO.getCodigoFormulario(), 
+                                                         formularioAtualDTO.getIdUnidade(),
+                                                         formularioAtualDTO.getMes(),
+                                                         formularioAtualDTO.getAno())
+        );
+
+        if(formularioMesAnterior != null)
+            formularioMesAnterior.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioMesAnterior));
+
         return formularioMesAnterior;
     }
 
@@ -1051,7 +1065,9 @@ public class FormularioServiceImpl implements FormularioService{
     public FormularioDTO recuperarFormularioDTOPorIdFormulario(Long idFormulario) {
         Formulario formulario = recuperarFormularioPorIdFormulario(idFormulario);
         FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
-        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
+        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));        
+        formularioDTO.setFutureListaHistoricoFormulario(asyncCompleteHistoricoFormularioDTO(formularioDTO));
+
         return formularioDTO;
     }
 
@@ -1111,31 +1127,67 @@ public class FormularioServiceImpl implements FormularioService{
     public Future<List<SecaoDTO>> asyncCompleteFormularioDTO(FormularioDTO formularioDTO) {
         List<Secao> listaSecoesPrincipais = new ArrayList<Secao>();
         Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+        List<SecaoDTO> result = null; //new ArrayList<SecaoDTO>();
+        
         for (Secao secao : formulario.getSecoes()) {
             if (secao.getSecaoPai() == null || secao.getSecaoPai().equals(secao)) {
                 listaSecoesPrincipais.add(secao);
             }
         }
+        
         formulario.setSecoes(listaSecoesPrincipais);
-
-        List<SecaoDTO> result = new ArrayList<SecaoDTO>();
         MetadadosFormulario metadadosFormulario = formulario.getMetadadosFormulario();
 
-        if (metadadosFormulario.getMetadadosSecoes() != null)
-            result =
-                FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
-                                                                              formularioDTO);
+        //Verifica se o metadados do formulario esta em cache, caso esteja o utiliza para nao refazer uma 
+        //nova consulta ao banco de dados
+        //result = FormularioCache.obtemSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario());
+        
+        if (result == null && metadadosFormulario.getMetadadosSecoes() != null) {
+            result = FormularioConverter.parseListaMetadadosSecaoParaListaSecaoDTO(metadadosFormulario.getMetadadosSecoes(),
+                            formularioDTO);
+
+            //Adiciona metadados do formulario em cache para melhor performance na proxima consulta ao mesmo, ressaltando
+            //que um metadado de um formulario nao sofre alteracao constante
+            //FormularioCache.adicionaSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario(), result);
+        }
+
+        /*
+        if (result == null && metadadosFormulario.getMetadadosSecoes() != null) {
+            int size = metadadosFormulario.getMetadadosSecoes().size();
+            for(int j = 0; j < size ; j++) {
+                result.add(metadadosFormulario.getMetadadosSecoes().get(j).createSecaoDTO(formularioDTO));
+            }           
+            
+            //Adiciona metadados do formulario em cache para melhor performance na proxima consulta ao mesmo, ressaltando
+            //que um metadado de um formulario nao sofre alteracao constante
+            FormularioCache.adicionaSecaoMetaDadosEmCache(metadadosFormulario.getIdMetadadosFormulario(), result);
+        }     
+        */
+
         result = FormularioConverter.parseListaSecoesParaListaSecoesDTO(formulario.getSecoes(), result, formularioDTO);
+        
         return new AsyncResult<List<SecaoDTO>>(result);
     }
 
     @Asynchronous
     public Future<List<HistoricoFormularioDTO>> asyncCompleteHistoricoFormularioDTO(FormularioDTO formularioDTO) {
-        Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
-        if (formulario != null) {
-            return new AsyncResult<List<HistoricoFormularioDTO>>(FormularioConverter.parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico()));
+        
+        //List<HistoricoFormularioDTO> historicos = FormularioCache.obtemHistoricoAlteracoesEmCache(formularioDTO.getIdFormulario());
+        List<HistoricoFormularioDTO> historicos = null;
+        
+        if (historicos == null) {
+            Formulario formulario = recuperarFormularioPorIdFormulario(formularioDTO.getIdFormulario());
+            if (formulario != null) {
+                historicos = FormularioConverter.parseListaFormularioHistoricoParaListaHistoricoFormularioDTO(formulario.getFormulariosHistorico());
+                
+                //FormularioCache.adicionaHistoricoAlteracoesEmCache(formularioDTO.getIdFormulario(), historicos);
+            }
         }
-        return new AsyncResult<List<HistoricoFormularioDTO>>(new ArrayList<HistoricoFormularioDTO>());
+        
+        if (historicos == null) 
+            historicos = new ArrayList<HistoricoFormularioDTO>();
+        
+        return new AsyncResult<List<HistoricoFormularioDTO>>(historicos);
     }
 
     public FormularioDTO recuperarMetadadosFormulario(FormularioDTO formularioDTO) {
@@ -1150,5 +1202,5 @@ public class FormularioServiceImpl implements FormularioService{
             formularioDTO.getListaSecoes().addAll(secoes);
         }
         return formularioDTO;
-    }
+    }    
 }

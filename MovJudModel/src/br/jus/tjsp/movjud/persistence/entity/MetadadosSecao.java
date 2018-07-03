@@ -1,10 +1,17 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
+import br.jus.tjsp.movjud.business.formulario.dto.FormularioDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.SecaoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.SubSecaoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.TipoMateriaDTO;
+import br.jus.tjsp.movjud.business.formulario.types.SecaoType;
 import br.jus.tjsp.movjud.business.utils.helper.ModelUtils;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
@@ -376,4 +383,55 @@ public class MetadadosSecao extends BaseEntity<Long> {
         
         return sb.toString();
     }
+    
+    public SecaoDTO createSecaoDTO(FormularioDTO formularioDTO){
+        SecaoDTO result = new SecaoDTO();
+        result.setCodigoSecao(this.getCodigoSigla());
+        result.setIdMetadadosSecao(this.getIdMetadadosSessao());
+        result.setLabelSecao(this.getDescricaoNome());
+        result.setTextoInformativo(this.getDescricaoTextoInformativo());
+        result.setTotalizadores((this.getFlagExibeTotais().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ?
+                                   true : false));
+        result.setConclusos((this.getFlagConclusoPara().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ? true :
+                               false));
+        result.setTipoInternacao((this.getFlagInternacao().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ?
+                                    true : false));
+        result.setTipoPrisional((this.getFlagPrisional().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ? true :
+                                   false));
+        result.setTabelaProcessos((this.getFlagTemProcesso().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ?
+                                     true : false));
+        result.setOrdemSecao(this.getNumeroOrdem());
+        result.setDataInclusao(this.getDataInclusao());
+        result.setSituacao(this.getFlagTipoSituacao());
+        result.setCodigoMagistrado(this.getIndiceSecaoMagistrado());
+        result.setLabelMagistrado(this.getDescricaoLabelSecaoMagistrado());
+        result.setInformativoMagistrado(this.getDescricaoTextoInformativoSecaoMagistrado());
+        
+        int size = this.getTiposMateria().size();
+        List<TipoMateriaDTO> listaTipoMateriaDTO = new ArrayList<TipoMateriaDTO>();
+        TipoMateria tipoMateria;
+        for(int j = 1; j <= size ; j++){
+            tipoMateria = this.getTiposMateria().get(j);
+            listaTipoMateriaDTO.add(tipoMateria.createTipoMateriaDTO());
+        }
+        result.setListaMaterias(listaTipoMateriaDTO);
+        if (this.getMetadadosGrupos() != null){
+            size = this.getMetadadosGrupos().size();
+            for(int j = 0; j < size ; j++){
+                result.getListaGrupos().add(this.getMetadadosGrupos().get(j).createGrupoDTO(result));
+            }  
+        }
+        result.setFormulario(formularioDTO);
+        if (this.getCodigoSigla().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
+            result.getListaSubSecoes().add(new SubSecaoDTO(result));
+        } else if (this.getCodigoSigla().equals(SecaoType.ESTABELECIMENTOS_PRISIONAIS.getCodigoSecao())) {
+            result.getListaSubSecoes().add(new SubSecaoDTO(result));
+        } else if (this.getCodigoSigla().equals(SecaoType.REUS.getCodigoSecao())) {
+            result.getListaSubSecoes().add(new SubSecaoDTO(result));
+        }
+        
+        return result;
+    }
+    
+    
 }
