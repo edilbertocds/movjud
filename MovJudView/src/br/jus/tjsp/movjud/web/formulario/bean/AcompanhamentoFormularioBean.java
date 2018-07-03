@@ -1127,6 +1127,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String persistirEntidade() {
+        /* Qual a necessidade disto???
         for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
             if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
                 secao = secaoDadosUnidade;
@@ -1139,7 +1140,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             } else if (secao.getCodigoSecao().equals(SecaoType.REUS.getCodigoSecao())) {
                 secao = secaoReus;
             }
-        }
+        }*/
+        
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
         formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus, subSecaoProcessoConclusoDTO);
         painelPrincipal = new RichPanelGroupLayout();
