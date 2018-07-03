@@ -27,7 +27,7 @@ import javax.script.ScriptException;
 import org.apache.log4j.Logger;
 
 public class FormulaCalculo {
-    private static final boolean LOG_TO_CONSOLE = true;
+    private static final boolean LOG_TO_CONSOLE = false;
     private static final String VALOR_DEFAULT = "1";
     private static final String VALOR_ZERO = "0";
     private static final String VALOR_VAZIO = "";

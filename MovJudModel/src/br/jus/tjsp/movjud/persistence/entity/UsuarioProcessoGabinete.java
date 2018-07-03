@@ -2,27 +2,14 @@ package br.jus.tjsp.movjud.persistence.entity;
 
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 
-import java.io.Serializable;
-
 import java.util.Date;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @EntityListeners(AuditListener.class)
@@ -96,8 +83,12 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
     }
 
     public ProcessoGabinete removeProcessoGabinete(ProcessoGabinete processoGabinete) {
-        usuario.getProcessosGabinete().remove(processoGabinete);
-        processoGabinete.setUsuarioMagistrado(this.getUsuario());
+        if(processoGabinete == null && !usuario.getProcessosGabinete().isEmpty()){
+            usuario.getProcessosGabinete().remove(usuario.getProcessosGabinete().get((usuario.getProcessosGabinete().size()-1)));
+        }else{
+            usuario.getProcessosGabinete().remove(processoGabinete);
+            processoGabinete.setUsuarioMagistrado(this.getUsuario());
+        }
         return processoGabinete;
     }
 
