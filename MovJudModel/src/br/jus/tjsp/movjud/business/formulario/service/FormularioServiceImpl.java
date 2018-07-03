@@ -739,6 +739,8 @@ public class FormularioServiceImpl implements FormularioService{
                 if(novo){
                     Formulario formulario = new Formulario(formularioVinculacao.getMetadadosFormulario(), unidade);
                     MetadadosFormulario metadadosFormulario = formularioVinculacao.getMetadadosFormulario();
+                    // epr/20180703/atribuição de tipo regra
+                    formulario.setListaMetadadosTipoRegra(formularioVinculacao.getListaMetadadosTipoRegra());
                     
                     // 20180528-1
                     novoFormulario = FormularioConverter.parseFormularioParaFormularioDTO(formulario);
