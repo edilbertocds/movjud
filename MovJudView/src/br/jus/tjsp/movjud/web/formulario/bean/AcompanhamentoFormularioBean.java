@@ -20,7 +20,6 @@ import br.jus.tjsp.movjud.business.formulario.dto.ValidacaoDTO;
 import br.jus.tjsp.movjud.business.formulario.helper.FormularioUtils;
 import br.jus.tjsp.movjud.business.formulario.service.FormularioService;
 import br.jus.tjsp.movjud.business.formulario.types.SecaoType;
-import br.jus.tjsp.movjud.business.formulario.types.TipoCampoType;
 import br.jus.tjsp.movjud.business.formulario.types.TipoJuizType;
 import br.jus.tjsp.movjud.business.formulario.types.TipoValidacaoType;
 import br.jus.tjsp.movjud.core.util.AppBundleProperties;
@@ -3000,7 +2999,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     private FormularioDTO recuperarFormulario(FormularioDTO form) {
-        this.existeFormularioPreenchidoAnteriormente = formularioService.existeFomrularioMesAnterior(form.getIdMetadadosFormulario(), form.getMes(), form.getAno());
+        //this.existeFormularioPreenchidoAnteriormente = formularioService.existeFomrularioMesAnterior(form.getIdMetadadosFormulario(), form.getMes(), form.getAno());
         form = formularioService.recuperarFormularioDTOPorIdFormulario(form.getIdFormulario());
         form.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(form));
         form.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(form));
