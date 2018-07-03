@@ -1466,6 +1466,8 @@ public class FormularioConverter {
        
         formulario.setUsuarioPreenchimento(parseUsuarioPreenchimento(formularioDTO));
         
+        formulario.setListaMetadadosTipoRegra(parseTipoRegrasDTOParaMetadadosTipoRegras(formularioDTO.getListaTipoRegrasFormulario()));
+        
         if (formularioDTO.getDataConclusao() != null) {
             formulario.setDataFechamento(formularioDTO.getDataConclusao());
         }
@@ -2089,6 +2091,21 @@ public class FormularioConverter {
         itemSelecaoDTO.setDataInclusao(metadadosItemSelecao.getDataInclusao());
         itemSelecaoDTO.setIdEntidadeCampo(metadadosItemSelecao.getMetadadosCampo().getIdMetadadosCampo());
         return itemSelecaoDTO;
+    }
+
+    public static List<MetadadosTipoRegra> parseTipoRegrasDTOParaMetadadosTipoRegras(List<TipoRegraDTO> tiposRegraDTO) {
+    
+        List<MetadadosTipoRegra> metadadosTiposRegra = null;
+        
+        if (tiposRegraDTO != null && !tiposRegraDTO.isEmpty()) {
+            metadadosTiposRegra = new ArrayList<MetadadosTipoRegra>();
+            
+            for (TipoRegraDTO tipoRegraDTO: tiposRegraDTO) {
+                metadadosTiposRegra.add(parseTipoRegraDTOParaMetadadosTipoRegra(tipoRegraDTO));
+            }
+        }
+        
+        return metadadosTiposRegra;        
     }
 
     public static MetadadosTipoRegra parseTipoRegraDTOParaMetadadosTipoRegra(TipoRegraDTO tipoRegraDTO) {
