@@ -1,5 +1,9 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
+import br.jus.tjsp.movjud.business.formulario.dto.CampoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.FormulaDTO;
+import br.jus.tjsp.movjud.business.formulario.types.TipoCampoType;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
@@ -235,4 +239,65 @@ public class MetadadosCampoCampo extends BaseEntity<Long> {
     public Long getId() {
         return getIdCampoCampo();
     }
+    
+    public CampoDTO createCampoDTO(CampoDTO campoPaiDTO){
+        
+        CampoDTO result = new CampoDTO();
+        result.setIdMetadadosCampoCampo(this.getIdCampoCampo());
+        result.setIdMetadadosCampo(this.getMetadadosCampoFilho().getIdMetadadosCampo());
+        result.setDataInclusao(this.getDataInclusao());
+        result.setSituacao(this.getFlagTipoSituacao());
+        result.setHint(this.getMetadadosCampoFilho().getDescricaoTextoInformativo());
+        result.setLabelCampo(this.getMetadadosCampoFilho().getNomeCampo());
+        result.setTipoCampo(TipoCampoType.retornarTipoCampoEnum(this.getMetadadosCampoFilho().getTipoCampo()));
+        result.setRequerido(true);
+        result.setCasasDecimais(this.getMetadadosCampoFilho().getNumeroCasasDecimais());
+        result.setCodigoBI(this.getMetadadosCampoFilho().getCodigoDominioBI());
+        result.setCodigoCampo(this.getCodigoSigla());
+        if (this.getDescricaoFormula() != null && !this.getDescricaoFormula().isEmpty()){
+            result.setFormula(new FormulaDTO(this.getDescricaoFormula()));
+        }
+        if(this.getMetadadosCampoFilho().getMetadadosTipoRegra() != null){
+            result.setTipoRegraDTO(this.getMetadadosCampoFilho().getMetadadosTipoRegra().createTipoRegraDTO());
+        }
+        if (result.getTipoRegraDTO() != null){
+            result.getTipoRegraDTO().setInverterRegra((this.getMetadadosCampoFilho().getFlagInverterTipoRegra().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ?
+                                                       true : false));
+        }
+        result.setIndiceCampo(this.getDescricaoSequencia());
+        
+        
+        if (this.getMetadadosCampoFilho().getMetadadosListaSelecao()!=null){
+            int size = this.getMetadadosCampoFilho().getMetadadosListaSelecao().size();
+            
+            for(int j = 0; j < size ; j++){
+                result.getListaItensSelecaoDTO().add(this.getMetadadosCampoFilho().getMetadadosListaSelecao().get(j).createItemSelecaoDTO());
+            }
+        }  
+        
+        if (this.getMetadadosCampoFilho().getMetadadosValidacaoCampo()!=null){
+            int size = this.getMetadadosCampoFilho().getMetadadosValidacaoCampo().size();
+            
+            for(int j = 0; j < size ; j++){
+                result.getListaValidacoes().add(this.getMetadadosCampoFilho().getMetadadosValidacaoCampo().get(j).createValidacaoDTO());
+            }
+        }  
+        result.setNumeroMaximoCaracteres(this.getMetadadosCampoFilho().getNumeroMaximoCaracteres());
+        result.setNumeroMinimoCaracteres(this.getMetadadosCampoFilho().getNumeroMinimoCaracteres());
+        result.setOrdemCampo(this.getNumeroOrdem());
+        result.setTipoCampo(TipoCampoType.retornarTipoCampoEnum(this.getMetadadosCampoFilho().getTipoCampo()));
+        
+        
+        if (this.getMetadadosCampoFilho().getMetadadosCamposPai()!=null){
+            int size = this.getMetadadosCampoFilho().getMetadadosCamposPai().size();
+            
+            for(int j = 0; j < size ; j++){
+                result.getListaCampos().add(this.getMetadadosCampoFilho().getMetadadosCamposPai().get(j).createCampoDTO(result));
+            }
+        } 
+           
+        result.setCampoPai(campoPaiDTO);
+        return result;
+    }
+    
 }

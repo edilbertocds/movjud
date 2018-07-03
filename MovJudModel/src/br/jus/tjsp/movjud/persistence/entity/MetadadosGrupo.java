@@ -1,5 +1,8 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
+import br.jus.tjsp.movjud.business.formulario.dto.GrupoDTO;
+import br.jus.tjsp.movjud.business.formulario.dto.SecaoDTO;
 import br.jus.tjsp.movjud.business.utils.helper.ModelUtils;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
@@ -291,4 +294,33 @@ public class MetadadosGrupo extends BaseEntity<Long> {
     public MetadadosTipoRegra getMetadadosTipoRegra() {
         return metadadosTipoRegra;
     }
+    
+    public GrupoDTO createGrupoDTO(SecaoDTO secaoDTO){
+        GrupoDTO result = new GrupoDTO();
+        result.setIdMetadadosGrupo(this.getIdMetadadosGrupo());
+        result.setCodigoGrupo(this.getCodigoSigla());
+        result.setLabelGrupo(this.getDescricaoNome());
+        result.setOrdemGrupo(this.getNumeroOrdem());
+        result.setDominioBI(this.getCodigoDominioBI());
+        result.setTextoInformativo(this.getDescricaoTextoInformativo());
+        result.setSituacao(this.getFlagTipoSituacao());
+        result.setDataInclusao(this.getDataInclusao());
+        if (this.getMetadadosTipoRegra() != null){
+            result.setTipoRegraDTO(this.getMetadadosTipoRegra().createTipoRegraDTO());
+        }
+        if (result.getTipoRegraDTO() != null)
+            result.getTipoRegraDTO().setInverterRegra((this.getFlagInverterTipoRegra().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) ?
+                                                         true : false));
+        if (this.getMetadadosGruposCampo() != null){
+            
+            int size = this.getMetadadosGruposCampo().size();
+            for(int j = 0; j < size ; j++){
+                result.getListaCampos().add(this.getMetadadosGruposCampo().get(j).createCampoDTO(result));
+            }
+        }
+        result.setSecao(secaoDTO);
+        return result;
+    }
+    
 }
+

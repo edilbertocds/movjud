@@ -1,5 +1,7 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
+import br.jus.tjsp.movjud.business.formulario.dto.ItemSelecaoDTO;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 
 import java.io.Serializable;
@@ -121,5 +123,20 @@ public class MetadadosListaSelecao extends BaseEntity<Long> {
     @Override
     public Long getId() {
         return getIdMetadadosListaSelecao();
+    }
+    
+    public ItemSelecaoDTO createItemSelecaoDTO(){
+        
+        ItemSelecaoDTO result = new ItemSelecaoDTO();
+        result.setCodigoItemSelecao(Long.toString(this.getIdMetadadosListaSelecao()));
+        result.setLabelItemSelecao(this.getDescricaoSelecao());
+        if (result.getSituacao() == null || result.getSituacao().isEmpty()) {
+            this.setFlagTipoSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
+        } else {
+            this.setFlagTipoSituacao(result.getSituacao());
+        }
+        result.setDataInclusao(this.getDataInclusao());
+        result.setIdEntidadeCampo(this.getMetadadosCampo().getIdMetadadosCampo());
+        return result;
     }
 }

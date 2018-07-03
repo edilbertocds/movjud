@@ -1,5 +1,6 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.formulario.dto.TipoMateriaDTO;
 import br.jus.tjsp.movjud.business.utils.helper.ModelUtils;
 import br.jus.tjsp.movjud.persistence.base.annotation.Audit;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
@@ -137,5 +138,14 @@ public class TipoMateria extends BaseEntity<Long> {
         }
         
         return sb.toString();
+    }
+    
+    public TipoMateriaDTO createTipoMateriaDTO(){
+        TipoMateriaDTO result = new TipoMateriaDTO();
+        result.setCodigoTipoMateria(this.getIdTipoMateria());
+        result.setNomeTipoMateria(this.getDescricaoMateria());
+        result.setDataInclusao(this.getDataInclusao());
+        result.setSituacao(this.getFlagTipoSituacao());
+        return result;
     }
 }
