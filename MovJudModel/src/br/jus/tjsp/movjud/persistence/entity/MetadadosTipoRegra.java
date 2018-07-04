@@ -7,7 +7,6 @@ import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 
 import java.util.Date;
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
