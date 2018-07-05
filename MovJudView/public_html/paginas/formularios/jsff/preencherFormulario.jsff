@@ -242,7 +242,7 @@
                                                             <af:panelGroupLayout id="pgl86" layout="vertical" styleClass="formularioListaTipos" rendered="#{pageFlowScope.acompanhamentoFormularioBean.isVisivelConformeTipoRegra(subCampo1)}">
                                                                 <af:panelGroupLayout id="pgl87" layout="horizontal" valign="top">
                                                                     <af:spacer width="50" height="10" id="s70"/>
-                                                                    <af:panelGroupLayout id="pgl88" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                    <af:panelGroupLayout id="pgl88" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                         <af:spacer width="20" height="10" id="s71"/>
                                                                         <!-- <af:outputLabel value="#{subCampo1.indiceCampo} " id="ol19" styleClass="formularioIndiceCampo"/> -->
                                                                         <af:outputLabel value="#{subCampo1.indiceCampo} #{subCampo1.labelCampo}" id="ol20" styleClass="formularioLabelSubCampo #{subCampo1.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}" shortDesc="#{subCampo1.hint}"/>
@@ -303,7 +303,7 @@
                                                                 <af:panelGroupLayout id="pgl95" layout="vertical" styleClass="formularioBoxCampos" rendered="#{pageFlowScope.acompanhamentoFormularioBean.isVisivelConformeTipoRegra(subCampo2) }">                                                                
                                                                     <af:panelGroupLayout id="pgl96" layout="horizontal" valign="top">
                                                                         <af:spacer width="50" height="10" id="s78"/>
-                                                                        <af:panelGroupLayout id="pgl97" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                        <af:panelGroupLayout id="pgl97" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                             <af:spacer width="40" height="10" id="s79"/>
                                                                             <af:outputLabel value="#{subCampo2.indiceCampo}" id="ol21" styleClass="formularioIndiceCampo"/>
                                                                             <af:outputLabel value="#{subCampo2.labelCampo}" id="ol22" styleClass="formLabelSegundoSubCampo #{subCampo2.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}" shortDesc="#{subCampo2.hint}"/>
@@ -363,7 +363,7 @@
                                                                     <af:panelGroupLayout id="pgl104" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo3.tipoRegraDTO.codigoTipoRegra] || (empty subCampo3.tipoRegraDTO)) ? (subCampo3.tipoRegraDTO.inverterRegra ? false : true) : (subCampo3.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                         <af:panelGroupLayout id="pgl105" layout="horizontal" styleClass="formularioBoxInputText" valign="top">
                                                                             <af:spacer width="50" height="10" id="s86"/>
-                                                                            <af:panelGroupLayout id="pgl106" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                            <af:panelGroupLayout id="pgl106" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                 <af:spacer width="60" height="10" id="s87"/>
                                                                                 <af:outputLabel value="#{subCampo3.indiceCampo}" id="ol23" styleClass="formularioIndiceCampo"/>
                                                                                 <af:outputLabel value="#{subCampo3.labelCampo}" id="ol24" styleClass="formLabelTerceiroSubCampo #{subCampo3.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}" shortDesc="#{subCampo3.hint}"/>
@@ -594,7 +594,7 @@
                                                                 <af:panelGroupLayout id="pgl14" layout="vertical" styleClass="formularioListaTipos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo1.tipoRegraDTO.codigoTipoRegra] || (empty subCampo1.tipoRegraDTO)) ? (subCampo1.tipoRegraDTO.inverterRegra ? false : true) : (subCampo1.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                     <af:panelGroupLayout id="pgl15" layout="horizontal" valign="top">
                                                                         <af:spacer width="50" height="10" id="s9"/>
-                                                                        <af:panelGroupLayout id="pgl16" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                        <af:panelGroupLayout id="pgl16" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                             <af:spacer width="20" height="10" id="s10"/>
                                                                             <af:outputLabel value="#{subCampo1.indiceCampo} " id="ol3" styleClass="formularioIndiceCampo"/>
                                                                             <af:outputLabel value="#{subCampo1.labelCampo}" id="ol4" styleClass="formularioLabelSubCampo #{subCampo1.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -654,7 +654,7 @@
                                                                     <af:panelGroupLayout id="pgl23" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo2.tipoRegraDTO.codigoTipoRegra] || (empty subCampo2.tipoRegraDTO)) ? (subCampo2.tipoRegraDTO.inverterRegra ? false : true) : (subCampo2.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                         <af:panelGroupLayout id="pgl24" layout="horizontal" valign="top">
                                                                             <af:spacer width="50" height="10" id="s18"/>
-                                                                            <af:panelGroupLayout id="pgl25" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                            <af:panelGroupLayout id="pgl25" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                 <af:spacer width="40" height="10" id="s19"/>
                                                                                 <af:outputLabel value="#{subCampo2.indiceCampo}" id="ol5" styleClass="formularioIndiceCampo"/>
                                                                                 <af:outputLabel value="#{subCampo2.labelCampo}" id="ol6" styleClass="formLabelSegundoSubCampo #{subCampo2.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -714,7 +714,7 @@
                                                                         <af:panelGroupLayout id="pgl32" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo3.tipoRegraDTO.codigoTipoRegra] || (empty subCampo3.tipoRegraDTO)) ? (subCampo3.tipoRegraDTO.inverterRegra ? false : true) : (subCampo3.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                             <af:panelGroupLayout id="pgl33" layout="horizontal" styleClass="formularioBoxInputText" valign="top">
                                                                                 <af:spacer width="50" height="10" id="s27"/>
-                                                                                <af:panelGroupLayout id="pgl34" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                                <af:panelGroupLayout id="pgl34" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                     <af:spacer width="60" height="10" id="s28"/>
                                                                                     <af:outputLabel value="#{subCampo3.indiceCampo}" id="ol7" styleClass="formularioIndiceCampo"/>
                                                                                     <af:outputLabel value="#{subCampo3.labelCampo}" id="ol8" styleClass="formLabelTerceiroSubCampo #{subCampo3.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -927,7 +927,7 @@
                                                             <af:panelGroupLayout id="pgl50" layout="vertical" styleClass="formularioListaTipos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo1.tipoRegraDTO.codigoTipoRegra] || (empty subCampo1.tipoRegraDTO)) ? (subCampo1.tipoRegraDTO.inverterRegra ? false : true) : (subCampo1.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                 <af:panelGroupLayout id="pgl51" layout="horizontal" valign="top">
                                                                     <af:spacer width="50" height="10" id="s45"/>
-                                                                    <af:panelGroupLayout id="pgl52" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                    <af:panelGroupLayout id="pgl52" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                         <af:spacer width="20" height="10" id="s46"/>
                                                                         <af:outputLabel value="#{subCampo1.indiceCampo} " id="ol11" styleClass="formularioIndiceCampo"/>
                                                                         <af:outputLabel value="#{subCampo1.labelCampo}" id="ol12" styleClass="formularioLabelSubCampo #{subCampo1.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -987,7 +987,7 @@
                                                                 <af:panelGroupLayout id="pgl59" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo2.tipoRegraDTO.codigoTipoRegra] || (empty subCampo2.tipoRegraDTO)) ? (subCampo2.tipoRegraDTO.inverterRegra ? false : true) : (subCampo2.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                     <af:panelGroupLayout id="pgl60" layout="horizontal" valign="top">
                                                                         <af:spacer width="50" height="10" id="s54"/>
-                                                                        <af:panelGroupLayout id="pgl61" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                        <af:panelGroupLayout id="pgl61" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                             <af:spacer width="40" height="10" id="s55"/>
                                                                             <af:outputLabel value="#{subCampo2.indiceCampo}" id="ol13" styleClass="formularioIndiceCampo"/>
                                                                             <af:outputLabel value="#{subCampo2.labelCampo}" id="ol14" styleClass="formLabelSegundoSubCampo #{subCampo2.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1047,7 +1047,7 @@
                                                                     <af:panelGroupLayout id="pgl68" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo3.tipoRegraDTO.codigoTipoRegra] || (empty subCampo3.tipoRegraDTO)) ? (subCampo3.tipoRegraDTO.inverterRegra ? false : true) : (subCampo3.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                         <af:panelGroupLayout id="pgl69" layout="horizontal" styleClass="formularioBoxInputText" valign="top">
                                                                             <af:spacer width="50" height="10" id="s63"/>
-                                                                            <af:panelGroupLayout id="pgl70" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                            <af:panelGroupLayout id="pgl70" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                 <af:spacer width="60" height="10" id="s88"/>
                                                                                 <af:outputLabel value="#{subCampo3.indiceCampo}" id="ol15" styleClass="formularioIndiceCampo"/>
                                                                                 <af:outputLabel value="#{subCampo3.labelCampo}" id="ol16" styleClass="formLabelTerceiroSubCampo #{subCampo3.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1221,7 +1221,7 @@
                                                                 <af:panelGroupLayout id="pgl126" layout="vertical" styleClass="formularioListaTipos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo1.tipoRegraDTO.codigoTipoRegra] || (empty subCampo1.tipoRegraDTO)) ? (subCampo1.tipoRegraDTO.inverterRegra ? false : true) : (subCampo1.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                     <af:panelGroupLayout id="pgl127" layout="horizontal" valign="top">
                                                                         <af:spacer width="50" height="10" id="s111"/>
-                                                                        <af:panelGroupLayout id="pgl128" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                        <af:panelGroupLayout id="pgl128" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                             <af:spacer width="20" height="10" id="s112"/>
                                                                             <af:outputLabel value="#{subCampo1.indiceCampo} " id="ol30" styleClass="formularioIndiceCampo"/>
                                                                             <af:outputLabel value="#{subCampo1.labelCampo}" id="ol31" styleClass="formularioLabelSubCampo #{subCampo1.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1281,7 +1281,7 @@
                                                                     <af:panelGroupLayout id="pgl135" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo2.tipoRegraDTO.codigoTipoRegra] || (empty subCampo2.tipoRegraDTO)) ? (subCampo2.tipoRegraDTO.inverterRegra ? false : true) : (subCampo2.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                         <af:panelGroupLayout id="pgl136" layout="horizontal" valign="top">
                                                                             <af:spacer width="50" height="10" id="s120"/>
-                                                                            <af:panelGroupLayout id="pgl137" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                            <af:panelGroupLayout id="pgl137" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                 <af:spacer width="40" height="10" id="s121"/>
                                                                                 <af:outputLabel value="#{subCampo2.indiceCampo}" id="ol32" styleClass="formularioIndiceCampo"/>
                                                                                 <af:outputLabel value="#{subCampo2.labelCampo}" id="ol33" styleClass="formLabelSegundoSubCampo #{subCampo2.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1341,7 +1341,7 @@
                                                                         <af:panelGroupLayout id="pgl144" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo3.tipoRegraDTO.codigoTipoRegra] || (empty subCampo3.tipoRegraDTO)) ? (subCampo3.tipoRegraDTO.inverterRegra ? false : true) : (subCampo3.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                             <af:panelGroupLayout id="pgl145" layout="horizontal" styleClass="formularioBoxInputText" valign="top">
                                                                                 <af:spacer width="50" height="10" id="s129"/>
-                                                                                <af:panelGroupLayout id="pgl146" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                                <af:panelGroupLayout id="pgl146" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                     <af:spacer width="60" height="10" id="s130"/>
                                                                                     <af:outputLabel value="#{subCampo3.indiceCampo}" id="ol34" styleClass="formularioIndiceCampo"/>
                                                                                     <af:outputLabel value="#{subCampo3.labelCampo}" id="ol35" styleClass="formLabelTerceiroSubCampo #{subCampo3.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1482,7 +1482,7 @@
                                                             <af:panelGroupLayout id="pgl162" layout="vertical" styleClass="formularioListaTipos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo1.tipoRegraDTO.codigoTipoRegra] || (empty subCampo1.tipoRegraDTO)) ? (subCampo1.tipoRegraDTO.inverterRegra ? false : true) : (subCampo1.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                 <af:panelGroupLayout id="pgl163" layout="horizontal" valign="top">
                                                                     <af:spacer width="50" height="10" id="s146"/>
-                                                                    <af:panelGroupLayout id="pgl164" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                    <af:panelGroupLayout id="pgl164" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                         <af:spacer width="20" height="10" id="s147"/>
                                                                         <af:outputLabel value="#{subCampo1.indiceCampo} " id="ol38" styleClass="formularioIndiceCampo"/>
                                                                         <af:outputLabel value="#{subCampo1.labelCampo}" id="ol39" styleClass="formularioLabelSubCampo #{subCampo1.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1542,7 +1542,7 @@
                                                                 <af:panelGroupLayout id="pgl171" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo2.tipoRegraDTO.codigoTipoRegra] || (empty subCampo2.tipoRegraDTO)) ? (subCampo2.tipoRegraDTO.inverterRegra ? false : true) : (subCampo2.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                     <af:panelGroupLayout id="pgl172" layout="horizontal" valign="top">
                                                                         <af:spacer width="50" height="10" id="s155"/>
-                                                                        <af:panelGroupLayout id="pgl173" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                        <af:panelGroupLayout id="pgl173" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                             <af:spacer width="40" height="10" id="s156"/>
                                                                             <af:outputLabel value="#{subCampo2.indiceCampo}" id="ol40" styleClass="formularioIndiceCampo"/>
                                                                             <af:outputLabel value="#{subCampo2.labelCampo}" id="ol41" styleClass="formLabelSegundoSubCampo #{subCampo2.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
@@ -1602,7 +1602,7 @@
                                                                     <af:panelGroupLayout id="pgl180" layout="vertical" styleClass="formularioBoxCampos" rendered="#{(pageFlowScope.acompanhamentoFormularioBean.tiposRegraFormulario[subCampo3.tipoRegraDTO.codigoTipoRegra] || (empty subCampo3.tipoRegraDTO)) ? (subCampo3.tipoRegraDTO.inverterRegra ? false : true) : (subCampo3.tipoRegraDTO.inverterRegra ? true : false)  }">
                                                                         <af:panelGroupLayout id="pgl181" layout="horizontal" styleClass="formularioBoxInputText" valign="top">
                                                                             <af:spacer width="50" height="10" id="s168"/>
-                                                                            <af:panelGroupLayout id="pgl182" layout="horizontal" styleClass="formularioPanelLabel">
+                                                                            <af:panelGroupLayout id="pgl182" layout="horizontal" styleClass="formularioPanelLabel" valign="top">
                                                                                 <af:spacer width="60" height="10" id="s169"/>
                                                                                 <af:outputLabel value="#{subCampo3.indiceCampo}" id="ol43" styleClass="formularioIndiceCampo"/>
                                                                                 <af:outputLabel value="#{subCampo3.labelCampo}" id="ol44" styleClass="formLabelTerceiroSubCampo #{subCampo3.tipoCampo eq 'TITULO' ? 'formularioLabelTitulo' : ''}"/>
