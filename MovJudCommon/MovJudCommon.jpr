@@ -184,15 +184,6 @@
          <list n="libraryDefinitions">
             <hash>
                <list n="classPath">
-                  <url path="../libs/log4j-1.2.17.jar" jar-entry=""/>
-               </list>
-               <value n="deployedByDefault" v="true"/>
-               <value n="description" v="Log4j-1.2.17.jar"/>
-               <value n="id" v="Log4j-1.2.17.jar"/>
-               <value n="locked" v="true"/>
-            </hash>
-            <hash>
-               <list n="classPath">
                   <url path="../MovJudLibs/public_html/WEB-INF/lib/org.apache.commons.logging_1.1.1.jar" jar-entry=""/>
                </list>
                <value n="deployedByDefault" v="true"/>
@@ -202,11 +193,20 @@
             </hash>
             <hash>
                <list n="classPath">
-                  <url path="../../../../../Oracle/Middleware/Oracle_Home/wlserver/modules/com.bea.core.weblogic.commons.logging.jar" jar-entry=""/>
+                  <url protocol="jar" path="file:/Oracle/Middleware/Oracle_Home/wlserver/modules/com.bea.core.weblogic.commons.logging.jar!/"/>
                </list>
                <value n="deployedByDefault" v="true"/>
                <value n="description" v="Com.bea.core.weblogic.commons.logging.jar"/>
                <value n="id" v="Com.bea.core.weblogic.commons.logging.jar"/>
+               <value n="locked" v="true"/>
+            </hash>
+            <hash>
+               <list n="classPath">
+                  <url path="../MovJudLibs/public_html/WEB-INF/lib/log4j-1.2.17.jar" jar-entry=""/>
+               </list>
+               <value n="deployedByDefault" v="true"/>
+               <value n="description" v="Log4j-1.2.17.jar"/>
+               <value n="id" v="Log4j-1.2.17.jar"/>
                <value n="locked" v="true"/>
             </hash>
          </list>
