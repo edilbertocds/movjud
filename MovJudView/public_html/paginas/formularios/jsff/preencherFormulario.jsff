@@ -169,9 +169,6 @@
                                     </af:panelGridLayout>
                                 </af:panelGroupLayout>
                                 <af:panelGroupLayout id="pgl2" layout="vertical">
-                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secoes}" var="secaoOrdenada">
-                                            <af:switcher id="sSecaoOrdenada" facetName="#{secaoOrdenada.codigoSecao}">
-                                                <f:facet name="SU">
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.labelSecao}" id="pb2" styleClass="boxSecao" partialTriggers="b2" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade}">
                                         <f:facet name="toolbar"/>
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.listaSubSecoes}" var="subSecaoDadosUnidade">
@@ -503,8 +500,6 @@
                                     </af:panelBox>
                                     
                                     </af:panelBox>                                                                                                        
-                                                </f:facet>
-                                                <f:facet name="M">
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.labelSecao}" id="painelSecaoMagistrado" styleClass="boxSecao" partialTriggers="b2" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado}">
                                         <f:facet name="toolbar">
                                             <af:panelGroupLayout id="groupLayoutMagistrado" layout="horizontal" partialTriggers="b2">
@@ -857,8 +852,6 @@
                                             </af:panelBox>
                                         </af:forEach>
                                     </af:panelBox>
-                                                </f:facet>
-                                                <f:facet name="ES">
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoEstabelecimento.labelSecao}" id="pb1" styleClass="boxSecao" partialTriggers="b2" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoEstabelecimento}">
                                         <f:facet name="toolbar"/>
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoEstabelecimento.listaSubSecoes}" var="subSecaoEstabelecimento">
@@ -1133,8 +1126,6 @@
                                             </af:panelBox>
                                         </af:forEach>
                                     </af:panelBox>
-                                                </f:facet>
-                                                <f:facet name="MA">
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.labelSecao}" id="painelSecaoMateria" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoMateria}" partialTriggers="b1">
                                         <f:facet name="toolbar">
                                             <af:panelGroupLayout id="pgl186" layout="horizontal">
@@ -1406,8 +1397,6 @@
                                             </af:panelBox>
                                         </af:forEach>
                                     </af:panelBox>
-                                                </f:facet>
-                                                <f:facet name="R">
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoReus.labelSecao}" id="painelSecaoReus" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoReus}">
                                         <f:facet name="toolbar">
                                             <af:panelGroupLayout id="pgl189" layout="horizontal" rendered="#{pageFlowScope.acompanhamentoFormularioBean.funcaoRetificacao ? false : true}">
@@ -1721,9 +1710,6 @@
                                             </af:panelBox>
                                         </af:forEach>
                                     </af:panelBox>
-                                                </f:facet>
-                                            </af:switcher>
-                                    </af:forEach>                                    
                                 </af:panelGroupLayout>
                             </af:panelGroupLayout>
                         </af:panelHeader>
