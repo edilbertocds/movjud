@@ -340,7 +340,7 @@
             <value n="name" v="Default"/>
             <hash n="oracle.jdevimpl.runner.debug.DebugConfiguration">
                <value n="promptForRemoteDebugging" v="false"/>
-               <value n="remoteParameter:jpda:port" v="8453"/>
+               <value n="remoteParameter:jpda:port" v="4000"/>
             </hash>
             <value n="remoteDebuggingProfiling" v="true"/>
             <url n="runDirectoryURL" path="."/>
