@@ -742,7 +742,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
         listaFormulariosRetificacao = new ArrayList<FormularioDTO>();
         for (FormularioDTO form : listaEntidade) {
-            if (form.isFlagRetificacao()) {
+            if (form.isFlagRetificacao()) {                
+                
+                form = recuperarFormulario(form);
+                form.setFlagRetificacao(true);
+                
                 listaFormulariosRetificacao.add(form);
             }
         }
