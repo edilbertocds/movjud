@@ -742,7 +742,11 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
         listaFormulariosRetificacao = new ArrayList<FormularioDTO>();
         for (FormularioDTO form : listaEntidade) {
-            if (form.isFlagRetificacao()) {
+            if (form.isFlagRetificacao()) {                
+                
+                form = recuperarFormulario(form);
+                form.setFlagRetificacao(true);
+                
                 listaFormulariosRetificacao.add(form);
             }
         }
@@ -1313,11 +1317,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if(entidadePersistencia != null && entidadePersistencia.getListaHistoricoFormulario() != null)
             Collections.sort(entidadePersistencia.getListaHistoricoFormulario(), Collections.reverseOrder());
         
-        if(visualizar == false){
+        //Luis - Retirei pois a regra da existencia do formulario anterior precisa ser aplicada na consulta
+        //por conta do tipo regra primeiro acesso nos campos
+        //if(visualizar == false){
             formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);            
             entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
             existeFormularioPreenchidoAnteriormente = (formularioMesAnterior != null);
-        }
+        //}
         
         // Erro 116 - SÃƒÂ³ atualiza na tela apÃƒÂ³s a existencia do componente "RichPanelGroupLayout painelPrincipal" existir para ser atualizado.
         if(painelPrincipal != null) // quando estÃƒÂ¡ nulo, ele recalcula apÃƒÂ³s o Framework criar o objeto (no set utilizado).

@@ -900,11 +900,16 @@ public class FormularioConverter {
         SituacaoFormularioDTO situacaoFormularioDTO = null;
         if (tipoSituacao != null) {
             situacaoFormularioDTO = new SituacaoFormularioDTO();
-            //situacaoFormularioDTO.setCodigoSituacaoFormulario(tipoSituacao.getIdTipoSituacao());
+            
+            //luis - retirado comentario
+            situacaoFormularioDTO.setCodigoSituacaoFormulario(tipoSituacao.getIdTipoSituacao());
+            
             situacaoFormularioDTO.setLabelSituacaoFormulario(tipoSituacao.getDescricaoSituacao());
-            //situacaoFormularioDTO.setIdentificadorSituacaoFormulario(tipoSituacao.getCodigoSituacao());
-            //situacaoFormularioDTO.setSituacao(tipoSituacao.getTipoSituacao());
-            //situacaoFormularioDTO.setDataInclusao(tipoSituacao.getDataInclusao());
+            
+            //luis retirado 3 comentarios
+            situacaoFormularioDTO.setIdentificadorSituacaoFormulario(tipoSituacao.getCodigoSituacao());
+            situacaoFormularioDTO.setSituacao(tipoSituacao.getTipoSituacao());
+            situacaoFormularioDTO.setDataInclusao(tipoSituacao.getDataInclusao());
         }
         return situacaoFormularioDTO;
     }
