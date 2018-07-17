@@ -932,7 +932,8 @@ public class FormularioServiceImpl implements FormularioService{
         if(listaMagistradosUnidade!=null){
             idsMagistrados = new ArrayList<Long>();
             for(Usuario magistrado : listaMagistradosUnidade){
-                idsMagistrados.add(magistrado.getIdUsuario());
+                if(magistrado != null && magistrado.getIdUsuario() != null)
+                    idsMagistrados.add(magistrado.getIdUsuario());
             }
             listaCompletaMagistrado.addAll(listaMagistradosUnidade);
         }

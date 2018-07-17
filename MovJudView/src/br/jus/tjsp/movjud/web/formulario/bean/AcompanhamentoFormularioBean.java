@@ -1262,6 +1262,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                                               entidadePersistencia.getCodigoFormulario()));
                 subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcessoDTO(processosConclusosCpcDTO.getListaTipoFilaProcessoDTO());
                 if(!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()){
+                    subSecaoProcessoConclusoDTO.setLabelSecao("Processos Conclusos da Unidade");
                     // <epr> subSecaoProcessoConclusoDTO = new SubSecaoDTO();
                     subSecaoProcessoConclusoDTO.setProcessosConclusosCpc(processosConclusosCpcDTO);
                     //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
@@ -1280,8 +1281,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                             break;
                         }
                     }
-                    
-                    //secaoDadosUnidade.getListaSubSecoes().add(subSecaoProcessoConclusoDTO);
                 }
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
                 for (SubSecaoDTO subSecaoDTO : secao.getListaSubSecoes()) {
@@ -2560,7 +2559,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         logger.info(AppBundleProperties.getString("msg.formulario.logDownloadFormuluario") + entidadePersistencia.getNomeFormulario());
         initPreencherFormulario();
         JRDataSource dataSource = relatorioFormulario.obterDataSourceColecao(entidadePersistencia);        
-        Map<String, Object> parametros = relatorioFormulario.obterParametros(entidadePersistencia);
+        Map<String, Object> parametros = relatorioFormulario.obterParametros(entidadePersistencia, subSecaoProcessoConclusoDTO);
         parametros.put("tiposRegraFormulario", tiposRegraFormulario);
         //System.out.println("tiposRegraFormulario 6 "+tiposRegraFormulario.get(6l));
         //System.out.println("tiposRegraFormulario 0 "+tiposRegraFormulario.get(0));
