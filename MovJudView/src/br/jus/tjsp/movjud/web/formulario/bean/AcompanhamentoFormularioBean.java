@@ -894,7 +894,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                                      TipoSituacaoType.RETIFICACAO_CONCLUIDA));
             }
-            entidadePersistencia.setDataConclusao(new Date());
+            entidadePersistencia.setDataConclusao(new Date());  
             recalcularFormulas();
             FacesContext fctx = FacesContext.getCurrentInstance();
             fctx.getApplication().getNavigationHandler().handleNavigation(fctx, null, persistirEntidade());
@@ -905,7 +905,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 consistencia.append(AppBundleProperties.getString("msg.formulario.validacaoMagistradoProcessoConcluso"));
                 consistencia.append("<ul>");
                 for (Usuario usuario : listaInconsistenciasMagistrado) {
-                    consistencia.append("<p> - " + usuario.getNome() + "</p>");
+                    consistencia.append("<p> - " +  usuario.getNome() + "</p>");
                 }
                 consistencia.append("</ul></li>");
             }
@@ -1082,9 +1082,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         Usuario retorno = null;
         if (listaMagistrados != null && !listaMagistrados.isEmpty()) {
             for (Usuario magistrado : listaMagistrados) {
-                if (magistrado.getIdUsuario().equals(idMagistrado)) {
-                    retorno = magistrado;
-                }
+                
+                    if (magistrado.getIdUsuario().equals(idMagistrado)) {
+                        retorno = magistrado;
+                    }
             }
         }
         return retorno;

@@ -210,7 +210,8 @@ public class ProcessoConclusoDAOImpl extends BaseDAOImpl<ProcessoConcluso> imple
         jpaQl.append(" processoConcluso.unidade.idUnidade = ?1 and");
         jpaQl.append(" processoConcluso.ano = ?2 and");
         jpaQl.append(" processoConcluso.mes = ?3 and");
-        jpaQl.append(" processoConcluso.sourceFormulario = ?4");
+        jpaQl.append(" processoConcluso.sourceFormulario = ?4 and");
+        jpaQl.append(" processoConcluso.usuario is not null");
         return getPersistenceManager().listarPorJPQL(jpaQl, processoConcluso.getUnidade().getIdUnidade(),
                                                             processoConcluso.getAno(), processoConcluso.getMes(), processoConcluso.getSourceFormulario());
     }
