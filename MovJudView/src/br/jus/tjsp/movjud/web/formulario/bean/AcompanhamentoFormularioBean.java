@@ -1319,11 +1319,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         
         //Luis - Retirei pois a regra da existencia do formulario anterior precisa ser aplicada na consulta
         //por conta do tipo regra primeiro acesso nos campos
-        //if(visualizar == false){
-            formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);            
+        formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);            
+        
+        if(visualizar == false)
             entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
-            existeFormularioPreenchidoAnteriormente = (formularioMesAnterior != null);
-        //}
+        
+        existeFormularioPreenchidoAnteriormente = (formularioMesAnterior != null);
         
         // Erro 116 - SÃƒÂ³ atualiza na tela apÃƒÂ³s a existencia do componente "RichPanelGroupLayout painelPrincipal" existir para ser atualizado.
         if(painelPrincipal != null) // quando estÃƒÂ¡ nulo, ele recalcula apÃƒÂ³s o Framework criar o objeto (no set utilizado).
