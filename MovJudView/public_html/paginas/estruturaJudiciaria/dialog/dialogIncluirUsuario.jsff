@@ -25,7 +25,8 @@
                             <af:inputText label="#{app['label.usuario.codigoSaj']}" id="it9"
                                           value="#{usuarioBean.entidadePersistencia.codigoUsuarioSaj}" columns="16"
                                           partialTriggers="soc2" maximumLength="10"
-                                          disabled="#{usuarioBean.entidadePersistencia.perfil.codigoPerfil !=  constantesBean.PERFIL_COD_MAGISTRADO}"
+                                          disabled="#{!((usuarioBean.entidadePersistencia.perfil.codigoPerfil ==  constantesBean.PERFIL_COD_MAGISTRADO) or (usuarioBean.entidadePersistencia.perfil.codigoPerfil ==  constantesBean.PERFIL_COD_DESEMBARGADOR) or (usuarioBean.entidadePersistencia.perfil.codigoPerfil ==  constantesBean.PERFIL_COD_MASSESCORR))}"
+                                          required="#{(usuarioBean.entidadePersistencia.perfil.codigoPerfil ==  constantesBean.PERFIL_COD_MAGISTRADO) or (usuarioBean.entidadePersistencia.perfil.codigoPerfil ==  constantesBean.PERFIL_COD_DESEMBARGADOR) or (usuarioBean.entidadePersistencia.perfil.codigoPerfil ==  constantesBean.PERFIL_COD_MASSESCORR)}"
                                           autoSubmit="true"/>
                         </af:panelFormLayout>
                     </af:gridCell>

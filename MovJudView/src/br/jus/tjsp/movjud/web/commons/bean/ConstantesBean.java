@@ -32,5 +32,13 @@ public class ConstantesBean {
     public String getPERFIL_COD_MAGISTRADO() {
 	return ConstantesMovjud.PERFIL_COD_MAGISTRADO;
     }
+    
+    public String getPERFIL_COD_DESEMBARGADOR() {
+        return ConstantesMovjud.PERFIL_COD_DESEMBARGADOR;
+    }
+    
+    public String getPERFIL_COD_MASSESCORR() {
+        return ConstantesMovjud.PERFIL_COD_MASSESCORR;
+    }
 
 }
