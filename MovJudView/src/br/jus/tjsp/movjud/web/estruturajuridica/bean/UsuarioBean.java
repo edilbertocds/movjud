@@ -87,6 +87,12 @@ public class UsuarioBean extends BaseBean<Usuario> {
         }
     }
 
+    public boolean isCodigoSajRequired() {
+        return ((entidadePersistencia.getPerfil() != null) &&
+                (ConstantesMovjud.PERFIL_COD_MAGISTRADO.equals(entidadePersistencia.getPerfil().getCodigoPerfil()) ||
+                 ConstantesMovjud.PERFIL_COD_DESEMBARGADOR.equals(entidadePersistencia.getPerfil().getCodigoPerfil()) ||
+                 ConstantesMovjud.PERFIL_COD_MASSESCORR.equals(entidadePersistencia.getPerfil().getCodigoPerfil())));
+    }
 
     public void alterarPermissaoAcao(ValueChangeEvent valueChangeEvent) {
         if (entidadePersistencia != null) {
@@ -100,12 +106,10 @@ public class UsuarioBean extends BaseBean<Usuario> {
     public void alterarDireitosEspeciais(ValueChangeEvent valueChangeEvent) {
         Boolean valorDireitosEspeciais = (Boolean) valueChangeEvent.getNewValue();
 
-        if (valorDireitosEspeciais ==
-            false) {
+        if (valorDireitosEspeciais == false) {
             listaAcoesSelecionadasComMarcacao =
-                              UsuarioAcaoType.recuperarListaPermissoes(getListaAcoes(),
-                                                                       entidadePersistencia.getPerfil().getAcoes(),
-                                                                       null, isDireitosEspeciais());
+                UsuarioAcaoType.recuperarListaPermissoes(getListaAcoes(), entidadePersistencia.getPerfil().getAcoes(),
+                                                         null, isDireitosEspeciais());
         }
 
         for (UsuarioAcaoType acao : listaAcoesSelecionadasComMarcacao) {
@@ -142,7 +146,7 @@ public class UsuarioBean extends BaseBean<Usuario> {
             pesquisarEntidade();
         } catch (Exception e) {
             MovJudErrorMessage.gerarErroMovjud(logger, e, dialogEvent.getComponent().getParent());
-            }
+        }
     }
 
     @Override
@@ -178,21 +182,32 @@ public class UsuarioBean extends BaseBean<Usuario> {
     @Override
     public void persistirEntidade(DialogEvent dialogEvent) {
         logger.info(AppBundleProperties.getString("msg.usuario.log") + entidadePersistencia.getNome());
-        
-        try{
+
+        try {
             entidadePersistencia.setAcoesUsuario(criarListaUsuarioAcao(listaAcoesSelecionadasComMarcacao,
                                                                        entidadePersistencia));
             estruturaJudiciaria.salvarUsuario(entidadePersistencia);
-    
-            if (dialogEvent.getComponent().getClientId().toString().contains("incluirUsuarioDialog")) {
+
+            if (dialogEvent.getComponent()
+                           .getClientId()
+                           .toString()
+                           .contains("incluirUsuarioDialog")) {
                 popUpConfirmacao("popupInfoInclusao");
             }
-            if (dialogEvent.getComponent().getClientId().toString().contains("alterarUsuarioDialog")) {
+            if (dialogEvent.getComponent()
+                           .getClientId()
+                           .toString()
+                           .contains("alterarUsuarioDialog")) {
                 popUpConfirmacao("popupInfoAlterado");
             }
             pesquisarEntidade();
-        }catch(Exception e){
-            MovJudErrorMessage.gerarErroMovjud(logger, e);
+        } catch (Exception e) {
+            MovJudErrorType errorType = MovJudErrorMessage.getErrorType(e);
+            if (errorType.getCodigoErro().equals("ORA-00001")) {
+                MovJudErrorMessage.gerarErroMovjud(logger, e, "Usuário já cadastrado");
+            } else {
+                MovJudErrorMessage.gerarErroMovjud(logger, e);
+            }
         }
     }
 
