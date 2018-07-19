@@ -72,6 +72,12 @@ public class MovJudErrorMessage {
         BaseBean.mensagemErro(errorType.getMensagenErro());
         logger.error(errorType.getMensagenErro(), getException(e));
     }
+    
+    public static void gerarErroMovjud(Logger logger, Throwable e, String msg) {
+        MovJudErrorType errorType = getErrorType(e);
+        BaseBean.mensagemErro(msg);
+        logger.error(errorType.getMensagenErro(), getException(e));        
+    }
 
     public static void gerarAvisoMovjud(Logger logger, Throwable e) {
         MovJudErrorType errorType = getErrorType(e);
