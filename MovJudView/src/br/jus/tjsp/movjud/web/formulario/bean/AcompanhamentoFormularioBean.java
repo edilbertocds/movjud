@@ -113,7 +113,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
     */
     
-    private SubSecaoDTO subSecaoProcessoConclusoDTO = new SubSecaoDTO();;
+    private SubSecaoDTO subSecaoProcessoConclusoDTO = new SubSecaoDTO();
 
     private boolean mostrarAviso;
     private Usuario magistrado;
@@ -1261,6 +1261,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                                               entidadePersistencia.getIdUnidade(),
                                                                                                                                               null,
                                                                                                                                               entidadePersistencia.getCodigoFormulario()));
+                subSecaoProcessoConclusoDTO = new SubSecaoDTO(); 
                 subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcessoDTO(processosConclusosCpcDTO.getListaTipoFilaProcessoDTO());
                 if(!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()){
                     subSecaoProcessoConclusoDTO.setLabelSecao("Processos Conclusos da Unidade");
@@ -1514,6 +1515,15 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String adicionarProcessoConcluso() {
+        // <epr> 2.0.33 - verificar duplicidade 20/07/2018
+        long numDup = subSecaoProcessoConclusoDTO.getListaProcessosConclusos()
+                                           .stream()
+                                           .filter(p -> p.getNumeroProcesso().equals(processoConclusoDTO.getNumeroProcesso()))
+                                           .count();
+        if(numDup > 0) {
+            mensagemErro("Número de processo concluso duplicado");
+            return null;
+        }
         // <epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
         if(processoConclusoDTO.getTipoConclusoDTO() == null) {            
             TipoConclusoDTO tipoConclusoDTO = formularioService.obterTipoConclusoPorId(-1L);
@@ -1580,7 +1590,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 getPopupInconsistenciaProcessoCemDias().show(new RichPopup.PopupHints());
             }
         }
-        processoConclusoUnidadeBoolean = false;
         return null;
     }
 
