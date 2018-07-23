@@ -541,6 +541,18 @@ public class FormularioServiceImpl implements FormularioService{
         
         if(subSecaoDTOList!=null && !subSecaoDTOList.isEmpty()){
             for(SubSecaoDTO subsecaoDTO : subSecaoDTOList){
+                for(ProcessoConclusoDTO processoConclusoDTO : subsecaoDTO.getListaProcessosConclusos()){
+                    ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
+                    if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
+                        pc.setUsuario(null);
+                    processoConclusoDAO.salvar(pc);
+                    /*ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
+                    if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
+                        pc.setUsuario(null);
+                    if(processoConclusoDTO.getDataBaixa() != null && processoConclusoDTO.getDtDataBaixa() == null)
+                        pc.setDtDataBaixa(Calendar.getInstance().getTime());
+                    processoConclusoDAO.salvar(pc);*/
+                }
                 for(ProcessoConclusoDTO processoConclusoDTO : subsecaoDTO.getListaProcessosConclusosDeletarSubsequentes()){
                     processoConclusoDAO.deletarProcessosConclusosSubsequentes(new ProcessoConcluso(new Unidade(formularioDTO.getIdUnidade()), 
                                                                                                    new Usuario(subsecaoDTO.getIdMagistrado()), 
@@ -554,18 +566,6 @@ public class FormularioServiceImpl implements FormularioService{
                                                                                                    processoConclusoDTO.getAno(), processoConclusoDTO.getMes(),
                                                                                                    processoConclusoDTO.getNumeroProcesso(),
                                                                                                    processoConclusoDTO.getSrcFormulario()));
-                }
-                for(ProcessoConclusoDTO processoConclusoDTO : subsecaoDTO.getListaProcessosConclusos()){
-                    ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
-                    if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
-                        pc.setUsuario(null);
-                    processoConclusoDAO.salvar(pc);
-                    /*ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
-                    if(processoConclusoDTO.getIdMagistradoProcesso() == null || processoConclusoDTO.getIdMagistradoProcesso().longValue() < 1)
-                        pc.setUsuario(null);
-                    if(processoConclusoDTO.getDataBaixa() != null && processoConclusoDTO.getDtDataBaixa() == null)
-                        pc.setDtDataBaixa(Calendar.getInstance().getTime());
-                    processoConclusoDAO.salvar(pc);*/
                 }
             }
         }
