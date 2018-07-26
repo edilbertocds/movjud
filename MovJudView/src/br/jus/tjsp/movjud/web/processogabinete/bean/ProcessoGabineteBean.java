@@ -47,7 +47,7 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) {
 
-        if (getFlagArquivado().getValue().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) && object == null || getFlagArquivado().getValue().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) && object.toString().isEmpty()) {
+        if ( getFlagArquivado() != null && getFlagArquivado().getValue() != null && (getFlagArquivado().getValue().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) && object == null || getFlagArquivado().getValue().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) && object.toString().isEmpty())) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                                           AppBundleProperties.getString("msg.validacao"), null));
         }
