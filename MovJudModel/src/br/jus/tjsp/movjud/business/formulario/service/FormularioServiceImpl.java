@@ -776,12 +776,12 @@ public class FormularioServiceImpl implements FormularioService{
                     List<PreCarga> listaCamposPreCarga = listarCamposPreCarga(new PreCarga(novoFormulario.getAno().intValue(), null, null, novoFormulario.getCodigoFormulario(), null, novoFormulario.getMes().intValue(), unidade, null, null));
                     novoFormulario = incluirValoresPreCarga(novoFormulario, listaCamposPreCarga);
                     formularioDAO.salvar(FormularioConverter.parseFormularioDTOParaFormulario(novoFormulario, false));
-                } else  {
+                } /* epr-20180628:só libera novos formulários else  {
                     novoFormulario.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(
                                                             listarTipoSituacao(), TipoSituacaoType.ABERTO));
                     novoFormulario.setIdUnidade(unidade.getIdUnidade());
                     formularioDAO.salvar(FormularioConverter.parseFormularioDTOParaFormulario(novoFormulario, false));
-                }
+                } */
             }
         }
     }
