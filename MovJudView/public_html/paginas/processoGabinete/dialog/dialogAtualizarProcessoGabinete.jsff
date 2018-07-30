@@ -22,7 +22,7 @@
                     <af:spacer width="10" height="10" id="s2"/>
                     <af:table var="row" rowBandingInterval="0" id="t1" width="993"
                           value="#{processoGabineteBean.entidadePersistencia.usuario.processosGabinete}"
-                          partialTriggers="linkExcluir ::botaoInserirProcessoGabinete"
+                          partialTriggers="it2 it3 inputAnoProcesso sorArquivado linkExcluir ::botaoInserirProcessoGabinete"
                           columnStretching="column:tbTipoProcesso">
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
                                    id="tbTipoProcesso" width="100" align="center">
@@ -60,7 +60,7 @@
                                           value="#{row.flagArquivado ne app['flag.statusNao']? row.dataArquivamento:''}"
                                           maxValue="#{processoGabineteBean.dataAtual}" columns="15"
                                           validator="#{processoGabineteBean.validate}" partialTriggers="sorArquivado"
-                                          readOnly="#{row.flagArquivado == app['flag.statusNao']}"
+                                          disabled="#{row.flagArquivado == app['flag.statusNao']}"
                                           contentStyle="width:120.0px;" label="Data Arquivamento"/>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.caixa']}" id="c6"
@@ -68,7 +68,7 @@
                             <af:inputText id="it5" partialTriggers="sorArquivado"
                                           value="#{row.flagArquivado ne app['flag.statusNao']?row.numeroCaixa:''}"
                                           validator="#{processoGabineteBean.validate}"
-                                          maximumLength="10" readOnly="#{row.flagArquivado == app['flag.statusNao']}"
+                                          maximumLength="10" disabled="#{row.flagArquivado == app['flag.statusNao']}"
                                           label="Caixa"/>
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.processoCpa']}" id="c7"
