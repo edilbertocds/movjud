@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-11-09T12:04:30 -->
+<!-- 2018-07-30T15:26:21 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Formulario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="20c41435-dcc9-4f0b-8a89-623a5f8e21cf">
 	<property name="ireport.zoom" value="1.4641000000000015"/>
 	<property name="ireport.x" value="0"/>
@@ -194,7 +194,7 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="20">
+		<band height="22">
 			<textField>
 				<reportElement x="455" y="0" width="54" height="20" uuid="4b8b6ad7-e159-4985-ada0-5cce823a6469"/>
 				<textElement textAlignment="Right"/>

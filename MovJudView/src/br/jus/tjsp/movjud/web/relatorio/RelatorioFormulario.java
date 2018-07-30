@@ -26,7 +26,7 @@ public class RelatorioFormulario extends RelatorioImpl {
         formularioService = BaseBean.getBean(FormularioService.class);
     }
 
-    public Map<String, Object> obterParametros(FormularioDTO formulario,SubSecaoDTO subSecaoProcessoConclusoDTO) {
+    public Map<String, Object> obterParametros(FormularioDTO formulario) {
         Map<String, Object> parametros = super.obterParametros();
         parametros.put("nomeFormulario", formulario.getNomeFormulario());
         parametros.put("nomeForo", formulario.getNomeForo());
@@ -34,7 +34,6 @@ public class RelatorioFormulario extends RelatorioImpl {
         parametros.put("mesAno",  formulario.getMes()+ "/" + formulario.getAno());
         parametros.put("codigo", formulario.getCodigoFormulario());
         parametros.put("versao", formulario.getVersao());
-        parametros.put("subSecaoProcessoConclusoDTO", subSecaoProcessoConclusoDTO);
         
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy 'as' HH:mm:ss");
         

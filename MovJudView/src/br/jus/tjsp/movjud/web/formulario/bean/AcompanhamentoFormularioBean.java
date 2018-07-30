@@ -1260,6 +1260,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }*/
 
     public String initPreencherFormulario() {
+        return initPreencherFormulario(false);
+    }
+    
+    private String initPreencherFormulario(boolean relatorioPDF) {
         //Formulario f = formularioService.recuperarFormularioPorIdFormulario(entidadePersistencia.getIdFormulario());
         /** recupera Formulário */
         entidadePersistencia = recuperarFormulario(entidadePersistencia);
@@ -1351,6 +1355,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                         }
                     }
                 }
+                if(relatorioPDF)
+                   secao.getListaSubSecoes().add(subSecaoProcessoConclusoDTO);
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
                 for (SubSecaoDTO subSecaoDTO : secao.getListaSubSecoes()) {
                     List<ProcessoConclusoDTO> listaProcessosConclusos =
