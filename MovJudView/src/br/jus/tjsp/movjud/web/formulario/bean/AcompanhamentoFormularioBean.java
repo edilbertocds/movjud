@@ -106,13 +106,15 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private String inconsistenciaRemoverProcessoConcluso;
     private String periodoProcessoConclusoInicio;
     private String periodoProcessoConclusoFim;
-    private Calendar periodoProcessoConclusoInicioCalendar = Calendar.getInstance(); // ultimoDiaMesReferenciaAnteriorCemDias.setTime(periodo.getDataInicio());
-    private Calendar periodoProcessoConclusoFimCalendar = Calendar.getInstance(); // ultimoDiaMesReferenciaMenosCemDias.setTime(periodo.getDataFim());
+    private Calendar periodoProcessoConclusoInicioCalendar =
+        Calendar.getInstance(); // ultimoDiaMesReferenciaAnteriorCemDias.setTime(periodo.getDataInicio());
+    private Calendar periodoProcessoConclusoFimCalendar =
+        Calendar.getInstance(); // ultimoDiaMesReferenciaMenosCemDias.setTime(periodo.getDataFim());
     /*
     private Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
     private Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
     */
-    
+
     private SubSecaoDTO subSecaoProcessoConclusoDTO = new SubSecaoDTO();
 
     private boolean mostrarAviso;
@@ -198,7 +200,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private static final String VALIDACAO_MAGISTRADO_APROVADOR = "VALIDACAO_MAGISTRADO_APROVADOR";
     private static final String VALIDACAO_REUS_ULTIMO_MOVIMENTO = "VALIDACAO_REUS_ULTIMO_MOVIMENTO";
     private static final String VALIDACAO_CAMPOS_ZERADOS = "VALIDACAO_CAMPOS_ZERADOS";
-    
+
     private static final int ANO_REGRA_PROCESSO_CONCLUSO = 2016;
 
     private int colunas;
@@ -227,15 +229,17 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private RichPopup popupRemoverProcessoConclusoForaDoPeriodo;
 
     private boolean atualizarPainelPrincipal = false;
-    
+
     private boolean processoConclusoUnidadeBoolean = false;
-    
+
     private boolean existeFormularioPreenchidoAnteriormente = false;
-    
+
+    private boolean triggerRecalc = false;
+
     public AcompanhamentoFormularioBean() {
         formularioService = (FormularioService) getBean(FormularioService.class);
         estruturaJudiciariaService = (EstruturaJudiciariaService) getBean(EstruturaJudiciariaService.class);
-        
+
         extensaoRelatorio = ExtensaoRelatorio.EXTENSAO_PDF;
         templateRelatorio = Template.FORMULARIO;
         relatorioFormulario = new RelatorioFormulario();
@@ -254,7 +258,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         listaTipoJuiz = Arrays.asList(TipoJuizType.values());
         listaProcessosConclusos = formularioService.listarTipoProcessoConclusoPorDescricao();
         listaRemoverProcessoConclusoDTO = new HashMap<Long, ProcessoConclusoDTO>();
-        usuarioLogado = getLoginBean().getUsuarioSessao();            
+        usuarioLogado = getLoginBean().getUsuarioSessao();
         //mockUser();
         action = acaoPageFlow();
         //throw new MovJudViewException("DEU RUIM");
@@ -304,7 +308,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             popularListaSituacao();
         }
         //if(listaEntidade == null) -- não realizar a consulta mesmo que não estiver nulo, não funciona a paginação. 01.06.2018
-            pesquisarEntidadeConsultarGeral();
+        pesquisarEntidadeConsultarGeral();
     }
 
     private void inicializarVariaveisConsulta() {
@@ -397,52 +401,52 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if (ConstantesMovjud.PERFIL_COD_ADMIN.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
             return true;
         }
-        
-        if(ORIGEM_TELA_PREENCHER.equals(action)) {
-            if(ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil()) ||
-               ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+
+        if (ORIGEM_TELA_PREENCHER.equals(action)) {
+            if (ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil()) ||
+                ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return false;
-            }            
+            }
         }
-        
+
         if (ORIGEM_TELA_ENVIAR.equals(action)) {
-            if(ConstantesMovjud.PERFIL_COD_MASSESCORR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+            if (ConstantesMovjud.PERFIL_COD_MASSESCORR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return true;
             }
-            if(ConstantesMovjud.PERFIL_COD_DESEMBARGADOR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+            if (ConstantesMovjud.PERFIL_COD_DESEMBARGADOR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return true;
             }
-            if(ConstantesMovjud.PERFIL_COD_MAGISTRADO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+            if (ConstantesMovjud.PERFIL_COD_MAGISTRADO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 entidadeFiltro.setNomeMagistrado(usuarioLogado.getNome());
-                entidadeFiltro.setIdMagistrado(usuarioLogado.getIdUsuario());                
+                entidadeFiltro.setIdMagistrado(usuarioLogado.getIdUsuario());
                 return false;
             }
         }
-        
-        if(ORIGEM_TELA_RETIFICAR.equals(action)) {
-            if(ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil()) ||
-               ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+
+        if (ORIGEM_TELA_RETIFICAR.equals(action)) {
+            if (ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil()) ||
+                ConstantesMovjud.PERFIL_COD_FUNCIONARIO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return false;
             }
         }
-        
-        if(ORIGEM_TELA_CONSULTAR.equals(action)) {
-            if(ConstantesMovjud.PERFIL_COD_MASSESCORR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+
+        if (ORIGEM_TELA_CONSULTAR.equals(action)) {
+            if (ConstantesMovjud.PERFIL_COD_MASSESCORR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return true;
             }
-            if(ConstantesMovjud.PERFIL_COD_DESEMBARGADOR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+            if (ConstantesMovjud.PERFIL_COD_DESEMBARGADOR.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return true;
             }
-            if(ConstantesMovjud.PERFIL_COD_MAGISTRADO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+            if (ConstantesMovjud.PERFIL_COD_MAGISTRADO.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 entidadeFiltro.setNomeMagistrado(usuarioLogado.getNome());
-                entidadeFiltro.setIdMagistrado(usuarioLogado.getIdUsuario());                
+                entidadeFiltro.setIdMagistrado(usuarioLogado.getIdUsuario());
                 return false;
             }
-            if(ConstantesMovjud.PERFIL_COD_CONSULTA.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
+            if (ConstantesMovjud.PERFIL_COD_CONSULTA.equals(usuarioLogado.getPerfil().getCodigoPerfil())) {
                 return true;
             }
         }
-        
+
         /* ------------------
         if (ORIGEM_TELA_RETIFICAR.equals(action) || ORIGEM_TELA_CONSULTAR.equals(action)) {
             if (ConstantesMovjud.PERFIL_COD_RESPONSAVEL.equals(usuarioLogado.getPerfil().getCodigoPerfil()) ||
@@ -532,12 +536,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             listaAno.add(new SelectItem(new Long(i), String.valueOf(i)));
         }
     }
-    
-    public void filtrarProcessoConcluso(ActionEvent actionEvent){
+
+    public void filtrarProcessoConcluso(ActionEvent actionEvent) {
         atualizarComponenteDeTela("painelSecaoMagistrado");
     }
-    
-    public void filtrarProcessoConclusoUnidade(ActionEvent actionEvent){
+
+    public void filtrarProcessoConclusoUnidade(ActionEvent actionEvent) {
         atualizarComponenteDeTela("painelProcessoConclusoUnidade");
     }
 
@@ -553,14 +557,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 formularioDTO.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(formularioDTO));
             }*/
             // </epr-desempenho> teste lista
-            
+
             atualizarListasPreenchimentoMagistrado();
         } else {
             listaEntidade = new ArrayList<>();
         }
         // limpar listaFormulariosRetificação para refletir corretamente a seleção vizível.
         listaFormulariosRetificacao = new ArrayList<FormularioDTO>();
-        
+
         zerarCamposRodape();
     }
 
@@ -653,7 +657,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                                  TipoSituacaoType.ENVIADO_CGJ));
             List<String> listaSituacao = new ArrayList<String>();
-            if (TipoSituacaoType.CONCLUIDO.getCodigo().equals(entidadePersistencia.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario())) {
+            if (TipoSituacaoType.CONCLUIDO
+                                .getCodigo()
+                                .equals(entidadePersistencia.getSituacaoFormularioDTO()
+                                        .getIdentificadorSituacaoFormulario())) {
                 //se for tipo situação = 'concluído', deve-se enviar todo o lote, conforme filtro mes/ano, unidade e magistrado
 
                 listaSituacao.add(TipoSituacaoType.ABERTO.getCodigo());
@@ -704,7 +711,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public String solicitarRetificacao(DialogEvent dialogEvent) {
         //Mudar status de "CONCLUIDO" para "RETIFICACAO SOLICITADA"
         for (FormularioDTO form : listaFormulariosRetificacao) {
-            logger.info(AppBundleProperties.getString("msg.formulario.logSolicitacaoRetificacao") + entidadePersistencia.getNomeFormulario());
+            logger.info(AppBundleProperties.getString("msg.formulario.logSolicitacaoRetificacao") +
+                        entidadePersistencia.getNomeFormulario());
             form.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                  TipoSituacaoType.RETIFICACAO_SOLICITADA));
             form.setObservacaoHistorico(motivoDevolucao);
@@ -742,27 +750,36 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
         listaFormulariosRetificacao = new ArrayList<FormularioDTO>();
         for (FormularioDTO form : listaEntidade) {
-            if (form.isFlagRetificacao()) {                
-                
+            if (form.isFlagRetificacao()) {
+
                 form = recuperarFormulario(form);
                 form.setFlagRetificacao(true);
-                
+
                 listaFormulariosRetificacao.add(form);
             }
         }
         if (listaFormulariosRetificacao.isEmpty()) {
             msg = AppBundleProperties.getString("msg.formulario.nenhumFormularioSelecionadoParaRetificacao");
         }
-        
+
         for (FormularioDTO form : listaFormulariosRetificacao) {
-            if(form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.ENVIADO_CGJ.toString()) == false && 
-                form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ.toString()) == false &&
-                form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_REPROVADA.toString()) == false){
-                msg = AppBundleProperties.getString("msg.formulario.formularioNaoPermitidoSelecionadoParaSolicitarRetificacao");
+            if (form.getSituacaoFormularioDTO()
+                    .getIdentificadorSituacaoFormulario()
+                    .equalsIgnoreCase(TipoSituacaoType.ENVIADO_CGJ.toString()) == false &&
+                form.getSituacaoFormularioDTO()
+                                                                                               .getIdentificadorSituacaoFormulario()
+                                                                                               .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ.toString()) ==
+                                  false &&
+                                  form.getSituacaoFormularioDTO()
+                                               .getIdentificadorSituacaoFormulario()
+                                               .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_REPROVADA.toString()) ==
+                                  false) {
+                msg =
+                    AppBundleProperties.getString("msg.formulario.formularioNaoPermitidoSelecionadoParaSolicitarRetificacao");
                 break;
             }
         }
-        
+
         if (msg == null) {
             UIComponent component = findComponent("confirmacaoSolicitarRetificacaoPopUp");
             RichPopup popup = (RichPopup) component;
@@ -782,12 +799,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         Perfil p = new Perfil();
         p.setCodigoPerfil(ConstantesMovjud.PERFIL_COD_MAGISTRADO);
         usuarioMagistrado.setPerfil(p);
-        
+
         listaParametros =
             estruturaJudiciariaService.listarUsuariosComFiltroPaginacao(usuarioMagistrado, paginacaoSeguestao);
         result.addAll(listaParametros);
         */
-        listaParametros = formularioService.listarUsuarioMagistradoPorNomeComPaginacao(usuarioMagistrado, paginacaoSeguestao);
+        listaParametros =
+            formularioService.listarUsuarioMagistradoPorNomeComPaginacao(usuarioMagistrado, paginacaoSeguestao);
         // </epr> 0.7.16  lista com perfis MAGISTRADO, DESEMBARGADOR e MAGSITRADO ASSESSOR CORREGEDORIA
         return montarSelectItemEntidades(listaParametros, Usuario.class);
     }
@@ -843,12 +861,16 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                      TipoSituacaoType.RETIFICACAO_REPROVADA));
             }
             FacesContext fctx = FacesContext.getCurrentInstance();
-            fctx.getApplication().getNavigationHandler().handleNavigation(fctx, null, persistirEntidade());
+            fctx.getApplication()
+                .getNavigationHandler()
+                .handleNavigation(fctx, null, persistirEntidade());
         }
     }
 
     public void devolverFormulario(DialogEvent dialogEvent) {
-        if (entidadePersistencia.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.CONCLUIDO.getCodigo())) {
+        if (entidadePersistencia.getSituacaoFormularioDTO()
+                                .getIdentificadorSituacaoFormulario()
+                                .equals(TipoSituacaoType.CONCLUIDO.getCodigo())) {
             entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                                  TipoSituacaoType.DEVOLVIDO));
         } else {
@@ -857,7 +879,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
         }
         FacesContext fctx = FacesContext.getCurrentInstance();
-        fctx.getApplication().getNavigationHandler().handleNavigation(fctx, null, persistirEntidade());
+        fctx.getApplication()
+            .getNavigationHandler()
+            .handleNavigation(fctx, null, persistirEntidade());
     }
 
     private void concluirPreenchimento() {
@@ -868,8 +892,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             listaInconsistenciasMagistrado =
                 todosOsMagistradosNoFormulario(secaoMagistrado,
                                                formularioService.listarMagistradosProcessosConclusosUnidade(entidadePersistencia.getIdUnidade(),
-                                                                                                            entidadePersistencia.getAno().intValue(),
-                                                                                                            entidadePersistencia.getMes().intValue(),
+                                                                                                            entidadePersistencia.getAno()
+                                                                                                            .intValue(),
+                                                                                                            entidadePersistencia.getMes()
+                                                                                                            .intValue(),
                                                                                                             entidadePersistencia.getCodigoFormulario()));
         if (listaInconsistenciasMagistrado != null && !listaInconsistenciasMagistrado.isEmpty()) {
             consistencias.put(VALIDACAO_MAGISTRADO_PROCESSOS, true);
@@ -894,10 +920,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                                      TipoSituacaoType.RETIFICACAO_CONCLUIDA));
             }
-            entidadePersistencia.setDataConclusao(new Date());  
+            entidadePersistencia.setDataConclusao(new Date());
             recalcularFormulas();
             FacesContext fctx = FacesContext.getCurrentInstance();
-            fctx.getApplication().getNavigationHandler().handleNavigation(fctx, null, persistirEntidade());
+            fctx.getApplication()
+                .getNavigationHandler()
+                .handleNavigation(fctx, null, persistirEntidade());
         } else {
             consistencia = new StringBuilder();
             if (consistencias.getOrDefault(VALIDACAO_MAGISTRADO_PROCESSOS, false)) {
@@ -905,7 +933,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 consistencia.append(AppBundleProperties.getString("msg.formulario.validacaoMagistradoProcessoConcluso"));
                 consistencia.append("<ul>");
                 for (Usuario usuario : listaInconsistenciasMagistrado) {
-                    consistencia.append("<p> - " +  usuario.getNome() + "</p>");
+                    consistencia.append("<p> - " + usuario.getNome() + "</p>");
                 }
                 consistencia.append("</ul></li>");
             }
@@ -930,7 +958,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void concluirPreenchimento(DialogEvent dialogEvent) {
         if (dialogEvent.getOutcome() == DialogEvent.Outcome.ok) {
             if (validarRegrasFormulas()) {
-                logger.info(AppBundleProperties.getString("msg.formulario.logPreenchimentoConcluido") + entidadePersistencia.getNomeFormulario());
+                logger.info(AppBundleProperties.getString("msg.formulario.logPreenchimentoConcluido") +
+                            entidadePersistencia.getNomeFormulario());
                 concluirPreenchimento();
             }
         }
@@ -968,7 +997,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         int countMsgs = 0;
         // TODO: investigar mais a fundo a implementaÃƒÂ§ÃƒÂ£o da validaÃƒÂ§ÃƒÂ£o para resolver corretamente este erro.
         // <epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
-        List<Integer> hashInserted = new ArrayList<Integer>(); 
+        List<Integer> hashInserted = new ArrayList<Integer>();
         // </epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
         StringBuilder validacao = new StringBuilder();
         if (TipoValidacaoType.VALIDACAO_ERRO.equals(tipoValidacao)) {
@@ -978,12 +1007,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             validacao.append("<ul>");
             for (ValidacaoDTO val : listaValidacao) {
                 // <epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
-                if(hashInserted.contains(("ERRO "+val.getMensagem()).hashCode())) {
+                if (hashInserted.contains(("ERRO " + val.getMensagem()).hashCode())) {
                     continue;
                 }
-                hashInserted.add(("ERRO "+val.getMensagem()).hashCode());
+                hashInserted.add(("ERRO " + val.getMensagem()).hashCode());
                 // </epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
-                if(countMsgs == MAX_NUM_MSG) {
+                if (countMsgs == MAX_NUM_MSG) {
                     validacao.append("<li><b>Existem mais erros nÃƒÂ£o exibidos...</b></li>");
                     break;
                 }
@@ -1000,12 +1029,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             validacao.append("<ul>");
             for (ValidacaoDTO val : listaValidacao) {
                 // <epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
-                if(hashInserted.contains(("AVISO "+val.getMensagem()).hashCode())) {
+                if (hashInserted.contains(("AVISO " + val.getMensagem()).hashCode())) {
                     continue;
                 }
-                hashInserted.add(("AVISO "+val.getMensagem()).hashCode());                            
+                hashInserted.add(("AVISO " + val.getMensagem()).hashCode());
                 // </epr> 0.6.7 evitr duplicaÃƒÂ§ÃƒÂ£o no aviso
-                if(countMsgs == MAX_NUM_MSG) {
+                if (countMsgs == MAX_NUM_MSG) {
                     validacao.append("<li><b>Existem mais erros nÃƒÂ£o exibidos...</b></li>");
                     break;
                 }
@@ -1082,10 +1111,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         Usuario retorno = null;
         if (listaMagistrados != null && !listaMagistrados.isEmpty()) {
             for (Usuario magistrado : listaMagistrados) {
-                
-                    if (magistrado.getIdUsuario().equals(idMagistrado)) {
-                        retorno = magistrado;
-                    }
+
+                if (magistrado.getIdUsuario().equals(idMagistrado)) {
+                    retorno = magistrado;
+                }
             }
         }
         return retorno;
@@ -1100,14 +1129,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                  TipoSituacaoType.RETIFICACAO_EM_PREENCHIMENTO));
         }
         // <epr 3) Item 143>
-        if(listaRemoverProcessoConclusoDTO != null && !listaRemoverProcessoConclusoDTO.isEmpty()) {
-            SubSecaoDTO subSecaoMagistrado = FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado);
-            if(subSecaoMagistrado != null) {
+        if (listaRemoverProcessoConclusoDTO != null && !listaRemoverProcessoConclusoDTO.isEmpty()) {
+            SubSecaoDTO subSecaoMagistrado =
+                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado);
+            if (subSecaoMagistrado != null) {
                 subSecaoMagistrado.getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
             }
-            if(subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getProcessosConclusosCpc() != null && subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos() != null && !subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos().isEmpty()){
-                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
-                subSecaoProcessoConclusoDTO.getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
+            if (subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getProcessosConclusosCpc() != null &&
+                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos() != null &&
+                !subSecaoProcessoConclusoDTO.getProcessosConclusosCpc()
+                                                                                                                                           .getListaProcessosConclusos()
+                                                                                                                                           .isEmpty()) {
+                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc()
+                                           .getListaProcessosConclusos()
+                                           .removeAll(listaRemoverProcessoConclusoDTO.values());
+                subSecaoProcessoConclusoDTO.getListaProcessosConclusos()
+                    .removeAll(listaRemoverProcessoConclusoDTO.values());
                 //secaoDadosUnidade.getListaSubSecoes().add(subSecaoProcessoConclusoDTO); // TESTAR (E ACHAR O PONTO DO DATA BAIXA)
             }
             listaRemoverProcessoConclusoDTO.clear();
@@ -1119,10 +1156,18 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public boolean isSituacaoAbertoEmPreenchimentoConcluidoDevolvido() {
         boolean retorno = false;
         if (entidadePersistencia.getSituacaoFormularioDTO() == null ||
-            (entidadePersistencia.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.ABERTO.getCodigo()) ||
-             entidadePersistencia.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.EM_PREENCHIMENTO.getCodigo()) ||
-             entidadePersistencia.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.CONCLUIDO.getCodigo()) ||
-             entidadePersistencia.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.DEVOLVIDO.getCodigo()))) {
+            (entidadePersistencia.getSituacaoFormularioDTO()
+                                                                                            .getIdentificadorSituacaoFormulario()
+                                                                                            .equals(TipoSituacaoType.ABERTO.getCodigo()) ||
+             entidadePersistencia.getSituacaoFormularioDTO()
+                                                                                                                                                                .getIdentificadorSituacaoFormulario()
+                                                                                                                                                                .equals(TipoSituacaoType.EM_PREENCHIMENTO.getCodigo()) ||
+                            entidadePersistencia.getSituacaoFormularioDTO()
+                                                                                                                                                                                                                                              .getIdentificadorSituacaoFormulario()
+                                                                                                                                                                                                                                              .equals(TipoSituacaoType.CONCLUIDO.getCodigo()) ||
+                                                          entidadePersistencia.getSituacaoFormularioDTO()
+                                                                                                                                                                                                                                                                                                                     .getIdentificadorSituacaoFormulario()
+                                                                                                                                                                                                                                                                                                                     .equals(TipoSituacaoType.DEVOLVIDO.getCodigo()))) {
             entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
                                                                                                                  TipoSituacaoType.EM_PREENCHIMENTO));
             retorno = true;
@@ -1145,9 +1190,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 secao = secaoReus;
             }
         }*/
-        
+
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
-        formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus, subSecaoProcessoConclusoDTO);
+        formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus,
+                                           subSecaoProcessoConclusoDTO);
         painelPrincipal = new RichPanelGroupLayout();
         return "voltar";
     }
@@ -1194,7 +1240,18 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         atualizarComponenteDeTela(painelPrincipal);
         return null;
     }
-    
+
+    public boolean recalcularFormulas2() {
+        formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
+        entidadePersistencia =
+                FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
+        if (triggerRecalc) {
+            atualizarComponenteDeTela(painelPrincipal);
+            triggerRecalc = false;
+        }
+        return true;
+    }
+
     /*public Calendar getUltimoDiaMesReferenciaMenosCemDias(){
         --Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
         --ultimoDiaMesReferenciaMenosCemDias.setTime(getUltimoDiaMesReferencia());
@@ -1210,13 +1267,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         entidadePersistencia.setFutureListaSecoes(formularioService.asyncCompleteFormularioDTO(entidadePersistencia));
         entidadePersistencia.setFutureListaHistoricoFormulario(formularioService.asyncCompleteHistoricoFormularioDTO(entidadePersistencia));*/
         /** FIM -  recupera Formulário */
-        
-        if(ORIGEM_TELA_RETIFICAR.equals(action))
+
+        if (ORIGEM_TELA_RETIFICAR.equals(action))
             funcaoRetificacao = true;
         else
             funcaoRetificacao = false;
-    
-        
+
+
         resetSecoes();
         sugestao = "";
         filtroReuProvisorio = "";
@@ -1227,19 +1284,23 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
         entidadePersistencia.setIdUsuarioPreenchimento(getLoginBean().getUsuarioSessao().getIdUsuario());
         entidadePersistencia.setNomeUsuarioPreenchimento(getLoginBean().getUsuarioSessao().getNome());
-        logger.info(AppBundleProperties.getString("msg.formulario.logAlteracaoFormulario") + entidadePersistencia.getNomeFormulario() + " Por: "+ entidadePersistencia.getNomeUsuarioPreenchimento());
-        
-        PeriodoProcessoConcluso periodo = formularioService.recuperarPeriodoProcessoConclusoPorAnoMes(new PeriodoProcessoConcluso(entidadePersistencia.getAno().intValue(),
-                                                                                                    null, null,
-                                                                                                    entidadePersistencia.getMes().intValue(),
-                                                                                                    null));
+        logger.info(AppBundleProperties.getString("msg.formulario.logAlteracaoFormulario") +
+                    entidadePersistencia.getNomeFormulario() + " Por: " +
+                    entidadePersistencia.getNomeUsuarioPreenchimento());
+
+        PeriodoProcessoConcluso periodo =
+            formularioService.recuperarPeriodoProcessoConclusoPorAnoMes(new PeriodoProcessoConcluso(entidadePersistencia.getAno()
+                                                                                                    .intValue(), null,
+                                                                                                    null,
+                                                                                                    entidadePersistencia.getMes()
+                                                                                                    .intValue(), null));
         if (periodo != null) {
             periodoProcessoConclusoInicio = new SimpleDateFormat("dd/MM/yyyy").format(periodo.getDataInicio());
             periodoProcessoConclusoFim = new SimpleDateFormat("dd/MM/yyyy").format(periodo.getDataFim());
             periodoProcessoConclusoInicioCalendar.setTime(periodo.getDataInicio());
             periodoProcessoConclusoFimCalendar.setTime(periodo.getDataFim());
         }
-    
+
         tiposRegraFormulario = new HashMap<Long, Boolean>();
         if (entidadePersistencia.getListaTipoRegrasFormulario() != null) {
             for (TipoRegraDTO tipoRegraDTO : entidadePersistencia.getListaTipoRegrasFormulario()) {
@@ -1256,25 +1317,31 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
             if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
                 secaoDadosUnidade = secao;
-                ProcessosConclusosCpcDTO processosConclusosCpcDTO = formularioService.listarProcessosConclusosPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
-                                                                                                                                              entidadePersistencia.getMes().intValue(),
-                                                                                                                                              entidadePersistencia.getIdUnidade(),
-                                                                                                                                              null,
-                                                                                                                                              entidadePersistencia.getCodigoFormulario()));
-                subSecaoProcessoConclusoDTO = new SubSecaoDTO(); 
-                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcessoDTO(processosConclusosCpcDTO.getListaTipoFilaProcessoDTO());
-                if(!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()){
+                ProcessosConclusosCpcDTO processosConclusosCpcDTO =
+                    formularioService.listarProcessosConclusosPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno()
+                                                                                                 .intValue(),
+                                                                                                 entidadePersistencia.getMes()
+                                                                                                 .intValue(),
+                                                                                                 entidadePersistencia.getIdUnidade(),
+                                                                                                 null,
+                                                                                                 entidadePersistencia.getCodigoFormulario()));
+                subSecaoProcessoConclusoDTO = new SubSecaoDTO();
+                subSecaoProcessoConclusoDTO.getProcessosConclusosCpc()
+                    .setListaTipoFilaProcessoDTO(processosConclusosCpcDTO.getListaTipoFilaProcessoDTO());
+                if (!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()) {
                     subSecaoProcessoConclusoDTO.setLabelSecao("Processos Conclusos da Unidade");
                     // <epr> subSecaoProcessoConclusoDTO = new SubSecaoDTO();
                     subSecaoProcessoConclusoDTO.setProcessosConclusosCpc(processosConclusosCpcDTO);
                     //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
                     subSecaoProcessoConclusoDTO.setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
-                    
+
                     for (SecaoDTO ss : entidadePersistencia.getListaSecoes()) {
                         if (ss.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
-                            for(ProcessoConclusoDTO pcDTO : processosConclusosCpcDTO.getListaProcessosConclusos()){
-                                for(SubSecaoDTO ssDTO : ss.getListaSubSecoes()){
-                                    if((pcDTO.getIdMagistradoProcesso() != null && ssDTO.getIdMagistrado() != null) && pcDTO.getIdMagistradoProcesso().intValue() == ssDTO.getIdMagistrado().intValue()){
+                            for (ProcessoConclusoDTO pcDTO : processosConclusosCpcDTO.getListaProcessosConclusos()) {
+                                for (SubSecaoDTO ssDTO : ss.getListaSubSecoes()) {
+                                    if ((pcDTO.getIdMagistradoProcesso() != null && ssDTO.getIdMagistrado() != null) &&
+                                        pcDTO.getIdMagistradoProcesso().intValue() ==
+                                        ssDTO.getIdMagistrado().intValue()) {
                                         pcDTO.setNomeMagistrado(ssDTO.getNomeMagistrado());
                                         break;
                                     }
@@ -1286,11 +1353,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 }
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
                 for (SubSecaoDTO subSecaoDTO : secao.getListaSubSecoes()) {
-                    List<ProcessoConclusoDTO> listaProcessosConclusos = formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
-                                                                                                                                                  entidadePersistencia.getMes().intValue(),
-                                                                                                                                                  entidadePersistencia.getIdUnidade(),
-                                                                                                                                                  subSecaoDTO.getIdMagistrado(),
-                                                                                                                                                  entidadePersistencia.getCodigoFormulario()));
+                    List<ProcessoConclusoDTO> listaProcessosConclusos =
+                        formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno()
+                                                                                                               .intValue(),
+                                                                                                               entidadePersistencia.getMes()
+                                                                                                               .intValue(),
+                                                                                                               entidadePersistencia.getIdUnidade(),
+                                                                                                               subSecaoDTO.getIdMagistrado(),
+                                                                                                               entidadePersistencia.getCodigoFormulario()));
                     /*listaProcessosConclusosUnidade.addAll(listaProcessosConclusos);*/
                     subSecaoDTO.setListaProcessosConclusos(listaProcessosConclusos);
                     /*if(!subSecaoDTO.getListaProcessosConclusos().isEmpty())
@@ -1314,25 +1384,29 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 secaoReus = secao;
             }
         }
-        
-        if(entidadePersistencia != null && entidadePersistencia.getListaHistoricoFormulario() != null)
+
+        if (entidadePersistencia != null && entidadePersistencia.getListaHistoricoFormulario() != null)
             Collections.sort(entidadePersistencia.getListaHistoricoFormulario(), Collections.reverseOrder());
-        
+
         //Luis - Retirei pois a regra da existencia do formulario anterior precisa ser aplicada na consulta
         //por conta do tipo regra primeiro acesso nos campos
-        formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);            
-        
-        if(visualizar == false)
-            entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
-        
+        formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
+
+        if (!visualizar) {
+            entidadePersistencia =
+                FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
+            this.triggerRecalc = true;
+        }
+
         existeFormularioPreenchidoAnteriormente = (formularioMesAnterior != null);
-        
+
         // Erro 116 - SÃƒÂ³ atualiza na tela apÃƒÂ³s a existencia do componente "RichPanelGroupLayout painelPrincipal" existir para ser atualizado.
-        if(painelPrincipal != null) // quando estÃƒÂ¡ nulo, ele recalcula apÃƒÂ³s o Framework criar o objeto (no set utilizado).
+        if (painelPrincipal !=
+            null) // quando estÃƒÂ¡ nulo, ele recalcula apÃƒÂ³s o Framework criar o objeto (no set utilizado).
             atualizarComponenteDeTela(painelPrincipal);
         else
             this.atualizarPainelPrincipal = true;
-        
+
         return "preencherFormulario";
     }
 
@@ -1469,24 +1543,31 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void adicionarSubSecaoMagistrado(ActionEvent actionEvent) {
         if (magistrado != null) {
             secaoMagistrado.getListaSubSecoes().add(SubSecaoDTO.gerarNovaSubSecao(secaoMagistrado));
-            secaoMagistrado.getListaSubSecoes().get(secaoMagistrado.getListaSubSecoes().size() -
-                                                    1).setIdMagistrado(magistrado.getIdUsuario());
-            secaoMagistrado.getListaSubSecoes().get(secaoMagistrado.getListaSubSecoes().size() -
-                                                    1).setNomeMagistrado(magistrado.getNome());
-            secaoMagistrado.getListaSubSecoes().get(secaoMagistrado.getListaSubSecoes().size() -
-                                                    1).setListaProcessosConclusos(formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
-                                                                                                                                                                         entidadePersistencia.getMes().intValue(),
-                                                                                                                                                                         entidadePersistencia.getIdUnidade(),
-                                                                                                                                                                         magistrado.getIdUsuario(),
-                                                                                                                                                                         entidadePersistencia.getCodigoFormulario())));
+            secaoMagistrado.getListaSubSecoes()
+                           .get(secaoMagistrado.getListaSubSecoes().size() - 1)
+                           .setIdMagistrado(magistrado.getIdUsuario());
+            secaoMagistrado.getListaSubSecoes()
+                           .get(secaoMagistrado.getListaSubSecoes().size() - 1)
+                           .setNomeMagistrado(magistrado.getNome());
+            secaoMagistrado.getListaSubSecoes()
+                           .get(secaoMagistrado.getListaSubSecoes().size() -
+                                1)
+                           .setListaProcessosConclusos(formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno()
+                                                                                                                                              .intValue(),
+                                                                                                                                              entidadePersistencia.getMes()
+                                                                                                                                              .intValue(),
+                                                                                                                                              entidadePersistencia.getIdUnidade(),
+                                                                                                                                              magistrado.getIdUsuario(),
+                                                                                                                                              entidadePersistencia.getCodigoFormulario())));
             List<PreCarga> listaCamposPreCarga =
                 formularioService.listarCamposPreCarga(new PreCarga(entidadePersistencia.getAno().intValue(), null,
                                                                     null, entidadePersistencia.getCodigoFormulario(),
                                                                     null, entidadePersistencia.getMes().intValue(),
                                                                     new Unidade(entidadePersistencia.getIdUnidade()),
                                                                     null, magistrado));
-            formularioService.incluirValoresPreCarga(secaoMagistrado.getListaSubSecoes().get(secaoMagistrado.getListaSubSecoes().size() -
-                                                                                             1), listaCamposPreCarga);
+            formularioService.incluirValoresPreCarga(secaoMagistrado.getListaSubSecoes()
+                                                     .get(secaoMagistrado.getListaSubSecoes().size() - 1),
+                                                     listaCamposPreCarga);
             sugestao = "";
             magistrado = null;
             RichPanelBox painelSecaoMagistrado = (RichPanelBox) findComponent("painelSecaoMagistrado");
@@ -1503,9 +1584,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public void initDialogProcessoConcluso(ActionEvent actionEvent) {
         processoConclusoDTO = new ProcessoConclusoDTO();
-        if(!processoConclusoUnidadeBoolean){
-            RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent();
-            RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
+        if (!processoConclusoUnidadeBoolean) {
+            RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent()
+                                                              .getParent()
+                                                              .getParent()
+                                                              .getParent();
+            RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar()
+                                                                   .getChildren()
+                                                                   .get(2);
             this.idMagistrado = (Long) idMagistrado.getValue();
         }
         RichPopup.PopupHints hint = new RichPopup.PopupHints();
@@ -1517,52 +1603,56 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public String adicionarProcessoConcluso() {
         // <epr> 2.0.33 - verificar duplicidade 20/07/2018
         long numDup = subSecaoProcessoConclusoDTO.getListaProcessosConclusos()
-                                           .stream()
-                                           .filter(p -> p.getNumeroProcesso().equals(processoConclusoDTO.getNumeroProcesso()))
-                                           .count();
-        if(numDup > 0) {
+                                                 .stream()
+                                                 .filter(p -> p.getNumeroProcesso().equals(processoConclusoDTO.getNumeroProcesso()))
+                                                 .count();
+        if (numDup > 0) {
             mensagemErro("Número de processo concluso duplicado");
             return null;
         }
         // <epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
-        if(processoConclusoDTO.getTipoConclusoDTO() == null) {            
+        if (processoConclusoDTO.getTipoConclusoDTO() == null) {
             TipoConclusoDTO tipoConclusoDTO = formularioService.obterTipoConclusoPorId(-1L);
             processoConclusoDTO.setTipoConclusoDTO(tipoConclusoDTO);
         }
         // </epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
         if (formularioMesAnterior != null) {
             //Regra Antiga
-            if(entidadePersistencia.getAno().intValue() == ANO_REGRA_PROCESSO_CONCLUSO){
+            if (entidadePersistencia.getAno().intValue() == ANO_REGRA_PROCESSO_CONCLUSO) {
                 /*Calendar ultimoDiaMesReferenciaMenosCemDias = getUltimoDiaMesReferenciaMenosCemDias();
                 Calendar ultimoDiaMesReferenciaAnteriorCemDias = Calendar.getInstance();
                 ultimoDiaMesReferenciaAnteriorCemDias.setTime(ultimoDiaMesReferenciaMenosCemDias.getTime());
                 ultimoDiaMesReferenciaAnteriorCemDias.add(Calendar.DATE, -30);*/
-                if(processoConclusoDTO.getDataConclusao().before(periodoProcessoConclusoInicioCalendar.getTime()) || processoConclusoDTO.getDataConclusao().after(periodoProcessoConclusoFimCalendar.getTime())){
+                if (processoConclusoDTO.getDataConclusao().before(periodoProcessoConclusoInicioCalendar.getTime()) ||
+                    processoConclusoDTO.getDataConclusao().after(periodoProcessoConclusoFimCalendar.getTime())) {
                     getPopupMensagemRetificarProcessoConcluso().show(new RichPopup.PopupHints());
-                }else{
+                } else {
                     adicionarProcessoConclusoDTO();
-                    if(processoConclusoUnidadeBoolean){
+                    if (processoConclusoUnidadeBoolean) {
                         subSecaoProcessoConclusoDTO.getListaProcessosConclusos().add(processoConclusoDTO);
-                    }else{
+                    } else {
                         verificaProcessoConclusoUnidade();
-                        FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                                       secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                        FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado)
+                                       .getListaProcessosConclusos()
+                                       .add(processoConclusoDTO);
                     }
                     processoConclusoDTO =
                         new ProcessoConclusoDTO(processoConclusoDTO.getDataConclusao(),
                                                 (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar(),
                                                 processoConclusoDTO.getTipoFilaProcessoDTO());
                 }
-            //Regra Nova    
-            }else{
+                //Regra Nova
+            } else {
                 if (validarPeriodoProcessoConcluso()) {
                     adicionarProcessoConclusoDTO();
-                    if(processoConclusoUnidadeBoolean || this.idMagistrado == null || this.idMagistrado.longValue() < 1 || secaoMagistrado == null ){
+                    if (processoConclusoUnidadeBoolean || this.idMagistrado == null ||
+                        this.idMagistrado.longValue() < 1 || secaoMagistrado == null) {
                         subSecaoProcessoConclusoDTO.getListaProcessosConclusos().add(processoConclusoDTO);
-                    }else{
+                    } else {
                         verificaProcessoConclusoUnidade();
-                        FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                                       secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                        FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado)
+                                       .getListaProcessosConclusos()
+                                       .add(processoConclusoDTO);
                     }
                     processoConclusoDTO =
                         new ProcessoConclusoDTO(processoConclusoDTO.getDataConclusao(),
@@ -1575,17 +1665,18 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         } else {
             if (validarDataConclusaoNoPeriodoDeCemDias(processoConclusoDTO, getUltimoDiaMesReferencia())) {
                 adicionarProcessoConclusoDTO();
-                if(processoConclusoUnidadeBoolean){
+                if (processoConclusoUnidadeBoolean) {
                     subSecaoProcessoConclusoDTO.getListaProcessosConclusos().add(processoConclusoDTO);
-                }else{
+                } else {
                     verificaProcessoConclusoUnidade();
-                    FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                                   secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                    FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado)
+                                   .getListaProcessosConclusos()
+                                   .add(processoConclusoDTO);
                 }
                 processoConclusoDTO =
                     new ProcessoConclusoDTO(processoConclusoDTO.getDataConclusao(),
                                             (TipoConclusoDTO) processoConclusoDTO.getTipoConclusoDTO().clonar(),
-                                                processoConclusoDTO.getTipoFilaProcessoDTO());
+                                            processoConclusoDTO.getTipoFilaProcessoDTO());
             } else {
                 getPopupInconsistenciaProcessoCemDias().show(new RichPopup.PopupHints());
             }
@@ -1598,8 +1689,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             if (validarPeriodoProcessoConcluso()) {
                 adicionarProcessoConclusoDTO();
                 verificaProcessoConclusoUnidade();
-                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                               secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado)
+                               .getListaProcessosConclusos()
+                               .add(processoConclusoDTO);
                 getPopupAdicionarProcessoConcluso().hide();
             } else {
                 getPopupMensagemRetificarProcessoConcluso().show(new RichPopup.PopupHints());
@@ -1608,8 +1700,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             if (validarDataConclusaoNoPeriodoDeCemDias(processoConclusoDTO, getUltimoDiaMesReferencia())) {
                 adicionarProcessoConclusoDTO();
                 verificaProcessoConclusoUnidade();
-                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                               secaoMagistrado).getListaProcessosConclusos().add(processoConclusoDTO);
+                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado)
+                               .getListaProcessosConclusos()
+                               .add(processoConclusoDTO);
                 getPopupAdicionarProcessoConcluso().hide();
             } else {
                 getPopupInconsistenciaProcessoCemDias().show(new RichPopup.PopupHints());
@@ -1621,16 +1714,20 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public boolean validarPeriodoProcessoConcluso() {
         boolean retorno = false;
         List<ProcessoConclusoDTO> listaProcessosConclusosMesAnterior =
-            formularioService.listarProcessosConclusosMesAnterior(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
-                                                                                          entidadePersistencia.getMes().intValue(),
+            formularioService.listarProcessosConclusosMesAnterior(new ProcessoConclusoDTO(entidadePersistencia.getAno()
+                                                                                          .intValue(),
+                                                                                          entidadePersistencia.getMes()
+                                                                                          .intValue(),
                                                                                           entidadePersistencia.getIdUnidade(),
                                                                                           this.idMagistrado,
                                                                                           entidadePersistencia.getCodigoFormulario()),
                                                                   null);
 
-        if (formularioService.validarPeriodoConclusoNoMesAnoReferencia(new PeriodoProcessoConcluso(entidadePersistencia.getAno().intValue(),
-                                                                                                   null, null,
-                                                                                                   entidadePersistencia.getMes().intValue(),
+        if (formularioService.validarPeriodoConclusoNoMesAnoReferencia(new PeriodoProcessoConcluso(entidadePersistencia.getAno()
+                                                                                                   .intValue(), null,
+                                                                                                   null,
+                                                                                                   entidadePersistencia.getMes()
+                                                                                                   .intValue(),
                                                                                                    processoConclusoDTO.getDataConclusao())) ||
             contemProcessoNoMesAnterior(listaProcessosConclusosMesAnterior, processoConclusoDTO)) {
             //Esse if está estranho, pois esse "validarPeriodoConclusoNoMesAnoReferencia" sempre vai retornar como TRUE, uma vez que exista o periodo para o mes e ano do formulario, e só
@@ -1640,7 +1737,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void adicionarProcessoConclusoDTO() {
-        if(!processoConclusoUnidadeBoolean)
+        if (!processoConclusoUnidadeBoolean)
             processoConclusoDTO.setIdMagistradoProcesso(this.idMagistrado);
         processoConclusoDTO.setAno(entidadePersistencia.getAno().intValue());
         processoConclusoDTO.setMes(entidadePersistencia.getMes().intValue());
@@ -1679,19 +1776,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         this.processoConclusoUnidadeBoolean = true;
         removerProcessoConcluso(actionEvent);
     }
+
     public void removerProcessoConcluso(ActionEvent actionEvent) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Date dtConclusao = null;
-                try {
-                    dtConclusao = sdf.parse(sdf.format(processoConclusoDTO.getDataConclusao()));
-                } catch (ParseException e) {
-                    System.out.println(e.getStackTrace());
-                }
-        
+        Date dtConclusao = null;
+        try {
+            dtConclusao = sdf.parse(sdf.format(processoConclusoDTO.getDataConclusao()));
+        } catch (ParseException e) {
+            System.out.println(e.getStackTrace());
+        }
+
         PeriodoProcessoConcluso periodo =
-                    formularioService.recuperarAnoMesPorPeriodoProcessoConcluso(new PeriodoProcessoConcluso(null, null, null,
-                                                                                                            null,
-                                                                                                            dtConclusao));
+            formularioService.recuperarAnoMesPorPeriodoProcessoConcluso(new PeriodoProcessoConcluso(null, null, null,
+                                                                                                    null, dtConclusao));
         if (periodo != null) {
             if ((entidadePersistencia.getAno().equals(periodo.getAno().longValue()) &&
                  entidadePersistencia.getMes().equals(periodo.getMes().longValue())) || formularioMesAnterior == null) {
@@ -1705,10 +1802,18 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     }
                     getPopupDataBaixaRetificar().show(new RichPopup.PopupHints());
                 } else {
-                    if (processoConclusoUnidadeBoolean == false){
-                        RichPanelBox subSecao =
-                            (RichPanelBox) actionEvent.getComponent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
-                        RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
+                    if (processoConclusoUnidadeBoolean == false) {
+                        RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent()
+                                                                          .getParent()
+                                                                          .getParent()
+                                                                          .getParent()
+                                                                          .getParent()
+                                                                          .getParent()
+                                                                          .getParent()
+                                                                          .getParent();
+                        RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar()
+                                                                               .getChildren()
+                                                                               .get(2);
                         this.idMagistrado = (Long) idMagistrado.getValue();
                     }
                     // <epr 1)Item 143> mover a exclusÃƒÂ£o para aÃƒÂ§ÃƒÂ£o Salvar/Concluir
@@ -1719,16 +1824,22 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     // </epr 1)Item 143>
                     // <epr 2)Item 143>
                     processoConclusoDTO.setMarcadoExclusao(true);
-                    listaRemoverProcessoConclusoDTO.put(processoConclusoDTO.getId(),processoConclusoDTO);
+                    listaRemoverProcessoConclusoDTO.put(processoConclusoDTO.getId(), processoConclusoDTO);
                     // </epr 2)Item 143>
-                    atualizarComponenteDeTela(actionEvent.getComponent().getParent().getParent().getParent().getParent());
+                    atualizarComponenteDeTela(actionEvent.getComponent()
+                                                         .getParent()
+                                                         .getParent()
+                                                         .getParent()
+                                                         .getParent());
                 }
             } else {
                 FormularioDTO formularioPeriodo =
                     formularioService.recuperarFormularioMesAnoReferencia(new FormularioDTO(entidadePersistencia.getCodigoFormulario(),
                                                                                             entidadePersistencia.getIdUnidade(),
-                                                                                            periodo.getAno().longValue(),
-                                                                                            periodo.getMes().longValue()));
+                                                                                            periodo.getAno()
+                                                                                            .longValue(),
+                                                                                            periodo.getMes()
+                                                                                            .longValue()));
                 if (formularioPeriodo != null) {
                     inconsistenciaRemoverProcessoConcluso =
                         entidadePersistencia.getNomeFormulario() + " - " + periodo.getMes() + "/" + periodo.getAno();
@@ -1757,11 +1868,15 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public List<FormularioDTO> validarRetificacoesFormularioEmProcessosConclusos(boolean acaoDeletar) {
         return validarRetificacoesFormularioEmProcessosConclusos(acaoDeletar, false);
     }
-    public List<FormularioDTO> validarRetificacoesFormularioEmProcessosConclusos(boolean acaoDeletar, boolean acaoDeletarNaUnidade) {
+
+    public List<FormularioDTO> validarRetificacoesFormularioEmProcessosConclusos(boolean acaoDeletar,
+                                                                                 boolean acaoDeletarNaUnidade) {
         List<FormularioDTO> listaFormulariosNecessarioRetificar = null;
         List<ProcessoConclusoDTO> listaProcessosConclusosSubsequentes =
-            formularioService.listarProcessosConclusosMesesSubsequentes(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
-                                                                                                entidadePersistencia.getMes().intValue(),
+            formularioService.listarProcessosConclusosMesesSubsequentes(new ProcessoConclusoDTO(entidadePersistencia.getAno()
+                                                                                                .intValue(),
+                                                                                                entidadePersistencia.getMes()
+                                                                                                .intValue(),
                                                                                                 entidadePersistencia.getIdUnidade(),
                                                                                                 processoConclusoDTO.getIdMagistradoProcesso(),
                                                                                                 processoConclusoDTO.getNumeroProcesso(),
@@ -1778,22 +1893,32 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                               entidadePersistencia.getIdUnidade(),
                                                               entidadePersistencia.getCodigoFormulario());
             for (FormularioDTO formularioDTO : listaFormulariosComProcessosMesesSubSequentes) {
-                if (!formularioDTO.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.ENVIADO_CGJ.getCodigo()) &&
-                    !formularioDTO.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ.getCodigo()) &&
-                    !formularioDTO.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(TipoSituacaoType.RETIFICACAO_REPROVADA.getCodigo())) {
+                if (!formularioDTO.getSituacaoFormularioDTO()
+                                  .getIdentificadorSituacaoFormulario()
+                                  .equals(TipoSituacaoType.ENVIADO_CGJ.getCodigo()) &&
+                    !formularioDTO.getSituacaoFormularioDTO()
+                                                                                                     .getIdentificadorSituacaoFormulario()
+                                                                                                     .equals(TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ.getCodigo()) &&
+                                          !formularioDTO.getSituacaoFormularioDTO()
+                                                                                                                                                                                       .getIdentificadorSituacaoFormulario()
+                                                                                                                                                                                       .equals(TipoSituacaoType.RETIFICACAO_REPROVADA.getCodigo())) {
                     if (acaoDeletar) {
-                        if(processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null){
-                            subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
-                        }else{
-                            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
-                                                                           secaoMagistrado).getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+                        if (processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null) {
+                            subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarAtualESubsequentes()
+                                .add(processoConclusoDTO);
+                        } else {
+                            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(), secaoMagistrado)
+                                           .getListaProcessosConclusosDeletarAtualESubsequentes()
+                                           .add(processoConclusoDTO);
                         }
                     } else {
-                        if(processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null){
-                            subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarSubsequentes().add(processoConclusoDTO);
-                        }else{
-                            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
-                                                                       secaoMagistrado).getListaProcessosConclusosDeletarSubsequentes().add(processoConclusoDTO);
+                        if (processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null) {
+                            subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarSubsequentes()
+                                .add(processoConclusoDTO);
+                        } else {
+                            FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(), secaoMagistrado)
+                                           .getListaProcessosConclusosDeletarSubsequentes()
+                                           .add(processoConclusoDTO);
                         }
                     }
                 } else {
@@ -1804,22 +1929,26 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 }
             }
         } else {
-            if(processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null){
-                subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
-            }else{
-                FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(),
-                                                           secaoMagistrado).getListaProcessosConclusosDeletarAtualESubsequentes().add(processoConclusoDTO);
+            if (processoConclusoUnidadeBoolean || processoConclusoDTO.getIdMagistradoProcesso() == null) {
+                subSecaoProcessoConclusoDTO.getListaProcessosConclusosDeletarAtualESubsequentes()
+                    .add(processoConclusoDTO);
+            } else {
+                FormularioUtils.encontrarSubSecaoPorMagistrado(processoConclusoDTO.getIdMagistradoProcesso(), secaoMagistrado)
+                               .getListaProcessosConclusosDeletarAtualESubsequentes()
+                               .add(processoConclusoDTO);
             }
         }
         return listaFormulariosNecessarioRetificar;
     }
 
     public String baixarProcessoConcluso() {
-        List<FormularioDTO> listaFormulariosNecessarioRetificar = validarRetificacoesFormularioEmProcessosConclusos(false);
+        List<FormularioDTO> listaFormulariosNecessarioRetificar =
+            validarRetificacoesFormularioEmProcessosConclusos(false);
         if (listaFormulariosNecessarioRetificar != null && !listaFormulariosNecessarioRetificar.isEmpty()) {
             inconsistenciaDataBaixa = new StringBuilder();
             for (FormularioDTO formularioDTO : listaFormulariosNecessarioRetificar) {
-                inconsistenciaDataBaixa.append("<li>" + formularioDTO.getNomeFormulario() + " - " + formularioDTO.getMes() + "/" + formularioDTO.getAno() + "</li>");
+                inconsistenciaDataBaixa.append("<li>" + formularioDTO.getNomeFormulario() + " - " +
+                                               formularioDTO.getMes() + "/" + formularioDTO.getAno() + "</li>");
             }
             getPopupDataBaixaRetificar().show(new RichPopup.PopupHints());
         } else {
@@ -1846,14 +1975,16 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void removerSubSecaoTipoMagistrado(ActionEvent actionEvent) {
-        RichOutputText tipoMagistradoExcluir =
-            (RichOutputText) actionEvent.getComponent().getParent().getChildren().get(1);
+        RichOutputText tipoMagistradoExcluir = (RichOutputText) actionEvent.getComponent()
+                                                                           .getParent()
+                                                                           .getChildren()
+                                                                           .get(1);
         subSecaoMagistradoRemover = (SubSecaoDTO) tipoMagistradoExcluir.getValue();
         RichPopup popupConfirmacaoExclusao = (RichPopup) findComponent("popupExcluirMagistrado");
         popupConfirmacaoExclusao.show(new RichPopup.PopupHints());
     }
-    
-    public String getNomeMagistradoRemover(){
+
+    public String getNomeMagistradoRemover() {
         return subSecaoMagistradoRemover.getNomeMagistrado();
     }
 
@@ -1869,8 +2000,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void adicionarSubSecaoMateria(ActionEvent actionEvent) {
         if (materiaSubSecao != null && !contemMateria(materiaSubSecao)) {
             secaoMateria.getListaSubSecoes().add(new SubSecaoDTO(secaoMateria));
-            secaoMateria.getListaSubSecoes().get(secaoMateria.getListaSubSecoes().size() -
-                                                 1).setTipoMateria(materiaSubSecao);
+            secaoMateria.getListaSubSecoes()
+                        .get(secaoMateria.getListaSubSecoes().size() - 1)
+                        .setTipoMateria(materiaSubSecao);
             RichPanelBox painelSecaoMateria = (RichPanelBox) findComponent("painelSecaoMateria");
             painelSecaoMateria.setDisclosed(true);
             entidadePersistencia =
@@ -1890,14 +2022,16 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void removerSubSecaoTipoMateria(ActionEvent actionEvent) {
-        RichOutputText tipoMateriaExcluir =
-            (RichOutputText) actionEvent.getComponent().getParent().getChildren().get(1);
+        RichOutputText tipoMateriaExcluir = (RichOutputText) actionEvent.getComponent()
+                                                                        .getParent()
+                                                                        .getChildren()
+                                                                        .get(1);
         subSecaoMateriaRemover = (SubSecaoDTO) tipoMateriaExcluir.getValue();
         RichPopup popupConfirmacaoExclusao = (RichPopup) findComponent("popupExcluirMateria");
         popupConfirmacaoExclusao.show(new RichPopup.PopupHints());
     }
-    
-    public String getNomeMateriaRemover(){
+
+    public String getNomeMateriaRemover() {
         return subSecaoMateriaRemover.getTipoMateria().getNomeTipoMateria();
     }
 
@@ -1944,7 +2078,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public static boolean validarUltimoMovimentoNoPeriodoDeNoventaDias(ReuDTO reu, Date ultimoDiaMesReferencia) {
         boolean retorno = false;
         // <epr 1) Item 141>
-        if(reu.getIdMotivoBaixa() != null && reu.getDataBaixa() != null) {
+        if (reu.getIdMotivoBaixa() != null && reu.getDataBaixa() != null) {
             // se motivo baixa e data baixa, ignora outras validaÃƒÂ§ÃƒÂµes.
             return true;
         }
@@ -1960,50 +2094,50 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
         return retorno;
     }
-    
+
     public void motivoBaixaValueChangeListener(ValueChangeEvent valueChangeEvent) {
         RichPopup dialogReu = this.getPopupAlterarReu();
-        if(dialogReu != null) {
-            RichInputDate dataBaixa = (RichInputDate)findComponent(dialogReu, "dataBaixa");
-            if(dataBaixa != null) {
+        if (dialogReu != null) {
+            RichInputDate dataBaixa = (RichInputDate) findComponent(dialogReu, "dataBaixa");
+            if (dataBaixa != null) {
                 Object dataBaixaValue = valueChangeEvent.getNewValue();
                 dataBaixa.setRequired(dataBaixaValue != null);
                 AdfFacesContext.getCurrentInstance().addPartialTarget(dataBaixa);
             }
         }
     }
-    
+
     public boolean isDataBaixaRequired() {
         RichPopup dialogReu = this.getPopupAlterarReu();
-        if(dialogReu != null) {
-            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice)findComponent(dialogReu, "motivoBaixa");
-            RichInputDate dataBaixa = (RichInputDate)findComponent(dialogReu, "dataBaixa");
-            if(motivoBaixa != null && dataBaixa != null) {
+        if (dialogReu != null) {
+            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice) findComponent(dialogReu, "motivoBaixa");
+            RichInputDate dataBaixa = (RichInputDate) findComponent(dialogReu, "dataBaixa");
+            if (motivoBaixa != null && dataBaixa != null) {
                 Object motivoBaixaValue = motivoBaixa.getValue();
                 dataBaixa.setRequired(motivoBaixaValue != null && dataBaixa.getValue() == null);
             }
         }
         return false;
     }
-    
+
     public void dataBaixaValueChangeListener(ValueChangeEvent valueChangeEvent) {
         RichPopup dialogReu = this.getPopupAlterarReu();
-        if(dialogReu != null) {
-            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice)findComponent(dialogReu, "motivoBaixa");
-            if(motivoBaixa != null) {
+        if (dialogReu != null) {
+            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice) findComponent(dialogReu, "motivoBaixa");
+            if (motivoBaixa != null) {
                 Object dataBaixaValue = valueChangeEvent.getNewValue();
                 motivoBaixa.setRequired(dataBaixaValue != null);
                 AdfFacesContext.getCurrentInstance().addPartialTarget(motivoBaixa);
             }
         }
     }
-    
+
     public boolean isMotivoBaixaRequired() {
         RichPopup dialogReu = this.getPopupAlterarReu();
-        if(dialogReu != null) {
-            RichInputDate dataBaixa = (RichInputDate)findComponent(dialogReu, "dataBaixa");
-            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice)findComponent(dialogReu, "motivoBaixa");
-            if(dataBaixa != null && motivoBaixa != null) {
+        if (dialogReu != null) {
+            RichInputDate dataBaixa = (RichInputDate) findComponent(dialogReu, "dataBaixa");
+            RichSelectOneChoice motivoBaixa = (RichSelectOneChoice) findComponent(dialogReu, "motivoBaixa");
+            if (dataBaixa != null && motivoBaixa != null) {
                 Object dataBaixaValue = dataBaixa.getValue();
                 motivoBaixa.setRequired(dataBaixaValue != null && motivoBaixa.getValue() == null);
             }
@@ -2011,7 +2145,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return false;
     }
 
-    public boolean validarDataConclusaoNoPeriodoDeCemDias(ProcessoConclusoDTO processoConclusoDTO, Date ultimoDiaMesReferencia) {
+    public boolean validarDataConclusaoNoPeriodoDeCemDias(ProcessoConclusoDTO processoConclusoDTO,
+                                                          Date ultimoDiaMesReferencia) {
         boolean retorno = false;
         /*Calendar ultimoDiaMesReferenciaMenosCemDias = Calendar.getInstance();
         ultimoDiaMesReferenciaMenosCemDias.setTime(ultimoDiaMesReferencia);
@@ -2030,7 +2165,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public void removerReuTabela(ActionEvent actionEvent) {
         if (reu.getIdReuProvisorio() == null) {
-            secaoReus.getListaSubSecoes().get(0).getListaReus().remove(reu);
+            secaoReus.getListaSubSecoes()
+                     .get(0)
+                     .getListaReus()
+                     .remove(reu);
             listaReusProvisoriosFiltrada.remove(reu);
             atualizarComponenteDeTela(findComponent("tabelaDeReus"));
             atualizarComponenteDeTela("painelSecaoReus");
@@ -2038,11 +2176,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             confirmacaoDeletarReusPopup.hide();
         } else if (reu.getAno() != null && reu.getAno().equals(entidadePersistencia.getAno().intValue()) &&
                    reu.getMes().equals(entidadePersistencia.getMes().intValue()) &&
-                   !formularioService.validarReuHistoricoMesesAnteriores(new ReuProvisorioHistorico(reu.getMes().intValue(),
-                                                                                                    reu.getAno().intValue(),
+                   !formularioService.validarReuHistoricoMesesAnteriores(new ReuProvisorioHistorico(reu.getMes()
+                                                                                                    .intValue(),
+                                                                                                    reu.getAno()
+                                                                                                    .intValue(),
                                                                                                     new ReuProvisorio(reu.getIdReuProvisorio())))) {
-            secaoReus.getListaSubSecoes().get(0).getListaReusHistoricoDeletar().add(reu);
-            secaoReus.getListaSubSecoes().get(0).getListaReus().remove(reu);
+            secaoReus.getListaSubSecoes()
+                     .get(0)
+                     .getListaReusHistoricoDeletar()
+                     .add(reu);
+            secaoReus.getListaSubSecoes()
+                     .get(0)
+                     .getListaReus()
+                     .remove(reu);
             listaReusProvisoriosFiltrada.remove(reu);
             atualizarComponenteDeTela(findComponent("tabelaDeReus"));
             atualizarComponenteDeTela("painelSecaoReus");
@@ -2057,7 +2203,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public String definirMagistrado(DialogEvent dialogEvent) {
 
         if (dialogEvent.getOutcome() == DialogEvent.Outcome.ok) {
-            logger.info(AppBundleProperties.getString("msg.formulario.logDefinirMagistrado") + usuarioMagistrado.getNome() +" / "+ AppBundleProperties.getString("msg.formulario.logFormulario") + entidadePersistencia.getNomeFormulario());
+            logger.info(AppBundleProperties.getString("msg.formulario.logDefinirMagistrado") +
+                        usuarioMagistrado.getNome() + " / " +
+                        AppBundleProperties.getString("msg.formulario.logFormulario") +
+                        entidadePersistencia.getNomeFormulario());
             persistirListaConjuntoDefinirMagistradoFormularios();
             zerarCamposRodape();
         }
@@ -2081,18 +2230,25 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
 
     }
-    
+
     // <0.7.19> introduzido alteraÃƒÂ§ÃƒÂ£o
     // <20171009>Validar quanto à necessidade de modificar por método exclusivo</20171009>
     private void persistirListaConjuntoDefinirMagistradoFormularios() {
         if (ORIGEM_TELA_RETIFICAR.equals(acaoPageFlow())) {
-            for (FormularioDTO form : listaFormulariosRetificacao) {
+            for (FormularioDTO form :
+                 listaFormulariosRetificacao) {
                 // Erro 109 - SÃƒÂ³ permitir alterar o Magistrado na RetificaÃƒÂ§ÃƒÂ£o para os seguintes Status - 08.09.2017 - Paula Covo
-                if(form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_APROVADA.toString()) ||
-                    form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_EM_PREENCHIMENTO.toString()) ||
-                    form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_CONCLUIDA.toString())){
-                    /** recupera Formulário Antes de Salvar */
-                    form = recuperarFormulario(form);
+                if (form.getSituacaoFormularioDTO()
+                        .getIdentificadorSituacaoFormulario()
+                        .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_APROVADA.toString()) ||
+                    form.getSituacaoFormularioDTO()
+                                                                                                   .getIdentificadorSituacaoFormulario()
+                                                                                                   .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_EM_PREENCHIMENTO.toString()) ||
+                                          form.getSituacaoFormularioDTO()
+                                                                                                                                                                                      .getIdentificadorSituacaoFormulario()
+                                                                                                                                                                                      .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_CONCLUIDA.toString())) {
+/** recupera Formulário Antes de Salvar */
+form = recuperarFormulario(form);
                     /** FIM -  recupera Formulário Antes de Salvar */
                     form.setNomeMagistrado(usuarioMagistrado.getNome());
                     form.setIdMagistrado(usuarioMagistrado.getIdUsuario());
@@ -2115,7 +2271,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
     }
-    
+
     // </epr>0.7.19
     /* <0.7.19> comentado
     private void persistirListaConjuntoDefinirMagistradoFormularios() {
@@ -2155,7 +2311,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
     }
     */
-    
+
     public void validarDefinirMagistrado(ActionEvent actionEvent) {
         String msg = null;
         if (ORIGEM_TELA_PREENCHER.equals(acaoPageFlow())) {
@@ -2168,10 +2324,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
         if ((usuarioMagistrado == null || usuarioMagistrado.getIdUsuario() == null ||
-             usuarioMagistrado.getNome() == null) && msg == null) { 
+             usuarioMagistrado.getNome() == null) && msg == null) {
             msg = AppBundleProperties.getString("msg.formulario.magistradoNaoSelecionado");
         }
-        
+
         if (ORIGEM_TELA_RETIFICAR.equals(action)) {
             listaFormulariosRetificacao = new ArrayList<FormularioDTO>();
             for (FormularioDTO form : listaEntidade) {
@@ -2182,17 +2338,26 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             if (listaFormulariosRetificacao.isEmpty()) {
                 msg = AppBundleProperties.getString("msg.formulario.nenhumFormularioSelecionadoParaDefinirMagistrado");
             }
-            
+
             for (FormularioDTO form : listaFormulariosRetificacao) {
-                if(form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_APROVADA.toString()) == false && 
-                    form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_EM_PREENCHIMENTO.toString()) == false &&
-                    form.getSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_CONCLUIDA.toString()) == false){
-                    msg = AppBundleProperties.getString("msg.formulario.formularioNaoPermitidoSelecionadoParaDefinirMagistrado");
+                if (form.getSituacaoFormularioDTO()
+                        .getIdentificadorSituacaoFormulario()
+                        .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_APROVADA.toString()) == false &&
+                    form.getSituacaoFormularioDTO()
+                                                                                                            .getIdentificadorSituacaoFormulario()
+                                                                                                            .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_EM_PREENCHIMENTO.toString()) ==
+                                          false &&
+                                          form.getSituacaoFormularioDTO()
+                                                       .getIdentificadorSituacaoFormulario()
+                                                       .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_CONCLUIDA.toString()) ==
+                                          false) {
+                    msg =
+                        AppBundleProperties.getString("msg.formulario.formularioNaoPermitidoSelecionadoParaDefinirMagistrado");
                     break;
                 }
             }
         }
-        
+
         if (msg == null) {
             UIComponent component = findComponent("confirmacaoDefinirMagistradoPopUp");
             RichPopup popup = (RichPopup) component;
@@ -2205,7 +2370,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void setPainelPrincipal(RichPanelGroupLayout painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         // Erro 116 - SÃƒÂ³ atualiza na tela apÃƒÂ³s a existencia do componente "RichPanelGroupLayout painelPrincipal" existir para ser atualizado.
-        if(atualizarPainelPrincipal){
+        if (atualizarPainelPrincipal) {
             atualizarComponenteDeTela(this.painelPrincipal);
             atualizarPainelPrincipal = false;
         }
@@ -2564,12 +2729,15 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return listaFormulariosRetificacao;
     }
 
-    public void baixarFormulario(FacesContext facesContext, OutputStream outputStream) throws JRException, IOException {
+    public void baixarFormulario(FacesContext facesContext, OutputStream outputStream) throws JRException,
+                                                                                              IOException {
         // FAZ O DOWNLOAD DO FORMULARIO
-        logger.info(AppBundleProperties.getString("msg.formulario.logDownloadFormuluario") + entidadePersistencia.getNomeFormulario());
+        logger.info(AppBundleProperties.getString("msg.formulario.logDownloadFormuluario") +
+                    entidadePersistencia.getNomeFormulario());
         initPreencherFormulario();
-        JRDataSource dataSource = relatorioFormulario.obterDataSourceColecao(entidadePersistencia);        
-        Map<String, Object> parametros = relatorioFormulario.obterParametros(entidadePersistencia, subSecaoProcessoConclusoDTO);
+        JRDataSource dataSource = relatorioFormulario.obterDataSourceColecao(entidadePersistencia);
+        Map<String, Object> parametros =
+            relatorioFormulario.obterParametros(entidadePersistencia, subSecaoProcessoConclusoDTO);
         parametros.put("tiposRegraFormulario", tiposRegraFormulario);
         //System.out.println("tiposRegraFormulario 6 "+tiposRegraFormulario.get(6l));
         //System.out.println("tiposRegraFormulario 0 "+tiposRegraFormulario.get(0));
@@ -2758,11 +2926,20 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         RichInputText relatorioCGJ = (RichInputText) findComponent("inputTextRelatorioCGJ");
         boolean camposConsistentes = true;
         if (dataFeitoLevadoAoMagistrado.getValue() != null) {
-            if ((magistradoReu.getValue() == null || magistradoReu.getValue().toString().isEmpty()) ||
-                (relatorioCGJ.getValue() == null || relatorioCGJ.getValue().toString().isEmpty())) {
-                if (magistradoReu.getValue() == null || magistradoReu.getValue().toString().isEmpty())
+            if ((magistradoReu.getValue() == null || magistradoReu.getValue()
+                                                                  .toString()
+                                                                  .isEmpty()) ||
+                (relatorioCGJ.getValue() == null ||
+                 relatorioCGJ.getValue()
+                                                                                                                                 .toString()
+                                                                                                                                 .isEmpty())) {
+                if (magistradoReu.getValue() == null || magistradoReu.getValue()
+                                                                     .toString()
+                                                                     .isEmpty())
                     mensagemErroComponente(magistradoReu, AppBundleProperties.getString("msg.validacao"));
-                if (relatorioCGJ.getValue() == null || relatorioCGJ.getValue().toString().isEmpty())
+                if (relatorioCGJ.getValue() == null || relatorioCGJ.getValue()
+                                                                   .toString()
+                                                                   .isEmpty())
                     mensagemErroComponente(relatorioCGJ, AppBundleProperties.getString("msg.validacao"));
                 camposConsistentes = false;
             }
@@ -2771,16 +2948,25 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             if (validarUltimoMovimentoNoPeriodoDeNoventaDias(reu, getUltimoDiaMesReferencia())) {
                 if (edicaoReu) {
 
-                    if(isPreencherDtDataBaixa())
+                    if (isPreencherDtDataBaixa())
                         reu.setDtDataBaixa(new Date());
-                        
-                    secaoReus.getListaSubSecoes().get(0).getListaReus().set(secaoReus.getListaSubSecoes().get(0).getListaReus().indexOf(reu), reu);
+
+                    secaoReus.getListaSubSecoes()
+                             .get(0)
+                             .getListaReus()
+                             .set(secaoReus.getListaSubSecoes()
+                                           .get(0)
+                                           .getListaReus()
+                                           .indexOf(reu), reu);
                     getPopupAlterarReu().hide();
                 } else {
                     reu.setAno(entidadePersistencia.getAno().intValue());
                     reu.setMes(entidadePersistencia.getMes().intValue());
                     reu.setIdUnidade(entidadePersistencia.getIdUnidade());
-                    secaoReus.getListaSubSecoes().get(0).getListaReus().add(reu);
+                    secaoReus.getListaSubSecoes()
+                             .get(0)
+                             .getListaReus()
+                             .add(reu);
                     getPopupIncluirReus().hide();
                 }
                 filtrarReusProvisorios(null);
@@ -2855,9 +3041,15 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public void filtrarReusProvisorios(ActionEvent actionEvent) {
         listaReusProvisoriosFiltrada = new ArrayList<ReuDTO>();
-        listaReusProvisoriosFiltrada.addAll(secaoReus.getListaSubSecoes().get(0).getListaReus());
-        for (ReuDTO reu : secaoReus.getListaSubSecoes().get(0).getListaReus()) {
-            if (!reu.getNomeReuProvisorio().toUpperCase().contains(filtroReuProvisorio.toUpperCase())) {
+        listaReusProvisoriosFiltrada.addAll(secaoReus.getListaSubSecoes()
+                                                     .get(0)
+                                                     .getListaReus());
+        for (ReuDTO reu : secaoReus.getListaSubSecoes()
+                                   .get(0)
+                                   .getListaReus()) {
+            if (!reu.getNomeReuProvisorio()
+                    .toUpperCase()
+                    .contains(filtroReuProvisorio.toUpperCase())) {
                 listaReusProvisoriosFiltrada.remove(reu);
             }
         }
@@ -2896,12 +3088,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         boolean colocarDtDataBaixa = false;
         if (reu.getDataBaixa() == null && reuCopia.getDataBaixa() == null) // se os dois forem nulos, não teve alteraçao
             colocarDtDataBaixa = false;
-        else if (reuCopia.getDataBaixa() == null) // se o nulo for o 'reu.getDataBaixa()' só, é um problema na interface, nao deveria
+        else if (reuCopia.getDataBaixa() ==
+                 null) // se o nulo for o 'reu.getDataBaixa()' só, é um problema na interface, nao deveria
             colocarDtDataBaixa = true;
         else if (reu.getDataBaixa() != null && reuCopia.getDataBaixa() != null) { // se o nulo for o 'reu.getDataBaixa()' só, é um problema na interface, nao deveria
             if (reu.getDataBaixa().equals(reuCopia.getDataBaixa()))
                 colocarDtDataBaixa = false;
-            else if ((new SimpleDateFormat("dd/MM/yyyy")).format(reu.getDataBaixa()).equalsIgnoreCase((new SimpleDateFormat("dd/MM/yyyy")).format(reuCopia.getDataBaixa())))
+            else if ((new SimpleDateFormat("dd/MM/yyyy")).format(reu.getDataBaixa())
+                     .equalsIgnoreCase((new SimpleDateFormat("dd/MM/yyyy")).format(reuCopia.getDataBaixa())))
                 colocarDtDataBaixa = true;
             else
                 colocarDtDataBaixa = false;
@@ -2927,14 +3121,16 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     private void verificaProcessoConclusoUnidade() {
         ProcessoConclusoDTO processoJaNaUnidade = null;
-        if(subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getListaProcessosConclusos() != null && !subSecaoProcessoConclusoDTO.getListaProcessosConclusos().isEmpty()){
-            for(ProcessoConclusoDTO pcNaUnidade : subSecaoProcessoConclusoDTO.getListaProcessosConclusos()){
-                if(pcNaUnidade.getNumeroProcesso().longValue() == processoConclusoDTO.getNumeroProcesso().longValue()){
+        if (subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getListaProcessosConclusos() != null &&
+            !subSecaoProcessoConclusoDTO.getListaProcessosConclusos().isEmpty()) {
+            for (ProcessoConclusoDTO pcNaUnidade : subSecaoProcessoConclusoDTO.getListaProcessosConclusos()) {
+                if (pcNaUnidade.getNumeroProcesso().longValue() ==
+                    processoConclusoDTO.getNumeroProcesso().longValue()) {
                     processoJaNaUnidade = pcNaUnidade;
                 }
             }
         }
-                                                                                    
+
         if (processoJaNaUnidade != null) {
             processoJaNaUnidade.setIdMagistradoProcesso(this.idMagistrado);
             processoJaNaUnidade.setDataBaixa(processoConclusoDTO.getDataBaixa());
@@ -2984,32 +3180,33 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public boolean isVisivelConformeTipoRegra(CampoDTO campo) {
         Map<Long, Boolean> tiposRegrasFomrulario = getTiposRegraFormulario();
-        
-        if (campo == null || tiposRegrasFomrulario == null || 
-            tiposRegrasFomrulario.size() == 0) return true;
-                
+
+        if (campo == null || tiposRegrasFomrulario == null || tiposRegrasFomrulario.size() == 0)
+            return true;
+
         //boolean retorno = isVisivelConformeTipoRegra(campo.getCampoPai());
         boolean retorno = true;
-        
-        if (retorno) {        
+
+        if (retorno) {
             for (Map.Entry<Long, Boolean> entry : tiposRegrasFomrulario.entrySet()) {
-                if (campo.getTipoRegraDTO() == null) break;
-                
+                if (campo.getTipoRegraDTO() == null)
+                    break;
+
                 if (entry.getKey() == campo.getTipoRegraDTO().getId()) {
                     if (campo.getTipoRegraDTO().getId() != 8) { // diferente da regra primeiro preenchimento
                         retorno = !campo.getTipoRegraDTO().isInverterRegra();
                     } else {
-                        retorno = (!existeFormularioPreenchidoAnteriormente && 
-                            !campo.getTipoRegraDTO().isInverterRegra());
+                        retorno =
+                            (!existeFormularioPreenchidoAnteriormente && !campo.getTipoRegraDTO().isInverterRegra());
                     }
-                    
+
                     break;
                 } else {
                     retorno = false;
                 }
             }
         }
-        
+
         return retorno;
     }
 
