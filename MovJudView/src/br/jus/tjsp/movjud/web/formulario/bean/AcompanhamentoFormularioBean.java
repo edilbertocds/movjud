@@ -1203,6 +1203,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }*/
 
     public String initPreencherFormulario() {
+        return initPreencherFormulario(false);
+    }
+    
+    private String initPreencherFormulario(boolean relatorioPDF) {
         //Formulario f = formularioService.recuperarFormularioPorIdFormulario(entidadePersistencia.getIdFormulario());
         /** recupera Formulário */
         entidadePersistencia = recuperarFormulario(entidadePersistencia);
@@ -1261,10 +1265,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                                                               entidadePersistencia.getIdUnidade(),
                                                                                                                                               null,
                                                                                                                                               entidadePersistencia.getCodigoFormulario()));
-                subSecaoProcessoConclusoDTO = new SubSecaoDTO(); 
+                subSecaoProcessoConclusoDTO = new SubSecaoDTO();
+                subSecaoProcessoConclusoDTO.setLabelSecao("Processos Conclusos da Unidade");
+                subSecaoProcessoConclusoDTO.setCodigoSubSecao("SUG");
+                subSecaoProcessoConclusoDTO.setTabelaProcessos(secaoDadosUnidade.isTabelaProcessos());
                 subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaTipoFilaProcessoDTO(processosConclusosCpcDTO.getListaTipoFilaProcessoDTO());
                 if(!processosConclusosCpcDTO.getListaProcessosConclusos().isEmpty()){
-                    subSecaoProcessoConclusoDTO.setLabelSecao("Processos Conclusos da Unidade");
                     // <epr> subSecaoProcessoConclusoDTO = new SubSecaoDTO();
                     subSecaoProcessoConclusoDTO.setProcessosConclusosCpc(processosConclusosCpcDTO);
                     //subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().setListaProcessosConclusos(processosConclusosCpcDTO.getListaProcessosConclusos());
@@ -1284,6 +1290,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                         }
                     }
                 }
+                if(relatorioPDF)
+                   secao.getListaSubSecoes().add(subSecaoProcessoConclusoDTO);
             } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
                 for (SubSecaoDTO subSecaoDTO : secao.getListaSubSecoes()) {
                     List<ProcessoConclusoDTO> listaProcessosConclusos = formularioService.listarProcessosConclusosMagistradoPorUnidade(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
@@ -2567,9 +2575,9 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public void baixarFormulario(FacesContext facesContext, OutputStream outputStream) throws JRException, IOException {
         // FAZ O DOWNLOAD DO FORMULARIO
         logger.info(AppBundleProperties.getString("msg.formulario.logDownloadFormuluario") + entidadePersistencia.getNomeFormulario());
-        initPreencherFormulario();
+        initPreencherFormulario(true);
         JRDataSource dataSource = relatorioFormulario.obterDataSourceColecao(entidadePersistencia);        
-        Map<String, Object> parametros = relatorioFormulario.obterParametros(entidadePersistencia, subSecaoProcessoConclusoDTO);
+        Map<String, Object> parametros = relatorioFormulario.obterParametros(entidadePersistencia);
         parametros.put("tiposRegraFormulario", tiposRegraFormulario);
         //System.out.println("tiposRegraFormulario 6 "+tiposRegraFormulario.get(6l));
         //System.out.println("tiposRegraFormulario 0 "+tiposRegraFormulario.get(0));
