@@ -26,6 +26,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -252,18 +253,30 @@ public class ConfiguracaoAvisoBean extends BaseBean<ConfiguracaoAviso> {
     }
 
     public void adicionarValorAbrangencia(ActionEvent actionEvent) {
+        // <epr 20180801 adiciona mensagem de compoente - solicitação de mensagem Eliane, email "Teste Corregedoria - Movjud-homologação -aviso", 30/07/2018>
+        boolean isAbrangenciaPerfil = this.entidadePersistencia.getTipoAbrangenciaAviso().getCodigoAbrangenciaAviso().equals(AbrangenciaType.PERFIL.getCodigo());
+        boolean isAbrangenciaUsuarioEspecifico = this.entidadePersistencia.getTipoAbrangenciaAviso().getCodigoAbrangenciaAviso().equals(AbrangenciaType.USUARIO_ESPECIFICO.getCodigo());
+        if(isAbrangenciaUsuarioEspecifico && (this.usuarioEspecifico == null)) {
+            UIComponent usuarioAbrangencia = findComponent("usuarioSelecionado");
+            mensagemErroComponente(usuarioAbrangencia, "O usuário específico deve ser informado");
+            return;
+        }
+        if(isAbrangenciaPerfil && (this.perfil == null)) {
+            UIComponent socPerfil = findComponent("socPerfil");
+            mensagemErroComponente(socPerfil, "O perfil deve ser informado");
+            return;            
+        }
+        // </epr 20180801 - solicitação de mensagem Eliane, email "Teste Corregedoria - Movjud-homologação -aviso", 30/07/2018>
         // ADICIONA UMA ABRANGENCIA
         Long idAbrangenciaAdicionada = null;
-        if (this.entidadePersistencia.getTipoAbrangenciaAviso().getCodigoAbrangenciaAviso().equals(AbrangenciaType.PERFIL.getCodigo()) &&
-            perfil != null) {
+        if (isAbrangenciaPerfil && (perfil != null)) {
             if (this.entidadePersistencia.getPerfisAbrangencia() == null) {
                 this.entidadePersistencia.setPerfisAbrangencia(new LinkedHashSet<Perfil>());
             }
             this.entidadePersistencia.getPerfisAbrangencia().add(perfil);
             idAbrangenciaAdicionada = perfil.getIdPerfil();
 
-        } else if (this.entidadePersistencia.getTipoAbrangenciaAviso().getCodigoAbrangenciaAviso().equals(AbrangenciaType.USUARIO_ESPECIFICO.getCodigo()) &&
-                   usuarioEspecifico != null) {
+        } else if (isAbrangenciaUsuarioEspecifico && (usuarioEspecifico != null)) {
             if (this.entidadePersistencia.getUsuariosAbrangencia() == null) {
                 this.entidadePersistencia.setUsuariosAbrangencia(new LinkedHashSet<Usuario>());
             }
@@ -493,7 +506,6 @@ public class ConfiguracaoAvisoBean extends BaseBean<ConfiguracaoAviso> {
             ResetUtils.reset(usuarioAbrangencia);
             atualizarComponenteDeTela(usuarioAbrangencia);
         } else {
-
             RichSelectOneChoice perfilAbrangencia = (RichSelectOneChoice) findComponent("socPerfil");
             ResetUtils.reset(perfilAbrangencia);
             atualizarComponenteDeTela(perfilAbrangencia);
