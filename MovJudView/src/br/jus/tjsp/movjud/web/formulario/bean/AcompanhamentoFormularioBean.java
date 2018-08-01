@@ -199,6 +199,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private static final String VALIDACAO_MAGISTRADO_PROCESSOS = "VALIDACAO_MAGISTRADO_PROCESSOS";
     private static final String VALIDACAO_MAGISTRADO_APROVADOR = "VALIDACAO_MAGISTRADO_APROVADOR";
     private static final String VALIDACAO_REUS_ULTIMO_MOVIMENTO = "VALIDACAO_REUS_ULTIMO_MOVIMENTO";
+    private static final String VALIDACAO_ESTAB_PRISIONAIS = "VALIDACAO_ESTAB_PRISIONAIS";
     private static final String VALIDACAO_CAMPOS_ZERADOS = "VALIDACAO_CAMPOS_ZERADOS";
 
     private static final int ANO_REGRA_PROCESSO_CONCLUSO = 2016;
@@ -908,10 +909,16 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
 
+        if (secaoEstabelecimento != null) {
+            if(!validarEstabelecimentosPrisionais(secaoEstabelecimento)) {
+                consistencias.put(VALIDACAO_ESTAB_PRISIONAIS, true);
+            }
+        }
+
         if (entidadePersistencia.getIdMagistrado() == null) {
             consistencias.put(VALIDACAO_MAGISTRADO_APROVADOR, true);
         }
-
+        
         if (!consistencias.containsValue(true)) {
             if (isSituacaoAbertoEmPreenchimentoConcluidoDevolvido()) {
                 entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
@@ -949,7 +956,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 for (ReuDTO reuDTO : listaReusInconsistentes) {
                     consistencia.append("<p> - " + reuDTO.getNomeReuProvisorio() + "</p>");
                 }
-                consistencia.append("</ul></li>");
+                consistencia.append("</ul></li><br>");
+            }
+            if (consistencias.getOrDefault(VALIDACAO_ESTAB_PRISIONAIS, false)) {
+                consistencia.append("<li>");
+                consistencia.append(AppBundleProperties.getString("msg.formulario.validacaoEstabPrisionais"));
+                consistencia.append("</li>");
             }
             popupConsistencias.show(new RichPopup.PopupHints());
         }
@@ -2088,6 +2100,26 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             }
         }
         return listaReusInconsistentes;
+    }
+    
+    private static boolean validarEstabelecimentosPrisionais(SecaoDTO secaoEstabelecimento) {
+        boolean estabelecimentosValidados;
+        if (secaoEstabelecimento.getListaSubSecoes() != null) {
+            for (SubSecaoDTO subSecao : secaoEstabelecimento.getListaSubSecoes()) {
+                for (EstabelecimentoEntidadeDTO estabelecimento : subSecao.getListaEstabelecimentosEntidade()) {
+                    estabelecimentosValidados = true;
+                    if (estabelecimento.isInspecaoNaoRealizada())
+                        estabelecimentosValidados = (estabelecimento.getMotivoInspecaoNaoRealizada() != null && !estabelecimento.getMotivoInspecaoNaoRealizada().isEmpty()); 
+                    else
+                        estabelecimentosValidados = (estabelecimento.getNomeMagistrado() != null && 
+                                                     !estabelecimento.getNomeMagistrado().isEmpty()); 
+                
+                    if (!estabelecimentosValidados) return false;
+                }
+            }
+        }
+                
+        return true;
     }
 
     public static boolean validarUltimoMovimentoNoPeriodoDeNoventaDias(ReuDTO reu, Date ultimoDiaMesReferencia) {
