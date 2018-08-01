@@ -59,7 +59,7 @@
                                     <af:inputDate label="Data de Entrada em Conclus&#227;o" id="id5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dataConclusao}" required="true" partialTriggers="b16" minValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoInicioCalendar}" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoFimCalendar}"/>
                                     <af:inputDate label="Data Inicio Designa&#231;&#227;o" id="id23" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dtDesignacaoInicio}" required="true" rendered="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean eq false}" partialTriggers="b16" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" />
                                     <!-- <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.conclusos and (pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean == false)}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}"> -->
-                                    <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
+                                    <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.conclusos}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaProcessosConclusos}" var="processoConcluso">
                                             <af:selectItem label="#{processoConcluso.descricaoTipoProcessoConcluso}" id="si9" value="#{processoConcluso}"/>
                                         </af:forEach>
@@ -501,9 +501,7 @@
                                     
                                     </af:panelBox>                                                                                                        
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.labelSecao}" id="painelSecaoMagistrado" styleClass="boxSecao" partialTriggers="b2" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado}">
-                                    
                                         <f:facet name="toolbar">
-                                        <!--
                                             <af:panelGroupLayout id="groupLayoutMagistrado" layout="horizontal" partialTriggers="b2">
                                                 <af:inputText label="Magistrado" id="inputTextMagistradoSugestao" value="#{pageFlowScope.acompanhamentoFormularioBean.sugestao}" autoSubmit="true" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeMagistradoSelecionado}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="b2">
                                                     <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.acompanhamentoFormularioBean.autoCompletar}"/>
@@ -511,9 +509,7 @@
                                                 <af:spacer width="10" height="10" id="s185"/>
                                                 <af:button text="Adicionar" id="b2" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.adicionarSubSecaoMagistrado}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true" action="#{pageFlowScope.acompanhamentoFormularioBean.limparSugestaoMagistrado}"/>
                                             </af:panelGroupLayout>
-                                            -->
-                                        </f:facet>                                    
-                                    
+                                        </f:facet>
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.listaSubSecoes}" var="subSecaoMagistrado">
                                             <af:panelBox id="pb4" styleClass="boxSecao" text="#{subSecaoMagistrado.nomeMagistrado}">
                                                 <f:facet name="toolbar">
@@ -855,14 +851,6 @@
                                                 </af:panelGroupLayout>
                                             </af:panelBox>
                                         </af:forEach>
-                                            <af:panelGroupLayout id="groupLayoutMagistrado" layout="horizontal" partialTriggers="b2">
-                                                <af:inputText label="Magistrado" id="inputTextMagistradoSugestao" value="#{pageFlowScope.acompanhamentoFormularioBean.sugestao}" autoSubmit="true" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeMagistradoSelecionado}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="b2">
-                                                    <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.acompanhamentoFormularioBean.autoCompletar}"/>
-                                                </af:inputText>
-                                                <af:spacer width="10" height="10" id="s185"/>
-                                                <af:button text="Adicionar" id="b2" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.adicionarSubSecaoMagistrado}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true" action="#{pageFlowScope.acompanhamentoFormularioBean.limparSugestaoMagistrado}"/>
-                                            </af:panelGroupLayout>
-
                                     </af:panelBox>
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoEstabelecimento.labelSecao}" id="pb1" styleClass="boxSecao" partialTriggers="b2" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoEstabelecimento}">
                                         <f:facet name="toolbar"/>
@@ -1121,18 +1109,18 @@
                                                         <af:outputText value="#{row.nomeEstabelecimentoEntidade}" id="ot35"/>
                                                     </af:column>
                                                     <af:column sortable="false" headerText="Magistrado" id="c15" width="200">
-                                                        <af:inputText id="it27" value="#{row.nomeMagistrado}" autoSubmit="true" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeMagistradoSelecionadoEstabelecimento}" disabled="#{(row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1">
+                                                        <af:inputText id="it27" value="#{row.nomeMagistrado}" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.alterarNomeMagistradoSelecionadoEstabelecimento}" disabled="#{(row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true">
                                                             <af:autoSuggestBehavior suggestedItems="#{pageFlowScope.acompanhamentoFormularioBean.autoCompletar}"/>
                                                         </af:inputText>
                                                     </af:column>
                                                     <af:column sortable="false" headerText="Data Inspe&#231;&#227;o" id="c16">
-                                                        <af:inputDate id="id22" value="#{row.dataInspecao}" disabled="#{(row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.primeiroDiaMesreferencia}"/>
+                                                        <af:inputDate id="id22" value="#{row.dataInspecao}" disabled="#{(row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" minValue="#{pageFlowScope.acompanhamentoFormularioBean.primeiroDiaMesreferencia}" partialTriggers="sbc1" autoSubmit="true"/>
                                                     </af:column>
                                                     <af:column sortable="false" headerText="Inspe&#231;&#227;o N&#227;o Realizada?" id="c7" width="160" align="center">
-                                                        <af:selectBooleanCheckbox id="sbc1" value="#{row.inspecaoNaoRealizada}" autoSubmit="true" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.inspecaoNaoRealizadaChangeListener}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" required="#{empty(row.dataInspecao)}"/>
+                                                        <af:selectBooleanCheckbox id="sbc1" value="#{row.inspecaoNaoRealizada}" valueChangeListener="#{pageFlowScope.acompanhamentoFormularioBean.inspecaoNaoRealizadaChangeListener}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" required="#{empty(row.dataInspecao)}" immediate="true" autoSubmit="true"/>
                                                     </af:column>
                                                     <af:column sortable="false" headerText="Motivo da n&#227;o realiza&#231;&#227;o da Inspe&#231;&#227;o" id="c17" width="300">
-                                                        <af:inputText id="it28" value="#{row.motivoInspecaoNaoRealizada}" disabled="#{(not row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true" required="#{row.inspecaoNaoRealizada}"/>
+                                                        <af:inputText id="it28" value="#{row.motivoInspecaoNaoRealizada}" disabled="#{(not row.inspecaoNaoRealizada) or pageFlowScope.acompanhamentoFormularioBean.visualizar}" partialTriggers="sbc1" autoSubmit="true"/>
                                                     </af:column>
                                                 </af:table>
                                             </af:panelBox>
@@ -1771,9 +1759,9 @@
         </f:facet>
     </af:panelStretchLayout>
     <af:spacer width="5" height="5" id="s189"/>
-    <af:panelGroupLayout id="pgl191" layout="horizontal" styleClass="AFStretchWidth" valign="baseline" rendered="#{pageFlowScope.acompanhamentoFormularioBean.recalcularFormulas2()}">
+    <af:panelGroupLayout id="pgl191" layout="horizontal" styleClass="AFStretchWidth" valign="baseline">
         <af:panelGroupLayout id="pgl204" layout="horizontal" valign="bottom" halign="start">
-            <af:button text="#{app['botao.formulario.recalcularFormula']}" id="bRecalcForm" icon="#{res['img.campoFormulaOn']}" disabledIcon="#{res['img.campoFormulaOff']}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true" action="#{pageFlowScope.acompanhamentoFormularioBean.recalcularFormulas}"/>
+            <af:button text="#{app['botao.formulario.recalcularFormula']}" id="b15" icon="#{res['img.campoFormulaOn']}" disabledIcon="#{res['img.campoFormulaOff']}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true" action="#{pageFlowScope.acompanhamentoFormularioBean.recalcularFormulas}"/>
         </af:panelGroupLayout>
         <af:panelGroupLayout id="pgl205" halign="end" valign="bottom" layout="horizontal">
             <af:button text="#{app['botao.salvar']}" id="b9" rendered="#{pageFlowScope.controleFluxo eq 'AVALIAR'}" icon="#{res['img.salvarOn']}">
