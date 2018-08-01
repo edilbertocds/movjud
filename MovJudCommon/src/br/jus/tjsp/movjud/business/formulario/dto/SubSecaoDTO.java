@@ -408,6 +408,10 @@ public class SubSecaoDTO extends BaseDTO<Long> implements Comparable<SubSecaoDTO
     public boolean isTabelaProcessos() {
         return tabelaProcessos;
     }
+    
+    public boolean getTabelaProcessos() {
+        return tabelaProcessos;
+    }
 
     public void setReus(boolean reus) {
         this.reus = reus;
