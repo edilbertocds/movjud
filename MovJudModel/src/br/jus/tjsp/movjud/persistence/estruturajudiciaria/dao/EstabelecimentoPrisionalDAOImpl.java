@@ -88,7 +88,7 @@ public class EstabelecimentoPrisionalDAOImpl extends BaseDAOImpl<Estabelecimento
     @Override
     public List<EstabelecimentoPrisional> listarEstabelecimentosPrisionaisSemUnidadeAtivoPorNome(EstabelecimentoPrisional estabelecimentoPrisional,
                                                                                                  Paginacao paginacao) {
-        return new ArrayList<EstabelecimentoPrisional>();                                                                                  
+        return listarComFiltroOrdenacao(estabelecimentoPrisional, "nomeEstabelecimentoPrisional", true, paginacao);
     }
     
     // <edilberto item 199>
