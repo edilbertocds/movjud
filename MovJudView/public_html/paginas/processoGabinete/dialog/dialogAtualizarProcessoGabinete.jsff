@@ -90,7 +90,7 @@
                                      shortDesc="#{app['label.parametro.apagar']}" 
                                      partialSubmit="true" 
                                      immediate="true"
-                                     rendered="#{processoGabineteBean.isUltimoRegistro(row.idProcessoGabinete)}"
+                                     rendered="#{processoGabineteBean.isPrimeiroRegistro(row.idProcessoGabinete)}"
                                      actionListener="#{processoGabineteBean.removerProcessoGabinete(row)}" />
                         </af:column>
                     </af:table>

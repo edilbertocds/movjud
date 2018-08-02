@@ -127,6 +127,24 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return false;
     }
 
+    public boolean isPrimeiroRegistro(Long idProcessoGabinete) {
+        
+        if (entidadePersistencia != null &&
+            entidadePersistencia.getUsuario() != null &&
+            entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
+            entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
+        
+                if (idProcessoGabinete == null || idProcessoGabinete.equals(0)) {
+                    return true;                    
+                } else {
+                    if (entidadePersistencia.getUsuario().getProcessosGabinete().get(0).getIdProcessoGabinete() == null) return false;
+                    
+                    return entidadePersistencia.getUsuario().getProcessosGabinete().get(0).getIdProcessoGabinete().equals(idProcessoGabinete);
+                }
+            }
+        
+        return false;
+    }
 
     @Override
     public String excluirEntidade() {
