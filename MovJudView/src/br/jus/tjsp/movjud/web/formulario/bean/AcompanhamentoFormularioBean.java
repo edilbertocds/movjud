@@ -350,24 +350,24 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         entidadeFiltro.setNomeMagistrado("");
     }
 
-    /** Regras de perfis e de tipo situaÃƒÂ§ÃƒÂµes para cada tela*/
+    /** Regras de perfis e de tipo situaçÃƒÂµes para cada tela*/
 
     /**
      * Regra Consultar Geral:
-     * FormulÃƒÂ¡rios com status "Enviado CGJ", "RetificaÃƒÂ§ÃƒÂ£o Reprovada", "RetificaÃƒÂ§ÃƒÂ£o Aprovada",
-     *      "RetificaÃƒÂ§ÃƒÂ£o Em Preenchimento", "RetificaÃƒÂ§ÃƒÂ£o ConcluÃƒÂ­da", "RetificaÃƒÂ§ÃƒÂ£o Devolvida" e
-     *      "RetificaÃƒÂ§ÃƒÂ£o Enviada ao CGJ".
+     * FormulÃƒÂ¡rios com status "Enviado CGJ", "Retificação Reprovada", "Retificação Aprovada",
+     *      "Retificação Em Preenchimento", "Retificação ConcluÃƒÂ­da", "Retificação Devolvida" e
+     *      "Retificação Enviada ao CGJ".
      *
      * Regra Consultar/Preencher:
      * FormulÃƒÂ¡rios com status "Aberto", "Em preenchimento", "Devolvido", e "ConcluÃƒÂ­do".
      *
      * Regra Consultar/Enviar:
-     * FormulÃƒÂ¡rios com status "Concluido" e "RetificaÃƒÂ§ao Concluida".
+     * FormulÃƒÂ¡rios com status "Concluido" e "Retificaçao Concluida".
      *
      * Regra Consultar/Retificar:
-     * FormulÃƒÂ¡rios com status "RetificaÃƒÂ§ÃƒÂ£o Reprovada", "RetificaÃƒÂ§ÃƒÂ£o Aprovada",
-     *      "RetificaÃƒÂ§ÃƒÂ£o Em Preenchimento", "RetificaÃƒÂ§ÃƒÂ£o ConcluÃƒÂ­da", "RetificaÃƒÂ§ÃƒÂ£o Devolvida" e
-     *      "RetificaÃƒÂ§ÃƒÂ£o Enviada ao CGJ".
+     * FormulÃƒÂ¡rios com status "Retificação Reprovada", "Retificação Aprovada",
+     *      "Retificação Em Preenchimento", "Retificação ConcluÃƒÂ­da", "Retificação Devolvida" e
+     *      "Retificação Enviada ao CGJ".
      *
      */
     private void popularListaTiposSituacaoRegra() {
@@ -492,7 +492,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
     }
 
-    /** Montagem das listas e validaÃƒÂ§ÃƒÂµes**/
+    /** Montagem das listas e validaçÃƒÂµes**/
     private void popularListasAdm() {
         listaUnidade = new ArrayList<>();
         listaForo = estruturaJudiciariaService.listarForoComFiltro(foro);
@@ -595,7 +595,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
     }
 
-    /** MÃƒÂ©todos para atualizaÃƒÂ§ÃƒÂ£o de componentes de tela por ajax **/
+    /** MÃƒÂ©todos para atualização de componentes de tela por ajax **/
     public void atualizarListaUnidade(ValueChangeEvent e) {
         foro.setIdForo(Long.parseLong(String.valueOf(e.getNewValue())));
         entidadeFiltro.setIdForo(foro.getIdForo());
@@ -1007,25 +1007,25 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private void abrirPopupValidacao(TipoValidacaoType tipoValidacao, List<ValidacaoDTO> listaValidacao) {
         final int MAX_NUM_MSG = 5;
         int countMsgs = 0;
-        // TODO: investigar mais a fundo a implementaÃƒÂ§ÃƒÂ£o da validaÃƒÂ§ÃƒÂ£o para resolver corretamente este erro.
-        // <epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
+        // TODO: investigar mais a fundo a implementação da validação para resolver corretamente este erro.
+        // <epr> 0.6.7 evitar duplicação no aviso
         List<Integer> hashInserted = new ArrayList<Integer>();
-        // </epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
+        // </epr> 0.6.7 evitar duplicação no aviso
         StringBuilder validacao = new StringBuilder();
         if (TipoValidacaoType.VALIDACAO_ERRO.equals(tipoValidacao)) {
-            validacao.append("Foram identificados alguns erros de validaÃƒÂ§ÃƒÂ£o:");
+            validacao.append("Foram identificados alguns erros de validação:");
             validacao.append("<ul><li>");
             validacao.append(tipoValidacao.getDescricaoValidacao() + ":");
             validacao.append("<ul>");
             for (ValidacaoDTO val : listaValidacao) {
-                // <epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
+                // <epr> 0.6.7 evitar duplicação no aviso
                 if (hashInserted.contains(("ERRO " + val.getMensagem()).hashCode())) {
                     continue;
                 }
                 hashInserted.add(("ERRO " + val.getMensagem()).hashCode());
-                // </epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
+                // </epr> 0.6.7 evitar duplicação no aviso
                 if (countMsgs == MAX_NUM_MSG) {
-                    validacao.append("<li><b>Existem mais erros nÃƒÂ£o exibidos...</b></li>");
+                    validacao.append("<li><b>Existem mais erros não exibidos...</b></li>");
                     break;
                 }
                 validacao.append("<li>" + val.getMensagem() + "</li><br>");
@@ -1035,19 +1035,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mensagemValidacao = validacao.toString();
             getPopupErroValidacao().show(new RichPopup.PopupHints());
         } else if (TipoValidacaoType.VALIDACAO_AVISO.equals(tipoValidacao)) {
-            validacao.append("Foram identificados alguns alertas de validaÃƒÂ§ÃƒÂ£o:");
+            validacao.append("Foram identificados alguns alertas de validação:");
             validacao.append("<ul><li>");
             validacao.append(tipoValidacao.getDescricaoValidacao() + ":");
             validacao.append("<ul>");
             for (ValidacaoDTO val : listaValidacao) {
-                // <epr> 0.6.7 evitar duplicaÃƒÂ§ÃƒÂ£o no aviso
+                // <epr> 0.6.7 evitar duplicação no aviso
                 if (hashInserted.contains(("AVISO " + val.getMensagem()).hashCode())) {
                     continue;
                 }
                 hashInserted.add(("AVISO " + val.getMensagem()).hashCode());
-                // </epr> 0.6.7 evitr duplicaÃƒÂ§ÃƒÂ£o no aviso
+                // </epr> 0.6.7 evitr duplicação no aviso
                 if (countMsgs == MAX_NUM_MSG) {
-                    validacao.append("<li><b>Existem mais erros nÃƒÂ£o exibidos...</b></li>");
+                    validacao.append("<li><b>Existem mais erros não exibidos...</b></li>");
                     break;
                 }
                 validacao.append("<li>" + val.getMensagem() + "</li><br>");
@@ -1056,7 +1056,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mensagemValidacao = validacao.toString();
             getPopupAvisoValidacao().show(new RichPopup.PopupHints());
         } else if (TipoValidacaoType.VALIDACAO_CONFIRMACAO.equals(tipoValidacao)) {
-            validacao.append("Foram identificados alguns itens que precisam de confirmaÃƒÂ§ÃƒÂ£o:<br>");
+            validacao.append("Foram identificados alguns itens que precisam de confirmação:<br>");
             for (ValidacaoDTO val : listaValidacao) {
                 if (!val.isValidacaoAceita()) {
                     validacao.append(val.getMensagem());
@@ -1630,12 +1630,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             mensagemErro("Número de processo concluso duplicado");
             return null;
         }
-        // <epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
+        // <epr> 0.7.15 - admitindo não informado, conforme discutido com a equipe 04/08/2017
         if (processoConclusoDTO.getTipoConclusoDTO() == null) {
             TipoConclusoDTO tipoConclusoDTO = formularioService.obterTipoConclusoPorId(-1L);
             processoConclusoDTO.setTipoConclusoDTO(tipoConclusoDTO);
         }
-        // </epr> 0.7.15 - admitindo nÃƒÂ£o informado, conforme discutido com a equipe 04/08/2017
+        // </epr> 0.7.15 - admitindo não informado, conforme discutido com a equipe 04/08/2017
         if (formularioMesAnterior != null) {
             //Regra Antiga
             if (entidadePersistencia.getAno().intValue() == ANO_REGRA_PROCESSO_CONCLUSO) {
@@ -1836,7 +1836,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                .get(2);
                         this.idMagistrado = (Long) idMagistrado.getValue();
                     }
-                    // <epr 1)Item 143> mover a exclusÃƒÂ£o para aÃƒÂ§ÃƒÂ£o Salvar/Concluir
+                    // <epr 1)Item 143> mover a exclusão para ação Salvar/Concluir
                     /*
                     FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
                                                                    secaoMagistrado).getListaProcessosConclusos().remove(processoConclusoDTO);
@@ -2126,7 +2126,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         boolean retorno = false;
         // <epr 1) Item 141>
         if (reu.getIdMotivoBaixa() != null && reu.getDataBaixa() != null) {
-            // se motivo baixa e data baixa, ignora outras validaÃƒÂ§ÃƒÂµes.
+            // se motivo baixa e data baixa, ignora outras validaçÃƒÂµes.
             return true;
         }
         // </epr 1) Item 141>
@@ -2246,7 +2246,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
     }
 
-    /** BotÃƒÂµes de alteraÃƒÂ§ÃƒÂ£o de status de formulÃƒÂ¡rio e atribuiÃƒÂ§ÃƒÂ£o de dados a formulÃƒÂ¡rios*/
+    /** BotÃƒÂµes de alteração de status de formulÃƒÂ¡rio e atribuição de dados a formulÃƒÂ¡rios*/
     public String definirMagistrado(DialogEvent dialogEvent) {
 
         if (dialogEvent.getOutcome() == DialogEvent.Outcome.ok) {
@@ -2278,13 +2278,13 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     }
 
-    // <0.7.19> introduzido alteraÃƒÂ§ÃƒÂ£o
+    // <0.7.19> introduzido alteração
     // <20171009>Validar quanto à necessidade de modificar por método exclusivo</20171009>
     private void persistirListaConjuntoDefinirMagistradoFormularios() {
         if (ORIGEM_TELA_RETIFICAR.equals(acaoPageFlow())) {
             for (FormularioDTO form :
                  listaFormulariosRetificacao) {
-                // Erro 109 - SÃƒÂ³ permitir alterar o Magistrado na RetificaÃƒÂ§ÃƒÂ£o para os seguintes Status - 08.09.2017 - Paula Covo
+                // Erro 109 - SÃƒÂ³ permitir alterar o Magistrado na Retificação para os seguintes Status - 08.09.2017 - Paula Covo
                 if (form.getSituacaoFormularioDTO()
                         .getIdentificadorSituacaoFormulario()
                         .equalsIgnoreCase(TipoSituacaoType.RETIFICACAO_APROVADA.toString()) ||
@@ -2322,9 +2322,9 @@ form = recuperarFormulario(form);
     // </epr>0.7.19
     /* <0.7.19> comentado
     private void persistirListaConjuntoDefinirMagistradoFormularios() {
-        // <epr> 0.6.7 - Para corrigir possÃƒÂ­vel situaÃƒÂ§ÃƒÂ£o de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
+        // <epr> 0.6.7 - Para corrigir possÃƒÂ­vel situação de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
         FormularioDTO refRetificar = null;
-        // </epr> 0.6.7 - Para corrigir possÃƒÂ­vel situaÃƒÂ§ÃƒÂ£o de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
+        // </epr> 0.6.7 - Para corrigir possÃƒÂ­vel situação de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
         for (FormularioDTO form : listaEntidade) {
             if (ORIGEM_TELA_PREENCHER.equals(acaoPageFlow())) {
                 if (anoReferencia.equals(form.getAno()) && mesReferencia.equals(form.getMes()) &&
@@ -2334,7 +2334,7 @@ form = recuperarFormulario(form);
                     formularioService.salvarFormulario(form, null, null);
                 }
             } else if (ORIGEM_TELA_RETIFICAR.equals(acaoPageFlow())) {
-                // <erp> 0.6.7 - Para corrigir possÃƒÂ­vel situaÃƒÂ§ÃƒÂ£o de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
+                // <erp> 0.6.7 - Para corrigir possÃƒÂ­vel situação de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
                 if(refRetificar == null) {
                     if(entidadePersistencia != null && entidadePersistencia.getAno() != null && entidadePersistencia.getMes() != null && entidadePersistencia.getNomeUnidade() != null) {
                         refRetificar = entidadePersistencia;
@@ -2344,7 +2344,7 @@ form = recuperarFormulario(form);
                         continue;
                     }
                 }
-                // </epr> 0.6.7 - Para corrigir possÃƒÂ­vel situaÃƒÂ§ÃƒÂ£o de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
+                // </epr> 0.6.7 - Para corrigir possÃƒÂ­vel situação de erro (referÃƒÂªncia invÃƒÂ¡lida a entidadePersistencia)
                 // <epr>  0.6.7 - refRetificar usada em lugar de entidadePersistencia
                 if (refRetificar.getAno().equals(form.getAno()) &&
                     refRetificar.getMes().equals(form.getMes()) &&
