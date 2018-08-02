@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-07-10T18:29:15 -->
+<!-- 2018-08-02T14:53:02 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="1.948717100000005"/>
 	<property name="ireport.x" value="281"/>
@@ -21,8 +21,9 @@
 	<field name="nomeMagistrado" class="java.lang.String"/>
 	<field name="idMotivoBaixa" class="java.lang.Long"/>
 	<field name="codigoPessoaSaj" class="java.lang.Long"/>
+	<field name="sexo" class="java.lang.String"/>
 	<detail>
-		<band height="215">
+		<band height="230">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="true">
 				<reportElement x="229" y="3" width="320" height="15" uuid="f60d605a-73a4-4f8a-8e32-831c2e181a7b">
@@ -35,49 +36,49 @@
 				<textFieldExpression><![CDATA[$F{nomeReuProvisorio}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="18" width="320" height="15" uuid="3a7be9b9-2f07-4417-8f2e-d60ca55d6734"/>
+				<reportElement x="229" y="33" width="320" height="15" uuid="3a7be9b9-2f07-4417-8f2e-d60ca55d6734"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeMaeReuProvisorio}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="229" y="33" width="320" height="15" uuid="5d6b12eb-000b-43d0-ba66-8375fb8fc015"/>
+				<reportElement x="229" y="48" width="320" height="15" uuid="5d6b12eb-000b-43d0-ba66-8375fb8fc015"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dataPrisao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="48" width="320" height="15" uuid="a11d5164-ba4c-48a3-bb4a-7bb8adbcb07d"/>
+				<reportElement x="229" y="63" width="320" height="15" uuid="a11d5164-ba4c-48a3-bb4a-7bb8adbcb07d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descricaoMotivoBaixa}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="63" width="320" height="15" uuid="35012b56-be3e-48b0-8bcc-ce0347dc3fb4"/>
+				<reportElement x="229" y="78" width="320" height="15" uuid="35012b56-be3e-48b0-8bcc-ce0347dc3fb4"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeEstabelecimentoPrisional}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="78" width="320" height="15" uuid="a47a5f53-51a8-4ffe-9561-c46a76731f8e"/>
+				<reportElement x="229" y="93" width="320" height="15" uuid="a47a5f53-51a8-4ffe-9561-c46a76731f8e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{numeroProcesso}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="93" width="320" height="15" uuid="e8c1db56-6833-490a-a4a5-1a060733db52"/>
+				<reportElement x="229" y="108" width="320" height="15" uuid="e8c1db56-6833-490a-a4a5-1a060733db52"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{numeroControle}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="108" width="320" height="15" uuid="6d0f8e14-308d-411c-82a4-683acbf8f328">
+				<reportElement x="229" y="123" width="320" height="15" uuid="6d0f8e14-308d-411c-82a4-683acbf8f328">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -86,35 +87,35 @@
 				<textFieldExpression><![CDATA[$F{descricaoNaturezaPrisao}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="229" y="123" width="320" height="15" uuid="bed801ac-f9ab-41c7-8da8-38dea2e23d76"/>
+				<reportElement x="229" y="138" width="320" height="15" uuid="bed801ac-f9ab-41c7-8da8-38dea2e23d76"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dataUltimoMovimento}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="138" width="320" height="15" uuid="3e34b96d-fc04-48fd-9122-011433ef0cb2"/>
+				<reportElement x="229" y="153" width="320" height="15" uuid="3e34b96d-fc04-48fd-9122-011433ef0cb2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{conteudoUltimoMovimento}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="153" width="320" height="23" uuid="b6e417ee-f448-4d85-8b3b-7334c43d703c"/>
+				<reportElement x="229" y="168" width="320" height="23" uuid="b6e417ee-f448-4d85-8b3b-7334c43d703c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dataLevadoMagistrado}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="176" width="320" height="15" uuid="6da80757-1322-4ba2-928d-032abd0e1a6d"/>
+				<reportElement x="229" y="191" width="320" height="15" uuid="6da80757-1322-4ba2-928d-032abd0e1a6d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descricaoRelatorioCgj}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="229" y="191" width="320" height="15" uuid="e2742c97-c430-4062-9e82-f7bf571ce51e"/>
+				<reportElement x="229" y="206" width="320" height="15" uuid="e2742c97-c430-4062-9e82-f7bf571ce51e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="8"/>
 				</textElement>
@@ -130,7 +131,7 @@
 				<text><![CDATA[Nome do preso provisório]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="18" width="215" height="15" uuid="36a513da-bc7b-4de2-b44a-327cbf27effe">
+				<reportElement x="5" y="33" width="215" height="15" uuid="36a513da-bc7b-4de2-b44a-327cbf27effe">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -139,7 +140,7 @@
 				<text><![CDATA[Nome da Mãe]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="33" width="215" height="15" uuid="642f0dc7-b0c4-4960-a2fe-fc88db879c6e">
+				<reportElement x="5" y="48" width="215" height="15" uuid="642f0dc7-b0c4-4960-a2fe-fc88db879c6e">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -148,7 +149,7 @@
 				<text><![CDATA[Data da prisão]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="48" width="215" height="15" uuid="32007a32-dcc6-410e-8a69-5f3fa747b1ac">
+				<reportElement x="5" y="63" width="215" height="15" uuid="32007a32-dcc6-410e-8a69-5f3fa747b1ac">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -157,7 +158,7 @@
 				<text><![CDATA[Motivo Baixa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="63" width="215" height="15" uuid="2340229c-8473-4b37-8dfe-ffcf9a75fda6">
+				<reportElement x="5" y="78" width="215" height="15" uuid="2340229c-8473-4b37-8dfe-ffcf9a75fda6">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -166,7 +167,7 @@
 				<text><![CDATA[Estabelecimento Prisional]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="78" width="215" height="15" uuid="18e6aa80-4583-4466-b548-7e36627bf8d6">
+				<reportElement x="5" y="93" width="215" height="15" uuid="18e6aa80-4583-4466-b548-7e36627bf8d6">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -175,7 +176,7 @@
 				<text><![CDATA[Número do Processo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="93" width="215" height="15" uuid="28b8f278-d321-4d6f-a0fe-fb856653b82d">
+				<reportElement x="5" y="108" width="215" height="15" uuid="28b8f278-d321-4d6f-a0fe-fb856653b82d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -184,7 +185,7 @@
 				<text><![CDATA[Número controle/ordem]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="108" width="215" height="15" uuid="e9e3efcb-654c-4acf-9088-35e5040f9046">
+				<reportElement x="5" y="123" width="215" height="15" uuid="e9e3efcb-654c-4acf-9088-35e5040f9046">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -193,7 +194,7 @@
 				<text><![CDATA[Natureza da prisão provisória]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="123" width="215" height="15" uuid="748a88ef-7fda-4e9c-8316-76128677e65a">
+				<reportElement x="5" y="138" width="215" height="15" uuid="748a88ef-7fda-4e9c-8316-76128677e65a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -202,7 +203,7 @@
 				<text><![CDATA[Data do último movimento processual]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="138" width="215" height="15" uuid="03dba6c6-6bd0-4cc9-9537-ea79b7dc247d">
+				<reportElement x="5" y="153" width="215" height="15" uuid="03dba6c6-6bd0-4cc9-9537-ea79b7dc247d">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -211,7 +212,7 @@
 				<text><![CDATA[Conteúdo do último movimento processual]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="153" width="215" height="23" uuid="ccb8ba70-efa2-41a4-afd8-67440635dbab">
+				<reportElement x="5" y="168" width="215" height="23" uuid="ccb8ba70-efa2-41a4-afd8-67440635dbab">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -220,7 +221,7 @@
 				<text><![CDATA[Data em que o feito, paralisado em seu andamento há mais de 90 dias, foi levado à análise do magistrado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="176" width="215" height="15" uuid="a677e86a-94de-43b0-afc8-9ce14a37e4ec">
+				<reportElement x="5" y="191" width="215" height="15" uuid="a677e86a-94de-43b0-afc8-9ce14a37e4ec">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -229,7 +230,7 @@
 				<text><![CDATA[Relatório informativo à C.G.J.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="191" width="215" height="15" uuid="fb22bd84-f2dd-4d24-afcd-3a61b6f0952f">
+				<reportElement x="5" y="206" width="215" height="15" uuid="fb22bd84-f2dd-4d24-afcd-3a61b6f0952f">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -238,10 +239,26 @@
 				<text><![CDATA[Magistrado que analisou e relatou o feito]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="209" width="554" height="1" uuid="2ab44865-b6eb-4030-821c-7b2dba75cab5">
+				<reportElement x="0" y="224" width="554" height="1" uuid="2ab44865-b6eb-4030-821c-7b2dba75cab5">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
+			<textField>
+				<reportElement x="229" y="18" width="320" height="15" uuid="d9a78b0c-592b-4df0-a8d6-caafcc491a65"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="18" width="215" height="15" uuid="960f6ee6-4056-4cf0-bdbc-60085b704601">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[sexo]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>
