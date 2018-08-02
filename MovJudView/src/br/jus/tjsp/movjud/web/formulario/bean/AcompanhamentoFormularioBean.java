@@ -1162,6 +1162,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             listaRemoverProcessoConclusoDTO.clear();
         }
         // </epr 3) Item 143>
+        recalcularFormulasAnteriorEatual();
         return persistirEntidade();
     }
 
@@ -1188,21 +1189,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String persistirEntidade() {
-        /* Qual a necessidade disto???
-        for (SecaoDTO secao : entidadePersistencia.getListaSecoes()) {
-            if (secao.getCodigoSecao().equals(SecaoType.DADOS_UNIDADES.getCodigoSecao())) {
-                secao = secaoDadosUnidade;
-            } else if (secao.getCodigoSecao().equals(SecaoType.MAGISTRADO.getCodigoSecao())) {
-                secao = secaoMagistrado;
-            } else if (secao.getCodigoSecao().equals(SecaoType.ESTABELECIMENTOS_PRISIONAIS.getCodigoSecao())) {
-                secao = secaoEstabelecimento;
-            } else if (secao.getCodigoSecao().equals(SecaoType.MATERIA.getCodigoSecao())) {
-                secao = secaoMateria;
-            } else if (secao.getCodigoSecao().equals(SecaoType.REUS.getCodigoSecao())) {
-                secao = secaoReus;
-            }
-        }*/
-
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
         formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus,
                                            subSecaoProcessoConclusoDTO);
@@ -1247,8 +1233,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String recalcularFormulas() {
-        formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
-        entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
+        recalcularFormulasAnteriorEatual();
         atualizarComponenteDeTela(painelPrincipal);
         return null;
     }
@@ -3259,5 +3244,10 @@ form = recuperarFormulario(form);
         //this.existeFormularioPreenchidoAnteriormente = formularioService.existeFomrularioMesAnterior(form.getIdMetadadosFormulario(), form.getMes(), form.getAno());
         form = formularioService.recuperarFormularioDTOPorIdFormulario(form.getIdFormulario());
         return form;
+    }
+
+    private void recalcularFormulasAnteriorEatual() {
+        formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
+        entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
     }
 }

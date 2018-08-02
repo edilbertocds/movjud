@@ -456,7 +456,7 @@
                                         <af:panelGroupLayout id="pgl208" layout="vertical" partialTriggers="b21 b3 b10 b16">
                                             <af:panelGroupLayout id="pgl209" layout="horizontal">
                                                 <af:inputText label="N&#250;mero Processo Concluso:" id="it63" autoSubmit="true" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.filtroProcessoConcluso}"/>
-                                                <af:button text="Filtrar" id="b21" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
+                                                <af:button text="Filtrar" immediate="true" id="b21" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
                                             </af:panelGroupLayout>
                                             <af:table var="row" rowBandingInterval="0" id="t2" styleClass="AFStretchWidth formularioTabela" fetchSize="25" autoHeightRows="5" columnStretching="column:c22" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.listaFiltradaProcessosConclusos}" partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 l2 ::b21" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
                                                     <af:column sortable="false" headerText="N&#250;mero do processo" id="c23" filterable="true">
@@ -488,12 +488,12 @@
                                                 
                                                 
                                                 <af:column sortable="false" headerText="A&#231;&#245;es" id="c22" align="center"> 
-                                                    <af:panelGroupLayout id="pgl185" layout="horizontal"> 
+                                                    <af:panelGroupLayout id="pgl185" layout="horizontal" rendered="#{row.idMagistradoProcesso eq null}" > 
                                                         <af:link id="l3" icon="/resource/images/downloadOn.png" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">  
                                                             <af:showPopupBehavior popupId="::popupBaixaProcessoConcluso"/>  
                                                         </af:link> 
                                                        <af:link id="l2" icon="/resource/images/lixeiraOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.removerProcessoConclusoUnidade}" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar or row.marcadoExclusao}" disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/> 
-                                                    </af:panelGroupLayout> 
+                                                    </af:panelGroupLayout>
                                                 </af:column> 
                                             </af:table>
                                         </af:panelGroupLayout>
@@ -808,7 +808,7 @@
                                                             <af:panelGroupLayout id="pgl214" layout="horizontal">
                                                                 <af:inputText label="N&#250;mero Processo Concluso:"
                                                                               id="it64" autoSubmit="true" value="#{subSecaoMagistrado.filtroProcessoConcluso}"/>
-                                                                <af:button text="Filtrar" id="b23" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
+                                                                <af:button text="Filtrar" immediate="true" id="b23" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
                                                             </af:panelGroupLayout>
                                                             <af:table var="row" rowBandingInterval="0" id="t1" styleClass="AFStretchWidth formularioTabela" fetchSize="25" autoHeightRows="5" columnStretching="column:c8" value="#{subSecaoMagistrado.listaFiltradaProcessosConclusos}" partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 l8 ::b21" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
                                                                 <af:column sortable="false" headerText="N&#250;mero do processo" id="c8" filterable="true">
@@ -1140,7 +1140,6 @@
                                     </af:panelBox>
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.labelSecao}" id="painelSecaoMateria" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoMateria}" partialTriggers="b1">
                                         <f:facet name="toolbar">
-                                        <!--
                                             <af:panelGroupLayout id="pgl186" layout="horizontal">
                                                 <af:selectOneChoice label="Mat&#233;rias" id="soc22" value="#{pageFlowScope.acompanhamentoFormularioBean.materiaSubSecao}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" autoSubmit="true">
                                                     <af:selectItem label="(Selecione)" value="" id="si42"/>
@@ -1151,7 +1150,6 @@
                                                 <af:spacer width="10" height="10" id="s186"/>
                                                 <af:button text="Adicionar" id="b1" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.adicionarSubSecaoMateria}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true"/>
                                             </af:panelGroupLayout>
-                                            -->
                                         </f:facet>
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.listaSubSecoes}" var="subSecaoMateria">
                                             <af:panelBox text="Mat&#233;ria: #{subSecaoMateria.tipoMateria.nomeTipoMateria}" id="pb12" styleClass="boxSecao">
@@ -1410,16 +1408,6 @@
                                                 </af:forEach>
                                             </af:panelBox>
                                         </af:forEach>
-                                            <af:panelGroupLayout id="pgl186" layout="horizontal">
-                                                <af:selectOneChoice label="Mat&#233;rias" id="soc22" value="#{pageFlowScope.acompanhamentoFormularioBean.materiaSubSecao}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" autoSubmit="true">
-                                                    <af:selectItem label="(Selecione)" value="" id="si42"/>
-                                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.listaMaterias}" var="materiaSelecionada">
-                                                        <af:selectItem label="#{materiaSelecionada.nomeTipoMateria}" id="si43" value="#{materiaSelecionada}"/>
-                                                    </af:forEach>
-                                                </af:selectOneChoice>
-                                                <af:spacer width="10" height="10" id="s186"/>
-                                                <af:button text="Adicionar" id="b1" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.adicionarSubSecaoMateria}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true"/>
-                                            </af:panelGroupLayout>
                                     </af:panelBox>
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoReus.labelSecao}" id="painelSecaoReus" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoReus}">
                                         <f:facet name="toolbar">
