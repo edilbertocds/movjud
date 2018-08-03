@@ -1760,7 +1760,7 @@
                                 </af:selectOneRadio>
                             </af:panelGroupLayout>
                         </af:panelBox>
-                        <af:panelBox id="pb10" text="Hist&#243;rico">
+                        <af:panelBox id="pb10" text="Hist&#243;rico" disclosed="#{not pageFlowScope.acompanhamentoFormularioBean.isRetificacao()}">
                             <f:facet name="toolbar"/>
                             <af:panelGroupLayout id="pgl207" layout="scroll" styleClass="panelFormulario">
                                 <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.entidadePersistencia.listaHistoricoFormulario}"
