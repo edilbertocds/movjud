@@ -95,11 +95,14 @@ public class EstabelecimentoPrisionalDAOImpl extends BaseDAOImpl<Estabelecimento
     @Override
     public UnidadeEstabelecimentoPrisional obterVinculoMaisRecenteComUnidade(EstabelecimentoPrisional estabelecimentoPrisional) {
         if(estabelecimentoPrisional != null && estabelecimentoPrisional.getId() != null) {
-            String jpaQuery = "select ue from UnidadeEstabelecimentoPrisional ue " +
-                              "where not (ue.dataFim is null) and ue.estabelecimentoPrisional.idEstabelecimentoPrisional = " + estabelecimentoPrisional.getId().toString() + 
-                              "order by DT_FIM desc";
+            String jpaQuery = " select ue from UnidadeEstabelecimentoPrisional ue " +
+                              " where not (ue.dataFim is null) and ue.estabelecimentoPrisional.idEstabelecimentoPrisional = " + estabelecimentoPrisional.getId().toString() + 
+                              " order by ue.dataFim desc";
             Query query = getPersistenceManager().getManager().createQuery(jpaQuery);
-            return (UnidadeEstabelecimentoPrisional)query.getSingleResult();
+            List retorno = query.setMaxResults(1).getResultList();
+            if(retorno != null && !retorno.isEmpty()){
+                return (UnidadeEstabelecimentoPrisional)query.setMaxResults(1).getResultList().get(0);
+            }
         }
         return null;
     }

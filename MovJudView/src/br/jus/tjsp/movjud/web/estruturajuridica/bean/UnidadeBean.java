@@ -465,7 +465,8 @@ public class UnidadeBean extends BaseBean<Unidade> {
             
             // <edilberto item 199>
             unidadeEstabelecimentoPrisional.setNovo(true);
-            unidadeEstabelecimentoPrisional.setDataFim(dataInicioDesteVinculo);
+            unidadeEstabelecimentoPrisional.setDataInicio(dataInicioDesteVinculo);
+            unidadeEstabelecimentoPrisional.setDataFim(null);
             // </edilberto item 199>
             
             entidadePersistencia.addEstabelecimentoPrisional(unidadeEstabelecimentoPrisional);
@@ -484,7 +485,7 @@ public class UnidadeBean extends BaseBean<Unidade> {
         boolean existente = false;
         if (unidadesEstabelecimentoPriosionais != null) {
             for (UnidadeEstabelecimentoPrisional unidadeAtual : unidadesEstabelecimentoPriosionais) {
-                if (unidadeAtual.getEstabelecimentoPrisional().equals(estabelecimentoPrisional)) {
+                if (unidadeAtual.getEstabelecimentoPrisional().getId().longValue() == estabelecimentoPrisional.getId().longValue()) {
                     existente = true;
                 }
             }
