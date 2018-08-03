@@ -236,6 +236,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private boolean existeFormularioPreenchidoAnteriormente = false;
 
     private boolean triggerRecalc = false;
+    
+    private boolean isRetificacao = false;
 
     public AcompanhamentoFormularioBean() {
         formularioService = (FormularioService) getBean(FormularioService.class);
@@ -472,6 +474,10 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         */
         return null;
     }
+    
+    public boolean isRetificacao() {
+        return this.isRetificacao;
+    }
 
     private void calcularColuna() {
         if (ORIGEM_TELA_CONSULTAR.equals(action)) {
@@ -487,6 +493,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             tituloPagina = AppBundleProperties.getString(TITULO_TELA_ENVIAR);
             colunas = 112;
         } else if (ORIGEM_TELA_AVALIAR.equals(action)) {
+            isRetificacao = true;
             tituloPagina = AppBundleProperties.getString(TITULO_TELA_AVALIAR);
             colunas = 187;
         }
