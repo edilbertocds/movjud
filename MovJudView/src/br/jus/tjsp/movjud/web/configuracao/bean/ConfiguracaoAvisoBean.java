@@ -29,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.PhaseId;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
@@ -36,6 +37,7 @@ import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.input.RichInputDate;
 import oracle.adf.view.rich.component.rich.input.RichInputText;
 import oracle.adf.view.rich.component.rich.input.RichSelectOneChoice;
+import oracle.adf.view.rich.component.rich.input.RichSelectOneRadio;
 import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.event.PopupCanceledEvent;
 import oracle.adf.view.rich.event.PopupFetchEvent;
@@ -84,7 +86,7 @@ public class ConfiguracaoAvisoBean extends BaseBean<ConfiguracaoAviso> {
     private RichSelectOneChoice socPerfil;
     private RichInputDate socDataEsp;
     private RichPopup popUpAlterarConfiguracaoAviso;
-
+    
     public ConfiguracaoAvisoBean() {
         configuracaoService = getBean(ConfiguracaoService.class);
         estruturaJudiciaria = getBean(EstruturaJudiciariaService.class);
@@ -147,8 +149,34 @@ public class ConfiguracaoAvisoBean extends BaseBean<ConfiguracaoAviso> {
         ResetUtils.reset(popupCanceledEvent.getComponent());
         atualizarPagina();
     }
+    
+    @Override
+    public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) {
+        if(facesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.PROCESS_VALIDATIONS) {
+            super.validate(facesContext, uIComponent, object);
+        }
+    }
 
     public boolean validarCamposPopup() {
+        UIComponent panelGroupIncluirConfiguracaoAviso = findComponent("panelGroupIncluirConfiguracaoAviso");
+        RichInputText inputTextTituloAviso = (RichInputText)findComponent(panelGroupIncluirConfiguracaoAviso, "inputTextTituloAviso");
+        if((inputTextTituloAviso != null) && ((inputTextTituloAviso.getValue() == null) || inputTextTituloAviso.getValue().toString().trim().isEmpty())) {
+            mensagemErroComponente(inputTextTituloAviso, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }
+        
+        RichInputText resumoAviso = (RichInputText)findComponent(panelGroupIncluirConfiguracaoAviso, "resumoAviso");
+        if((resumoAviso != null) && ((resumoAviso.getValue() == null) || resumoAviso.getValue().toString().trim().isEmpty())) {
+            mensagemErroComponente(resumoAviso, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }
+
+        RichSelectOneChoice inputFiltroPeriodicidade = (RichSelectOneChoice)findComponent(panelGroupIncluirConfiguracaoAviso, "inputFiltroPeriodicidade");
+        if((inputFiltroPeriodicidade != null) && (inputFiltroPeriodicidade.getValue() == null)) {
+            mensagemErroComponente(inputFiltroPeriodicidade, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }
+                
         if (entidadePersistencia.getTipoPeriodicidade().getCodigoPeriodicidade().equals("SEMANAL")) {
             if (socDiaDaSemana.getValue() == null || socDiaDaSemana.getValue().toString().isEmpty()) {
                 mensagemErroComponente(socDiaDaSemana, AppBundleProperties.getString("msg.validacao"));
@@ -168,7 +196,12 @@ public class ConfiguracaoAvisoBean extends BaseBean<ConfiguracaoAviso> {
             }
         }
 
-
+        RichSelectOneChoice inputFiltroAbrangencia = (RichSelectOneChoice)findComponent(panelGroupIncluirConfiguracaoAviso, "inputFiltroAbrangencia");
+        if((inputFiltroAbrangencia != null) && (inputFiltroAbrangencia.getValue() == null)) {
+            mensagemErroComponente(inputFiltroAbrangencia, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }
+        
         if (entidadePersistencia.getTipoAbrangenciaAviso().getCodigoAbrangenciaAviso().equals("USUARIO_ESPECIFICO")) {
             if (entidadePersistencia.getValorAbrangenciaEnvio() == null ||
                 entidadePersistencia.getValorAbrangenciaEnvio().isEmpty()) {
@@ -184,6 +217,25 @@ public class ConfiguracaoAvisoBean extends BaseBean<ConfiguracaoAviso> {
                 return false;
             }
         }
+        
+        RichSelectOneChoice modeloConfiguracaoAvisoChoice = (RichSelectOneChoice)findComponent(panelGroupIncluirConfiguracaoAviso, "modeloConfiguracaoAvisoChoice");
+        if((modeloConfiguracaoAvisoChoice != null) && (modeloConfiguracaoAvisoChoice.getValue() == null)) {
+            mensagemErroComponente(modeloConfiguracaoAvisoChoice, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }
+        
+        RichSelectOneChoice listaSituacaoConfiguracaoAviso = (RichSelectOneChoice)findComponent(panelGroupIncluirConfiguracaoAviso, "listaSituacaoConfiguracaoAviso");
+        if((listaSituacaoConfiguracaoAviso != null) && (listaSituacaoConfiguracaoAviso.getValue() == null)) {
+            mensagemErroComponente(listaSituacaoConfiguracaoAviso, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }
+        
+        RichSelectOneRadio sor2 = (RichSelectOneRadio)findComponent(panelGroupIncluirConfiguracaoAviso,"sor2");
+        if((sor2 != null) && (sor2.getValue() == null)) {
+            mensagemErroComponente(sor2, AppBundleProperties.getString("msg.validacao"));
+            return false;            
+        }        
+        
         return true;
     }
 
