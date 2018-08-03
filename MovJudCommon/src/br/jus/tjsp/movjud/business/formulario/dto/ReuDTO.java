@@ -60,6 +60,9 @@ public class ReuDTO extends BaseDTO<Long>{
     
     private Integer mes;
     
+    // <epr: task 109 - marcar antes da exclusão
+    private Boolean marcadoExclusao = false;
+    
     public void setReuDTO(ReuDTO reuDTO){
         this.idMotivoBaixa = reuDTO.idMotivoBaixa;
         this.idReuHistorico = reuDTO.idReuHistorico;
@@ -86,6 +89,7 @@ public class ReuDTO extends BaseDTO<Long>{
         this.nomeEstabelecimentoPrisional = reuDTO.nomeEstabelecimentoPrisional;
         this.ano = reuDTO.ano;
         this.mes = reuDTO.mes;
+        this.marcadoExclusao = reuDTO.marcadoExclusao;
     }
     
     public ReuDTO() {
@@ -318,5 +322,13 @@ public class ReuDTO extends BaseDTO<Long>{
 
     public Date getDtDataBaixa() {
         return dtDataBaixa;
+    }
+    
+    public void setMarcadoExclusao(Boolean marcadoExclusao) {
+        this.marcadoExclusao = marcadoExclusao;
+    }
+    
+    public Boolean getMarcadoExclusao() {
+        return this.marcadoExclusao;
     }
 }

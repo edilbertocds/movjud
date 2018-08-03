@@ -1677,16 +1677,16 @@
                                                 <af:spacer width="10" height="10" id="s188"/>
                                                 <af:table var="row" rowBandingInterval="0" id="tabelaDeReus" value="#{pageFlowScope.acompanhamentoFormularioBean.listaReusProvisoriosFiltrada}" columnStretching="column:c1" autoHeightRows="0" fetchSize="5" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarReuEmTabela}" filterVisible="true" columnBandingInterval="0" partialTriggers="::b20">
                                                     <af:column headerText="#{app['label.formulario.numeroProcesso']}" id="c21" filterable="true" width="180">
-                                                        <af:outputText value="#{row.numeroProcesso}" id="ot7"/>
+                                                        <af:outputText value="#{row.numeroProcesso}" id="ot7" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
                                                     </af:column>
                                                     <af:column headerText="#{app['label.formulario.nomeReu']}" id="c1" filterable="true" width="250">
-                                                        <af:outputText value="#{row.nomeReuProvisorio}" id="ot27"/>
+                                                        <af:outputText value="#{row.nomeReuProvisorio}" id="ot27" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
                                                     </af:column>
                                                     <af:column headerText="Nome da M&#227;e" id="c2" width="225" displayIndex="-1" filterable="true">
-                                                        <af:outputText value="#{row.nomeMaeReuProvisorio}" id="ot33"/>
+                                                        <af:outputText value="#{row.nomeMaeReuProvisorio}" id="ot33" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
                                                     </af:column>
                                                     <af:column filterable="true" headerText="&#218;ltimo movimento processual" id="c3" width="150" align="center">
-                                                        <af:outputText value="#{row.dataUltimoMovimento}" id="ot34"/>
+                                                        <af:outputText value="#{row.dataUltimoMovimento}" id="ot34" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
                                                     </af:column>
                                                     <af:column headerText="Baixado" id="c4" align="center" width="85">
                                                         <af:image source="/resource/images/flagSimOn.png" id="i1" rendered="#{not empty row.idMotivoBaixa}"/>
