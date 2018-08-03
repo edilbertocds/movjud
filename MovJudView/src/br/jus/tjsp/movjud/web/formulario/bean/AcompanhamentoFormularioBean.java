@@ -146,6 +146,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     private EstabelecimentoEntidadeDTO estabelecimentoEntidadeDTO;
     private String filtroReuProvisorio;
     private List<ReuDTO> listaReusProvisoriosFiltrada;
+    private List<ReuDTO> listaRemoverReusDTO;
     private boolean funcaoRetificacao;
 
     //Componentes de telas de Consultas
@@ -265,6 +266,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         //mockUser();
         action = acaoPageFlow();
         //throw new MovJudViewException("DEU RUIM");
+        listaRemoverReusDTO = new ArrayList<ReuDTO>();
         inicializarConsultar();
     }
 
@@ -1169,6 +1171,24 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             listaRemoverProcessoConclusoDTO.clear();
         }
         // </epr 3) Item 143>
+        // <epr Task 109>
+        if ((listaReusProvisoriosFiltrada != null) && (listaReusProvisoriosFiltrada.size() > 0)) {
+            for (ReuDTO reu : listaReusProvisoriosFiltrada) {
+                if (reu.getMarcadoExclusao()) {
+                    if (reu.getIdReuProvisorio() != null) {
+                        secaoReus.getListaSubSecoes()
+                                 .get(0)
+                                 .getListaReusHistoricoDeletar()
+                                 .add(reu);
+                    }
+                    secaoReus.getListaSubSecoes()
+                             .get(0)
+                             .getListaReus()
+                             .remove(reu);
+                }
+            }
+        }
+        // </epr Task 109>
         recalcularFormulasAnteriorEatual();
         return persistirEntidade();
     }
@@ -2204,11 +2224,14 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
     public void removerReuTabela(ActionEvent actionEvent) {
         if (reu.getIdReuProvisorio() == null) {
+            reu.setMarcadoExclusao(true);
+            /* epr Task 109: movido para salvar entidade
             secaoReus.getListaSubSecoes()
                      .get(0)
                      .getListaReus()
                      .remove(reu);
             listaReusProvisoriosFiltrada.remove(reu);
+            */
             atualizarComponenteDeTela(findComponent("tabelaDeReus"));
             atualizarComponenteDeTela("painelSecaoReus");
             RichPopup confirmacaoDeletarReusPopup = (RichPopup) findComponent("confirmacaoDeletarReusPopup");
@@ -2220,6 +2243,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                     reu.getAno()
                                                                                                     .intValue(),
                                                                                                     new ReuProvisorio(reu.getIdReuProvisorio())))) {
+            reu.setMarcadoExclusao(true);
+            /* epr Task 109: movido para método salvar entidada ***
             secaoReus.getListaSubSecoes()
                      .get(0)
                      .getListaReusHistoricoDeletar()
@@ -2229,6 +2254,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                      .getListaReus()
                      .remove(reu);
             listaReusProvisoriosFiltrada.remove(reu);
+            */
             atualizarComponenteDeTela(findComponent("tabelaDeReus"));
             atualizarComponenteDeTela("painelSecaoReus");
             RichPopup confirmacaoDeletarReusPopup = (RichPopup) findComponent("confirmacaoDeletarReusPopup");
