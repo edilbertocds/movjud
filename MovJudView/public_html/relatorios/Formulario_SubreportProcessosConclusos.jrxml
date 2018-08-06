@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-07-27T12:12:53 -->
+<!-- 2018-08-06T15:44:02 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="2.000000000000001"/>
 	<property name="ireport.x" value="0"/>
@@ -39,21 +39,21 @@
 				<text><![CDATA[Data Conclusão]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="234" y="1" width="85" height="21" backcolor="#CCCCCC" uuid="d0b5c6b9-fef3-4bf4-bb68-48c44ee3ca0b"/>
+				<reportElement mode="Opaque" x="234" y="1" width="95" height="21" backcolor="#CCCCCC" uuid="d0b5c6b9-fef3-4bf4-bb68-48c44ee3ca0b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Conclusão Para]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="386" y="1" width="65" height="21" backcolor="#CCCCCC" uuid="c030aea7-064a-4727-88c6-579c8666d8e3"/>
+				<reportElement mode="Opaque" x="396" y="1" width="84" height="21" backcolor="#CCCCCC" uuid="c030aea7-064a-4727-88c6-579c8666d8e3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data Baixa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="321" y="1" width="64" height="21" backcolor="#CCCCCC" uuid="9daf5d0c-65bc-4a1c-b3de-9ca8800683fd"/>
+				<reportElement mode="Opaque" x="331" y="1" width="64" height="21" backcolor="#CCCCCC" uuid="9daf5d0c-65bc-4a1c-b3de-9ca8800683fd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -66,16 +66,7 @@
 				<reportElement x="0" y="22" width="555" height="1" uuid="76f3a61b-f586-4325-acca-6763ef25b13d"/>
 			</line>
 			<staticText>
-				<reportElement mode="Opaque" x="452" y="1" width="50" height="21" backcolor="#CCCCCC" uuid="8708172a-3bfc-4bb4-a512-cee908b56bad">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Inicio Designação]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="502" y="1" width="52" height="21" backcolor="#CCCCCC" uuid="354593bd-9d50-4d00-8c42-9ded82c8534d"/>
+				<reportElement mode="Opaque" x="480" y="1" width="74" height="21" backcolor="#CCCCCC" uuid="354593bd-9d50-4d00-8c42-9ded82c8534d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
@@ -87,7 +78,7 @@
 		<band height="16">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<line>
-				<reportElement x="319" y="-23" width="1" height="38" uuid="09618f51-d1e9-43a1-ad85-12e7b61f48e5"/>
+				<reportElement x="329" y="-23" width="1" height="38" uuid="09618f51-d1e9-43a1-ad85-12e7b61f48e5"/>
 			</line>
 			<line>
 				<reportElement x="233" y="-23" width="1" height="38" uuid="ae172422-2a83-462f-bc7f-dbf63d5ef2e0">
@@ -111,14 +102,14 @@
 				<reportElement x="0" y="15" width="555" height="1" uuid="84d25547-df15-456d-a4f4-4661c7a894d2"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="234" y="0" width="85" height="15" uuid="a8189eb1-f042-424a-9a42-2c207c204cd1"/>
+				<reportElement x="234" y="0" width="95" height="15" uuid="a8189eb1-f042-424a-9a42-2c207c204cd1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipoConclusoDTO}.getDescricaoTipoProcessoConcluso()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="386" y="0" width="65" height="15" uuid="ca7bf22b-69e8-4f43-a941-8a71aadfd846"/>
+				<reportElement x="396" y="0" width="84" height="15" uuid="ca7bf22b-69e8-4f43-a941-8a71aadfd846"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
@@ -132,7 +123,7 @@
 				<textFieldExpression><![CDATA[$F{dataConclusao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="321" y="0" width="64" height="15" uuid="54343976-2f6a-4c96-92a8-2296dbac2e66"/>
+				<reportElement x="331" y="0" width="64" height="15" uuid="54343976-2f6a-4c96-92a8-2296dbac2e66"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
@@ -152,25 +143,15 @@
 				<reportElement x="554" y="-23" width="1" height="38" uuid="9e723330-c597-486e-a381-375729d8160b"/>
 			</line>
 			<line>
-				<reportElement x="385" y="-23" width="1" height="38" uuid="37f63070-7471-4475-93d1-e5fa5bb23ef9">
+				<reportElement x="395" y="-23" width="1" height="38" uuid="37f63070-7471-4475-93d1-e5fa5bb23ef9">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="502" y="-23" width="1" height="38" uuid="a4d8e859-ba3f-410b-93c2-41144fe05b04"/>
-			</line>
-			<line>
-				<reportElement x="451" y="-23" width="1" height="38" uuid="e256a247-8c36-49a1-baf9-2054b9443f1d"/>
+				<reportElement x="480" y="-23" width="1" height="38" uuid="e256a247-8c36-49a1-baf9-2054b9443f1d"/>
 			</line>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="452" y="0" width="50" height="15" uuid="8b19af9a-b269-4823-82a7-dee075dac57a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{dtDesignacaoInicio}]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="503" y="0" width="50" height="15" uuid="76538b9f-1d04-4337-b406-5a7e5ea966b1"/>
+				<reportElement x="481" y="0" width="72" height="15" uuid="76538b9f-1d04-4337-b406-5a7e5ea966b1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
