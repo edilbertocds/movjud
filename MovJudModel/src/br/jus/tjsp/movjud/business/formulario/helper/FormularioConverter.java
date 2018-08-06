@@ -729,26 +729,22 @@ public class FormularioConverter {
     // <epr> 0.7.10 - filtrar pela data de início e fim da relação UnidadeXEstab.Prisional
     // incluido parametros ano e mes e processamento do filtro (*)
     public static List<EstabelecimentoEntidadeDTO> parseListaUnidadeEstabelecimentosPrisionaisParaListaEstabelecimentoEntidadeDTO(List<UnidadeEstabelecimentoPrisional> listaUnidadeEstabelecimentosPrisionais, Long ano, Long mes) {
-        // <epr> 0.7.10 (*)
-        Calendar dataInicio = new java.util.GregorianCalendar(ano.intValue(), mes.intValue()-1, 1);
-        //Calendar dataFim = new GregorianCalendar(ano.intValue(), mes.intValue()-1, dataInicio.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        Calendar dataInicio = Calendar.getInstance();
+        Calendar dataFim = Calendar.getInstance();
         List<EstabelecimentoEntidadeDTO> listaEstabelecimentoEntidadeDTO = new ArrayList<EstabelecimentoEntidadeDTO>();
-        // </epr> 0.7.10 (*)
+
         boolean adiciona = false;      
         for (UnidadeEstabelecimentoPrisional unidadeEstabelecimentoPrisional : listaUnidadeEstabelecimentosPrisionais) {
-            // <epr> 0.7.10 e 0.7.11 (*) if seguinte
-            // alteracao para tratar dataFim como nao nula, caso seja nao entrara no formulario - 8/6/18 - Luis Ramalho
-            if(
-               (
-                (unidadeEstabelecimentoPrisional.getDataInicio() == null) || 
-                (unidadeEstabelecimentoPrisional.getDataInicio().compareTo(dataInicio.getTime()) <= 0)
-               ) && 
-                (unidadeEstabelecimentoPrisional.getDataFim() == null)
-            ) {
-                //(unidadeEstabelecimentoPrisional.getDataFim().compareTo(dataFim.getTime()) >= 0) retirado pois estava apresentando mais registros do esperado
+            dataInicio.setTime(unidadeEstabelecimentoPrisional.getDataInicio());
+            
+            if ((dataInicio.get(Calendar.MONTH) + 1) <= mes) {
+                if (unidadeEstabelecimentoPrisional.getDataFim() != null) {
+                    dataFim.setTime(unidadeEstabelecimentoPrisional.getDataFim());
+                    adiciona = (dataFim.get(Calendar.MONTH) + 1) >= mes;
+                } else {
                     adiciona = true;
-            } else {
-                adiciona = (unidadeEstabelecimentoPrisional.getDataInicio().getMonth() == mes && unidadeEstabelecimentoPrisional.getDataInicio().getYear() == ano);
+                }
             }
             
             if (adiciona) {
