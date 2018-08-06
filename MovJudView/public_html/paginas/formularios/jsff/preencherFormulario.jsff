@@ -57,18 +57,17 @@
                                     <af:inputText label="N&#250;mero do processo" id="inputNumeroProcesso" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.numeroProcesso}" required="true" partialTriggers="b16"/>
                                     <af:inputNumberSpinbox label="Ano " id="inputAnoProcesso" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.anoProcesso}" required="true" minimum="1890" maximum="#{pageFlowScope.acompanhamentoFormularioBean.entidadePersistencia.ano}" stepSize="1" partialTriggers="b16"/>
                                     <af:inputDate label="Data de Entrada em Conclus&#227;o" id="id5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dataConclusao}" required="true" partialTriggers="b16" minValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoInicioCalendar}" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.periodoProcessoConclusoFimCalendar}"/>
-                                    <af:inputDate label="Data Inicio Designa&#231;&#227;o" id="id23" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dtDesignacaoInicio}" required="true" rendered="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean eq false}" partialTriggers="b16" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" />
-                                    <!-- <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoMagistrado.conclusos and (pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean == false)}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}"> -->
+                                    <!-- <af:inputDate label="Data Inicio Designa&#231;&#227;o" id="id23" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.dtDesignacaoInicio}" required="true" rendered="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoUnidadeBoolean eq false}" partialTriggers="b16" maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}" /> -->
                                     <af:selectOneChoice id="soc5" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoConclusoDTO}" required="true" label="Concluso para" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.listaProcessosConclusos}" var="processoConcluso">
                                             <af:selectItem label="#{processoConcluso.descricaoTipoProcessoConcluso}" id="si9" value="#{processoConcluso}"/>
                                         </af:forEach>
                                     </af:selectOneChoice>
-                                    <af:selectOneChoice id="soc24" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoFilaProcessoDTO}" required="true" label="Fila" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}">
-                                        <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcessoDTO}" var="tipoFilaProcessoDTO">
-                                            <af:selectItem label="#{tipoFilaProcessoDTO.dsTipoFilaProcesso}" id="si48" value="#{tipoFilaProcessoDTO}"/>
-                                        </af:forEach>
-                                    </af:selectOneChoice>
+                                    <!-- <af:selectOneChoice id="soc24" value="#{pageFlowScope.acompanhamentoFormularioBean.processoConclusoDTO.tipoFilaProcessoDTO}" required="true" label="Fila" partialTriggers="b16" unselectedLabel="#{app['label.combo.selecione']}"> -->
+                                        <!-- <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcessoDTO}" var="tipoFilaProcessoDTO"> -->
+                                            <!-- <af:selectItem label="#{tipoFilaProcessoDTO.dsTipoFilaProcesso}" id="si48" value="#{tipoFilaProcessoDTO}"/> -->
+                                        <!-- </af:forEach> -->
+                                    <!-- </af:selectOneChoice> -->
                                 </af:panelFormLayout>
                             </af:dialog>
                         </af:popup>
@@ -832,9 +831,9 @@
                                                                 <af:column sortable="false" headerText="Origem" id="c14">
                                                                     <af:outputText value="#{empty row.codigoProcessoSaj ? 'MovJud' : 'SAJ'}" id="ot29"/>
                                                                 </af:column>
-                                                                <af:column sortable="false" headerText="Data Inicio Designa&#231;&#227;o" id="c33">
-                                                                    <af:outputText value="#{row.dtDesignacaoInicio}" id="ot38"/>
-                                                                </af:column>
+                                                                <!-- <af:column sortable="false" headerText="Data Inicio Designa&#231;&#227;o" id="c33"> -->
+                                                                    <!-- <af:outputText value="#{row.dtDesignacaoInicio}" id="ot38"/> -->
+                                                                <!-- </af:column> -->
                                                                 <af:column sortable="false" headerText="Data Fim Designa&#231;&#227;o" id="c35">
                                                                     <af:outputText value="#{row.dtDesignacaoFim}" id="ot41"/>
                                                                 </af:column>
