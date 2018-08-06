@@ -8,6 +8,7 @@ import br.jus.tjsp.movjud.persistence.base.types.DominioType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Collections;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -79,7 +81,7 @@ public class Usuario extends BaseEntity<Long> {
     @OneToMany(mappedBy = "usuario", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<UsuarioAcao> acoesUsuario;
 
-    @OneToMany(mappedBy = "usuarioMagistrado", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "usuarioMagistrado", cascade = { CascadeType.PERSIST, CascadeType.MERGE })    
     private List<ProcessoGabinete> processosGabinete;
     
     @OneToMany(mappedBy = "usuario", cascade = { CascadeType.MERGE, CascadeType.PERSIST } )
@@ -248,8 +250,9 @@ public class Usuario extends BaseEntity<Long> {
 
     public List<ProcessoGabinete> getProcessosGabinete() {
         if(this.processosGabinete == null){
-            processosGabinete= new ArrayList<ProcessoGabinete>();
+            processosGabinete = new ArrayList<ProcessoGabinete>();
         }
+        Collections.sort(processosGabinete);
         return processosGabinete;
     }
 

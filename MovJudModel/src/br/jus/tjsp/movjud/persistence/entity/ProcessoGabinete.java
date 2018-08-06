@@ -27,7 +27,7 @@ import javax.persistence.Transient;
 @Audit(dominio = DominioType.CONFIGURACAO)
 @Table(name = "CAD_PROCESSO_GAB")
 @SequenceGenerator(name = "SEQ_CAD_PROCESSO_GAB", sequenceName = "SEQ_CAD_PROCESSO_GAB", allocationSize = 1)
-public class ProcessoGabinete extends BaseEntity<Long> {
+public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<ProcessoGabinete>{
     private static final long serialVersionUID = -8455119219470144869L;
     @Column(name = "NR_ANO_PROCESSO_CPA")
     private Integer anoProcessoCpa;
@@ -266,5 +266,15 @@ public class ProcessoGabinete extends BaseEntity<Long> {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(ProcessoGabinete o) {
+        if (idProcessoGabinete == o.getIdProcessoGabinete())
+            return 0;
+        if (idProcessoGabinete > o.getIdProcessoGabinete())
+            return -1;
+        else 
+            return 1;
     }
 }
