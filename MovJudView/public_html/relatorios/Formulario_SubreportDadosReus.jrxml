@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-08-02T14:53:02 -->
+<!-- 2018-08-07T10:38:07 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="1.948717100000005"/>
 	<property name="ireport.x" value="281"/>
@@ -248,7 +248,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{sexo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{sexo} != null ? ($F{sexo}.equalsIgnoreCase( "M" ) ? "Masculino" : "Feminino") : ""]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="18" width="215" height="15" uuid="960f6ee6-4056-4cf0-bdbc-60085b704601">
@@ -257,7 +257,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[sexo]]></text>
+				<text><![CDATA[Sexo]]></text>
 			</staticText>
 		</band>
 	</detail>
