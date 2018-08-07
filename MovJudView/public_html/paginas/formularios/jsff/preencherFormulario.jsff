@@ -1139,6 +1139,7 @@
                                     </af:panelBox>
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.labelSecao}" id="painelSecaoMateria" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoMateria}" partialTriggers="b1">
                                         <f:facet name="toolbar">
+                                        <!--
                                             <af:panelGroupLayout id="pgl186" layout="horizontal">
                                                 <af:selectOneChoice label="Mat&#233;rias" id="soc22" value="#{pageFlowScope.acompanhamentoFormularioBean.materiaSubSecao}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" autoSubmit="true">
                                                     <af:selectItem label="(Selecione)" value="" id="si42"/>
@@ -1149,6 +1150,7 @@
                                                 <af:spacer width="10" height="10" id="s186"/>
                                                 <af:button text="Adicionar" id="b1" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.adicionarSubSecaoMateria}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true"/>
                                             </af:panelGroupLayout>
+                                            -->
                                         </f:facet>
                                         <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.listaSubSecoes}" var="subSecaoMateria">
                                             <af:panelBox text="Mat&#233;ria: #{subSecaoMateria.tipoMateria.nomeTipoMateria}" id="pb12" styleClass="boxSecao">
@@ -1407,6 +1409,16 @@
                                                 </af:forEach>
                                             </af:panelBox>
                                         </af:forEach>
+                                            <af:panelGroupLayout id="pgl186" layout="horizontal">
+                                                <af:selectOneChoice label="Mat&#233;rias" id="soc22" value="#{pageFlowScope.acompanhamentoFormularioBean.materiaSubSecao}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" autoSubmit="true">
+                                                    <af:selectItem label="(Selecione)" value="" id="si42"/>
+                                                    <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.secaoMateria.listaMaterias}" var="materiaSelecionada">
+                                                        <af:selectItem label="#{materiaSelecionada.nomeTipoMateria}" id="si43" value="#{materiaSelecionada}"/>
+                                                    </af:forEach>
+                                                </af:selectOneChoice>
+                                                <af:spacer width="10" height="10" id="s186"/>
+                                                <af:button text="Adicionar" id="b1" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.adicionarSubSecaoMateria}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true"/>
+                                            </af:panelGroupLayout>                                    
                                     </af:panelBox>
                                     <af:panelBox text="#{pageFlowScope.acompanhamentoFormularioBean.secaoReus.labelSecao}" id="painelSecaoReus" styleClass="boxSecao" rendered="#{not empty pageFlowScope.acompanhamentoFormularioBean.secaoReus}">
                                         <f:facet name="toolbar">
