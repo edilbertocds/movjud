@@ -28,6 +28,7 @@
                                           value="#{usuarioBean.entidadePersistencia.codigoUsuarioSaj}" columns="16"
                                           partialTriggers="soc2" maximumLength="10"
                                           disabled="#{usuarioBean.visualizar}"
+                                          required="#{usuarioBean.isCodigoSajRequired()}"
                                           autoSubmit="true"/>
                         </af:panelFormLayout>
                     </af:gridCell>
