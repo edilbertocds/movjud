@@ -271,8 +271,8 @@ public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<Pro
     @Override
     public int compareTo(ProcessoGabinete o) {
         if(o == null) return -1;
-        if(o.idProcessoGabinete == null) return -1;
-        if(this.idProcessoGabinete == null) return -1;
+        if((this.idProcessoGabinete == null) && (o.idProcessoGabinete == null)) return 0;
+        if((this.idProcessoGabinete == null) && (o.idProcessoGabinete != null)) return 1;
         return this.idProcessoGabinete.compareTo(o.idProcessoGabinete);
     }
 }
