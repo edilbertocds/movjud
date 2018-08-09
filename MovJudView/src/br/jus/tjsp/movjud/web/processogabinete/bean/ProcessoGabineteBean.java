@@ -10,6 +10,7 @@ import br.jus.tjsp.movjud.web.commons.bean.BaseBean;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -97,24 +98,20 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return null;
     }
 
-    public boolean isPrimeiroRegistro(Long idProcessoGabinete) {
-        
-        if (entidadePersistencia != null &&
-            entidadePersistencia.getUsuario() != null &&
-            entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
-            entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
-        
-                if (idProcessoGabinete == null || idProcessoGabinete.equals(0)) {
-                    return true;                    
-                } else {
-                    if (entidadePersistencia.getUsuario().getProcessosGabinete().get(0).getIdProcessoGabinete() == null) return false;
-                    
-                    return entidadePersistencia.getUsuario().getProcessosGabinete().get(0).getIdProcessoGabinete().equals(idProcessoGabinete);
-                }
-            }
-        
-        return false;
-    }
+    public boolean isUltimoRegistro(Date dataProcessoGabinete) {
+         
+         if (entidadePersistencia != null &&
+             entidadePersistencia.getUsuario() != null &&
+             entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
+             entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
+         
+                return 
+                 (entidadePersistencia.getUsuario().getProcessosGabinete().get(entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1).
+                                    getDataInclusao().compareTo(dataProcessoGabinete) == 0);
+         }
+         
+         return false;
+     }
 
     @Override
     public String excluirEntidade() {
@@ -152,12 +149,11 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     }
 
     public void incluirProcessoGabinete(ActionEvent event) {
-        entidadePersistencia.addProcessoGabinete(new ProcessoGabinete());
-        processoGabinete = null;
+        processoGabinete = entidadePersistencia.addProcessoGabinete(new ProcessoGabinete());
     }
     
-    public void removerProcessoGabinete(ProcessoGabinete registro) {
-        entidadePersistencia.removeProcessoGabinete(registro);
+    public void removerProcessoGabinete(ProcessoGabinete processoGabinete) {
+        entidadePersistencia.removeProcessoGabinete(processoGabinete);
         processoGabinete = null;
     }
 
