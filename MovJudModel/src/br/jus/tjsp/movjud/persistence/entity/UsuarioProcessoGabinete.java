@@ -83,13 +83,9 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
     }
 
     public ProcessoGabinete removeProcessoGabinete(ProcessoGabinete processoGabinete) {
-        if(processoGabinete == null && !usuario.getProcessosGabinete().isEmpty()){
-            usuario.getProcessosGabinete().remove(usuario.getProcessosGabinete().get((usuario.getProcessosGabinete().size()-1)));
-        }else{
+        if(processoGabinete != null && !usuario.getProcessosGabinete().isEmpty())
             usuario.getProcessosGabinete().remove(processoGabinete);
-            processoGabinete.setUsuarioMagistrado(this.getUsuario());
-        }
+        
         return processoGabinete;
     }
-
 }

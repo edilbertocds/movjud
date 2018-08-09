@@ -65,6 +65,7 @@ public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<Pro
     public ProcessoGabinete() {
         super();
         setFlagSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
+        setFlagArquivado(ConstantesMovjud.FLAG_SITUACAO_NAO);
     }
 
     public ProcessoGabinete(Integer anoProcessoCpa, Integer anoProcessoGabinete, Date dataArquivamento,
@@ -270,9 +271,19 @@ public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<Pro
 
     @Override
     public int compareTo(ProcessoGabinete o) {
-        if(o == null) return -1;
-        if((this.idProcessoGabinete == null) && (o.idProcessoGabinete == null)) return 0;
-        if((this.idProcessoGabinete == null) && (o.idProcessoGabinete != null)) return 1;
-        return this.idProcessoGabinete.compareTo(o.idProcessoGabinete);
+        int retorno = 0;
+        
+        if(o == null || o.getIdProcessoGabinete() == null) 
+            retorno = 1;
+        else {
+            if (this.idProcessoGabinete != null) {
+                if (this.idProcessoGabinete < o.getIdProcessoGabinete())retorno = 1;
+                if (this.idProcessoGabinete > o.getIdProcessoGabinete()) retorno = -1;
+            } else {
+                retorno = -1;
+            }
+        }
+        
+        return retorno;
     }
 }
