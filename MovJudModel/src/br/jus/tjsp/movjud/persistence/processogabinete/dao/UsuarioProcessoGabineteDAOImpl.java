@@ -24,9 +24,18 @@ public class UsuarioProcessoGabineteDAOImpl extends BaseDAOImpl<UsuarioProcessoG
     public List<ParametroOperacao> parametrosFiltroByEntity(UsuarioProcessoGabinete filter) {
         List<ParametroOperacao> parametros = new ArrayList<ParametroOperacao>();
 
-        parametros.add(new ParametroOperacao("usuario.nome", filter.getUsuario().getNome(), SQLOperatorType.LikeFullNoCase));
-        parametros.add(new ParametroOperacao("usuario.codigoUsuario", filter.getUsuario().getCodigoUsuario(), SQLOperatorType.LikeNoCase));
-        parametros.add(new ParametroOperacao("usuario.matricula", filter.getUsuario().getMatricula(), SQLOperatorType.LikeNoCase));
+        if (filter.getUsuario() != null) {
+            if (filter.getUsuario().getNome() != null)
+                parametros.add(new ParametroOperacao("usuario.nome", filter.getUsuario().getNome(), SQLOperatorType.LikeFullNoCase));
+        }
+
+        if (filter.getProcessoGabinete() != null) {
+            if (filter.getProcessoGabinete().getTipoProcesso() != null) 
+                parametros.add(new ParametroOperacao("processoGabinete.tipoProcesso", filter.getProcessoGabinete().getTipoProcesso(), SQLOperatorType.LikeFullNoCase));
+            
+            if (filter.getProcessoGabinete().getFlagArquivado() != null) 
+                parametros.add(new ParametroOperacao("processoGabinete.flagArquivado", filter.getProcessoGabinete().getFlagArquivado(), SQLOperatorType.Equal));
+        }
 
         return parametros;
     }

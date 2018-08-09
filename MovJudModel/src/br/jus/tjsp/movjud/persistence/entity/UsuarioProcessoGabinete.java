@@ -1,5 +1,6 @@
 package br.jus.tjsp.movjud.persistence.entity;
 
+import br.jus.tjsp.movjud.business.base.constantes.ConstantesMovjud;
 import br.jus.tjsp.movjud.persistence.base.helper.AuditListener;
 
 import java.util.Date;
@@ -78,18 +79,15 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
     }
     public ProcessoGabinete addProcessoGabinete(ProcessoGabinete processoGabinete) {
         usuario.getProcessosGabinete().add(processoGabinete);
-        processoGabinete.setUsuarioMagistrado(this.getUsuario());
+        processoGabinete.setUsuarioMagistrado(this.getUsuario());        
+        processoGabinete.setFlagArquivado(ConstantesMovjud.FLAG_SITUACAO_NAO);
         return processoGabinete;
     }
 
     public ProcessoGabinete removeProcessoGabinete(ProcessoGabinete processoGabinete) {
-        if(processoGabinete == null && !usuario.getProcessosGabinete().isEmpty()){
-            usuario.getProcessosGabinete().remove(usuario.getProcessosGabinete().get((usuario.getProcessosGabinete().size()-1)));
-        }else{
+        if(processoGabinete != null && !usuario.getProcessosGabinete().isEmpty())
             usuario.getProcessosGabinete().remove(processoGabinete);
-            processoGabinete.setUsuarioMagistrado(this.getUsuario());
-        }
+        
         return processoGabinete;
     }
-
 }

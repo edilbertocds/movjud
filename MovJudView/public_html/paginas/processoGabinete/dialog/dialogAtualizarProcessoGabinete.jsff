@@ -26,20 +26,17 @@
                           columnStretching="column:tbTipoProcesso">
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
                                    id="tbTipoProcesso" width="100" align="center">
-                            <af:inputText id="it2" value="#{row.tipoProcesso}" maximumLength="10" 
-                                required="true" />
+                            <af:inputText id="it2" value="#{row.tipoProcesso}" maximumLength="10" required="true" />
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.numeroProcesso']}" id="c2"
                                    width="90" align="center">
-                            <af:inputText id="it3" value="#{row.numeroProcessoGabinete}" maximumLength="10"
-                                  required="true" />
+                            <af:inputText id="it3" value="#{row.numeroProcessoGabinete}" maximumLength="10" />
                         </af:column>
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.anoProcesso']}" id="c3"
                                    width="90" align="center">
                             <af:selectOneChoice id="inputAnoProcesso" value="#{row.anoProcessoGabinete}"
                                   contentStyle="width:91.0px;"
-                                  unselectedLabel="#{app['label.combo.selecione']}"
-                                  required="true">
+                                  unselectedLabel="#{app['label.combo.selecione']}">
                                 <f:selectItems value="#{processoGabineteBean.listaAno}" id="si4"/>
                             </af:selectOneChoice>
                         </af:column>
