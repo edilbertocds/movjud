@@ -20,8 +20,7 @@
                                             <af:gridCell id="gc4" width="30%">
                                                 <af:panelFormLayout id="panelFormFiltroNome" labelAlignment="top">
                                                     <af:outputLabel value="#{app['label.usuario.nome']}" for="inputFiltroNome" />
-                                                    <af:inputText id="inputFiltroNome" columns="40"
-                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.nome}">
+                                                    <af:inputText id="inputFiltroNome" columns="40" value="#{processoGabineteBean.entidadeFiltro.usuario.nome}">
                                                         <af:clientListener method="onFieldEnterKey" type="keyUp"/>
                                                     </af:inputText>
                                                 </af:panelFormLayout>
@@ -29,8 +28,7 @@
                                             <af:gridCell marginStart="15px" width="15%" id="gridCellTipoProcesso">
                                                 <af:panelFormLayout id="panelFormFiltroTipoProcesso" labelAlignment="top">
                                                     <af:outputLabel value="#{app['label.processoGabinete.tipoProcesso']}" for="inputFiltroTipoProcesso" />
-                                                    <af:inputText id="inputFiltroTipoProcesso" columns="40"
-                                                                  value="#{processoGabineteBean.entidadeFiltro.processoGabinete.tipoProcesso}">
+                                                    <af:inputText id="inputFiltroTipoProcesso" columns="15" value="#{processoGabineteBean.entidadeFiltro.processoGabinete.tipoProcesso}">
                                                         <af:clientListener method="onFieldEnterKey" type="keyUp"/>
                                                     </af:inputText>
                                                 </af:panelFormLayout>
@@ -40,7 +38,7 @@
                                                     <af:outputLabel value="#{app['label.processoGabinete.arquivado']}" for="inputFiltroArquivado" />
                                                     <af:selectOneChoice id="inputFiltroArquivado"
                                                                         value="#{processoGabineteBean.entidadeFiltro.processoGabinete.flagArquivado}"
-                                                                        contentStyle="width:100px;"
+                                                                        contentStyle="width:100px; margin-top: 8px;"
                                                                         unselectedLabel="#{app['label.combo.selecione']}">
                                                         <af:selectItem label="#{app['label.radio.sim']}" id="si1" value="S" />
                                                         <af:selectItem label="#{app['label.radio.nao']}" id="si2" value="N" />

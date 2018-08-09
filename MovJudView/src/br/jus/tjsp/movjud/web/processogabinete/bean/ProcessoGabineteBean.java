@@ -66,6 +66,7 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         if(listaProcesso == null) {
             listaProcesso = new ArrayList<ProcessoGabinete>();
         }
+        
         temProcessoNaoArquivado = listaProcesso.stream().anyMatch(p->p.getFlagArquivado().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
         entidadePersistencia.getUsuario().setProcessosGabinete(listaProcesso);
         popularListaAno();
@@ -94,29 +95,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
             processoGabineteService.listarMagistradosProcessoGabinetePaginado(getEntidadeFiltro(), paginacao);
 
         return null;
-    }
-
-    public boolean isUltimoRegistro(Long idProcessoGabinete) {
-        
-        if (entidadePersistencia != null &&
-            entidadePersistencia.getUsuario() != null &&
-            entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
-            entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
-        
-                if (idProcessoGabinete == null || idProcessoGabinete.equals(0)) {
-                    return true;                    
-                } else {
-                    if (entidadePersistencia.getUsuario().getProcessosGabinete().get(
-                                                          entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1
-                                                          ).getIdProcessoGabinete() == null) return false;
-                    
-                    return entidadePersistencia.getUsuario().getProcessosGabinete().get(
-                                                          entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1
-                                                    ).getIdProcessoGabinete().equals(idProcessoGabinete);
-                }
-            }
-        
-        return false;
     }
 
     public boolean isPrimeiroRegistro(Long idProcessoGabinete) {

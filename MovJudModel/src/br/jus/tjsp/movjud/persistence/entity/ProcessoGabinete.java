@@ -65,7 +65,6 @@ public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<Pro
     public ProcessoGabinete() {
         super();
         setFlagSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
-        setFlagArquivado(ConstantesMovjud.FLAG_SITUACAO_NAO);
     }
 
     public ProcessoGabinete(Integer anoProcessoCpa, Integer anoProcessoGabinete, Date dataArquivamento,
