@@ -19,34 +19,34 @@
                                         <af:gridRow marginTop="5px" height="auto" id="gridRowPerfil" marginBottom="5px">
                                             <af:gridCell id="gc4" width="30%">
                                                 <af:panelFormLayout id="panelFormFiltroNome" labelAlignment="top">
-                                                    <af:inputText id="inputFiltroNome" columns="40"
-                                                                  label="#{app['label.usuario.nome']}"
-                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.nome}">
+                                                    <af:outputLabel value="#{app['label.usuario.nome']}" for="inputFiltroNome" />
+                                                    <af:inputText id="inputFiltroNome" columns="40" value="#{processoGabineteBean.entidadeFiltro.usuario.nome}">
                                                         <af:clientListener method="onFieldEnterKey" type="keyUp"/>
                                                     </af:inputText>
                                                 </af:panelFormLayout>
                                             </af:gridCell>
-                                            <af:gridCell marginStart="15px" width="30%" id="gridCellCodigoUsuario">
-                                                <af:panelFormLayout id="panelFormFiltroCodigoUsuario"
-                                                                    labelAlignment="top">
-                                                    <af:inputText id="inputFiltroCodigoUsuario" columns="40"
-                                                                  label="#{app['label.usuario.codigoUsuario']}"
-                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.codigoUsuario}">
+                                            <af:gridCell marginStart="15px" width="15%" id="gridCellTipoProcesso">
+                                                <af:panelFormLayout id="panelFormFiltroTipoProcesso" labelAlignment="top">
+                                                    <af:outputLabel value="#{app['label.processoGabinete.tipoProcesso']}" for="inputFiltroTipoProcesso" />
+                                                    <af:inputText id="inputFiltroTipoProcesso" columns="15" value="#{processoGabineteBean.entidadeFiltro.processoGabinete.tipoProcesso}">
                                                         <af:clientListener method="onFieldEnterKey" type="keyUp"/>
                                                     </af:inputText>
                                                 </af:panelFormLayout>
                                             </af:gridCell>
-                                            <af:gridCell marginStart="15px" width="20%" id="gridCellMatricula">
-                                                <af:panelFormLayout id="panelFormFiltroMatricula" labelAlignment="top">
-                                                    <af:inputText id="inputFiltroMatricula" columns="20"
-                                                                  label="#{app['label.usuario.matricula']}"
-                                                                  value="#{processoGabineteBean.entidadeFiltro.usuario.matricula}">
+                                            <af:gridCell marginStart="15px" width="35%" id="gridCellArquivado">
+                                                <af:panelFormLayout id="panelFormFiltroArquivado" labelAlignment="top">
+                                                    <af:outputLabel value="#{app['label.processoGabinete.arquivado']}" for="inputFiltroArquivado" />
+                                                    <af:selectOneChoice id="inputFiltroArquivado"
+                                                                        value="#{processoGabineteBean.entidadeFiltro.processoGabinete.flagArquivado}"
+                                                                        contentStyle="width:100px; margin-top: 8px;"
+                                                                        unselectedLabel="#{app['label.combo.selecione']}">
+                                                        <af:selectItem label="#{app['label.radio.sim']}" id="si1" value="S" />
+                                                        <af:selectItem label="#{app['label.radio.nao']}" id="si2" value="N" />
                                                         <af:clientListener method="onFieldEnterKey" type="keyUp"/>
-                                                    </af:inputText>
+                                                    </af:selectOneChoice>
                                                 </af:panelFormLayout>
                                             </af:gridCell>
-                                            <af:gridCell id="gc7" valign="bottom" halign="end" marginStart="15px"
-                                                         width="20%">
+                                            <af:gridCell id="gc7" valign="bottom" halign="end" marginStart="15px" width="20%">
                                                 <af:button text="#{app['botao.buscar']}" id="botaoBuscar"
                                                            icon="#{res['img.buscarOn']}"
                                                            action="#{processoGabineteBean.filtrarEntidade}"/>

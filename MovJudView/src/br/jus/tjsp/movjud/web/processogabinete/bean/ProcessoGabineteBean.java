@@ -46,7 +46,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) {
-
         if ( getFlagArquivado() != null && getFlagArquivado().getValue() != null && (getFlagArquivado().getValue().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) && object == null || getFlagArquivado().getValue().equals(ConstantesMovjud.FLAG_SITUACAO_SIM) && object.toString().isEmpty())) {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                                           AppBundleProperties.getString("msg.validacao"), null));
@@ -55,7 +54,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     public ProcessoGabineteBean() {
         processoGabineteService = getBean(ProcessoGabineteService.class);
-
     }
 
     @Override
@@ -68,6 +66,7 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         if(listaProcesso == null) {
             listaProcesso = new ArrayList<ProcessoGabinete>();
         }
+        
         temProcessoNaoArquivado = listaProcesso.stream().anyMatch(p->p.getFlagArquivado().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
         entidadePersistencia.getUsuario().setProcessosGabinete(listaProcesso);
         popularListaAno();
@@ -77,23 +76,18 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         listaAno = new ArrayList<SelectItem>();
         for (int i = Calendar.getInstance().get(Calendar.YEAR); 1900 <= i; i--) {
             listaAno.add(new SelectItem(i, String.valueOf(i)));
-            //listaAno.add(new SelectItem(new Long(i), String.valueOf(i)));
         }
     }
 
     @Override
     public void persistirEntidade(DialogEvent dialogEvent) {
-
         if (validarArquivado()) {
             processoGabineteService.salvarUsuario(entidadePersistencia.getUsuario());
             pesquisarEntidade();
         } else {
             mensagemErro(AppBundleProperties.getString("msg.processoGabinete.erroSalvar"));
         }
-
-
     }
-
 
     @Override
     public String pesquisarEntidade() {
@@ -101,30 +95,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
             processoGabineteService.listarMagistradosProcessoGabinetePaginado(getEntidadeFiltro(), paginacao);
 
         return null;
-    }
-
-    
-    public boolean isUltimoRegistro(Long idProcessoGabinete) {
-        
-        if (entidadePersistencia != null &&
-            entidadePersistencia.getUsuario() != null &&
-            entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
-            entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
-        
-                if (idProcessoGabinete == null || idProcessoGabinete.equals(0)) {
-                    return true;                    
-                } else {
-                    if (entidadePersistencia.getUsuario().getProcessosGabinete().get(
-                                                          entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1
-                                                          ).getIdProcessoGabinete() == null) return false;
-                    
-                    return entidadePersistencia.getUsuario().getProcessosGabinete().get(
-                                                          entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1
-                                                    ).getIdProcessoGabinete().equals(idProcessoGabinete);
-                }
-            }
-        
-        return false;
     }
 
     public boolean isPrimeiroRegistro(Long idProcessoGabinete) {
@@ -193,45 +163,14 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     public String salvarPopup() {
         if (validarArquivado()) {
-            if (validarAno()) {
-                processoGabineteService.salvarUsuario(entidadePersistencia.getUsuario());
-                atualizarProcessoGabinetePopUp.hide();
-                pesquisarEntidade();
-                AdfFacesContext.getCurrentInstance().addPartialTarget(tabelaResultados);
-
-            } else {
-                mensagemErro(AppBundleProperties.getString("msg.processoGabinete.erroAno"));
-            }
-
+            processoGabineteService.salvarUsuario(entidadePersistencia.getUsuario());
+            atualizarProcessoGabinetePopUp.hide();
+            pesquisarEntidade();
+            AdfFacesContext.getCurrentInstance().addPartialTarget(tabelaResultados);
         } else {
             mensagemErro(AppBundleProperties.getString("msg.processoGabinete.erroSalvar"));
         }
         return null;
-    }
-
-    public boolean validarAno() {
-        int quantAnosInvalidos = 0;
-        int anoAtual = Calendar.getInstance().get(Calendar.YEAR);
-        boolean valido = true;
-        List<ProcessoGabinete> listaProcessoGabinete = entidadePersistencia.getUsuario().getProcessosGabinete();
-        for (ProcessoGabinete item : listaProcessoGabinete) {
-            if (item.getAnoProcessoCpa() != null) {
-                if (anoAtual < item.getAnoProcessoCpa() || anoAtual < item.getAnoProcessoGabinete()) {
-                    quantAnosInvalidos++;
-                }
-            } else {
-                if (anoAtual < item.getAnoProcessoGabinete()) {
-                    quantAnosInvalidos++;
-                }
-            }
-
-            if (quantAnosInvalidos > 0) {
-                valido = false;
-            } else {
-                valido = true;
-            }
-        }
-        return valido;
     }
 
     public void setAtualizarProcessoGabinetePopUp(RichPopup atualizarProcessoGabinetePopUp) {
