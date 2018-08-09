@@ -22,7 +22,7 @@
                     <af:spacer width="10" height="10" id="s2"/>
                     <af:table var="row" rowBandingInterval="0" id="t1" width="993"
                           value="#{processoGabineteBean.entidadePersistencia.usuario.processosGabinete}"
-                          partialTriggers="it2 it3 inputAnoProcesso sorArquivado linkExcluir ::botaoInserirProcessoGabinete"
+                          partialTriggers="it2 sorArquivado linkExcluir ::botaoInserirProcessoGabinete"
                           columnStretching="column:tbTipoProcesso">
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
                                    id="tbTipoProcesso" width="100" align="center">
@@ -87,7 +87,7 @@
                                      shortDesc="#{app['label.parametro.apagar']}" 
                                      partialSubmit="true" 
                                      immediate="true"
-                                     rendered="#{processoGabineteBean.isPrimeiroRegistro(row.idProcessoGabinete)}"
+                                     rendered="#{processoGabineteBean.isUltimoRegistro(row.dataInclusao)}"
                                      actionListener="#{processoGabineteBean.removerProcessoGabinete(row)}" />
                         </af:column>
                     </af:table>
