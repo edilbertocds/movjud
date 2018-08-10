@@ -14,7 +14,7 @@
                                          layout="horizontal" rendered="true">
                         <af:button text="#{app['botao.adicionar']}" 
                                    id="botaoInserirProcessoGabinete"
-                                   actionListener="#{processoGabineteBean.incluirProcessoGabinete}"
+                                   action="#{processoGabineteBean.incluirProcessoGabinete}"
                                    partialSubmit="true"
                                    icon="#{res['img.adicionarOn']}"
                                    rendered="#{not processoGabineteBean.temProcessoNaoArquivado}"/>
@@ -87,8 +87,8 @@
                                      shortDesc="#{app['label.parametro.apagar']}" 
                                      partialSubmit="true" 
                                      immediate="true"
-                                     rendered="#{processoGabineteBean.isUltimoRegistro(row.dataInclusao)}"
-                                     actionListener="#{processoGabineteBean.removerProcessoGabinete(row)}" />
+                                     rendered="#{row.ultimoRegistro}"
+                                     action="#{processoGabineteBean.removerUltimoProcessoGabinete}" />
                         </af:column>
                     </af:table>
                 </af:panelHeader>

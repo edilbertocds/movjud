@@ -148,13 +148,14 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return valido;
     }
 
-    public void incluirProcessoGabinete(ActionEvent event) {
-        processoGabinete = entidadePersistencia.addProcessoGabinete(new ProcessoGabinete());
+    public void incluirProcessoGabinete() {
+        processoGabinete = new ProcessoGabinete();
+        entidadePersistencia.addProcessoGabinete(processoGabinete);
     }
     
-    public void removerProcessoGabinete(ProcessoGabinete processoGabinete) {
-        entidadePersistencia.removeProcessoGabinete(processoGabinete);
+    public void removerUltimoProcessoGabinete() {
         processoGabinete = null;
+        entidadePersistencia.removeUltimoProcessoGabinete();
     }
 
     public String salvarPopup() {
