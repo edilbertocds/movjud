@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-07-30T15:26:21 -->
+<!-- 2018-08-13T14:43:06 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Formulario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="20c41435-dcc9-4f0b-8a89-623a5f8e21cf">
 	<property name="ireport.zoom" value="1.4641000000000015"/>
 	<property name="ireport.x" value="0"/>
@@ -18,6 +18,7 @@
 	<parameter name="responsavelUnidade" class="java.lang.String"/>
 	<field name="labelSecao" class="java.lang.String"/>
 	<field name="listaSubSecoes" class="java.util.List"/>
+	<field name="codigoSecao" class="java.lang.String"/>
 	<variable name="dataHoraAgora" class="java.util.Date">
 		<variableExpression><![CDATA[new Date()]]></variableExpression>
 		<initialValueExpression><![CDATA[new Date()]]></initialValueExpression>
@@ -137,6 +138,7 @@
 	<detail>
 		<band height="50" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[!$P{codigo}.trim().equalsIgnoreCase( "41" ) || ($P{codigo}.trim().equalsIgnoreCase( "41" ) && $F{codigoSecao}.trim().equalsIgnoreCase("R"))]]></printWhenExpression>
 			<subreport>
 				<reportElement x="0" y="27" width="555" height="20" uuid="e50eca69-0506-4590-b6e2-99bf824ca465">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
