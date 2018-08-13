@@ -62,6 +62,9 @@ public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<Pro
     @JoinColumn(name = "FK_USUARIO_MAGISTRADO")
     private Usuario usuarioMagistrado;
     
+    @Transient
+    private Boolean ultimoRegistro = false;
+
     public ProcessoGabinete() {
         super();
         setFlagSituacao(ConstantesMovjud.FLAG_SITUACAO_ATIVA);
@@ -188,6 +191,14 @@ public class ProcessoGabinete extends BaseEntity<Long> implements Comparable<Pro
 
     public void setUsuarioMagistrado(Usuario usuarioMagistrado) {
         this.usuarioMagistrado = usuarioMagistrado;
+    }
+
+    public void setUltimoRegistro(boolean ultimoRegistro) {
+        this.ultimoRegistro = ultimoRegistro;
+    }
+
+    public boolean isUltimoRegistro() {
+        return ultimoRegistro;
     }
 
     @Override

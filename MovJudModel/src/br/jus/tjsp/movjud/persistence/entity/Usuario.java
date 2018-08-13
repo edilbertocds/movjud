@@ -253,6 +253,17 @@ public class Usuario extends BaseEntity<Long> {
             processosGabinete = new ArrayList<ProcessoGabinete>();
         }
         Collections.sort(processosGabinete);
+        
+        if (!processosGabinete.isEmpty()) {
+            if (processosGabinete.size() > 1) {
+                for (ProcessoGabinete processoGabinete : processosGabinete) {
+                    processoGabinete.setUltimoRegistro(false);
+                }
+            }
+
+            processosGabinete.get(processosGabinete.size() - 1).setUltimoRegistro(true);
+        }        
+        
         return processosGabinete;
     }
 

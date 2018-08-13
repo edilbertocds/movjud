@@ -86,9 +86,22 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
         return processoGabinete;
     }
 
-    public void removeProcessoGabinete(ProcessoGabinete processoGabinete) {
+    public void removeUltimoProcessoGabinete() {
+        if (usuario != null && usuario.getProcessosGabinete() != null &&
+            !usuario.getProcessosGabinete().isEmpty()) {
+            
+            for (int i = 0; i < usuario.getProcessosGabinete().size(); i++) {
+                if (usuario.getProcessosGabinete().get(i).isUltimoRegistro()) {
+                    usuario.getProcessosGabinete().remove(i);
+                    break;
+                }
+            }
+        }
+
+        /*
         if(usuario != null && 
             usuario.getProcessosGabinete() != null && !usuario.getProcessosGabinete().isEmpty()) {
+            
                 for (ProcessoGabinete procGabinete : usuario.getProcessosGabinete()) {
                     if (procGabinete.getDataInclusao().compareTo(processoGabinete.getDataInclusao()) == 0) {
                         System.out.println("Achou o item, vai deletar");
@@ -96,6 +109,6 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
                         break;
                     }
                 }
-        }
+        }*/
     }
 }
