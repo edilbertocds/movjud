@@ -81,7 +81,7 @@ public class Usuario extends BaseEntity<Long> {
     @OneToMany(mappedBy = "usuario", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<UsuarioAcao> acoesUsuario;
 
-    @OneToMany(mappedBy = "usuarioMagistrado", cascade = { CascadeType.PERSIST, CascadeType.MERGE })    
+    @OneToMany(mappedBy = "usuarioMagistrado", cascade = { CascadeType.ALL }, orphanRemoval=true)
     private List<ProcessoGabinete> processosGabinete;
     
     @OneToMany(mappedBy = "usuario", cascade = { CascadeType.MERGE, CascadeType.PERSIST } )
