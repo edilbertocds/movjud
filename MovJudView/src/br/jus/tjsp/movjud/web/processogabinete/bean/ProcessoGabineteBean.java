@@ -19,9 +19,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
-import javax.faces.event.ActionEvent;
 
 import oracle.adf.view.rich.component.rich.RichPopup;
 import oracle.adf.view.rich.component.rich.data.RichTable;
@@ -29,9 +29,9 @@ import oracle.adf.view.rich.component.rich.input.RichSelectOneRadio;
 import oracle.adf.view.rich.context.AdfFacesContext;
 import oracle.adf.view.rich.event.DialogEvent;
 import oracle.adf.view.rich.event.PopupFetchEvent;
+import oracle.adf.view.rich.component.rich.nav.RichButton;
 
-import org.apache.myfaces.trinidad.event.SelectionEvent;
-
+import org.apache.myfaces.trinidad.context.RequestContext;
 
 @ManagedBean(name = "processoGabineteBean")
 @ViewScoped
@@ -43,7 +43,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     private RichTable tabelaResultados;
     private List<SelectItem> listaAno;
     private boolean temProcessoNaoArquivado;
-
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) {
@@ -70,13 +69,16 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         
         temProcessoNaoArquivado = listaProcesso.stream().anyMatch(p->p.getFlagArquivado().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
         entidadePersistencia.getUsuario().setProcessosGabinete(listaProcesso);
+        
         popularListaAno();
     }
 
     private void popularListaAno() {
-        listaAno = new ArrayList<SelectItem>();
-        for (int i = Calendar.getInstance().get(Calendar.YEAR); 1900 <= i; i--) {
-            listaAno.add(new SelectItem(i, String.valueOf(i)));
+        if (listaAno == null || listaAno.isEmpty()) {
+            listaAno = new ArrayList<SelectItem>();
+            for (int i = Calendar.getInstance().get(Calendar.YEAR); 1900 <= i; i--) {
+                listaAno.add(new SelectItem(i, String.valueOf(i)));
+            }
         }
     }
 
@@ -148,7 +150,13 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return valido;
     }
 
+    public void onChangeSorArquivado(ValueChangeEvent vce) {
+        vce.getComponent().processUpdates(FacesContext.getCurrentInstance());
+        temProcessoNaoArquivado = (vce.getNewValue().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
+    }
+    
     public void incluirProcessoGabinete() {
+        temProcessoNaoArquivado = true;
         processoGabinete = new ProcessoGabinete();
         entidadePersistencia.addProcessoGabinete(processoGabinete);
     }
@@ -208,5 +216,9 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     public boolean isTemProcessoNaoArquivado() {
         return temProcessoNaoArquivado;
+        /*boolean temProcessoNaoArquivado = entidadePersistencia.getUsuario().getProcessosGabinete().
+                stream().anyMatch(p->p.getFlagArquivado().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
+        
+        return temProcessoNaoArquivado;*/
     }
 }

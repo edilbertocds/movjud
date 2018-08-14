@@ -11,18 +11,20 @@
                     </af:panelGroupLayout>
                     <af:spacer width="10" height="5" id="s1"/>
                     <af:panelGroupLayout id="pgl1" styleClass="panelGoupProcessoGabinete" halign="end" valign="top"
-                                         layout="horizontal" rendered="true">
+                                         layout="horizontal" 
+                                         rendered="true">
                         <af:button text="#{app['botao.adicionar']}" 
                                    id="botaoInserirProcessoGabinete"
-                                   action="#{processoGabineteBean.incluirProcessoGabinete}"
                                    partialSubmit="true"
-                                   icon="#{res['img.adicionarOn']}"
-                                   rendered="#{not processoGabineteBean.temProcessoNaoArquivado}"/>
+                                   partialTriggers="t1:sorArquivado botaoInserirProcessoGabinete"
+                                   action="#{processoGabineteBean.incluirProcessoGabinete}"
+                                   disabled="#{processoGabineteBean.temProcessoNaoArquivado}"
+                                   icon="#{res['img.adicionarOn']}" />
                     </af:panelGroupLayout>
                     <af:spacer width="10" height="10" id="s2"/>
                     <af:table var="row" rowBandingInterval="0" id="t1" width="993"
                           value="#{processoGabineteBean.entidadePersistencia.usuario.processosGabinete}"
-                          partialTriggers="it2 sorArquivado linkExcluir ::botaoInserirProcessoGabinete"
+                          partialTriggers="linkExcluir ::botaoInserirProcessoGabinete"
                           columnStretching="column:tbTipoProcesso">
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
                                    id="tbTipoProcesso" width="100" align="center">
@@ -43,8 +45,9 @@
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.arquivado']}" id="c4"
                                    width="63" align="center">
                             <af:selectOneRadio id="sorArquivado" value="#{row.flagArquivado}" required="true"
-                                               autoSubmit="true" partialTriggers="sorArquivado" valuePassThru="true"
-                                               binding="#{viewScope.processoGabineteBean.flagArquivado}">
+                                               valuePassThru="true"
+                                               autoSubmit="true"
+                                               valueChangeListener="#{processoGabineteBean.onChangeSorArquivado}">
                                 <af:selectItem label="#{app['label.radio.sim']}" id="si1"
                                                value="#{app['flag.statusSim']}"/>
                                 <af:selectItem label="#{app['label.radio.nao']}" id="si2"

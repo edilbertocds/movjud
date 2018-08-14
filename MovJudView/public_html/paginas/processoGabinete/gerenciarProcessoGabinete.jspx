@@ -12,8 +12,24 @@
                 <af:pageTemplate viewId="/paginas/template/templateTjsp.jspx" id="pt1">
                     <f:facet name="conteudo">
                         <af:panelGroupLayout id="conteudo" layout="vertical" styleClass="container wrapper formStyle">
-                            <af:panelHeader text="#{app['menu.processoGabinete.gerenciarProcessoGabinete']}"
-                                            id="panelFiltro">
+                            <af:popup childCreation="deferred" id="atualizarProcessoGabinetePopUp"
+                                      popupFetchListener="#{processoGabineteBean.initDialogAlterar}"
+                                      contentDelivery="lazyUncached"
+                                      binding="#{processoGabineteBean.atualizarProcessoGabinetePopUp}">
+                                <af:dialog id="adicionarProcessosDialog"
+                                           affirmativeTextAndAccessKey="#{app['botao.salvar']}"
+                                           cancelTextAndAccessKey="#{app['botao.cancelar']}"
+                                           title="#{app['label.processoGabinete.atualizarProcesso']}"
+                                           type="cancel">
+                                    <af:declarativeComponent id="dc1"
+                                                             viewId="/paginas/processoGabinete/dialog/dialogAtualizarProcessoGabinete.jsff"/>
+                                    <f:facet name="buttonBar">
+                                        <af:button text="#{app['botao.salvar']}" id="bSave"
+                                                   action="#{viewScope.processoGabineteBean.salvarPopup}"/>
+                                    </f:facet>
+                                </af:dialog>
+                            </af:popup>
+                            <af:panelHeader text="#{app['menu.processoGabinete.gerenciarProcessoGabinete']}" id="panelFiltro">
                                 <af:panelBox id="panelBoxFiltro">
                                     <af:panelGridLayout id="panelGridFiltrosUsuario" partialTriggers="botaoLimpar">
                                         <af:gridRow marginTop="5px" height="auto" id="gridRowPerfil" marginBottom="5px">
@@ -108,26 +124,8 @@
                                                 <af:link id="alterar" icon="#{res['img.editarOn']}"
                                                          shortDesc="#{app['label.processoGabinete.alterar']}"
                                                          partialSubmit="true">
-                                                    <af:showPopupBehavior popupId="atualizarProcessoGabinetePopUp"
-                                                                          triggerType="action"/>
+                                                    <af:showPopupBehavior popupId=":pt1:atualizarProcessoGabinetePopUp" triggerType="action"/>
                                                 </af:link>
-                                                <af:popup childCreation="deferred" id="atualizarProcessoGabinetePopUp"
-                                                          popupFetchListener="#{processoGabineteBean.initDialogAlterar}"
-                                                          contentDelivery="lazyUncached"
-                                                          binding="#{processoGabineteBean.atualizarProcessoGabinetePopUp}">
-                                                    <af:dialog id="adicionarProcessosDialog"
-                                                               affirmativeTextAndAccessKey="#{app['botao.salvar']}"
-                                                               cancelTextAndAccessKey="#{app['botao.cancelar']}"
-                                                               title="#{app['label.processoGabinete.atualizarProcesso']}"
-                                                               type="cancel">
-                                                        <af:declarativeComponent id="dc1"
-                                                                                 viewId="/paginas/processoGabinete/dialog/dialogAtualizarProcessoGabinete.jsff"/>
-                                                        <f:facet name="buttonBar">
-                                                            <af:button text="#{app['botao.salvar']}" id="bSave"
-                                                                       action="#{viewScope.processoGabineteBean.salvarPopup}"/>
-                                                        </f:facet>
-                                                    </af:dialog>
-                                                </af:popup>
                                             </af:panelGroupLayout>
                                             <af:spacer width="5" height="5" id="s4" rendered="false"/>
                                             <af:link icon="#{res['img.maisAcoesOff']}" id="i4" disabled="true"
