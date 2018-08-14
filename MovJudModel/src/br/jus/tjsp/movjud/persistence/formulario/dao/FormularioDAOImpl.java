@@ -686,4 +686,18 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             return -1L;
         }
     }
+    
+    @Override
+    public String callSpLiberaUnidade(Long idCadUnidade) {
+        DatabaseQuery query = new DataModifyQuery();
+        PLSQLStoredProcedureCall spLiberaUnidade = new PLSQLStoredProcedureCall();
+        spLiberaUnidade.setProcedureName("PKG_LIBERACAO.PC_LIBERA_UNIDADE");
+        spLiberaUnidade.addNamedArgument("V_ID_CAD_UNIDADE", JDBCTypes.NUMERIC_TYPE);
+        spLiberaUnidade.addNamedOutputArgument("V_MENSAGEM", JDBCTypes.VARCHAR_TYPE);
+        query.setCall(spLiberaUnidade);
+        Query exc = ((JpaEntityManager) getPersistenceManager().getManager().getDelegate()).createQuery(query);
+        exc.setParameter("V_ID_CAD_UNIDADE", idCadUnidade);
+        String result = (String)exc.getSingleResult();
+        return result;        
+    }
 }

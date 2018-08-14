@@ -764,10 +764,18 @@ public class FormularioServiceImpl implements FormularioService {
             // <epr/>
         }
     }
-
+    
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void liberarFormulariosParaUnidade(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO) {
+        String result = formularioDAO.callSpLiberaUnidade(unidade.getId());
+        if((result == null) || result.equalsIgnoreCase("erro")) {
+            throw new RuntimeException("Erro processando formulário para unidade.");
+        }
+    }
+    
+    //@Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void liberarFormulariosParaUnidadeOld(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO) {
         List<Formulario> listaFormulariosUnidade = listarFormulariosMesAnoReferenciaDaUnidade(unidade);
         FormularioDTO novoFormulario = null;
         int numForms = unidade.getFormularios() == null ? 0 : unidade.getFormularios().size();

@@ -51,4 +51,6 @@ public interface FormularioDAO extends BaseDAO<Formulario>{
     String callSpLiberaGeral();
     
     Long callFnLiberaStatus();
+    
+    String callSpLiberaUnidade(Long idCadUnidade);
 }
