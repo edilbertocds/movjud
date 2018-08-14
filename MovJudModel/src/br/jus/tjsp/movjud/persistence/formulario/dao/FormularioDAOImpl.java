@@ -11,6 +11,13 @@ import br.jus.tjsp.movjud.persistence.entity.Unidade;
 import br.jus.tjsp.movjud.persistence.entity.Usuario;
 
 
+import java.math.BigDecimal;
+
+import java.sql.Array;
+import java.sql.ResultSet;
+
+import java.sql.SQLException;
+
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -20,6 +27,17 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+
+import javax.persistence.Query;
+
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.platform.database.jdbc.JDBCTypes;
+import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredFunctionCall;
+import org.eclipse.persistence.platform.database.oracle.plsql.PLSQLStoredProcedureCall;
+import org.eclipse.persistence.queries.DataModifyQuery;
+import org.eclipse.persistence.queries.DataReadQuery;
+import org.eclipse.persistence.queries.DatabaseQuery;
+import org.eclipse.persistence.sessions.DatabaseRecord;
 
 @Stateless
 public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements FormularioDAO {
@@ -73,7 +91,9 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
         jpaQl.append("select formulario from Formulario formulario where ");
         jpaQl.append(" formulario.tipoSituacao.codigoSituacao  in(");
         for (int i = 0; i < tiposSituacao.length; i++) {
-            jpaQl.append("'").append(tiposSituacao[i]).append("'");
+            jpaQl.append("'")
+                 .append(tiposSituacao[i])
+                 .append("'");
             if (i < tiposSituacao.length - 1) {
                 jpaQl.append(",");
             }
@@ -100,20 +120,28 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                          filtro.getMetadadosFormulario().getDescricaoNome() + "%')");
         }
         if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getNome() != null &&
-            !filtro.getUsuarioAprovacao().getNome().isEmpty()) {
+            !filtro.getUsuarioAprovacao()
+                                                                                                             .getNome()
+                                                                                                             .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioAprovacao.nome) like UPPER('%" +
                          filtro.getUsuarioAprovacao().getNome() + "%')");
         }
         if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null &&
-            !filtro.getUsuarioPreenchimento().getNome().isEmpty()) {
+            !filtro.getUsuarioPreenchimento()
+                                                                                                                     .getNome()
+                                                                                                                     .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioPreenchimento.nome) like UPPER('%" +
                          filtro.getUsuarioPreenchimento().getNome() + "%')");
         }
         if (filtro.getUnidade() != null) {
             if (filtro.getUnidade().getIdUnidade() != null && !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
                 jpaQl.append(" and formulario.unidade.idUnidade = " + filtro.getUnidade().getIdUnidade());
-            } else if (filtro.getUnidade().getForo() != null && filtro.getUnidade().getForo().getIdForo() != null) {
-                jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade().getForo().getIdForo());
+            } else if (filtro.getUnidade().getForo() != null && filtro.getUnidade()
+                                                                      .getForo()
+                                                                      .getIdForo() != null) {
+                jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade()
+                                                                              .getForo()
+                                                                              .getIdForo());
             }
         }
         if (filtro.getMes() != null && !new Long(0).equals(filtro.getMes())) {
@@ -150,9 +178,9 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                                                   List<PermissaoUnidadeTemporaria> listaPermissao) {
         List<Formulario> lista = new ArrayList<>();
 
-        lista.addAll(getPersistenceManager().listarPorJPQL(gerarQueryFormulariosPermissaoTemporaria(filtro,
-                                                                                                    listaTipoSituacao,
-                                                                                                    listaPermissao)));
+        lista.addAll(getPersistenceManager()
+                     .listarPorJPQL(gerarQueryFormulariosPermissaoTemporaria(filtro, listaTipoSituacao,
+                                                                             listaPermissao)));
 
         return lista;
     }
@@ -161,8 +189,8 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
     public List<Formulario> listarFormularioGeralComPaginacao(Formulario filtro, Paginacao paginacao,
                                                               List<String> listaTipoSituacao) {
         List<Formulario> lista = new ArrayList<>();
-        lista.addAll(getPersistenceManager().listarPorJPQL(gerarQueryFormularios(filtro, listaTipoSituacao),
-                                                           paginacao).getLista());
+        lista.addAll(getPersistenceManager().listarPorJPQL(gerarQueryFormularios(filtro, listaTipoSituacao), paginacao)
+                     .getLista());
         return lista;
     }
 
@@ -172,10 +200,9 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                                                                        List<PermissaoUnidadeTemporaria> listaPermissao) {
         List<Formulario> lista = new ArrayList<>();
 
-        lista.addAll(getPersistenceManager().listarPorJPQL(gerarQueryFormulariosPermissaoTemporaria(filtro,
-                                                                                                    listaTipoSituacao,
-                                                                                                    listaPermissao),
-                                                           paginacao).getLista());
+        lista.addAll(getPersistenceManager()
+                     .listarPorJPQL(gerarQueryFormulariosPermissaoTemporaria(filtro, listaTipoSituacao, listaPermissao),
+                                    paginacao).getLista());
 
         return lista;
     }
@@ -186,9 +213,9 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                                                                      List<Unidade> listaUnidade) {
         List<Formulario> lista = new ArrayList<>();
 
-        lista.addAll(getPersistenceManager().listarPorJPQL(gerarQueryFormulariosUnidade(filtro, listaTipoSituacao,
-                                                                                        listaUnidade),
-                                                           paginacao).getLista());
+        lista.addAll(getPersistenceManager()
+                     .listarPorJPQL(gerarQueryFormulariosUnidade(filtro, listaTipoSituacao, listaUnidade), paginacao)
+                     .getLista());
 
         return lista;
     }
@@ -201,23 +228,32 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                          filtro.getMetadadosFormulario().getDescricaoNome() + "%')");
         }
         if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getNome() != null &&
-            !filtro.getUsuarioAprovacao().getNome().isEmpty()) {
+            !filtro.getUsuarioAprovacao()
+                                                                                                             .getNome()
+                                                                                                             .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioAprovacao.nome) like UPPER('%" +
                          filtro.getUsuarioAprovacao().getNome() + "%')");
         }
 
-        if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null && !filtro.getUsuarioPreenchimento().getNome().isEmpty()) {
+        if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null &&
+            !filtro.getUsuarioPreenchimento()
+                                                                                                                     .getNome()
+                                                                                                                     .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioPreenchimento.nome) like UPPER('%" +
                          filtro.getUsuarioPreenchimento().getNome() + "%')");
         }
         if (filtro.getUnidade() != null) {
             if (filtro.getUnidade().getIdUnidade() != null && !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
                 jpaQl.append(" and formulario.unidade.idUnidade = " + filtro.getUnidade().getIdUnidade());
-            } else if (filtro.getUnidade().getForo() != null && filtro.getUnidade().getForo().getIdForo() != null) {
-                jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade().getForo().getIdForo());
+            } else if (filtro.getUnidade().getForo() != null && filtro.getUnidade()
+                                                                      .getForo()
+                                                                      .getIdForo() != null) {
+                jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade()
+                                                                              .getForo()
+                                                                              .getIdForo());
             }
         }
-        
+
         if (filtro.getDataFechamento() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
             jpaQl.append(" and FUNC('TRUNC', formulario.dataFechamento) = FUNC('TO_DATE', '" +
@@ -265,20 +301,26 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             jpaQl.append(" and UPPER(formulario.metadadosFormulario.descricaoNome) like UPPER('%" +
                          filtro.getMetadadosFormulario().getDescricaoNome() + "%')");
         }
-        if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getNome() != null && !filtro.getUsuarioAprovacao().getNome().isEmpty()){
+        if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getNome() != null &&
+            !filtro.getUsuarioAprovacao()
+                                                                                                             .getNome()
+                                                                                                             .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioAprovacao.nome) like UPPER('%" +
                          filtro.getUsuarioAprovacao().getNome() + "%')");
         }
 
-        if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null && !filtro.getUsuarioPreenchimento().getNome().isEmpty()) {
+        if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null &&
+            !filtro.getUsuarioPreenchimento()
+                                                                                                                     .getNome()
+                                                                                                                     .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioPreenchimento.nome) like UPPER('%" +
                          filtro.getUsuarioPreenchimento().getNome() + "%')");
         }
-        
+
         if (filtro.getDataFechamento() != null) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-                    jpaQl.append(" and FUNC('TRUNC', formulario.dataFechamento) = FUNC('TO_DATE', '" +
-                                 sdf.format(filtro.getDataFechamento()) + "', 'dd/MM/YYYY')");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+            jpaQl.append(" and FUNC('TRUNC', formulario.dataFechamento) = FUNC('TO_DATE', '" +
+                         sdf.format(filtro.getDataFechamento()) + "', 'dd/MM/YYYY')");
         }
 
         //Alteracao utilizar a unidade e nao o foro no filtro que o usuario tenha acesso
@@ -293,8 +335,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                     jpaQl.append(" and formulario.unidade.idUnidade = " + filtro.getUnidade().getIdUnidade());
                 }
             }*/
-            if (filtro.getUnidade().getIdUnidade() != null &&
-                !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
+            if (filtro.getUnidade().getIdUnidade() != null && !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
                 jpaQl.append(" and formulario.unidade.idUnidade = " + filtro.getUnidade().getIdUnidade());
             } else {
                 for (PermissaoUnidadeTemporaria permissao : listaPermissao) {
@@ -313,7 +354,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 calcularDatasReferencia(inicio);
                 calcularDatasReferencia(fim);
                 parameter.append(" (formulario.unidade.idUnidade = " + permissao.getUnidade().getIdUnidade());
-                
+
                 //Alteracao para suprir o between e obter o penultimo mes valido e o ano corrente valido
                 //ou todos os registros que satisfacao o tipo de situacao devem ser apresentados
                 //aplicando a concatenacao para que o where funcione
@@ -324,14 +365,15 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 parameter.append(" and formulario.ano between " + inicio.get(Calendar.YEAR) + " and " +
                                  fim.get(Calendar.YEAR));
                 */
-                String dataInicio = String.format("%02d", inicio.get(Calendar.YEAR)) + 
-                                    String.format("%02d", inicio.get(Calendar.MONTH));
-                String dataFim = String.format("%02d", fim.get(Calendar.YEAR)) + 
-                                    String.format("%02d", fim.get(Calendar.MONTH));
-                
+                String dataInicio =
+                    String.format("%02d", inicio.get(Calendar.YEAR)) +
+                    String.format("%02d", inicio.get(Calendar.MONTH));
+                String dataFim =
+                    String.format("%02d", fim.get(Calendar.YEAR)) + String.format("%02d", fim.get(Calendar.MONTH));
+
                 parameter.append(" and CONCAT(formulario.ano, formulario.mes) >= " + dataInicio);
                 parameter.append(" and CONCAT(formulario.ano, formulario.mes)  <= " + dataFim);
-                
+
                 parameter.append(") or");
             }
             if (parameter.length() > 0) {
@@ -387,25 +429,35 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             jpaQl.append(" and UPPER(formulario.metadadosFormulario.descricaoNome) like UPPER('%" +
                          filtro.getMetadadosFormulario().getDescricaoNome() + "%')");
         }
-        if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getNome() != null && !filtro.getUsuarioAprovacao().getNome().isEmpty()) {
+        if (filtro.getUsuarioAprovacao() != null && filtro.getUsuarioAprovacao().getNome() != null &&
+            !filtro.getUsuarioAprovacao()
+                                                                                                             .getNome()
+                                                                                                             .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioAprovacao.nome) like UPPER('%" +
                          filtro.getUsuarioAprovacao().getNome() + "%')");
         }
 
-        if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null && !filtro.getUsuarioPreenchimento().getNome().isEmpty()) {
+        if (filtro.getUsuarioPreenchimento() != null && filtro.getUsuarioPreenchimento().getNome() != null &&
+            !filtro.getUsuarioPreenchimento()
+                                                                                                                     .getNome()
+                                                                                                                     .isEmpty()) {
             jpaQl.append(" and UPPER(formulario.usuarioPreenchimento.nome) like UPPER('%" +
                          filtro.getUsuarioPreenchimento().getNome() + "%')");
         }
-        
+
         if (filtro.getDataFechamento() != null) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
-                    jpaQl.append(" and FUNC('TRUNC', formulario.dataFechamento) = FUNC('TO_DATE', '" +
-                                 sdf.format(filtro.getDataFechamento()) + "', 'dd/MM/YYYY')");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YYYY");
+            jpaQl.append(" and FUNC('TRUNC', formulario.dataFechamento) = FUNC('TO_DATE', '" +
+                         sdf.format(filtro.getDataFechamento()) + "', 'dd/MM/YYYY')");
         }
 
         if (filtro.getUnidade() != null) {
-            if (filtro.getUnidade().getForo() != null && filtro.getUnidade().getForo().getIdForo() != null) {
-                jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade().getForo().getIdForo());
+            if (filtro.getUnidade().getForo() != null && filtro.getUnidade()
+                                                               .getForo()
+                                                               .getIdForo() != null) {
+                jpaQl.append(" and formulario.unidade.foro.idForo = " + filtro.getUnidade()
+                                                                              .getForo()
+                                                                              .getIdForo());
             } else {
                 if (filtro.getUnidade().getIdUnidade() != null &&
                     !new Long(0).equals(filtro.getUnidade().getIdUnidade())) {
@@ -518,10 +570,10 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
             ano = formularioAtual.getAno();
             mes = formularioAtual.getMes() - 1;
         }
-        return getPersistenceManager().procurarPorJPQLSingleResult(jpaQl,
-                                                                   formularioAtual.getMetadadosFormulario().getDescricaoSourceFormulario(),
-                                                                   formularioAtual.getUnidade().getIdUnidade(), ano,
-                                                                   mes);
+        return getPersistenceManager()
+               .procurarPorJPQLSingleResult(jpaQl,
+                                            formularioAtual.getMetadadosFormulario().getDescricaoSourceFormulario(),
+                                            formularioAtual.getUnidade().getIdUnidade(), ano, mes);
     }
 
     @Override
@@ -539,11 +591,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
         } else {
             mes--;
         }
-        return getPersistenceManager().procurarPorJPQLSingleResult(jpaQl,
-                                                                   descricao,
-                                                                   unidade, 
-                                                                   ano,
-                                                                   mes);
+        return getPersistenceManager().procurarPorJPQLSingleResult(jpaQl, descricao, unidade, ano, mes);
     }
 
     @Override
@@ -554,10 +602,9 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
         jpaQl.append(" formulario.unidade.idUnidade = ?2 and");
         jpaQl.append(" formulario.ano = ?3 and");
         jpaQl.append(" formulario.mes = ?4");
-        return getPersistenceManager().procurarPorJPQLSingleResult(jpaQl,
-                                                                   filtro.getMetadadosFormulario().getDescricaoSourceFormulario(),
-                                                                   filtro.getUnidade().getIdUnidade(), filtro.getAno(),
-                                                                   filtro.getMes());
+        return getPersistenceManager()
+               .procurarPorJPQLSingleResult(jpaQl, filtro.getMetadadosFormulario().getDescricaoSourceFormulario(),
+                                            filtro.getUnidade().getIdUnidade(), filtro.getAno(), filtro.getMes());
     }
 
     @Override
@@ -570,38 +617,73 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
         jpaQl.append(" (select min(formulario.idFormulario)" + " from Formulario formulario where" +
                      " formulario.metadadosFormulario.descricaoSourceFormulario = ?1 and" +
                      " formulario.unidade.idUnidade = ?2)");
-        return getPersistenceManager().procurarPorJPQLSingleResult(jpaQl,
-                                                                   filtro.getMetadadosFormulario().getDescricaoSourceFormulario(),
-                                                                   filtro.getUnidade().getIdUnidade());
+        return getPersistenceManager()
+               .procurarPorJPQLSingleResult(jpaQl, filtro.getMetadadosFormulario().getDescricaoSourceFormulario(),
+                                            filtro.getUnidade().getIdUnidade());
     }
-    
+
     @Override
     public Formulario recuperarFormularioPorIdFormulario(Long idFormulario) {
         return getPersistenceManager().getManager().find(Formulario.class, idFormulario);
     }
 
     @Override
-    public void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo) {
+    public void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario,
+                                         String motivo) {
         if (idFormulario != null && idSituacaoAntiga != null && idSituacaoNova != null) {
-            TipoSituacao tipoSituacaoAntiga = getPersistenceManager().getManager().find(TipoSituacao.class, idSituacaoAntiga);
-            TipoSituacao tipoSituacaoNova = getPersistenceManager().getManager().find(TipoSituacao.class, idSituacaoNova);
-            if(tipoSituacaoNova != null && tipoSituacaoAntiga != null) {
-                getPersistenceManager().atualizarPorJPQL(
-                    "update Formulario " + 
-                    "set Formulario.tipoSituacao=?1 " +
-                    "where Formuario.idFormulario=?2 and " + 
-                    "Formulario.tipoSituacao=?3",
-                    tipoSituacaoNova, 
-                    idFormulario, 
-                    tipoSituacaoAntiga);
+            TipoSituacao tipoSituacaoAntiga =
+                getPersistenceManager().getManager().find(TipoSituacao.class, idSituacaoAntiga);
+            TipoSituacao tipoSituacaoNova =
+                getPersistenceManager().getManager().find(TipoSituacao.class, idSituacaoNova);
+            if (tipoSituacaoNova != null && tipoSituacaoAntiga != null) {
+                getPersistenceManager()
+                    .atualizarPorJPQL("update Formulario " + "set Formulario.tipoSituacao=?1 " +
+                                      "where Formuario.idFormulario=?2 and " + "Formulario.tipoSituacao=?3",
+                                      tipoSituacaoNova, idFormulario, tipoSituacaoAntiga);
                 Formulario form = recuperarFormularioPorIdFormulario(idFormulario);
                 if (idUsuario != null) {
                     Usuario usuario = getPersistenceManager().getManager().find(Usuario.class, idUsuario);
                     getPersistenceManager()
                         .atualizarPorJPQL("insert FormularioHistorico (formulario, tipoSituacao, usuario, dataCriacao, descricaoComentario) " +
-                                          "values (?1,?2,?3,?4,?5)", form, tipoSituacaoNova, usuario, new Date(), motivo);
-                }                
+                                          "values (?1,?2,?3,?4,?5)", form, tipoSituacaoNova, usuario, new Date(),
+                                          motivo);
+                }
             }
+        }
+    }
+
+    @Override
+    public String callSpLiberaGeral() {
+        DatabaseQuery query = new DataModifyQuery();
+        PLSQLStoredProcedureCall spLiberaGeral = new PLSQLStoredProcedureCall();
+        spLiberaGeral.setProcedureName("PKG_LIBERACAO.PC_LIBERA_GERAL");
+        spLiberaGeral.addNamedOutputArgument("V_MENSAGEM", JDBCTypes.VARCHAR_TYPE);
+        query.setCall(spLiberaGeral);
+        Query exc = ((JpaEntityManager) getPersistenceManager().getManager().getDelegate()).createQuery(query);
+        String result = (String)exc.getSingleResult();
+        return result;
+    }
+    
+    @Override
+    public Long callFnLiberaStatus() {
+        DatabaseQuery query = new DataReadQuery();
+        PLSQLStoredFunctionCall fnLiberaStatus = new PLSQLStoredFunctionCall();
+        fnLiberaStatus.setProcedureName("PKG_LIBERACAO.FN_STATUS_LEBERACAO_MES");
+        fnLiberaStatus.addNamedOutputArgument("V_QTDE_LIBERADO", JDBCTypes.NUMERIC_TYPE);
+        fnLiberaStatus.setResult(JDBCTypes.NUMERIC_TYPE);
+        query.setCall(fnLiberaStatus);
+        Query exc = ((JpaEntityManager) getPersistenceManager().getManager().getDelegate()).createQuery(query);
+        DatabaseRecord result = (DatabaseRecord)exc.getSingleResult();
+        if(result != null) {
+            try {
+                Long l = ((BigDecimal) result.getValues("V_QTDE_LIBERADO")).longValue();
+                Long r = ((BigDecimal) result.getValues("RESULT")).longValue();
+                return (l * 100/(l + r));
+            } catch (Exception e) {
+                return -1L;
+            }
+        } else {
+            return -1L;
         }
     }
 }

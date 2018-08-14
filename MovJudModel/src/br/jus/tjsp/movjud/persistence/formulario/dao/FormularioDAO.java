@@ -46,5 +46,9 @@ public interface FormularioDAO extends BaseDAO<Formulario>{
     
     Formulario recuperarFormularioPorIdFormulario(Long idFormulario);
     
-    void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo);    
+    void updateSituacaoFormulario(Long idFormulario, Long idSituacaoAntiga, Long idSituacaoNova, Long idUsuario, String motivo);
+    
+    String callSpLiberaGeral();
+    
+    Long callFnLiberaStatus();
 }
