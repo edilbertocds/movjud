@@ -2987,7 +2987,14 @@ form = recuperarFormulario(form);
         RichInputDate dataFeitoLevadoAoMagistrado = (RichInputDate) findComponent("dataFeitoLevadoAoMagistrado");
         RichInputText magistradoReu = (RichInputText) findComponent("inputTextMagistradoReus");
         RichInputText relatorioCGJ = (RichInputText) findComponent("inputTextRelatorioCGJ");
+        RichInputText presoProvisorio = (RichInputText) findComponent("it27");
         boolean camposConsistentes = true;
+        
+        if(!validaNomeReuEmaeReu()){
+            mensagemErroComponente(presoProvisorio, "Os valores em 'Nome preso provisório' e 'Nome da Mãe' já existem. Por gentileza, entre com informações diferentes." /*AppBundleProperties.getString("msg.validacao")*/);
+            camposConsistentes = false;
+        }
+        
         if (dataFeitoLevadoAoMagistrado.getValue() != null) {
             if ((magistradoReu.getValue() == null || magistradoReu.getValue()
                                                                   .toString()
@@ -2996,6 +3003,7 @@ form = recuperarFormulario(form);
                  relatorioCGJ.getValue()
                                                                                                                                  .toString()
                                                                                                                                  .isEmpty())) {
+                
                 if (magistradoReu.getValue() == null || magistradoReu.getValue()
                                                                      .toString()
                                                                      .isEmpty())
@@ -3282,5 +3290,21 @@ form = recuperarFormulario(form);
     private void recalcularFormulasAnteriorEatual() {
         formularioMesAnterior = formularioService.recuperarFormularioMesAnterior(entidadePersistencia);
         entidadePersistencia = FormulaCalculo.calcularFormulasDoFormulario(entidadePersistencia, formularioMesAnterior);
+    }
+
+    private boolean validaNomeReuEmaeReu() {
+        for (ReuDTO r : secaoReus.getListaSubSecoes()
+                                 .get(0)
+                                 .getListaReus()) {
+            if ((r.getNomeMaeReuProvisorio()
+                  .trim()
+                  .equalsIgnoreCase(reu.getNomeMaeReuProvisorio().trim())) &&
+                (r.getNomeReuProvisorio()
+                                                                                .trim()
+                                                                                .equalsIgnoreCase(reu.getNomeReuProvisorio()
+                                                                                                  .trim())))
+                return false;
+}
+        return true;
     }
 }
