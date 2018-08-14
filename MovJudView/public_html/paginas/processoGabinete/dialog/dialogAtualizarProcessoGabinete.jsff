@@ -16,7 +16,7 @@
                         <af:button text="#{app['botao.adicionar']}" 
                                    id="botaoInserirProcessoGabinete"
                                    partialSubmit="true"
-                                   partialTriggers="t1:sorArquivado botaoInserirProcessoGabinete"
+                                   partialTriggers="t1:sorArquivado t1:linkExcluir botaoInserirProcessoGabinete"
                                    action="#{processoGabineteBean.incluirProcessoGabinete}"
                                    disabled="#{processoGabineteBean.temProcessoNaoArquivado}"
                                    icon="#{res['img.adicionarOn']}" />

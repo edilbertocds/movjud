@@ -162,6 +162,7 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     }
     
     public void removerUltimoProcessoGabinete() {
+        temProcessoNaoArquivado = false;
         processoGabinete = null;
         entidadePersistencia.removeUltimoProcessoGabinete();
     }
