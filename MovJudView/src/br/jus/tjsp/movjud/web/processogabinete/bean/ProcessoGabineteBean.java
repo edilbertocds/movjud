@@ -157,8 +157,7 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     
     public void incluirProcessoGabinete() {
         temProcessoNaoArquivado = true;
-        processoGabinete = new ProcessoGabinete();
-        entidadePersistencia.addProcessoGabinete(processoGabinete);
+        processoGabinete = entidadePersistencia.addProcessoGabinete();
     }
     
     public void removerUltimoProcessoGabinete() {
@@ -217,9 +216,5 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     public boolean isTemProcessoNaoArquivado() {
         return temProcessoNaoArquivado;
-        /*boolean temProcessoNaoArquivado = entidadePersistencia.getUsuario().getProcessosGabinete().
-                stream().anyMatch(p->p.getFlagArquivado().equals(ConstantesMovjud.FLAG_SITUACAO_NAO));
-        
-        return temProcessoNaoArquivado;*/
     }
 }

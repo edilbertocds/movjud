@@ -78,11 +78,13 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
 	return getUsuario().getIdUsuario();
     }
 
-    public ProcessoGabinete addProcessoGabinete(ProcessoGabinete processoGabinete) {
-        usuario.getProcessosGabinete().add(processoGabinete);
+    public ProcessoGabinete addProcessoGabinete() {
+        ProcessoGabinete processoGabinete = new ProcessoGabinete();
         processoGabinete.setUsuarioMagistrado(this.getUsuario());        
         processoGabinete.setFlagArquivado(ConstantesMovjud.FLAG_SITUACAO_NAO);
         processoGabinete.setDataInclusao(new Date());
+
+        usuario.getProcessosGabinete().add(processoGabinete);
         return processoGabinete;
     }
 
