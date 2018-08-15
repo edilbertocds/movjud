@@ -80,7 +80,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.ejb.AsyncResult;
 import javax.ejb.Asynchronous;
@@ -712,9 +719,34 @@ public class FormularioServiceImpl implements FormularioService {
     public List<PreCarga> listarCamposPreCarga(PreCarga preCarga) {
         return preCargaDAO.listarComFiltro(preCarga);
     }
-
+    
     @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public void liberarFormulariosTodasUnidades(IndicadorProgressoUtil indicadorProgresso) {
+        final ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
+        final ScheduledFuture f = ses.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                Long valorAtual = formularioDAO.callFnLiberaStatus();
+                if(valorAtual == -1L) {
+                    indicadorProgresso.setErroProcessamento(true);
+                    return;
+                }
+                indicadorProgresso.setValorAtual(valorAtual);
+            }
+        }, 1000, 1000, TimeUnit.MILLISECONDS);
+        String r = formularioDAO.callSpLiberaGeral(); 
+        if(f != null) {
+            f.cancel(true);
+        };
+        if((r != null) && (r.indexOf("A liberação geral foi executada com sucesso") == -1)) {
+            indicadorProgresso.setErroProcessamento(true);
+        } else {
+            indicadorProgresso.setFinalizouProcessamento(true);
+        }
+    }
+
+    // @Override
+    public void liberarFormulariosTodasUnidadesOld(IndicadorProgressoUtil indicadorProgresso) {
         // <epr> 1.Criar instância fora do loop
         SituacaoFormularioDTO situacaoFormularioDTO =
             TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listarTipoSituacao(), TipoSituacaoType.ABERTO);
@@ -732,10 +764,18 @@ public class FormularioServiceImpl implements FormularioService {
             // <epr/>
         }
     }
-
+    
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void liberarFormulariosParaUnidade(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO) {
+        String result = formularioDAO.callSpLiberaUnidade(unidade.getId());
+        if((result == null) || result.equalsIgnoreCase("erro")) {
+            throw new RuntimeException("Erro processando formulário para unidade.");
+        }
+    }
+    
+    //@Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public void liberarFormulariosParaUnidadeOld(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO) {
         List<Formulario> listaFormulariosUnidade = listarFormulariosMesAnoReferenciaDaUnidade(unidade);
         FormularioDTO novoFormulario = null;
         int numForms = unidade.getFormularios() == null ? 0 : unidade.getFormularios().size();

@@ -147,7 +147,7 @@
                                                                   shortDesc="#{app['msg.liberacaoFormulario.liberarFormularios']}"
                                                                   id="imagemCarregando"/>
                                                     </af:panelGroupLayout>
-                                                    <af:outputLabel value="#{app['msg.liberacaoFormulario.unidadesLiberadas']} #{liberacaoFormularioBean.value} / #{liberacaoFormularioBean.maximum}"
+                                                    <af:outputLabel value="#{liberacaoFormularioBean.value} #{app['msg.liberacaoFormulario.unidadesLiberadas']}"
                                                                     id="outputInformacao" partialTriggers="pollIntervalo"/>
                                                     <af:poll id="pollIntervalo"
                                                              interval="#{liberacaoFormularioBean.indicadorProgresso.intervalo}"

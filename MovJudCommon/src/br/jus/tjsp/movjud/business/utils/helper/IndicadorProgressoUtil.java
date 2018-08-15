@@ -36,11 +36,11 @@ public class IndicadorProgressoUtil implements Serializable{
         atualizouInformacoes    = false;
     }
 
-    public void setValorAtual(long valorAtual) {
+    public synchronized void setValorAtual(long valorAtual) {
         this.valorAtual = valorAtual;
     }
 
-    public long getValorAtual() {
+    public synchronized long getValorAtual() {
         return valorAtual;
     }
 
@@ -68,11 +68,11 @@ public class IndicadorProgressoUtil implements Serializable{
         return timeOut;
     }
 
-    public void setErroProcessamento(boolean erroProcessamento) {
+    public synchronized void setErroProcessamento(boolean erroProcessamento) {
         this.erroProcessamento = erroProcessamento;
     }
 
-    public boolean isErroProcessamento() {
+    public synchronized boolean isErroProcessamento() {
         return erroProcessamento;
     }
 

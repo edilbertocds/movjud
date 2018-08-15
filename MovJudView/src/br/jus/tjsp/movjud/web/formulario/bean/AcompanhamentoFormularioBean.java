@@ -2989,7 +2989,6 @@ form = recuperarFormulario(form);
         RichInputText relatorioCGJ = (RichInputText) findComponent("inputTextRelatorioCGJ");
         RichInputText presoProvisorio = (RichInputText) findComponent("it27");
         boolean camposConsistentes = true;
-        
         if(!validaNomeReuEmaeReu()){
             mensagemErroComponente(presoProvisorio, "Os valores em 'Nome preso provisório' e 'Nome da Mãe' já existem. Por gentileza, entre com informações diferentes." /*AppBundleProperties.getString("msg.validacao")*/);
             camposConsistentes = false;
@@ -3293,6 +3292,14 @@ form = recuperarFormulario(form);
     }
 
     private boolean validaNomeReuEmaeReu() {
+        int numeroRegEncontrados = 0;        
+        int numeroRegPermitidos = 0;
+        
+        if (reu.getIdReuProvisorio() == null)
+            numeroRegPermitidos = 0;
+        else
+            numeroRegPermitidos = 1;
+        
         for (ReuDTO r : secaoReus.getListaSubSecoes()
                                  .get(0)
                                  .getListaReus()) {
@@ -3303,8 +3310,9 @@ form = recuperarFormulario(form);
                                                                                 .trim()
                                                                                 .equalsIgnoreCase(reu.getNomeReuProvisorio()
                                                                                                   .trim())))
-                return false;
-}
-        return true;
+                numeroRegEncontrados++;
+        }
+        
+        return (numeroRegEncontrados <= numeroRegPermitidos);
     }
 }
