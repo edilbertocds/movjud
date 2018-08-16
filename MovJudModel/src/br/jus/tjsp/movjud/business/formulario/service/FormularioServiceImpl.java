@@ -1168,11 +1168,14 @@ public class FormularioServiceImpl implements FormularioService {
     @Override
     public FormularioDTO recuperarFormularioMesAnoReferencia(FormularioDTO filtro) {
         Formulario filtroFormulario =
-            formularioDAO.recuperarFormularioAnoMesReferencia(FormularioConverter.parseFormularioDTOParaFormulario(filtro,
-                                                                                                                   false));
-        FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(filtroFormulario);
-        formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
-        return formularioDTO;
+            formularioDAO.recuperarFormularioAnoMesReferencia(FormularioConverter.parseFormularioDTOParaFormulario(filtro,false));
+         
+        if(filtroFormulario != null) {                                                                                                          
+            FormularioDTO formularioDTO = FormularioConverter.parseFormularioParaFormularioDTO(filtroFormulario);
+            formularioDTO.setFutureListaSecoes(asyncCompleteFormularioDTO(formularioDTO));
+            return formularioDTO;
+        }
+        return null;
     }
 
     @Override
