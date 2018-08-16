@@ -86,7 +86,9 @@ import oracle.adf.view.rich.event.PopupFetchEvent;
 import oracle.adf.view.rich.util.ResetUtils;
 
 import org.apache.log4j.Logger;
+import org.apache.myfaces.trinidad.util.Service;
 import org.apache.myfaces.trinidad.event.SelectionEvent;
+import org.apache.myfaces.trinidad.render.ExtendedRenderKitService;
 
 public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
 
@@ -1605,6 +1607,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
             RichPanelBox painelSecaoMagistrado = (RichPanelBox) findComponent("painelSecaoMagistrado");
             painelSecaoMagistrado.setDisclosed(true);
             atualizarComponenteDeTela(painelSecaoMagistrado);
+            
+            // <epr 20180816 - setFocus primeiro selectOneChoice da secao incluída
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExtendedRenderKitService service = (ExtendedRenderKitService)Service.getRenderKitService(facesContext, ExtendedRenderKitService.class);
+            service.addScript(facesContext, "setTimeout(setFocusUltimaSessaoMagistrado('" + painelSecaoMagistrado.getClientId(facesContext) + "'), 500);");
+            // </epr 20180816
         }
     }
 

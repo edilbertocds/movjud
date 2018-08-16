@@ -1,4 +1,18 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.1" xmlns:af="http://xmlns.oracle.com/adf/faces/rich" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+    <af:resource type="javascript">
+        function setFocusUltimaSessaoMagistrado(parentId) {
+            var parent = document.getElementById(parentId),
+                childElements,
+                childElement;
+            if(parent) {
+                childElements = parent.getElementsByTagName('select');
+                if((childElements) &amp;&amp; (childElements.length > 0)) {
+                    childElement = childElements[childElements.length-1];
+                    childElement.focus();
+                }
+            }
+        }    
+    </af:resource>
     <af:panelStretchLayout id="psl1" topHeight="50px" endWidth="50px" bottomHeight="30px">
         <f:facet name="center">
             <af:panelSplitter id="ps1" splitterPosition="300" positionedFromEnd="true">
