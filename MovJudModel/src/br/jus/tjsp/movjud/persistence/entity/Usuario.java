@@ -252,7 +252,7 @@ public class Usuario extends BaseEntity<Long> {
         if(this.processosGabinete == null){
             processosGabinete = new ArrayList<ProcessoGabinete>();
         }
-        Collections.sort(processosGabinete);
+        //Collections.sort(processosGabinete);
         
         if (!processosGabinete.isEmpty()) {
             if (processosGabinete.size() > 1) {

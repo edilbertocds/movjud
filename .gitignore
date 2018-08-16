@@ -12,6 +12,9 @@
 
 # sei lá
 .data/
+MovJudModel/classes/
+MovJudView/classes/
+MovJudView/public_html/WEB-INF/temp/
 
 # Package Files #
 *.jar
