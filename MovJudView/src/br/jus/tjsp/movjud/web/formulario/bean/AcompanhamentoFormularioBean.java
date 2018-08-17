@@ -3017,7 +3017,7 @@ form = recuperarFormulario(form);
         RichInputText presoProvisorio = (RichInputText) findComponent("it27");
         boolean camposConsistentes = true;
         if(!validaNomeReuEmaeReu()){
-            mensagemErroComponente(presoProvisorio, "Os valores em 'Nome preso provisório' e 'Nome da Mãe' já existem. Por gentileza, entre com informações diferentes." /*AppBundleProperties.getString("msg.validacao")*/);
+            mensagemErroComponente(presoProvisorio, AppBundleProperties.getString("msg.validacao.duplicidadeReuProvisorio"));
             camposConsistentes = false;
         }
         
