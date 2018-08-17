@@ -365,14 +365,14 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 parameter.append(" and formulario.ano between " + inicio.get(Calendar.YEAR) + " and " +
                                  fim.get(Calendar.YEAR));
                 */
-                String dataInicio =
-                    String.format("%02d", inicio.get(Calendar.YEAR)) +
+                String dataInicio = 
+                    String.format("%04d", inicio.get(Calendar.YEAR)) +
                     String.format("%02d", inicio.get(Calendar.MONTH));
-                String dataFim =
-                    String.format("%02d", fim.get(Calendar.YEAR)) + String.format("%02d", fim.get(Calendar.MONTH));
-
-                parameter.append(" and CONCAT(formulario.ano, formulario.mes) >= " + dataInicio);
-                parameter.append(" and CONCAT(formulario.ano, formulario.mes)  <= " + dataFim);
+                String dataFim = 
+                    String.format("%04d", fim.get(Calendar.YEAR)) + 
+                    String.format("%02d", fim.get(Calendar.MONTH));
+                parameter.append(" and CONCAT(formulario.ano, func('lpad',formulario.mes, 2, '0')) >= " + dataInicio);
+                parameter.append(" and CONCAT(formulario.ano, func('lpad',formulario.mes, 2, '0')) <= " + dataFim);
 
                 parameter.append(") or");
             }
