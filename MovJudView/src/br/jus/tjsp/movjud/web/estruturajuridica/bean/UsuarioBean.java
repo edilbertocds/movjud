@@ -81,10 +81,11 @@ public class UsuarioBean extends BaseBean<Usuario> {
             listaAcoesSelecionadasComMarcacao =
                 UsuarioAcaoType.recuperarListaPermissoes(getListaAcoes(), null, null, isDireitosEspeciais());
         }
-
+        /* 
         if (!ConstantesMovjud.PERFIL_COD_MAGISTRADO.equals(entidadePersistencia.getPerfil().getCodigoPerfil())) {
             entidadePersistencia.setCodigoUsuarioSaj(null);
         }
+        */
     }
 
     public boolean isCodigoSajRequired() {
