@@ -46,6 +46,10 @@ public class ReuDTO extends BaseDTO<Long>{
     
     private String nomeEstabelecimentoPrisional;
     
+    private String nomeMunicipioEstabelecimentoPrisional;
+    
+    private String codigoUfEstabelecimentoPrisional;
+    
     private Long idMotivoBaixa;
     
     private String descricaoMotivoBaixa;
@@ -330,5 +334,21 @@ public class ReuDTO extends BaseDTO<Long>{
     
     public Boolean getMarcadoExclusao() {
         return this.marcadoExclusao;
+    }
+
+    public void setNomeMunicipioEstabelecimentoPrisional(String nomeMunicipioEstabelecimentoPrisional) {
+        this.nomeMunicipioEstabelecimentoPrisional = nomeMunicipioEstabelecimentoPrisional;
+    }
+
+    public String getNomeMunicipioEstabelecimentoPrisional() {
+        return nomeMunicipioEstabelecimentoPrisional;
+    }
+
+    public void setCodigoUfEstabelecimentoPrisional(String codigoUfEstabelecimentoPrisional) {
+        this.codigoUfEstabelecimentoPrisional = codigoUfEstabelecimentoPrisional;
+    }
+
+    public String getCodigoUfEstabelecimentoPrisional() {
+        return codigoUfEstabelecimentoPrisional;
     }
 }

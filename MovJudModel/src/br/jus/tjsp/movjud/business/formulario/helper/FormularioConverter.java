@@ -580,6 +580,8 @@ public class FormularioConverter {
                         if (reuProvisorioHistorico.getEstabelecimentoPrisional() != null) {
                             reuDTO.setIdEstabelecimentoPrisional(reuProvisorioHistorico.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional());
                             reuDTO.setNomeEstabelecimentoPrisional(reuProvisorioHistorico.getEstabelecimentoPrisional().getNomeEstabelecimentoPrisional());
+                            reuDTO.setNomeMunicipioEstabelecimentoPrisional(reuProvisorioHistorico.getEstabelecimentoPrisional().getNomeMunicipio());
+                            reuDTO.setCodigoUfEstabelecimentoPrisional(reuProvisorioHistorico.getEstabelecimentoPrisional().getCodigoUf());
                         }
                     
                         break;
