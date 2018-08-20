@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -80,6 +81,7 @@ public class Secao extends BaseEntity<Long> {
     private List<Grupo> grupos;
     
     @OneToMany(mappedBy = "secaoPai", cascade = { CascadeType.ALL },orphanRemoval = true)
+    @OrderBy("idSecao ASC")
     private List<Secao> subSecoes;
 
    // @OneToMany(mappedBy = "secao", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
