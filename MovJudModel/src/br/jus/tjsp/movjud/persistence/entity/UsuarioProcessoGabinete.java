@@ -99,18 +99,5 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
                 }
             }
         }
-
-        /*
-        if(usuario != null && 
-            usuario.getProcessosGabinete() != null && !usuario.getProcessosGabinete().isEmpty()) {
-            
-                for (ProcessoGabinete procGabinete : usuario.getProcessosGabinete()) {
-                    if (procGabinete.getDataInclusao().compareTo(processoGabinete.getDataInclusao()) == 0) {
-                        System.out.println("Achou o item, vai deletar");
-                        usuario.getProcessosGabinete().remove(procGabinete);
-                        break;
-                    }
-                }
-        }*/
     }
 }

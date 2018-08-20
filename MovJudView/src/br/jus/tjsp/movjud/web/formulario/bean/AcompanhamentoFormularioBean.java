@@ -842,6 +842,23 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         return listaSugestoes;
     }
 
+    private boolean verificaExistenciaMagistradoSecao(Long idMagistrado) {
+        boolean existe = false;
+        
+        if (secaoMagistrado != null && secaoMagistrado.getListaSubSecoes() != null && 
+            !secaoMagistrado.getListaSubSecoes().isEmpty()) {
+            
+            for (SubSecaoDTO subSecaoMagistrado : secaoMagistrado.getListaSubSecoes()) {
+                if (subSecaoMagistrado.getIdMagistrado().equals(idMagistrado)) {
+                    existe = true;
+                    break;
+                }
+            }
+        }
+        
+        return existe;
+    }
+
     public void alterarNomeUsuarioSelecionada(ValueChangeEvent valueChangeEvent) {
         try {
             usuarioMagistrado =
@@ -1551,10 +1568,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         if (listaParametros != null) {
             listaSugestoes = new ArrayList<SelectItem>();
             for (Usuario item : ((List<Usuario>) listaParametros)) {
-                SelectItem selectItem = new SelectItem();
-                selectItem.setLabel(item.getNome());
-                selectItem.setValue(item.getIdUsuario());
-                listaSugestoes.add(selectItem);
+                if (!verificaExistenciaMagistradoSecao(item.getIdUsuario())) {
+                    SelectItem selectItem = new SelectItem();
+                    selectItem.setLabel(item.getNome());
+                    selectItem.setValue(item.getIdUsuario());
+                    listaSugestoes.add(selectItem);
+                }
             }
         }
         return listaSugestoes;
@@ -2998,7 +3017,7 @@ form = recuperarFormulario(form);
         RichInputText presoProvisorio = (RichInputText) findComponent("it27");
         boolean camposConsistentes = true;
         if(!validaNomeReuEmaeReu()){
-            mensagemErroComponente(presoProvisorio, "Os valores em 'Nome preso provisório' e 'Nome da Mãe' já existem. Por gentileza, entre com informações diferentes." /*AppBundleProperties.getString("msg.validacao")*/);
+            mensagemErroComponente(presoProvisorio, AppBundleProperties.getString("msg.validacao.duplicidadeReuProvisorio"));
             camposConsistentes = false;
         }
         
