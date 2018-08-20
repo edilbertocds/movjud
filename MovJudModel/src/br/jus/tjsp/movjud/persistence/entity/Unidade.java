@@ -468,11 +468,54 @@ public class Unidade extends BaseEntity<Long> {
     
     public List<UnidadeEstabelecimentoPrisional> getVinculadosAtivos() {
         List<UnidadeEstabelecimentoPrisional> result =
-        unidadeEstabelecimentosPrisionais
-            .stream()
-            .filter(e->(e.getDataFim() == null) && e.getFlagTipoSituacao().equals("A"))
-            .collect(Collectors.toList());
+            unidadeEstabelecimentosPrisionais
+                .stream()
+                .filter(e->(e.getDataFim() == null) && e.getFlagTipoSituacao().equals("A"))
+                .collect(Collectors.toList());
+        
+        List<UnidadeEstabelecimentoPrisional> resultNaoAtivos =
+            unidadeEstabelecimentosPrisionais
+                .stream()
+                .filter(e->(e.getDataFim() != null) && e.getFlagTipoSituacao().equals("A"))
+                .collect(Collectors.toList());
+        
+        
+        if (resultNaoAtivos != null && !resultNaoAtivos.isEmpty()) {
+            for (UnidadeEstabelecimentoPrisional estabPrisionalNaoAtivo : resultNaoAtivos) {
+                adicionaUltimoEstablecimentoNaoAtivo(result, estabPrisionalNaoAtivo);
+            }
+        }
+        
         return result;
+    }
+    
+    private void adicionaUltimoEstablecimentoNaoAtivo(List<UnidadeEstabelecimentoPrisional> litaEstabelecimentos, 
+                                                       UnidadeEstabelecimentoPrisional estabelecimentoNaoAtivo) {
+
+        String teste = null;
+        
+        if (litaEstabelecimentos != null && !litaEstabelecimentos.isEmpty() && estabelecimentoNaoAtivo != null) {
+            boolean incluir = true;
+            
+            for (UnidadeEstabelecimentoPrisional estabelecimento : litaEstabelecimentos) {
+                if (estabelecimento.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional().equals(
+                    estabelecimentoNaoAtivo.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional())) {
+                    
+                    if (estabelecimento.getDataFim() != null && 
+                        estabelecimentoNaoAtivo.getDataFim().compareTo(estabelecimento.getDataFim()) > 0) {
+                            litaEstabelecimentos.remove(estabelecimento);
+                    } else {
+                        incluir = false;
+                    }
+
+                    break;
+                }
+            }
+            
+            if (incluir) {
+                litaEstabelecimentos.add(estabelecimentoNaoAtivo);
+            }
+        }
     }
     
     @Override
