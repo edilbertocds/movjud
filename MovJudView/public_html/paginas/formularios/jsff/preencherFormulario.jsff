@@ -90,7 +90,7 @@
                                 <f:facet name="buttonBar">
                                     <af:panelGroupLayout id="pgl202" layout="horizontal" halign="right">
                                         <af:button text="#{app['botao.salvar']}" id="b11" action="#{pageFlowScope.acompanhamentoFormularioBean.baixarProcessoConcluso}"/>
-                                        <af:button text="#{app['botao.cancelar']}" id="b12" action="#{pageFlowScope.acompanhamentoFormularioBean.cancelarBaixaProcesso}"/>
+                                        <af:button text="#{app['botao.cancelar']}" id="b12" action="#{pageFlowScope.acompanhamentoFormularioBean.cancelarBaixaProcesso}" immediate="true" />
                                     </af:panelGroupLayout>
                                 </f:facet>
                                 <af:panelFormLayout id="pfl2" labelAlignment="top">
