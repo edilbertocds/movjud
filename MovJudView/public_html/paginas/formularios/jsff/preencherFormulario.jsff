@@ -452,18 +452,30 @@
                                         <f:facet name="toolbar">
                                             <af:button text="Adicionar" id="b3" icon="/resource/images/adicionarOn.png" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.initDialogProcessoConclusoUnidade}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true"/>
                                         </f:facet>
-                                        <af:panelGroupLayout id="pgl188" layout="vertical" partialTriggers="b10 b16 t2:l2" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.totalizadores}" >
-                                            <af:panelGroupLayout id="pgl192" layout="horizontal">
+                                        <af:panelGroupLayout id="pgl188" layout="vertical" partialTriggers="b10 b16 t2:l2" >
+                                            <af:panelGroupLayout id="pgl192" layout="horizontal" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.totalizadores and not pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.conclusos}" >
                                                 <af:outputLabel value="#{app['cpc.ttProcessosSemMovimentacao']}" id="ot22"/>
                                                 <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.listaFiltradaProcessosConclusos.size()}" id="ot39" partialTriggers="d1"/>
                                             </af:panelGroupLayout>
                                             <br/>
-                                            <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcesso.keySet().toArray()}" var="key" >
-                                                <af:panelGroupLayout layout="horizontal" id="pgl194">
-                                                    <af:outputLabel value="#{key}" id="ol42"/>
-                                                    <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcesso[key]}" partialTriggers="d1" id="ot36"/>
-                                                </af:panelGroupLayout>
-                                            </af:forEach> 
+                                            <!-- <af:forEach items="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcesso.keySet().toArray()}" var="key" > -->
+                                                <!-- <af:panelGroupLayout layout="horizontal" id="pgl194"> -->
+                                                    <!-- <af:outputLabel value="#{key}" id="ol42"/> -->
+                                                    <!-- <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.processosConclusosCpc.listaTipoFilaProcesso[key]}" partialTriggers="d1" id="ot36"/> -->
+                                                <!-- </af:panelGroupLayout> -->
+                                            <!-- </af:forEach> -->
+                                            <af:panelGroupLayout id="pgl212" layout="horizontal" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.totalizadores}">
+                                                    <af:outputLabel value="Para Senten&#231;a:" id="ol51"/>
+                                                    <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.totalProcessosSentenca}" id="ot15" truncateAt="0" partialTriggers="d1"/>
+                                            </af:panelGroupLayout>
+                                            <af:panelGroupLayout id="pgl213" layout="horizontal" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.totalizadores}">
+                                                    <af:outputLabel value="Para Despacho:" id="ol52"/>
+                                                    <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.totalProcessosDespacho}" id="ot16" partialTriggers="d1"/>
+                                            </af:panelGroupLayout>
+                                            <af:panelGroupLayout id="pgl215" layout="horizontal" rendered="#{pageFlowScope.acompanhamentoFormularioBean.secaoDadosUnidade.totalizadores}">
+                                                    <af:outputLabel value="Para Decis&#227;o:" id="ol53"/>
+                                                    <af:outputText value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.totalProcessosDecisao}" id="ot17" partialTriggers="d1"/>
+                                            </af:panelGroupLayout>
                                         </af:panelGroupLayout>
                                         
                                         <af:panelGroupLayout id="pgl208" layout="vertical" partialTriggers="b21 b3 b10 b16">
@@ -803,20 +815,20 @@
                                                                 <af:outputText value="#{subSecaoMagistrado.totalProcessos}"
                                                                                id="ot11" partialTriggers="d1"/>
                                                             </af:panelGroupLayout>
-                                                            <af:panelGroupLayout id="pgl212" layout="horizontal" rendered="#{subSecaoMagistrado.conclusos and subSecaoMagistrado.totalizadores}">
-                                                                <af:outputLabel value="Para Senten&#231;a:" id="ol51"/>
+                                                            <af:panelGroupLayout id="pgl194" layout="horizontal" rendered="#{subSecaoMagistrado.conclusos and subSecaoMagistrado.totalizadores}">
+                                                                <af:outputLabel value="Para Senten&#231;a:" id="ol42"/>
                                                                 <af:outputText value="#{subSecaoMagistrado.totalProcessosSentenca}"
-                                                                               id="ot15" truncateAt="0" partialTriggers="d1"/>
+                                                                               id="ot36" truncateAt="0" partialTriggers="d1"/>
                                                             </af:panelGroupLayout>
-                                                            <af:panelGroupLayout id="pgl213" layout="horizontal" rendered="#{subSecaoMagistrado.conclusos and subSecaoMagistrado.totalizadores}">
-                                                                <af:outputLabel value="Para Despacho:" id="ol52"/>
+                                                            <af:panelGroupLayout id="pgl195" layout="horizontal" rendered="#{subSecaoMagistrado.conclusos and subSecaoMagistrado.totalizadores}">
+                                                                <af:outputLabel value="Para Despacho:" id="ol54"/>
                                                                 <af:outputText value="#{subSecaoMagistrado.totalProcessosDespacho}"
-                                                                               id="ot16" partialTriggers="d1"/>
+                                                                               id="ot37" partialTriggers="d1"/>
                                                             </af:panelGroupLayout>
-                                                            <af:panelGroupLayout id="pgl215" layout="horizontal" rendered="#{subSecaoMagistrado.conclusos and subSecaoMagistrado.totalizadores}">
-                                                                <af:outputLabel value="Para Decis&#227;o:" id="ol53"/>
+                                                            <af:panelGroupLayout id="pgl218" layout="horizontal" rendered="#{subSecaoMagistrado.conclusos and subSecaoMagistrado.totalizadores}">
+                                                                <af:outputLabel value="Para Decis&#227;o:" id="ol55"/>
                                                                 <af:outputText value="#{subSecaoMagistrado.totalProcessosDecisao}"
-                                                                               id="ot17" partialTriggers="d1"/>
+                                                                               id="ot38" partialTriggers="d1"/>
                                                             </af:panelGroupLayout>
                                                         </af:panelGroupLayout>
                                                         <af:panelGroupLayout id="pgl216" layout="vertical" partialTriggers="b23 b24">
