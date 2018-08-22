@@ -1837,6 +1837,37 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void removerProcessoConcluso(ActionEvent actionEvent) {
+        boolean processoRemovido = (formularioMesAnterior != null);
+            
+        if (!processoRemovido) {
+            List<FormularioDTO> listaFormulariosNecessarioRetificar = validarRetificacoesFormularioEmProcessosConclusos(true);
+
+            if (listaFormulariosNecessarioRetificar != null && !listaFormulariosNecessarioRetificar.isEmpty()) {
+                inconsistenciaRemoverProcessoConcluso = listaFormulariosNecessarioRetificar.get(0).getNomeFormulario() + " - " +
+                                                listaFormulariosNecessarioRetificar.get(0).getMes() + "/" + 
+                                                listaFormulariosNecessarioRetificar.get(0).getAno();
+                
+                getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
+            } else {
+                processoRemovido = true;
+            }
+        }
+
+        if (processoRemovido) {
+            RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent().getParent().getParent()
+                                                              .getParent().getParent().getParent()
+                                                              .getParent().getParent();
+            
+            RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar().getChildren().get(2);
+            
+            this.idMagistrado = (Long) idMagistrado.getValue();
+            processoConclusoDTO.setMarcadoExclusao(true);
+            
+            listaRemoverProcessoConclusoDTO.put(processoConclusoDTO.getId(), processoConclusoDTO);
+        }
+    }
+    
+    public void removerProcessoConclusoOld(ActionEvent actionEvent) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date dtConclusao = null;
         try {
