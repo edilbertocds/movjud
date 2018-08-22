@@ -471,7 +471,9 @@
                                                 <af:inputText label="N&#250;mero Processo Concluso:" id="it63" autoSubmit="true" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.filtroProcessoConcluso}"/>
                                                 <af:button text="Filtrar" immediate="true" id="b21" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
                                             </af:panelGroupLayout>
-                                            <af:table var="row" rowBandingInterval="0" id="t2" styleClass="AFStretchWidth formularioTabela" fetchSize="25" autoHeightRows="5" columnStretching="column:c22" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.listaFiltradaProcessosConclusos}" partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 l2 ::b21" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
+                                            <af:table var="row" rowBandingInterval="0" id="t2" styleClass="AFStretchWidth formularioTabela" fetchSize="25" autoHeightRows="5" 
+                                                columnStretching="column:c22" value="#{pageFlowScope.acompanhamentoFormularioBean.subSecaoProcessoConclusoDTO.listaFiltradaProcessosConclusos}" 
+                                                partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 ::b21 l2" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
                                                     <af:column sortable="false" headerText="N&#250;mero do processo" id="c23" filterable="true">
                                                     <af:outputText value="#{row.numeroProcesso}" id="ot43" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
                                                 </af:column>
@@ -823,7 +825,10 @@
                                                                               id="it64" autoSubmit="true" value="#{subSecaoMagistrado.filtroProcessoConcluso}"/>
                                                                 <af:button text="Filtrar" immediate="true" id="b23" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
                                                             </af:panelGroupLayout>
-                                                            <af:table var="row" rowBandingInterval="0" id="t1" styleClass="AFStretchWidth formularioTabela" fetchSize="25" autoHeightRows="5" columnStretching="column:c8" value="#{subSecaoMagistrado.listaFiltradaProcessosConclusos}" partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 l8 ::b21" rowSelection="single" selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
+                                                            <af:table var="row" rowBandingInterval="0" id="t1" styleClass="AFStretchWidth formularioTabela" fetchSize="25" 
+                                                                autoHeightRows="5" columnStretching="column:c8" value="#{subSecaoMagistrado.listaFiltradaProcessosConclusos}" 
+                                                                partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 ::b21 l8" rowSelection="single" 
+                                                                selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
                                                                 <af:column sortable="false" headerText="N&#250;mero do processo" id="c8" filterable="true">
                                                                     <af:outputText value="#{row.numeroProcesso}" id="ot6" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
                                                                 </af:column>
@@ -856,7 +861,10 @@
                                                                         <af:link id="l9" icon="/resource/images/downloadOn.png" shortDesc="Informar Data Baixa" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">
                                                                             <af:showPopupBehavior popupId="::popupBaixaProcessoConcluso"/>
                                                                         </af:link>
-                                                                        <af:link id="l8" icon="/resource/images/lixeiraOn.png" shortDesc="Remover Processo Concluso" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.removerProcessoConcluso}" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar or row.marcadoExclusao}" disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/>
+                                                                        <af:link id="l8" icon="/resource/images/lixeiraOn.png" shortDesc="Remover Processo Concluso" 
+                                                                            actionListener="#{pageFlowScope.acompanhamentoFormularioBean.removerProcessoConcluso}" partialSubmit="true" 
+                                                                            disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar or row.marcadoExclusao}" 
+                                                                            disabledIcon="/resource/images/lixeiraOff.png" immediate="true"/>
                                                                         <af:link id="l10" icon="/resource/images/downloadOn.png" shortDesc="Informar Data Fim Designa&#231;&#227;o" partialSubmit="true" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/downloadOff.png" immediate="true">
                                                                             <af:showPopupBehavior popupId="::popupDataFimDesignacao"/>
                                                                         </af:link>
