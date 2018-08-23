@@ -398,7 +398,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                 usuarioMagistrado = usuarioLogado;
             }
         } else if (ORIGEM_TELA_AVALIAR.equals(action)) {
-            listaTipoSituacaoConsulta.add(TipoSituacaoType.RETIFICACAO_ENVIADA_AO_CGJ.getCodigo());
             listaTipoSituacaoConsulta.add(TipoSituacaoType.RETIFICACAO_SOLICITADA.getCodigo());
         }
     }
