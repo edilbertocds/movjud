@@ -57,7 +57,7 @@ public class GeracaoRelatorio {
 	JasperPrint jasperPrint = JasperFillManager.fillReport(arquivoPath, parametros, dataSource);
 	jrExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 	jrExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
-	jrExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "ISO-8859-1");
+	jrExporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
         
 	jrExporter.exportReport();
 	outputStream.flush();
