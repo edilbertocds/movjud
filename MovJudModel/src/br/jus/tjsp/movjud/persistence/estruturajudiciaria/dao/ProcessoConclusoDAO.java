@@ -29,6 +29,8 @@ public interface ProcessoConclusoDAO extends BaseDAO<ProcessoConcluso>{
     
     List<ProcessoConcluso> listarProcessosConclusosMesAnteriorUnidade(ProcessoConcluso processoConcluso, List<BigDecimal> processosConclusosMesAtual);
     
+    List<ProcessoConcluso> listarProcessosConclusosMesesAnteriores(ProcessoConcluso processoConcluso);
+
     List<Usuario> listarMagistradosComProcessosConclusosNaUnidade(ProcessoConcluso processoConcluso);
     
     List<Usuario> listarMagistradosComProcessosConclusosNaUnidadeMesAnterior(ProcessoConcluso processoConcluso, List<Long> processosConclusosMesAtual);

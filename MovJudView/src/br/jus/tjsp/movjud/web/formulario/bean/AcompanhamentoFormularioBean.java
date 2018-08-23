@@ -1836,20 +1836,23 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void removerProcessoConcluso(ActionEvent actionEvent) {
-        boolean processoRemovido = (formularioMesAnterior != null);
+        boolean processoRemovido = false;
             
-        if (!processoRemovido) {
-            List<FormularioDTO> listaFormulariosNecessarioRetificar = validarRetificacoesFormularioEmProcessosConclusos(true);
+        List<ProcessoConclusoDTO> listaProcessosNecessarioRetificar = formularioService.listarProcessosConclusosMesesAnteriores(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
+                                                                                                        entidadePersistencia.getMes().intValue(),
+                                                                                                        entidadePersistencia.getIdUnidade(),
+                                                                                                        processoConclusoDTO.getIdMagistradoProcesso(),
+                                                                                                        processoConclusoDTO.getNumeroProcesso(),
+                                                                                                        entidadePersistencia.getCodigoFormulario()));
 
-            if (listaFormulariosNecessarioRetificar != null && !listaFormulariosNecessarioRetificar.isEmpty()) {
-                inconsistenciaRemoverProcessoConcluso = listaFormulariosNecessarioRetificar.get(0).getNomeFormulario() + " - " +
-                                                listaFormulariosNecessarioRetificar.get(0).getMes() + "/" + 
-                                                listaFormulariosNecessarioRetificar.get(0).getAno();
-                
-                getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
-            } else {
-                processoRemovido = true;
-            }
+        if (listaProcessosNecessarioRetificar != null && !listaProcessosNecessarioRetificar.isEmpty()) {
+            inconsistenciaRemoverProcessoConcluso = entidadePersistencia.getNomeFormulario() + " - " +
+                                            listaProcessosNecessarioRetificar.get(0).getMes() + "/" + 
+                                            listaProcessosNecessarioRetificar.get(0).getAno();
+            
+            getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
+        } else {
+            processoRemovido = true;
         }
 
         if (processoRemovido) {
