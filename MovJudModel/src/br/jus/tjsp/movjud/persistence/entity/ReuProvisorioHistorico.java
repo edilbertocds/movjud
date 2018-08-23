@@ -110,7 +110,7 @@ public class ReuProvisorioHistorico extends BaseEntity<Long> {
     
     public ReuProvisorioHistorico() {
     }
-
+    
     public ReuProvisorioHistorico(Long idReuProvisorioHistorico, TipoNaturezaPrisao tipoNaturezaPrisao, Integer mes,
                                   Integer ano, String numeroProcesso, String numeroControleOrdem,
                                   Date dataUltimaMovimentacao, String descricaoConteudoUltimaMovimentacao,
@@ -139,6 +139,7 @@ public class ReuProvisorioHistorico extends BaseEntity<Long> {
         setDataPrisao(reuDTO.getDataPrisao());
         setDescricaoRelatorioCgj(reuDTO.getDescricaoRelatorioCgj());
         setEstabelecimentoPrisional(new EstabelecimentoPrisional(reuDTO.getIdEstabelecimentoPrisional()));
+        setUnidade(new Unidade(reuDTO.getIdUnidade()));
     }
     
     public ReuProvisorioHistorico(Integer mes,
