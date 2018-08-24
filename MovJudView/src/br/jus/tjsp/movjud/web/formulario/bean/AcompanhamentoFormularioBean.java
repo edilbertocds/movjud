@@ -3074,10 +3074,12 @@ form = recuperarFormulario(form);
         if (camposConsistentes) {
             if (validarUltimoMovimentoNoPeriodoDeNoventaDias(reu, getUltimoDiaMesReferencia())) {
                 if (edicaoReu) {
-
+                    // <epr 20180824, edição sempre gera novo registro histórico>
+                    reu.setIdReuHistorico(null);
+                    
                     if (isPreencherDtDataBaixa())
                         reu.setDtDataBaixa(new Date());
-
+                    
                     secaoReus.getListaSubSecoes()
                              .get(0)
                              .getListaReus()

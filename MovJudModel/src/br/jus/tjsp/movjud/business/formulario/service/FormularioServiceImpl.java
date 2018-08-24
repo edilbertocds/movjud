@@ -611,10 +611,12 @@ public class FormularioServiceImpl implements FormularioService {
 
         if (secaoReus != null) {
             for (SubSecaoDTO subsecaoDTO : secaoReus.getListaSubSecoes()) {
+                /* <epr 20180824>
                 for (ReuDTO reuDTO : subsecaoDTO.getListaReusHistoricoDeletar()) {
                     reuProvisorioHistoricoDAO.deletarHistoricoReu(new ReuProvisorioHistorico(new ReuProvisorio(reuDTO.getIdReuProvisorio())));
                     reuProvisorioDAO.deletarReuProvisorio(new ReuProvisorio(reuDTO.getIdReuProvisorio()));
                 }
+                */
                 for (ReuDTO reuDTO : subsecaoDTO.getListaReus()) {
                     reuProvisorioDAO.salvar(FormularioConverter.parseReuDTOParaReuProvisorio(reuDTO));
                 }
