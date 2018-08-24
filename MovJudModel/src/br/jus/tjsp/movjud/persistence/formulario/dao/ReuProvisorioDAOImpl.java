@@ -148,7 +148,7 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
         jpaNQ.append("where h.FK_CAD_UNIDADE = ? and ");  
         jpaNQ.append(" ((h.DT_DATA_BAIXA is null and h.FK_TIPO_MOTIVO_BAIXA is null) or (EXTRACT(YEAR FROM h.DT_DATA_BAIXA) >= ? and EXTRACT(MONTH FROM h.DT_DATA_BAIXA) >= ?)) and ");
         jpaNQ.append(" h.ID_REU_PROVISORIO_HIST = (select MAX(h2.ID_REU_PROVISORIO_HIST)    from CAD_REU_PROVISORIO_HIST h2    ");   
-        jpaNQ.append(" where h2.ID_REU_PROVISORIO=r.ID_CAD_REU_PROVISORIO and h2.NR_ANO <= ? and h2.NR_MES <= ?)  ");
+        jpaNQ.append(" where h2.ID_REU_PROVISORIO=r.ID_CAD_REU_PROVISORIO and concat(h2.NR_ANO, lpad(h2.NR_MES, 2, '0')) < = concat(?, lpad(?, 2, '0')))");
         
         /* 2017.12.05 - 18:00 - Tirar o filtro de data da data da baixa
         jpaNQ.append(" select r.* ");
@@ -161,23 +161,23 @@ public class ReuProvisorioDAOImpl extends BaseDAOImpl<ReuProvisorio> implements 
         if(reuProvisorio.getNomeReuProvisorio() != null && !reuProvisorio.getNomeReuProvisorio().isEmpty()) {
             jpaNQ.append(" and r.NM_REU_PROV like ? ");
             jpaNQ.append(" order by r.NM_REU_PROV asc, h.DT_ATUALIZACAO desc");
-            query = getPersistenceManager().getManager().createNativeQuery(jpaNQ.toString()/*, ReuProvisorio.class*/);
+            query = getPersistenceManager().getManager().createNativeQuery(jpaNQ.toString());
             query.setParameter(1, reuProvisorio.getUnidade().getIdUnidade());
             query.setParameter(2, ano);
             query.setParameter(3, mes);
             query.setParameter(4, ano);
-            query.setParameter(5, mes);
-            query.setParameter(4, "%"+reuProvisorio.getNomeReuProvisorio()+"%");
-            lista = /*(List<ReuProvisorio>)*/query.getResultList();
+            query.setParameter(5, mes);            
+            query.setParameter(6, "%"+reuProvisorio.getNomeReuProvisorio()+"%");
+            lista = query.getResultList();
         } else  {
             jpaNQ.append(" order by r.NM_REU_PROV asc, h.DT_ATUALIZACAO desc");
-            query = getPersistenceManager().getManager().createNativeQuery(jpaNQ.toString()/*, ReuProvisorio.class*/);
+            query = getPersistenceManager().getManager().createNativeQuery(jpaNQ.toString());
             query.setParameter(1, reuProvisorio.getUnidade().getIdUnidade());
             query.setParameter(2, ano);
             query.setParameter(3, mes);
             query.setParameter(4, ano);
-            query.setParameter(5, mes);
-            lista = /*(List<ReuProvisorio>)*/query.getResultList();
+            query.setParameter(5, mes);            
+            lista = query.getResultList();
         }
         /*
         
