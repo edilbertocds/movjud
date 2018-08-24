@@ -49,7 +49,7 @@
                         <af:gridRow marginTop="15px" height="auto" id="rowNome">
                             <af:gridCell marginStart="0px" columnSpan="2" marginEnd="0px" id="cellNome">
                                 <af:panelFormLayout id="formNomeUnidade" rows="1" labelAlignment="top">
-                                    <af:inputText label="#{app['label.unidade.nome']}" id="inputNomeUnidade"
+                                    <af:inputText label="#{app['label.unidade.nome']} (#{pageFlowScope.unidadeBean.entidadePersistencia.idUnidade})" id="inputNomeUnidade"
                                                   disabled="#{pageFlowScope.unidadeBean.visualizar}" columns="110"
                                                   showRequired="true"
                                                   value="#{pageFlowScope.unidadeBean.entidadePersistencia.nomeUnidade}"
