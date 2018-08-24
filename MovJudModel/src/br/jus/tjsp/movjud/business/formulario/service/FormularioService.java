@@ -153,6 +153,8 @@ public interface FormularioService {
 
     List<ProcessoConclusoDTO> listarProcessosConclusosMesesSubsequentes(ProcessoConclusoDTO filtroProcesso);
 
+    List<ProcessoConclusoDTO> listarProcessosConclusosMesesAnteriores(ProcessoConclusoDTO filtroProcesso);
+
     List<Usuario> listarMagistradosProcessosConclusosUnidade(Long unidade, Integer ano, Integer mes, String sourceFormulario);
     
     boolean validarPeriodoConclusoNoMesAnoReferencia(PeriodoProcessoConcluso filtro);
