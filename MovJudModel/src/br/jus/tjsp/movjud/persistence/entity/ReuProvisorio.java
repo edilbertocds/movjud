@@ -72,7 +72,7 @@ public class ReuProvisorio extends BaseEntity<Long> {
     @Column(name = "DT_ATUALIZACAO")
     private Date dataAtualizacao;
     
-    @OneToMany(mappedBy = "reuProvisorio", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "reuProvisorio", cascade = { CascadeType.MERGE }, fetch = FetchType.LAZY)
     private List<ReuProvisorioHistorico> historicosReuProvisorio;
 
     public ReuProvisorio() {

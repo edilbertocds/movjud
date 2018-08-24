@@ -204,6 +204,30 @@ public class ProcessoConclusoDAOImpl extends BaseDAOImpl<ProcessoConcluso> imple
     }
     
     @Override
+    public List<ProcessoConcluso> listarProcessosConclusosMesesAnteriores(ProcessoConcluso processoConcluso) {
+        StringBuilder jpaQl = new StringBuilder();
+        jpaQl.append("select processoConcluso from ProcessoConcluso processoConcluso where");
+        jpaQl.append(" processoConcluso.unidade.idUnidade = ?1 and");
+        jpaQl.append(" processoConcluso.sourceFormulario = ?5 and");
+        jpaQl.append(" ((processoConcluso.ano = ?2 and");
+        jpaQl.append(" processoConcluso.mes < ?3) or processoConcluso.ano < ?2) and");
+        jpaQl.append(" processoConcluso.numeroProcesso = ?4");
+        
+        if(processoConcluso.getUsuario() != null && processoConcluso.getUsuario().getIdUsuario() != null && processoConcluso.getUsuario().getIdUsuario().longValue() > 0){
+            jpaQl.append(" and processoConcluso.usuario.idUsuario = ?6 ");
+            
+            return getPersistenceManager().listarPorJPQL(jpaQl, processoConcluso.getUnidade().getIdUnidade(),
+                                                                processoConcluso.getAno(), processoConcluso.getMes(), 
+                                                                processoConcluso.getNumeroProcesso(), processoConcluso.getSourceFormulario(),
+                                                                processoConcluso.getUsuario().getIdUsuario());
+        }
+        
+        return getPersistenceManager().listarPorJPQL(jpaQl, processoConcluso.getUnidade().getIdUnidade(),
+                                                            processoConcluso.getAno(), processoConcluso.getMes(), 
+                                                            processoConcluso.getNumeroProcesso(), processoConcluso.getSourceFormulario());
+    }
+    
+    @Override
     public List<Usuario> listarMagistradosComProcessosConclusosNaUnidade(ProcessoConcluso processoConcluso) {
         StringBuilder jpaQl = new StringBuilder();
         jpaQl.append("select DISTINCT(processoConcluso.usuario) from ProcessoConcluso processoConcluso where");

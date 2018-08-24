@@ -561,8 +561,8 @@ public class FormularioConverter {
         
         if(!reuProvisorio.getHistoricosReuProvisorio().isEmpty()){
             for (ReuProvisorioHistorico reuProvisorioHistorico : reuProvisorio.getHistoricosReuProvisorio()) {
-                if (reuProvisorioHistorico.getAno().equals(reuDTO.getAno()) && 
-                    reuProvisorioHistorico.getMes().equals(reuDTO.getMes())) {
+                if ((reuProvisorioHistorico.getAno().compareTo(reuDTO.getAno()) <= 0) && 
+                    (reuProvisorioHistorico.getMes().compareTo(reuDTO.getMes()) <= 0)) {
                         reuDTO.setDataBaixa(reuProvisorioHistorico.getDataBaixa());
                         reuDTO.setDtDataBaixa(reuProvisorioHistorico.getDtDataBaixa());
                         reuDTO.setDataLevadoMagistrado(reuProvisorioHistorico.getDataLevadoMagistrado());
@@ -597,8 +597,8 @@ public class FormularioConverter {
                                                                             List<ReuProvisorioHistorico> listaReuProvisorioHistorico) {
         if (listaReuProvisorioHistorico != null) {
             for (ReuProvisorioHistorico reuProvisorioHistorico : listaReuProvisorioHistorico) {
-                if (reuProvisorioHistorico.getAno().equals(reuDTO.getAno()) && 
-                    reuProvisorioHistorico.getMes().equals(reuDTO.getMes())) {
+                if ((reuProvisorioHistorico.getAno().compareTo(reuDTO.getAno()) <= 0) && 
+                    (reuProvisorioHistorico.getMes().compareTo(reuDTO.getMes())) <= 0) {
                         reuDTO.setIdReuHistorico(reuProvisorioHistorico.getIdReuProvisorioHistorico());
                         reuDTO.setDataUltimoMovimento(reuProvisorioHistorico.getDataUltimaMovimentacao());
                         reuDTO.setConteudoUltimoMovimento(reuProvisorioHistorico.getDescricaoConteudoUltimaMovimentacao());
@@ -1524,8 +1524,9 @@ public class FormularioConverter {
         if (subSecaoDTO.getTipoJuiz() != null)
             subSecao.setTipoJuiz(subSecaoDTO.getTipoJuiz().getCodigoTipoJuiz());
         subSecao.setInspecoesEstabelecimentoPrisional(parseListaEstabelecimentoEntidadeDTOParaListaInspecaoEstabelecimentoPrisional(subSecaoDTO.getListaEstabelecimentosEntidade(),
-                                                                                                                                    subSecao));
-        //subSecao.setReusProvisorios(parseListaReuDTOParaListaReuProvisorio(subSecaoDTO.getListaReus(), subSecao, formulario));
+                                                                                                                             subSecao));
+            // subSecao.setReusProvisorios(parseListaReuDTOParaListaReuProvisorio(subSecaoDTO.getListaReus()));
+            //subSecao.setReusProvisorios(parseListaReuDTOParaListaReuProvisorio(subSecaoDTO.getListaReus(), subSecao, formulario));
         //subSecao.setProcessosConclusos(parseListaProcessosConclusosDTOParaListaProcessosConclusos(subSecaoDTO.getListaProcessosConclusos(), subSecao, formulario));
         subSecao.setFormularioForosOrigem(parseListaForoOrigemDTOParaListaFormularioForoOrigem(subSecaoDTO.getListaForosOrigem(),
                                                                                                subSecaoDTO));
@@ -1707,19 +1708,23 @@ public class FormularioConverter {
         reuProvisorio.setNomeMaeReuProvisorio(reuDTO.getNomeMaeReuProvisorio());
         reuProvisorio.setNomeReuProvisorio(reuDTO.getNomeReuProvisorio());
         reuProvisorio.setSexo(reuDTO.getSexo());
+        reuProvisorio.setDataAtualizacao(new Date());
         if (reuDTO.getIdUnidade() != null)
             reuProvisorio.setUnidade(new Unidade(reuDTO.getIdUnidade()));
 
         if (reuDTO.getIdNaturezaPrisao() != null) {
-            reuProvisorio.getHistoricosReuProvisorio().add(new ReuProvisorioHistorico(reuDTO.getIdReuHistorico(),
-                                                                                      new TipoNaturezaPrisao(reuDTO.getIdNaturezaPrisao()),
-                                                                                      reuDTO.getMes(), reuDTO.getAno(),
-                                                                                      reuDTO.getNumeroProcesso(),
-                                                                                      reuDTO.getNumeroControle(),
-                                                                                      reuDTO.getDataUltimoMovimento(),
-                                                                                      reuDTO.getConteudoUltimoMovimento(),
-                                                                                      ConstantesMovjud.FLAG_SITUACAO_ATIVA,
-                                                                                      reuProvisorio, reuDTO));
+            ReuProvisorioHistorico rph = new ReuProvisorioHistorico(
+                reuDTO.getIdReuHistorico(),
+                new TipoNaturezaPrisao(reuDTO.getIdNaturezaPrisao()),
+                reuDTO.getMes(), reuDTO.getAno(),
+                reuDTO.getNumeroProcesso(),
+                reuDTO.getNumeroControle(),
+                reuDTO.getDataUltimoMovimento(),
+                reuDTO.getConteudoUltimoMovimento(),
+                ConstantesMovjud.FLAG_SITUACAO_ATIVA,
+                reuProvisorio, reuDTO);
+            rph.setDataAtualizacao(new Date());
+            reuProvisorio.getHistoricosReuProvisorio().add(rph);
         }
         return reuProvisorio;
     }

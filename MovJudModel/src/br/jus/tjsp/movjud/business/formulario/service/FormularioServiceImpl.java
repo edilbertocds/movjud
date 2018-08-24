@@ -77,6 +77,7 @@ import java.math.BigDecimal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -611,10 +612,12 @@ public class FormularioServiceImpl implements FormularioService {
 
         if (secaoReus != null) {
             for (SubSecaoDTO subsecaoDTO : secaoReus.getListaSubSecoes()) {
+                /* <epr 20180824>
                 for (ReuDTO reuDTO : subsecaoDTO.getListaReusHistoricoDeletar()) {
                     reuProvisorioHistoricoDAO.deletarHistoricoReu(new ReuProvisorioHistorico(new ReuProvisorio(reuDTO.getIdReuProvisorio())));
                     reuProvisorioDAO.deletarReuProvisorio(new ReuProvisorio(reuDTO.getIdReuProvisorio()));
                 }
+                */
                 for (ReuDTO reuDTO : subsecaoDTO.getListaReus()) {
                     reuProvisorioDAO.salvar(FormularioConverter.parseReuDTOParaReuProvisorio(reuDTO));
                 }
@@ -1024,6 +1027,12 @@ public class FormularioServiceImpl implements FormularioService {
                                                                          List<BigDecimal> listaNumeroProcessos) {
         return FormularioConverter.parseListaProcessosConclusosParaListaProcessosConclusosDTO(processoConclusoDAO.listarProcessosConclusosMesAnterior(FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(filtroProcesso),
                                                                                                                                                       listaNumeroProcessos));
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public List<ProcessoConclusoDTO> listarProcessosConclusosMesesAnteriores(ProcessoConclusoDTO filtroProcesso) {
+        return FormularioConverter.parseListaProcessosConclusosParaListaProcessosConclusosDTO(processoConclusoDAO.listarProcessosConclusosMesesAnteriores(FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(filtroProcesso)));
     }
 
     @Override

@@ -156,7 +156,8 @@
                         <af:inputDate label="#{app['label.formulario.dataFeitoMagistrado']}"
                                       id="dataFeitoLevadoAoMagistrado"
                                       value="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataLevadoMagistrado}"
-                                      maxValue="#{pageFlowScope.acompanhamentoFormularioBean.dataAtual}"
+                                      minValue="#{pageFlowScope.acompanhamentoFormularioBean.reu.dataPrisao}"
+                                      maxValue="#{pageFlowScope.acompanhamentoFormularioBean.ultimoDiaMesReferencia}"
                                       autoSubmit="true" contentStyle="width:200px;"
                                       disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
                     </af:panelFormLayout>
