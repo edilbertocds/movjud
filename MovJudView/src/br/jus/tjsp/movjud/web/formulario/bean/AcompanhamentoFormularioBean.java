@@ -1836,26 +1836,20 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public void removerProcessoConcluso(ActionEvent actionEvent) {
-        boolean processoRemovido = false;
-            
-        List<ProcessoConclusoDTO> listaProcessosNecessarioRetificar = formularioService.listarProcessosConclusosMesesAnteriores(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
+        ProcessoConclusoDTO processoNecessarioRetificar = formularioService.listarProcessoConclusosMaisAntigo(new ProcessoConclusoDTO(entidadePersistencia.getAno().intValue(),
                                                                                                         entidadePersistencia.getMes().intValue(),
                                                                                                         entidadePersistencia.getIdUnidade(),
                                                                                                         processoConclusoDTO.getIdMagistradoProcesso(),
                                                                                                         processoConclusoDTO.getNumeroProcesso(),
                                                                                                         entidadePersistencia.getCodigoFormulario()));
 
-        if (listaProcessosNecessarioRetificar != null && !listaProcessosNecessarioRetificar.isEmpty()) {
+        if (processoNecessarioRetificar != null) {
             inconsistenciaRemoverProcessoConcluso = entidadePersistencia.getNomeFormulario() + " - " +
-                                            listaProcessosNecessarioRetificar.get(0).getMes() + "/" + 
-                                            listaProcessosNecessarioRetificar.get(0).getAno();
+                                            processoNecessarioRetificar.getMes() + "/" + 
+                                            processoNecessarioRetificar.getAno();
             
             getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
         } else {
-            processoRemovido = true;
-        }
-
-        if (processoRemovido) {
             RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent().getParent().getParent()
                                                               .getParent().getParent().getParent()
                                                               .getParent().getParent();

@@ -151,6 +151,8 @@ public interface FormularioService {
 
     List<ProcessoConclusoDTO> listarProcessosConclusosMesAnterior(ProcessoConclusoDTO filtroProcesso, List<BigDecimal> listaNumeroProcessos);
 
+    ProcessoConclusoDTO listarProcessoConclusosMaisAntigo(ProcessoConclusoDTO filtroProcesso);
+
     List<ProcessoConclusoDTO> listarProcessosConclusosMesesSubsequentes(ProcessoConclusoDTO filtroProcesso);
 
     List<ProcessoConclusoDTO> listarProcessosConclusosMesesAnteriores(ProcessoConclusoDTO filtroProcesso);
