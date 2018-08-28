@@ -88,16 +88,17 @@ public class UsuarioProcessoGabinete extends BaseEntity<Long> {
         return processoGabinete;
     }
 
-    public void removeUltimoProcessoGabinete() {
+    public int removeUltimoProcessoGabinete() {
         if (usuario != null && usuario.getProcessosGabinete() != null &&
             !usuario.getProcessosGabinete().isEmpty()) {
             
             for (int i = 0; i < usuario.getProcessosGabinete().size(); i++) {
                 if (usuario.getProcessosGabinete().get(i).isUltimoRegistro()) {
                     usuario.getProcessosGabinete().remove(i);
-                    break;
+                    return i;
                 }
             }
         }
+        return -1;
     }
 }
