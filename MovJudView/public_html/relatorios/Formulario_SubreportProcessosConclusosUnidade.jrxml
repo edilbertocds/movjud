@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-07-30T15:25:14 -->
+<!-- 2018-08-28T10:37:43 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="2.000000000000001"/>
 	<property name="ireport.x" value="0"/>
@@ -9,6 +9,9 @@
 	<parameter name="labelSecao" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
+	<parameter name="totalProcessosSentenca" class="java.lang.Integer"/>
+	<parameter name="totalProcessosDespacho" class="java.lang.Integer"/>
+	<parameter name="totalProcessosDecisao" class="java.lang.Integer"/>
 	<field name="numeroProcesso" class="java.math.BigDecimal"/>
 	<field name="anoProcesso" class="java.lang.Integer"/>
 	<field name="dataConclusao" class="java.util.Date"/>
@@ -16,25 +19,80 @@
 	<field name="dataBaixa" class="java.util.Date"/>
 	<field name="situacao" class="java.lang.String"/>
 	<field name="tipoFilaProcessoDTO" class="java.lang.Object"/>
-	<columnHeader>
-		<band height="32">
+	<title>
+		<band height="46">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="17" width="99" height="15" backcolor="#CCCCCC" uuid="200fce3b-6e20-4399-9a11-e42dcdccb100"/>
+				<reportElement x="22" y="0" width="100" height="15" uuid="ac7069c4-fc2c-4971-a894-8081b77c2d1a">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Para Sentença:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="15" width="100" height="15" uuid="f4b4f0a8-ab78-482d-99af-6bd453efb2f4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Para Despacho:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="122" y="15" width="190" height="15" uuid="57dfbfde-5d44-4af9-a827-8e9ddecf64e9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalProcessosDespacho}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="30" width="100" height="15" uuid="8b26dd3d-98ec-4565-a55a-cfbcc8bdff21"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Para Decisão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="122" y="30" width="190" height="15" uuid="45728f58-84af-4853-84e4-33fd861ab11b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalProcessosDecisao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="0" width="190" height="15" uuid="832a99fb-b711-4a6b-902e-224cd10b804d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalProcessosSentenca}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="18">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<printWhenExpression><![CDATA[!$V{PAGE_NUMBER}.toString().equals( "1" )]]></printWhenExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="554" height="14" backcolor="#CCCCCC" uuid="2730e0d7-3df8-468e-9003-9bbc94dfe2c1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+					<paragraph leftIndent="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{labelSecao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="16">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="99" height="15" backcolor="#CCCCCC" uuid="200fce3b-6e20-4399-9a11-e42dcdccb100"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Número do Processo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="102" y="17" width="28" height="15" backcolor="#CCCCCC" uuid="be55ae82-581c-45d8-8402-e4b8bf34dc1b"/>
+				<reportElement mode="Opaque" x="101" y="0" width="29" height="15" backcolor="#CCCCCC" uuid="be55ae82-581c-45d8-8402-e4b8bf34dc1b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ano]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="130" y="17" width="52" height="15" backcolor="#CCCCCC" uuid="5b1e4e0f-6ca9-440e-afa2-0068a1cbad8f">
+				<reportElement mode="Opaque" x="129" y="0" width="52" height="15" backcolor="#CCCCCC" uuid="5b1e4e0f-6ca9-440e-afa2-0068a1cbad8f">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
@@ -45,21 +103,21 @@
 				<text><![CDATA[Dt Conclusão]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="183" y="17" width="71" height="15" backcolor="#CCCCCC" uuid="d0b5c6b9-fef3-4bf4-bb68-48c44ee3ca0b"/>
+				<reportElement mode="Opaque" x="182" y="0" width="71" height="15" backcolor="#CCCCCC" uuid="d0b5c6b9-fef3-4bf4-bb68-48c44ee3ca0b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Concluso Para]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="291" y="17" width="53" height="15" backcolor="#CCCCCC" uuid="c030aea7-064a-4727-88c6-579c8666d8e3"/>
+				<reportElement mode="Opaque" x="290" y="0" width="53" height="15" backcolor="#CCCCCC" uuid="c030aea7-064a-4727-88c6-579c8666d8e3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data Baixa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="255" y="17" width="35" height="15" backcolor="#CCCCCC" uuid="9daf5d0c-65bc-4a1c-b3de-9ca8800683fd">
+				<reportElement mode="Opaque" x="254" y="0" width="35" height="15" backcolor="#CCCCCC" uuid="9daf5d0c-65bc-4a1c-b3de-9ca8800683fd">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -68,27 +126,21 @@
 				<text><![CDATA[Situação]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="16" width="555" height="1" uuid="64b0dd58-6f4e-489b-8bc6-b8f445e7458d"/>
-			</line>
-			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="554" height="14" backcolor="#CCCCCC" uuid="ede46e5a-a7ec-4239-83ee-3d8ee1196773">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<reportElement x="0" y="-1" width="555" height="1" uuid="64b0dd58-6f4e-489b-8bc6-b8f445e7458d">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
-				<textElement>
-					<font size="10" isBold="true"/>
-					<paragraph leftIndent="20"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{labelSecao}]]></textFieldExpression>
-			</textField>
+			</line>
 			<staticText>
-				<reportElement mode="Opaque" x="345" y="17" width="209" height="15" backcolor="#CCCCCC" uuid="f858f5a0-80ac-467d-ad6f-b63a2215eff7"/>
+				<reportElement mode="Opaque" x="344" y="0" width="209" height="15" backcolor="#CCCCCC" uuid="f858f5a0-80ac-467d-ad6f-b63a2215eff7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[T. Fila Proc.]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="31" width="555" height="1" uuid="76f3a61b-f586-4325-acca-6763ef25b13d"/>
+				<reportElement x="0" y="14" width="555" height="1" uuid="76f3a61b-f586-4325-acca-6763ef25b13d">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 			</line>
 		</band>
 	</columnHeader>
