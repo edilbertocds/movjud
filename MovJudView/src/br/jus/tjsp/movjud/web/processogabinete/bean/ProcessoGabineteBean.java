@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,6 +36,7 @@ import org.apache.myfaces.trinidad.context.RequestContext;
 
 @ManagedBean(name = "processoGabineteBean")
 @ViewScoped
+//@SessionScoped
 public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     private ProcessoGabineteService processoGabineteService;
     private ProcessoGabinete processoGabinete;
@@ -43,6 +45,7 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
     private RichTable tabelaResultados;
     private List<SelectItem> listaAno;
     private boolean temProcessoNaoArquivado;
+    private Integer currentSelectedIndex;
 
     @Override
     public void validate(FacesContext facesContext, UIComponent uIComponent, Object object) {
@@ -100,21 +103,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         return null;
     }
 
-    public boolean isUltimoRegistro(Date dataProcessoGabinete) {
-         
-         if (entidadePersistencia != null &&
-             entidadePersistencia.getUsuario() != null &&
-             entidadePersistencia.getUsuario().getProcessosGabinete() != null &&
-             entidadePersistencia.getUsuario().getProcessosGabinete().size() > 0) {
-         
-                return 
-                 (entidadePersistencia.getUsuario().getProcessosGabinete().get(entidadePersistencia.getUsuario().getProcessosGabinete().size() - 1).
-                                    getDataInclusao().compareTo(dataProcessoGabinete) == 0);
-         }
-         
-         return false;
-     }
-
     @Override
     public String excluirEntidade() {
         // TODO Implement this method
@@ -123,7 +111,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     @Override
     public Class<UsuarioProcessoGabinete> getClasseEntidade() {
-        // TODO Implement this method
         return UsuarioProcessoGabinete.class;
     }
 
@@ -160,12 +147,6 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
         processoGabinete = entidadePersistencia.addProcessoGabinete();
     }
     
-    public void removerUltimoProcessoGabinete() {
-        temProcessoNaoArquivado = false;
-        processoGabinete = null;
-        entidadePersistencia.removeUltimoProcessoGabinete();
-    }
-
     public String salvarPopup() {
         if (validarArquivado()) {
             processoGabineteService.salvarUsuario(entidadePersistencia.getUsuario());
@@ -216,5 +197,20 @@ public class ProcessoGabineteBean extends BaseBean<UsuarioProcessoGabinete> {
 
     public boolean isTemProcessoNaoArquivado() {
         return temProcessoNaoArquivado;
+    }
+    
+    public void onRemoveProcesso(ActionEvent actionEvent) {
+        temProcessoNaoArquivado = false;
+        processoGabinete = null;
+        int i = getCurrentSelectedIndex().intValue();
+        entidadePersistencia.getUsuario().getProcessosGabinete().remove(i);
+    }
+    
+    public void setCurrentSelectedIndex(Integer currentSelectedIndex) {
+        this.currentSelectedIndex = currentSelectedIndex;
+    }
+    
+    public Integer getCurrentSelectedIndex() {
+        return this.currentSelectedIndex;
     }
 }

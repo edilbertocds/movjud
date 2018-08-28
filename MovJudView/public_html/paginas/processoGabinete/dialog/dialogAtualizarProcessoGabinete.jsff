@@ -16,7 +16,7 @@
                         <af:button text="#{app['botao.adicionar']}" 
                                    id="botaoInserirProcessoGabinete"
                                    partialSubmit="true"
-                                   partialTriggers="t1:sorArquivado t1:linkExcluir botaoInserirProcessoGabinete"
+                                   partialTriggers="t1:sorArquivado t1:cbr1 botaoInserirProcessoGabinete"
                                    action="#{processoGabineteBean.incluirProcessoGabinete}"
                                    disabled="#{processoGabineteBean.temProcessoNaoArquivado}"
                                    icon="#{res['img.adicionarOn']}" />
@@ -24,8 +24,9 @@
                     <af:spacer width="10" height="10" id="s2"/>
                     <af:table var="row" rowBandingInterval="0" id="t1" width="993"
                           value="#{processoGabineteBean.entidadePersistencia.usuario.processosGabinete}"
-                          partialTriggers="linkExcluir ::botaoInserirProcessoGabinete"
-                          columnStretching="column:tbTipoProcesso">
+                          partialTriggers="cbr1 ::botaoInserirProcessoGabinete"
+                          columnStretching="column:tbTipoProcesso"
+                          varStatus="rowStatus">
                         <af:column sortable="false" headerText="#{app['label.processoGabinete.tipoProcesso']}"
                                    id="tbTipoProcesso" width="100" align="center">
                             <af:inputText id="it2" value="#{row.tipoProcesso}" maximumLength="10" required="true" />
@@ -86,12 +87,15 @@
                         <af:column sortable="false" headerText="#{app['botao.acoes']}" width="80"
                                    id="c9" rowHeader="unstyled" headerNoWrap="true"
                                    align="center">
-                            <af:link id="linkExcluir" icon="#{res['img.lixeiraOn']}"
-                                     shortDesc="#{app['label.parametro.apagar']}" 
-                                     partialSubmit="true" 
-                                     immediate="true"
-                                     rendered="#{row.ultimoRegistro}"
-                                     action="#{processoGabineteBean.removerUltimoProcessoGabinete}" />
+                            <af:button shortDesc="Excluir" id="cbr1"
+                                       actionListener="#{processoGabineteBean.onRemoveProcesso}"
+                                       rendered="#{rowStatus.index == processoGabineteBean.entidadePersistencia.usuario.processosGabinete.size()-1}"
+                                       text="Excluir"
+                                       icon="#{res['img.lixeiraOn']}">
+                                <af:setPropertyListener from="#{rowStatus.index}"
+                                                        to="#{processoGabineteBean.currentSelectedIndex}"
+                                                        type="action"/>
+                            </af:button>
                         </af:column>
                     </af:table>
                 </af:panelHeader>

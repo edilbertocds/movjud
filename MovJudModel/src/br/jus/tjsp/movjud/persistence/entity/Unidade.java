@@ -494,24 +494,26 @@ public class Unidade extends BaseEntity<Long> {
 
         String teste = null;
         
-        if (litaEstabelecimentos != null && !litaEstabelecimentos.isEmpty() && estabelecimentoNaoAtivo != null) {
+        if (litaEstabelecimentos != null && estabelecimentoNaoAtivo != null) {
             boolean incluir = true;
             
-            for (UnidadeEstabelecimentoPrisional estabelecimento : litaEstabelecimentos) {
-                if (estabelecimento.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional().equals(
-                    estabelecimentoNaoAtivo.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional())) {
-                    
-                    if (estabelecimento.getDataFim() != null && 
-                        estabelecimentoNaoAtivo.getDataFim().compareTo(estabelecimento.getDataFim()) > 0) {
-                            litaEstabelecimentos.remove(estabelecimento);
-                    } else {
-                        incluir = false;
+            if (!litaEstabelecimentos.isEmpty()) {
+                for (UnidadeEstabelecimentoPrisional estabelecimento : litaEstabelecimentos) {
+                    if (estabelecimento.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional().equals(
+                        estabelecimentoNaoAtivo.getEstabelecimentoPrisional().getIdEstabelecimentoPrisional())) {
+                        
+                        if (estabelecimento.getDataFim() != null && 
+                            estabelecimentoNaoAtivo.getDataFim().compareTo(estabelecimento.getDataFim()) > 0) {
+                                litaEstabelecimentos.remove(estabelecimento);
+                        } else {
+                            incluir = false;
+                        }
+    
+                        break;
                     }
-
-                    break;
                 }
             }
-            
+
             if (incluir) {
                 litaEstabelecimentos.add(estabelecimentoNaoAtivo);
             }

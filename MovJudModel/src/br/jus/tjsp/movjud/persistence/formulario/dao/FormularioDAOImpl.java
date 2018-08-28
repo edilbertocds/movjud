@@ -365,6 +365,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                 parameter.append(" and formulario.ano between " + inicio.get(Calendar.YEAR) + " and " +
                                  fim.get(Calendar.YEAR));
                 */
+                /* <epr 20180828: não limitar a visibilidade de formulários pela data inicio/fim da permissão>
                 String dataInicio = 
                     String.format("%04d", inicio.get(Calendar.YEAR)) +
                     String.format("%02d", inicio.get(Calendar.MONTH));
@@ -373,7 +374,7 @@ public class FormularioDAOImpl extends BaseDAOImpl<Formulario> implements Formul
                     String.format("%02d", fim.get(Calendar.MONTH));
                 parameter.append(" and CONCAT(formulario.ano, func('lpad',formulario.mes, 2, '0')) >= " + dataInicio);
                 parameter.append(" and CONCAT(formulario.ano, func('lpad',formulario.mes, 2, '0')) <= " + dataFim);
-
+                 </epr 20180828> */
                 parameter.append(") or");
             }
             if (parameter.length() > 0) {
