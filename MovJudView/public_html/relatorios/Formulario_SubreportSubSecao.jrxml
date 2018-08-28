@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-08-23T10:55:46 -->
+<!-- 2018-08-28T16:18:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubSecaoFormularioSecaoUnidade" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="933be429-e5a1-4e1b-a501-34cbd6240d61">
 	<property name="ireport.zoom" value="2.1435888100000025"/>
 	<property name="ireport.x" value="0"/>
@@ -39,6 +39,9 @@
 	<field name="listaReus" class="java.util.List"/>
 	<field name="listaEstabelecimentosEntidade" class="java.util.List"/>
 	<field name="tabelaProcessos" class="java.lang.Boolean"/>
+	<field name="totalProcessosSentenca" class="java.lang.Integer"/>
+	<field name="totalProcessosDespacho" class="java.lang.Integer"/>
+	<field name="totalProcessosDecisao" class="java.lang.Integer"/>
 	<detail>
 		<band height="40" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -114,9 +117,7 @@
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="SUG" && $F{tabelaProcessos} == true]]></printWhenExpression>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="551" height="15" backcolor="#CCCCCC" uuid="f9727e55-a0e4-40d0-8c29-59f0129e9345">
-					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="SUG"&&($F{listaProcessosConclusos}==null || $F{listaProcessosConclusos}.isEmpty())]]></printWhenExpression>
-				</reportElement>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="551" height="15" backcolor="#CCCCCC" uuid="f9727e55-a0e4-40d0-8c29-59f0129e9345"/>
 				<textElement>
 					<font size="10" isBold="true"/>
 					<paragraph leftIndent="20"/>
@@ -124,7 +125,7 @@
 				<textFieldExpression><![CDATA[$F{labelSecao}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="1" width="555" height="29" isRemoveLineWhenBlank="true" uuid="71658490-6c6e-404b-9a6f-a74ba455547a">
+				<reportElement x="0" y="15" width="555" height="15" isRemoveLineWhenBlank="true" uuid="71658490-6c6e-404b-9a6f-a74ba455547a">
 					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="SUG"]]></printWhenExpression>
 				</reportElement>
 				<subreportParameter name="SUBREPORT_DIR">
@@ -132,6 +133,15 @@
 				</subreportParameter>
 				<subreportParameter name="labelSecao">
 					<subreportParameterExpression><![CDATA[$F{labelSecao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="totalProcessosSentenca">
+					<subreportParameterExpression><![CDATA[$F{totalProcessosSentenca}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="totalProcessosDespacho">
+					<subreportParameterExpression><![CDATA[$F{totalProcessosDespacho}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="totalProcessosDecisao">
+					<subreportParameterExpression><![CDATA[$F{totalProcessosDecisao}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaProcessosConclusos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportProcessosConclusosUnidade.jasper"]]></subreportExpression>
@@ -146,20 +156,31 @@
 				<text><![CDATA[Sem Processos Conclusos Nesta Unidade]]></text>
 			</staticText>
 		</band>
-		<band height="40" splitType="Prevent">
+		<band height="33" splitType="Prevent">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<printWhenExpression><![CDATA[$F{codigoSubSecao}=="M" && $F{tabelaProcessos} == true]]></printWhenExpression>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="0" width="133" height="15" backcolor="#FFFFFF" uuid="f2736785-8a6c-46b9-967e-0df7e5bc613a"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Processos Conclusos]]></text>
 			</staticText>
 			<subreport>
-				<reportElement stretchType="ContainerBottom" x="0" y="21" width="555" height="16" uuid="b025a8b1-4078-4f04-8e14-e9ad08096069"/>
+				<reportElement stretchType="ContainerBottom" x="0" y="16" width="555" height="16" uuid="b025a8b1-4078-4f04-8e14-e9ad08096069">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="totalProcessosSentenca">
+					<subreportParameterExpression><![CDATA[$F{totalProcessosSentenca}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="totalProcessosDespacho">
+					<subreportParameterExpression><![CDATA[$F{totalProcessosDespacho}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="totalProcessosDecisao">
+					<subreportParameterExpression><![CDATA[$F{totalProcessosDecisao}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaProcessosConclusos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Formulario_SubreportProcessosConclusos.jasper"]]></subreportExpression>
@@ -168,7 +189,7 @@
 				<reportElement mode="Transparent" x="0" y="15" width="133" height="15" backcolor="#FFFFFF" uuid="7c9122e1-2de3-47cc-9a63-e17034833f12">
 					<printWhenExpression><![CDATA[$F{codigoSubSecao}=="M"&&($F{listaProcessosConclusos}==null || $F{listaProcessosConclusos}.isEmpty())]]></printWhenExpression>
 				</reportElement>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[Sem Processos Conclusos]]></text>
