@@ -494,7 +494,7 @@ public class Unidade extends BaseEntity<Long> {
 
         String teste = null;
         
-        if (litaEstabelecimentos != null && !litaEstabelecimentos.isEmpty() && estabelecimentoNaoAtivo != null) {
+        if (litaEstabelecimentos != null && estabelecimentoNaoAtivo != null) {
             boolean incluir = true;
             
             for (UnidadeEstabelecimentoPrisional estabelecimento : litaEstabelecimentos) {
