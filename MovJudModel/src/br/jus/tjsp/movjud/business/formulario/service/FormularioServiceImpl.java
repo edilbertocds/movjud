@@ -1037,6 +1037,83 @@ public class FormularioServiceImpl implements FormularioService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+    public ProcessoConclusoDTO listarProcessoConclusosMaisAntigo(ProcessoConclusoDTO filtroProcesso) {
+        List<ProcessoConclusoDTO> processosConclusos = listarProcessosConclusosMesesAnteriores(filtroProcesso);
+        ProcessoConclusoDTO processoConclusoMaisAntigo = null;
+        
+        int mesDataBaixa = 0;
+        int anoDataBaixa = 0;
+        
+        int mes = 0;
+        int ano = 0;
+        
+        if (processosConclusos != null && !processosConclusos.isEmpty()) {
+            for (ProcessoConclusoDTO processoConcluso : processosConclusos) {
+                if (processoConcluso.getDataBaixa() != null) {
+                    if (processoConcluso.getAno() > anoDataBaixa) {
+                        mesDataBaixa = processoConcluso.getMes();
+                        anoDataBaixa = processoConcluso.getAno();
+                    } else if (processoConcluso.getAno() == anoDataBaixa) {
+                        if (processoConcluso.getMes() > mesDataBaixa) {
+                            mesDataBaixa = processoConcluso.getMes();
+                            anoDataBaixa = processoConcluso.getAno();
+                        }
+                    }
+                }
+            }
+            
+            for (ProcessoConclusoDTO processoConcluso : processosConclusos) {
+                if (mes == 0) {
+                    if (processoConcluso.getDataBaixa() != null) break;
+                    
+                    mes = processoConcluso.getMes();
+                    ano = processoConcluso.getAno();
+                    processoConclusoMaisAntigo = processoConcluso;
+                } else {
+                    if (processoConcluso.getAno() < ano) {
+                        if (anoDataBaixa == 0) {
+                            mes = processoConcluso.getMes();
+                            ano = processoConcluso.getAno();
+                            processoConclusoMaisAntigo = processoConcluso;
+                        } else {
+                            if (processoConcluso.getAno() > anoDataBaixa) {
+                                mes = processoConcluso.getMes();
+                                ano = processoConcluso.getAno();
+                                processoConclusoMaisAntigo = processoConcluso;
+                            } else if (processoConcluso.getAno() == anoDataBaixa) {
+                                if (processoConcluso.getMes() > mesDataBaixa) {
+                                    mes = processoConcluso.getMes();
+                                    ano = processoConcluso.getAno();
+                                    processoConclusoMaisAntigo = processoConcluso;
+                                }
+                            }
+                        }
+                    } else if (processoConcluso.getAno() == ano) {
+                        if (processoConcluso.getAno() > anoDataBaixa) {
+                            if (processoConcluso.getMes() < mes) {
+                                mes = processoConcluso.getMes();
+                                ano = processoConcluso.getAno();
+                                processoConclusoMaisAntigo = processoConcluso;
+                            }
+                        } else if (processoConcluso.getAno() == anoDataBaixa) {
+                            if (processoConcluso.getMes() > mesDataBaixa) {
+                                if (processoConcluso.getMes() < mes) {
+                                    mes = processoConcluso.getMes();
+                                    ano = processoConcluso.getAno();
+                                    processoConclusoMaisAntigo = processoConcluso;
+                                }
+                            }                            
+                        }
+                    }
+                }
+            }
+        }
+        
+        return processoConclusoMaisAntigo;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
     public List<Usuario> listarMagistradosProcessosConclusosUnidade(Long unidade, Integer ano, Integer mes,
                                                                     String sourceFormulario) {
         List<Usuario> listaCompletaMagistrado = new ArrayList<Usuario>();
