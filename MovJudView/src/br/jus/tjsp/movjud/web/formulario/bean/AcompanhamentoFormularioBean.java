@@ -1169,10 +1169,12 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
         // <epr 3) Item 143>
         if (listaRemoverProcessoConclusoDTO != null && !listaRemoverProcessoConclusoDTO.isEmpty()) {
-            SubSecaoDTO subSecaoMagistrado =
-                FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado);
-            if (subSecaoMagistrado != null) {
+            
+            for(SubSecaoDTO subSecaoMagistrado : getSecaoMagistrado().getListaSubSecoes()){
+            //SubSecaoDTO subSecaoMagistrado = FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado, secaoMagistrado);
+            //if (subSecaoMagistrado != null) {
                 subSecaoMagistrado.getListaProcessosConclusos().removeAll(listaRemoverProcessoConclusoDTO.values());
+            //}
             }
             if (subSecaoProcessoConclusoDTO != null && subSecaoProcessoConclusoDTO.getProcessosConclusosCpc() != null &&
                 subSecaoProcessoConclusoDTO.getProcessosConclusosCpc().getListaProcessosConclusos() != null &&
@@ -1186,7 +1188,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                     .removeAll(listaRemoverProcessoConclusoDTO.values());
                 //secaoDadosUnidade.getListaSubSecoes().add(subSecaoProcessoConclusoDTO); // TESTAR (E ACHAR O PONTO DO DATA BAIXA)
             }
-            listaRemoverProcessoConclusoDTO.clear();
+            //listaRemoverProcessoConclusoDTO.clear();
         }
         // </epr 3) Item 143>
         // <epr Task 109>
@@ -1236,7 +1238,8 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     public String persistirEntidade() {
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
         formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus,
-                                           subSecaoProcessoConclusoDTO);
+                                           subSecaoProcessoConclusoDTO, listaRemoverProcessoConclusoDTO);
+        listaRemoverProcessoConclusoDTO.clear();
         painelPrincipal = new RichPanelGroupLayout();
         return "voltar";
     }
