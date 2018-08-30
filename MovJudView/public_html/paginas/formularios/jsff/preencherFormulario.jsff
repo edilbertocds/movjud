@@ -1822,8 +1822,9 @@
             <af:button text="#{app['botao.formulario.recalcularFormula']}" id="bRecalcForm" icon="#{res['img.campoFormulaOn']}" disabledIcon="#{res['img.campoFormulaOff']}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true" action="#{pageFlowScope.acompanhamentoFormularioBean.recalcularFormulas}"/>
         </af:panelGroupLayout>
         <af:panelGroupLayout id="pgl205" halign="end" valign="bottom" layout="horizontal">
-            <af:button text="#{app['botao.salvar']}" id="b9" rendered="#{pageFlowScope.controleFluxo eq 'AVALIAR'}" icon="#{res['img.salvarOn']}">
-                <af:showPopupBehavior popupId="confirmacaoAvaliarPopUp" triggerType="action"/>
+                            <!-- af:showPopupBehavior popupId="confirmacaoAvaliarPopUp" triggerType="action"/ -->
+
+            <af:button text="#{app['botao.salvar']}" id="b9" rendered="#{pageFlowScope.controleFluxo eq 'AVALIAR'}" icon="#{res['img.salvarOn']}" action="#{pageFlowScope.acompanhamentoFormularioBean.persistirEntidade()}" >
             </af:button>
             <af:popup childCreation="deferred" id="confirmacaoAvaliarPopUp" contentDelivery="lazyUncached">
                 <af:dialog id="confirmacaoAvaliarDialog" affirmativeTextAndAccessKey="#{app['label.radio.sim']}" type="okCancel" title="#{app['label.formulario.avaliarFormulario']}" cancelTextAndAccessKey="#{app['label.radio.nao']}" dialogListener="#{pageFlowScope.acompanhamentoFormularioBean.avaliarFormulario}">

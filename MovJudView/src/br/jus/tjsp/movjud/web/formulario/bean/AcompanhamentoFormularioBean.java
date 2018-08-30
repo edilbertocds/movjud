@@ -1234,6 +1234,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String persistirEntidade() {
+        // <epr 20180830: remover confirmação avaliar retificaçao>
+        ADFContext context = ADFContext.getCurrent();
+        String controleFluxo = (String) context.getPageFlowScope().get("controleFluxo");
+        if(controleFluxo.equals("AVALIAR")) {
+            if (entidadePersistencia.getAprovarRetificacao().equals(APROVAR)) {
+                entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
+                                                                                                                     TipoSituacaoType.RETIFICACAO_APROVADA));
+            } else {
+                entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
+                                                                                                                     TipoSituacaoType.RETIFICACAO_REPROVADA));
+            }            
+        }
+        // </epr 20180830: remover confirmação avaliar retificaçao>
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
         formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus,
                                            subSecaoProcessoConclusoDTO);
