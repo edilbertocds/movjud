@@ -1236,6 +1236,19 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
     }
 
     public String persistirEntidade() {
+        // <epr 20180830: remover confirmação avaliar retificaçao>
+        ADFContext context = ADFContext.getCurrent();
+        String controleFluxo = (String) context.getPageFlowScope().get("controleFluxo");
+        if(controleFluxo.equals("AVALIAR")) {
+            if (entidadePersistencia.getAprovarRetificacao().equals(APROVAR)) {
+                entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
+                                                                                                                     TipoSituacaoType.RETIFICACAO_APROVADA));
+            } else {
+                entidadePersistencia.setNovaSituacaoFormulario(TipoSituacaoType.recuperarSituacaoFormularioPorCodigo(listaTipoSituacaoCadForm,
+                                                                                                                     TipoSituacaoType.RETIFICACAO_REPROVADA));
+            }            
+        }
+        // </epr 20180830: remover confirmação avaliar retificaçao>
         entidadePersistencia.setIdUsuarioAlteracao(usuarioLogado.getId());
         formularioService.salvarFormulario(entidadePersistencia, secaoMagistrado, secaoReus,
                                            subSecaoProcessoConclusoDTO, listaRemoverProcessoConclusoDTO);
@@ -1847,8 +1860,7 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
                                                                                                         entidadePersistencia.getCodigoFormulario()));
 
         if (processoNecessarioRetificar != null) {
-            inconsistenciaRemoverProcessoConcluso = entidadePersistencia.getNomeFormulario() + " - " +
-                                            processoNecessarioRetificar.getMes() + "/" + 
+            inconsistenciaRemoverProcessoConcluso = processoNecessarioRetificar.getMes() + "/" + 
                                             processoNecessarioRetificar.getAno();
             
             getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
@@ -1866,94 +1878,6 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         }
     }
     
-    public void removerProcessoConclusoOld(ActionEvent actionEvent) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date dtConclusao = null;
-        try {
-            dtConclusao = sdf.parse(sdf.format(processoConclusoDTO.getDataConclusao()));
-        } catch (ParseException e) {
-            System.out.println(e.getStackTrace());
-        }
-
-        PeriodoProcessoConcluso periodo =
-            formularioService.recuperarAnoMesPorPeriodoProcessoConcluso(new PeriodoProcessoConcluso(null, null, null,
-                                                                                                    null, dtConclusao));
-        if (periodo != null) {
-            if ((entidadePersistencia.getAno().equals(periodo.getAno().longValue()) &&
-                 entidadePersistencia.getMes().equals(periodo.getMes().longValue())) || formularioMesAnterior == null) {
-                List<FormularioDTO> listaFormulariosNecessarioRetificar =
-                    validarRetificacoesFormularioEmProcessosConclusos(true);
-                if (listaFormulariosNecessarioRetificar != null && !listaFormulariosNecessarioRetificar.isEmpty()) {
-                    inconsistenciaDataBaixa = new StringBuilder();
-                    for (FormularioDTO formularioDTO : listaFormulariosNecessarioRetificar) {
-                        inconsistenciaDataBaixa.append("<li>" + formularioDTO.getNomeFormulario() + " - " +
-                                                       formularioDTO.getMes() + "/" + formularioDTO.getAno() + "</li>");
-                    }
-                    getPopupDataBaixaRetificar().show(new RichPopup.PopupHints());
-                } else {
-                    if (processoConclusoUnidadeBoolean == false) {
-                        RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent()
-                                                                          .getParent()
-                                                                          .getParent()
-                                                                          .getParent()
-                                                                          .getParent()
-                                                                          .getParent()
-                                                                          .getParent()
-                                                                          .getParent();
-                        RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar()
-                                                                               .getChildren()
-                                                                               .get(2);
-                        this.idMagistrado = (Long) idMagistrado.getValue();
-                    }
-                    // <epr 1)Item 143> mover a exclusão para ação Salvar/Concluir
-                    /*
-                    FormularioUtils.encontrarSubSecaoPorMagistrado(this.idMagistrado,
-                                                                   secaoMagistrado).getListaProcessosConclusos().remove(processoConclusoDTO);
-                    */
-                    // </epr 1)Item 143>
-                    // <epr 2)Item 143>
-                    processoConclusoDTO.setMarcadoExclusao(true);
-                    listaRemoverProcessoConclusoDTO.put(processoConclusoDTO.getId(), processoConclusoDTO);
-                    // </epr 2)Item 143>
-                    atualizarComponenteDeTela(actionEvent.getComponent()
-                                                         .getParent()
-                                                         .getParent()
-                                                         .getParent()
-                                                         .getParent());
-                }
-            } else {
-                FormularioDTO formularioPeriodo =
-                    formularioService.recuperarFormularioMesAnoReferencia(new FormularioDTO(entidadePersistencia.getCodigoFormulario(),
-                                                                                            entidadePersistencia.getIdUnidade(),
-                                                                                            periodo.getAno()
-                                                                                            .longValue(),
-                                                                                            periodo.getMes()
-                                                                                            .longValue()));
-                if (formularioPeriodo != null) {
-                    inconsistenciaRemoverProcessoConcluso =
-                        entidadePersistencia.getNomeFormulario() + " - " + periodo.getMes() + "/" + periodo.getAno();
-                } else {
-                    FormularioDTO primeiroFormulario =
-                        formularioService.recuperarPrimeiroFormularioUnidade(new FormularioDTO(entidadePersistencia.getCodigoFormulario(),
-                                                                                               entidadePersistencia.getIdUnidade(),
-                                                                                               null, null));
-                    if (primeiroFormulario != null) {
-                        inconsistenciaRemoverProcessoConcluso =
-                            entidadePersistencia.getNomeFormulario() + " - " + primeiroFormulario.getMes() + "/" +
-                            primeiroFormulario.getAno();
-                    } else {
-                        inconsistenciaRemoverProcessoConcluso = entidadePersistencia.getNomeFormulario();
-                    }
-                }
-                getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
-            }
-        } else {
-            inconsistenciaRemoverProcessoConcluso = entidadePersistencia.getNomeFormulario();
-            getPopupRemoverProcessoConclusoForaDoPeriodo().show(new RichPopup.PopupHints());
-        }
-        processoConclusoUnidadeBoolean = false;
-    }
-
     public List<FormularioDTO> validarRetificacoesFormularioEmProcessosConclusos(boolean acaoDeletar) {
         return validarRetificacoesFormularioEmProcessosConclusos(acaoDeletar, false);
     }

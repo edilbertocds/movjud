@@ -1739,7 +1739,8 @@
                                                     <af:column headerText="Importado do SAJ" id="c20" align="center">
                                                         <af:image source="/resource/images/flagSimOn.png" id="i42" rendered="#{not empty row.codigoPessoaSaj and row.codigoPessoaSaj gt 0}"/>
                                                     </af:column>
-                                                    <af:column headerText="A&#231;&#245;es" id="c5" align="center" width="60" rendered="#{pageFlowScope.acompanhamentoFormularioBean.funcaoRetificacao ? false : true}">
+                                                    <!-- [epr 20180830: reabilitar açoes na retificação] rendered="#{pageFlowScope.acompanhamentoFormularioBean.funcaoRetificacao ? false : true}" -->
+                                                    <af:column headerText="A&#231;&#245;es" id="c5" align="center" width="60">
                                                         <af:panelGroupLayout id="pgl190" layout="horizontal">
                                                             <!-- atributos removidos para teste (epr 0.7.9):   disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" disabledIcon="/resource/images/editarOff.png"-->
                                                             <af:link id="l5" icon="/resource/images/editarOn.png" partialSubmit="true" immediate="true">
@@ -1821,8 +1822,9 @@
             <af:button text="#{app['botao.formulario.recalcularFormula']}" id="bRecalcForm" icon="#{res['img.campoFormulaOn']}" disabledIcon="#{res['img.campoFormulaOff']}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" immediate="true" action="#{pageFlowScope.acompanhamentoFormularioBean.recalcularFormulas}"/>
         </af:panelGroupLayout>
         <af:panelGroupLayout id="pgl205" halign="end" valign="bottom" layout="horizontal">
-            <af:button text="#{app['botao.salvar']}" id="b9" rendered="#{pageFlowScope.controleFluxo eq 'AVALIAR'}" icon="#{res['img.salvarOn']}">
-                <af:showPopupBehavior popupId="confirmacaoAvaliarPopUp" triggerType="action"/>
+                            <!-- af:showPopupBehavior popupId="confirmacaoAvaliarPopUp" triggerType="action"/ -->
+
+            <af:button text="#{app['botao.salvar']}" id="b9" rendered="#{pageFlowScope.controleFluxo eq 'AVALIAR'}" icon="#{res['img.salvarOn']}" action="#{pageFlowScope.acompanhamentoFormularioBean.persistirEntidade()}" >
             </af:button>
             <af:popup childCreation="deferred" id="confirmacaoAvaliarPopUp" contentDelivery="lazyUncached">
                 <af:dialog id="confirmacaoAvaliarDialog" affirmativeTextAndAccessKey="#{app['label.radio.sim']}" type="okCancel" title="#{app['label.formulario.avaliarFormulario']}" cancelTextAndAccessKey="#{app['label.radio.nao']}" dialogListener="#{pageFlowScope.acompanhamentoFormularioBean.avaliarFormulario}">
