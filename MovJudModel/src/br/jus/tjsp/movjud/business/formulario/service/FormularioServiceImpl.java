@@ -80,6 +80,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -554,8 +555,13 @@ public class FormularioServiceImpl implements FormularioService {
     }
 
     @Override
+    public FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus, SubSecaoDTO subsecaoCpcDTO) {
+        return salvarFormulario(formularioDTO, secaoMagistrado, secaoReus, subsecaoCpcDTO, null);
+    }
+
+    @Override
     public FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus,
-                                          SubSecaoDTO subsecaoCpcDTO) {
+                                          SubSecaoDTO subsecaoCpcDTO, Map<Long, ProcessoConclusoDTO> listaRemoverProcessoConclusoDTO) {
 
         List<SubSecaoDTO> subSecaoDTOList = new ArrayList<SubSecaoDTO>();
         if (subsecaoCpcDTO != null)
@@ -599,6 +605,15 @@ public class FormularioServiceImpl implements FormularioService {
                                                                                                          processoConclusoDTO.getSrcFormulario()));
                 }
             }
+        }
+
+        if(listaRemoverProcessoConclusoDTO != null && !listaRemoverProcessoConclusoDTO.isEmpty()){
+            for(ProcessoConclusoDTO processoConclusoDTO : listaRemoverProcessoConclusoDTO.values()){
+                if(processoConclusoDTO.getId() != null && processoConclusoDTO.getId().intValue() > 0){
+                    ProcessoConcluso pc = FormularioConverter.parseProcessoConclusoDTOParaProcessoConcluso(processoConclusoDTO);
+                    processoConclusoDAO.deletarProcessoConclusoPorId(pc);
+                }
+            }    
         }
 
         /* if(processoConclusoDTOList != null && !processoConclusoDTOList.isEmpty()){

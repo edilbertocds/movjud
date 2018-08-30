@@ -327,4 +327,13 @@ public class ProcessoConclusoDAOImpl extends BaseDAOImpl<ProcessoConcluso> imple
                                                                         processoConcluso.getSourceFormulario() ,processoConcluso.getNumeroProcesso());
         }
     }
+    
+    @Override
+    public void deletarProcessoConclusoPorId(ProcessoConcluso processoConcluso) {
+        StringBuilder jpaQl = new StringBuilder();
+        jpaQl.append("delete from ProcessoConcluso processoConcluso where");
+        jpaQl.append(" processoConcluso.idProcessoConcluso = ?1 ");
+        
+        getPersistenceManager().atualizarPorJPQL(jpaQl, processoConcluso.getId());
+    }
 }

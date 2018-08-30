@@ -39,6 +39,7 @@ import br.jus.tjsp.movjud.persistence.entity.Usuario;
 import java.math.BigDecimal;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Future;
 
 import javax.ejb.Asynchronous;
@@ -122,6 +123,7 @@ public interface FormularioService {
     List<Unidade> carregarUnidadesDevedoras();
    
     FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus, SubSecaoDTO subsecaoCpcDTO);
+    FormularioDTO salvarFormulario(FormularioDTO formularioDTO, SecaoDTO secaoMagistrado, SecaoDTO secaoReus, SubSecaoDTO subsecaoCpcDTO, Map<Long, ProcessoConclusoDTO> listaRemoverProcessoConclusoDTO);
     
     // <epr> Parâmetro para passar situacaoFormularioDTO
     void liberarFormulariosParaUnidade(Unidade unidade, SituacaoFormularioDTO situacaoFormularioDTO);
