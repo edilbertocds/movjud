@@ -38,4 +38,6 @@ public interface ProcessoConclusoDAO extends BaseDAO<ProcessoConcluso>{
     void deletarProcessosConclusosSubsequentes(ProcessoConcluso processoConcluso);
     
     void deletarProcessosConclusosAtualESubsequentes(ProcessoConcluso processoConcluso);
+    
+    void deletarProcessoConclusoPorId(ProcessoConcluso processoConcluso);
 }
