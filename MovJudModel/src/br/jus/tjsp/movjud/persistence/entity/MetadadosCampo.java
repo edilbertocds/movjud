@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -80,6 +81,7 @@ public class MetadadosCampo extends BaseEntity<Long> {
     private String codigoDominioBI;
     
     @OneToMany(mappedBy = "metadadosCampo", cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @OrderBy("idMetadadosListaSelecao")
     private List<MetadadosListaSelecao> metadadosListaSelecao;
     
     @OneToMany(mappedBy = "metadadosCampo", cascade = { CascadeType.ALL }, orphanRemoval = true)
