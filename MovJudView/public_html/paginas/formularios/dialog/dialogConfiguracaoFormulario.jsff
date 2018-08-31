@@ -29,7 +29,6 @@
                             <af:panelFormLayout id="pfl5" labelAlignment="top">
                                 <af:selectOneChoice label="#{app['label.formulario.area']}" id="soc2"
                                                     value="#{pageFlowScope.configuracaoFormularioBean.formulario.area}"
-                                                    required="true"
                                                     disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
                                                     unselectedLabel="#{app['label.combo.selecione']}">
                                     <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaAreas}" var="area">
@@ -41,7 +40,6 @@
                             <af:panelFormLayout id="pfl6" labelAlignment="top">
                                 <af:selectOneChoice label="#{app['label.formulario.segmentos']}" id="soc3"
                                                     value="#{pageFlowScope.configuracaoFormularioBean.formulario.segmento}"
-                                                    required="true"
                                                     disabled="#{pageFlowScope.configuracaoFormularioBean.visualizar}"
                                                     unselectedLabel="#{app['label.combo.selecione']}">
                                     <af:forEach items="#{pageFlowScope.configuracaoFormularioBean.listaSegmentos}" var="segmento">

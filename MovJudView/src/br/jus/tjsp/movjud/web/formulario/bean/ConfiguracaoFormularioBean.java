@@ -654,7 +654,9 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
 
     public String persistirEntidade() {
         try {
-            if (formulario.getArea() != null && formulario.getSegmento() != null) {
+            // <epr 20180831: remover obrigatoriedade de area e segmento (item 165)>
+            // if (formulario.getArea() != null && formulario.getSegmento() != null) {
+            // </epr 20180831: remover obrigatoriedade de area e segmento (item 165)>
                 if (formulario.getMetadadoSituacaoFormularioDTO() != null &&
                     formulario.getMetadadoSituacaoFormularioDTO().getIdentificadorSituacaoFormulario().equals(MetadadosTipoSituacaoType.EM_USO.getCodigo())) {
                     formularioService.salvarMetadadosFormulario(formulario, formularioHistorico);
@@ -662,9 +664,13 @@ public class ConfiguracaoFormularioBean extends BaseBean<FormularioDTO> {
                     formularioService.salvarMetadadosFormulario(formulario);
                 }
                 return FormularioUtils.REDIRECT_GERENCIAR_FORMULARIO;
+            /*
+            <epr 20180831: remover obrigatoriedade de area e segmento (item 165)>
             } else {
                 mensagemErro(MENSAGEM_AREA_SEGMENTO_VAZIO);
             }
+            </epr 20180831: remover obrigatoriedade de area e segmento (item 165)>
+            */
         } catch (Exception e) {
             MovJudErrorMessage.gerarErroMovjud(logger, e);
         }
