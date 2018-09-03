@@ -833,9 +833,13 @@
                                                         </af:panelGroupLayout>
                                                         <af:panelGroupLayout id="pgl216" layout="vertical" partialTriggers="b23 b24">
                                                             <af:panelGroupLayout id="pgl214" layout="horizontal">
+                                                                <af:outputText value="#{subSecaoMagistrado.idMagistrado}" id="oter1" visible="false"/>                                                            
                                                                 <af:inputText label="N&#250;mero Processo Concluso:"
                                                                               id="it64" autoSubmit="true" value="#{subSecaoMagistrado.filtroProcessoConcluso}"/>
                                                                 <af:button text="Filtrar" immediate="true" id="b23" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.filtrarProcessoConcluso}"/>
+                                                                <af:spacer id="sper1" width="20" />
+                                                                <af:inputDate label="Fim da designa&#231;&#227;o:" id="ider1" value="#{pageFlowScope.acompanhamentoFormularioBean.fimDaDesignacao}" disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}" autoSubmit="true"/>
+                                                                <af:button text="Aplicar a todos os processos" id="ber1" actionListener="#{pageFlowScope.acompanhamentoFormularioBean.aplicarFimDesignacao}"  disabled="#{pageFlowScope.acompanhamentoFormularioBean.visualizar}"/>
                                                             </af:panelGroupLayout>
                                                             <af:table var="row" rowBandingInterval="0" id="t1" styleClass="AFStretchWidth formularioTabela" fetchSize="25" 
                                                                 autoHeightRows="5" columnStretching="column:c8" value="#{subSecaoMagistrado.listaFiltradaProcessosConclusos}" 

@@ -1673,6 +1673,35 @@ public class AcompanhamentoFormularioBean extends BaseBean<FormularioDTO> {
         popupProcessoConcluso.show(hint);
         processoConclusoUnidadeBoolean = false;
     }
+    
+    private Date fimDaDesignacao;
+    public void setFimDaDesignacao(Date fimDaDesignacao) {
+        this.fimDaDesignacao = fimDaDesignacao;
+    }
+    
+    public Date getFimDaDesignacao() {
+        return this.fimDaDesignacao;
+    }
+    
+    public void aplicarFimDesignacao(ActionEvent actionEvent) {
+        /*
+        RichPanelBox subSecao = (RichPanelBox) actionEvent.getComponent()
+                                                          .getParent()
+                                                          .getParent()
+                                                          .getParent();
+        RichOutputText idMagistrado = (RichOutputText) subSecao.getToolbar()
+                                                               .getChildren()
+                                                               .get(2); */
+        UIComponent comp = actionEvent.getComponent();
+        RichOutputText idMagistrado = (RichOutputText)comp.getParent().getChildren().get(0);
+        Long magistrado = (Long) idMagistrado.getValue();
+        List<ProcessoConclusoDTO> processosMagistrado = FormularioUtils.encontrarSubSecaoPorMagistrado(magistrado, secaoMagistrado)
+                                       .getListaProcessosConclusos();
+        for(ProcessoConclusoDTO p : processosMagistrado) {
+            p.setDtDesignacaoFim(getFimDaDesignacao());
+        }
+        setFimDaDesignacao(null);
+    }
 
     public String adicionarProcessoConcluso() {
         // <epr> 2.0.33 - verificar duplicidade 20/07/2018
