@@ -260,6 +260,16 @@ public class CampoDTO extends BaseDTO<String> implements Comparable<CampoDTO> {
 	return valorCampo;
     }
     
+    public String getValorCampoPdf() {
+        if( TipoCampoType.LISTA.name().equals(this.tipoCampo.name())){
+            for(ItemSelecaoDTO item : listaItensSelecaoDTO){
+                if(item.getCodigoItemSelecao().equalsIgnoreCase(valorCampo))
+                    return item.getLabelItemSelecao();
+            }
+        }
+        return valorCampo;
+    }
+    
     public void setValorCampoMesAnterior(String valorCampoMesAnterior) {
 	this.valorCampoMesAnterior = valorCampoMesAnterior;
     }
