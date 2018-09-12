@@ -237,7 +237,7 @@
                                  partialSubmit="true"
                                  shortDesc="#{app['label.consultarFormulario.baixarFormulario']}"
                                  action="#{pageFlowScope.acompanhamentoFormularioBean.initBaixarMetadadosFormulario}"
-                                 rendered="#{pageFlowScope.controleFluxo eq 'CONSULTAR' or pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'RETIFICAR'}">
+                                 rendered="#{pageFlowScope.controleFluxo eq 'CONSULTAR' or pageFlowScope.controleFluxo eq 'PREENCHER' or pageFlowScope.controleFluxo eq 'RETIFICAR' or pageFlowScope.controleFluxo eq 'ENVIAR'}">
                             <af:fileDownloadActionListener filename="formulario.pdf" contentType="application/pdf"
                                                            method="#{pageFlowScope.acompanhamentoFormularioBean.baixarFormulario}"/>
                         </af:link>
