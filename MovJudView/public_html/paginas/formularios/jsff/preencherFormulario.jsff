@@ -843,7 +843,7 @@
                                                             </af:panelGroupLayout>
                                                             <af:table var="row" rowBandingInterval="0" id="t1" styleClass="AFStretchWidth formularioTabela" fetchSize="25" 
                                                                 autoHeightRows="5" columnStretching="column:c8" value="#{subSecaoMagistrado.listaFiltradaProcessosConclusos}" 
-                                                                partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 ::b21 l8" rowSelection="single" 
+                                                                partialTriggers="::d1 ::b10 ::b16 ::b11 ::b12 ::b21 l8 ::ber1" rowSelection="single" 
                                                                 selectionListener="#{pageFlowScope.acompanhamentoFormularioBean.selecionarProcessoConclusoEmTabela}" contentDelivery="lazy">
                                                                 <af:column sortable="false" headerText="N&#250;mero do processo" id="c8" filterable="true">
                                                                     <af:outputText value="#{row.numeroProcesso}" id="ot6" inlineStyle="#{row.marcadoExclusao ? 'color: red; text-decoration: line-through' : ''}"/>
